@@ -1,0 +1,35 @@
+spring:
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  application:
+    name: salespage-service
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+  aop:
+    proxy-target-class: true
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: ${PORT}
+
+jwt:
+  publicKey: ${JWT_PUBLIC_KEY}
+  privateKey: ${JWT_PRIVATE_KEY}
+
+
+grpc:
+  client:
+    player-service:
+      address: ${SPORT_GRPC_SERVER_ADDRESS}
+      enableKeepAlive: true
+      keepAliveTime: 60
+      keepAliveWithoutCalls: true
+      keepAliveTimeout: 20
+      negotiationType: plaintext

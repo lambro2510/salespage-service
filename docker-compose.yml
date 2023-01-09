@@ -1,0 +1,14 @@
+version: "3"
+services:
+  spring_boot_docker_compose:
+    image: salepage:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=abajihi3hi234hihi3f09acn
+      - JWT_TOKEN_EXPIRE_TIME=7200000
+      - JWT_TOKEN_REFRESH_EXPIRE_TIME=1296000
+      - MONGODB_URI=mongodb+srv://lam:12345@db-salespage.h9186rq.mongodb.net/db-salespage
+      - REDIS_ADDRESS=redis://127.0.0.1:6379
+      - URL_EXCHANGE=https://www.dongabank.com.vn/exchange/export
