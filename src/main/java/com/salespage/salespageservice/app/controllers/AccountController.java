@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("v1/api/account")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+  @Autowired
+  private AccountService accountService;
 
-    @PostMapping("sign-up")
-    public ResponseEntity<JwtResponse> signUp(@RequestBody SignUpDto dto) {
-        return accountService.signUp(dto);
-    }
+  @PostMapping("sign-up")
+  public ResponseEntity<JwtResponse> signUp(@RequestBody SignUpDto dto) {
+    return accountService.signUp(dto);
+  }
 
-    @PostMapping("sign-in")
-    public ResponseEntity<JwtResponse> login(@RequestBody LoginDto dto) {
-        return accountService.signIn(dto);
-    }
+  @PostMapping("sign-in")
+  public ResponseEntity<JwtResponse> login(@RequestBody LoginDto dto) {
+    return accountService.signIn(dto);
+  }
 }

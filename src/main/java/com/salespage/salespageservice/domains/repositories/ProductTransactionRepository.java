@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductTransactionRepository extends MongoRepository<ProductTransaction, ObjectId> {
-    ProductTransaction findProductTransactionById(ObjectId objectId);
+  ProductTransaction findProductTransactionById(ObjectId objectId);
 }

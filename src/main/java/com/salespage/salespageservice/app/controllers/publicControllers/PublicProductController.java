@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("v1/api/public/product")
 public class PublicProductController {
-    @Autowired
-    private ProductService productService;
+  @Autowired
+  private ProductService productService;
 
-    @GetMapping("")
-    public ResponseEntity<PageResponse<Product>> getAllProduct(Pageable pageable) {
-        return productService.getAllProduct(pageable);
-    }
+  @GetMapping("")
+  public ResponseEntity<PageResponse<Product>> getAllProduct(Pageable pageable) {
+    return productService.getAllProduct(pageable);
+  }
 
-    @GetMapping("detail")
-    public ResponseEntity<Product> getProductDetail(@RequestParam String productId) {
-        return productService.getProductDetail(productId);
-    }
+  @GetMapping("detail")
+  public ResponseEntity<Product> getProductDetail(@RequestParam String productId) {
+    return productService.getProductDetail(productId);
+  }
 }

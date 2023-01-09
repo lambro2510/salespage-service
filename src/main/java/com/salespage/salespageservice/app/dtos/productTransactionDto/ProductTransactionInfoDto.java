@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ProductTransactionInfoDto {
 
-    private String transactionId;
+  private String transactionId;
 
     private Long quantity;
 
