@@ -11,13 +11,13 @@ import org.springframework.data.mongodb.MongoTransactionManager;
 @Configuration
 public class MongoConfig {
 
-  @Bean(name = "mongoTransactionManager")
-  MongoTransactionManager mongoTransactionManager(MongoDatabaseFactory dbFactory) {
-    TransactionOptions transactionOptions =
-            TransactionOptions.builder()
-                    .readConcern(ReadConcern.LOCAL)
-                    .writeConcern(WriteConcern.W1)
-                    .build();
-    return new MongoTransactionManager(dbFactory, transactionOptions);
-  }
+    @Bean(name = "mongoTransactionManager")
+    MongoTransactionManager mongoTransactionManager(MongoDatabaseFactory dbFactory) {
+        TransactionOptions transactionOptions =
+                TransactionOptions.builder()
+                        .readConcern(ReadConcern.LOCAL)
+                        .writeConcern(WriteConcern.W1)
+                        .build();
+        return new MongoTransactionManager(dbFactory, transactionOptions);
+    }
 }

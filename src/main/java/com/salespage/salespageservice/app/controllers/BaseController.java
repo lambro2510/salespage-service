@@ -5,8 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class BaseController {
-  protected String getUsername(Authentication authentication) {
-    UserDetails userDetails = (UserDetailsImpl) authentication.getPrincipal();
-    return userDetails.getUsername();
-  }
+    protected String getUsername(Authentication authentication) {
+        UserDetails userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        return userDetails.getUsername();
+    }
 }

@@ -9,22 +9,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class MongoExceptionUtils {
 
-  public void processException(RuntimeException ex) {
-    MongoException mongoException = null;
-    if (ex.getCause() instanceof MongoException) {
-      mongoException = (MongoException) ex.getCause();
-    } else if (ex.getCause() instanceof MongoCommandException) {
-      mongoException = (MongoCommandException) ex.getCause();
+    public void processException(RuntimeException ex) {
+        MongoException mongoException = null;
+        if (ex.getCause() instanceof MongoException) {
+            mongoException = (MongoException) ex.getCause();
+        } else if (ex.getCause() instanceof MongoCommandException) {
+            mongoException = (MongoCommandException) ex.getCause();
+        }
+        if (mongoException != null
+                && mongoException.hasErrorLabel(MongoException.TRANSIENT_TRANSACTION_ERROR_LABEL)) {
+            log.info("TransientTransactionError aborting transaction and retrying ...");
+            throw mongoException;
+        } else if (mongoException != null
+                && mongoException.hasErrorLabel(MongoException.UNKNOWN_TRANSACTION_COMMIT_RESULT_LABEL)) {
+            log.info("UnknownTransactionCommitResult, retrying commit operation ...");
+            throw mongoException;
+        }
+        throw ex;
     }
-    if (mongoException != null
-            && mongoException.hasErrorLabel(MongoException.TRANSIENT_TRANSACTION_ERROR_LABEL)) {
-      log.info("TransientTransactionError aborting transaction and retrying ...");
-      throw mongoException;
-    } else if (mongoException != null
-            && mongoException.hasErrorLabel(MongoException.UNKNOWN_TRANSACTION_COMMIT_RESULT_LABEL)) {
-      log.info("UnknownTransactionCommitResult, retrying commit operation ...");
-      throw mongoException;
-    }
-    throw ex;
-  }
 }

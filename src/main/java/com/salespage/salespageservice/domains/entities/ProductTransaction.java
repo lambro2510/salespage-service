@@ -19,49 +19,49 @@ import java.util.List;
 @Data
 public class ProductTransaction extends BaseEntity {
 
-  @Id
-  @JsonSerialize(using = ToStringSerializer.class)
-  private ObjectId id;
+    @Id
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId id;
 
-  @Field("purchaser_username")
-  private String purchaserUsername;
+    @Field("purchaser_username")
+    private String purchaserUsername;
 
-  @Field("product")
-  private Product product;
+    @Field("product")
+    private Product product;
 
-  @Field("state")
-  private ProductTransactionState state;
+    @Field("state")
+    private ProductTransactionState state;
 
-  @Field("quantity")
-  private Long quantity;
+    @Field("quantity")
+    private Long quantity;
 
-  @Field("note")
-  private String note;
+    @Field("note")
+    private String note;
 
-  @Field("message")
-  private List<Message> messages = new ArrayList<>();
+    @Field("message")
+    private List<Message> messages = new ArrayList<>();
 
-  public void createNewTransaction(String username, ProductTransactionDto dto) {
-    this.purchaserUsername = username;
-    product = dto.getProduct();
-    quantity = dto.getQuantity();
-    note = dto.getNote();
-    state = ProductTransactionState.WAITING;
-  }
+    public void createNewTransaction(String username, ProductTransactionDto dto) {
+        this.purchaserUsername = username;
+        product = dto.getProduct();
+        quantity = dto.getQuantity();
+        note = dto.getNote();
+        state = ProductTransactionState.WAITING;
+    }
 
-  public void updateTransaction(ProductTransactionInfoDto dto) {
-    quantity = dto.getQuantity();
-    note = dto.getNote();
-  }
+    public void updateTransaction(ProductTransactionInfoDto dto) {
+        quantity = dto.getQuantity();
+        note = dto.getNote();
+    }
 
-  @EqualsAndHashCode(callSuper = true)
-  @Data
-  public static class Message extends BaseEntity {
-    private String sender;
+    @EqualsAndHashCode(callSuper = true)
+    @Data
+    public static class Message extends BaseEntity {
+        private String sender;
 
-    private String receiver;
+        private String receiver;
 
-    private String content;
+        private String content;
 
-  }
+    }
 }

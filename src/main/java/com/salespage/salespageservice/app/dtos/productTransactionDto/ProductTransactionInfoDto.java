@@ -8,9 +8,9 @@ public class ProductTransactionInfoDto {
 
   private String transactionId;
 
-  private Long quantity;
+    private Long quantity;
 
-  private String note;
+    private String note;
 
-  private ProductTransactionState state;
+    private ProductTransactionState state;
 }

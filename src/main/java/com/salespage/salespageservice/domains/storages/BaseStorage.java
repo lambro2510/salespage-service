@@ -10,18 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class BaseStorage {
 
-  @Autowired
-  protected AccountRepository accountRepository;
+    @Autowired
+    protected AccountRepository accountRepository;
 
-  @Autowired
-  protected UserRepository userRepository;
+    @Autowired
+    protected UserRepository userRepository;
 
-  @Autowired
-  protected ProductTransactionRepository productTransactionRepository;
+    @Autowired
+    protected ProductTransactionRepository productTransactionRepository;
 
-  @Autowired
-  protected ProductRepository productRepository;
+    @Autowired
+    protected ProductRepository productRepository;
 
-  @Autowired
-  protected RemoteCacheManager remoteCacheManager;
+    @Autowired
+    protected RemoteCacheManager remoteCacheManager;
 }

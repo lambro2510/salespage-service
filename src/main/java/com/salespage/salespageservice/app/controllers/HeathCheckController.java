@@ -14,13 +14,13 @@ import java.io.IOException;
 @RestController
 @RequestMapping("")
 public class HeathCheckController {
-  @Value("${url.exchange}")
-  private String ExchangeUrl;
+    @Value("${url.exchange}")
+    private String ExchangeUrl;
 
-  @GetMapping("")
-  public ResponseEntity<?> checkExchangeMoney() throws IOException {
-    String data = RequestUtil.request(ExchangeUrl);
-    data = data.substring(data.indexOf("["), data.lastIndexOf("]") + 1);
-    return ResponseEntity.ok(JsonParser.arrayList(data, ExchangeMoney.class));
-  }
+    @GetMapping("")
+    public ResponseEntity<?> checkExchangeMoney() throws IOException {
+        String data = RequestUtil.request(ExchangeUrl);
+        data = data.substring(data.indexOf("["), data.lastIndexOf("]") + 1);
+        return ResponseEntity.ok(JsonParser.arrayList(data, ExchangeMoney.class));
+    }
 }
