@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class ProductTransactionDto extends ProductTransactionInfoDto {
 
-  private Product product;
+    private Product product;
 }

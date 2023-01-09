@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductStorage extends BaseStorage {
-  public void save(Product product) {
-    productRepository.save(product);
-  }
+    public void save(Product product) {
+        productRepository.save(product);
+    }
 
-  public Product findProductById(String productId) {
-    return productRepository.findProductById(new ObjectId(productId));
-  }
+    public Product findProductById(String productId) {
+        return productRepository.findProductById(new ObjectId(productId));
+    }
 
-  public Page<Product> findAllProduct(Pageable pageable) {
-    return productRepository.findAll(pageable);
-  }
+    public Page<Product> findAllProduct(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
 }

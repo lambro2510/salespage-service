@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("v1/api/user")
 public class UserController extends BaseController {
 
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private UserService userService;
 
-  @GetMapping("detail")
-  public ResponseEntity<User> getUserDetail(@RequestParam String username) {
-    return userService.getUserDetail(username);
-  }
+    @GetMapping("detail")
+    public ResponseEntity<User> getUserDetail(@RequestParam String username) {
+        return userService.getUserDetail(username);
+    }
 
-  @PutMapping("")
-  public ResponseEntity<User> updateUser(Authentication authentication, @RequestBody UserInfoDto dto) {
-    return userService.updateUser(getUsername(authentication), dto);
-  }
+    @PutMapping("")
+    public ResponseEntity<User> updateUser(Authentication authentication, @RequestBody UserInfoDto dto) {
+        return userService.updateUser(getUsername(authentication), dto);
+    }
 
-  @PostMapping("voting")
-  public ResponseEntity<?> voting(Authentication authentication, @RequestParam String userId, @RequestParam Long point) {
-    return userService.voting(getUsername(authentication), userId, point);
-  }
+    @PostMapping("voting")
+    public ResponseEntity<?> voting(Authentication authentication, @RequestParam String userId, @RequestParam Long point) {
+        return userService.voting(getUsername(authentication), userId, point);
+    }
 }

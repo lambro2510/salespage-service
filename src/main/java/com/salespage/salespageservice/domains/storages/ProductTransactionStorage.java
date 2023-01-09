@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductTransactionStorage extends BaseStorage {
-  public void save(ProductTransaction productTransaction) {
-    productTransactionRepository.save(productTransaction);
-  }
+    public void save(ProductTransaction productTransaction) {
+        productTransactionRepository.save(productTransaction);
+    }
 
-  public ProductTransaction findProductTransactionByIdInCache(String id) {
-    return productTransactionRepository.findProductTransactionById(new ObjectId((id)));
-  }
+    public ProductTransaction findProductTransactionByIdInCache(String id) {
+        return productTransactionRepository.findProductTransactionById(new ObjectId((id)));
+    }
 }

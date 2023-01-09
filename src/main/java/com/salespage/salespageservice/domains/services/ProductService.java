@@ -15,29 +15,29 @@ import java.util.Objects;
 @Service
 public class ProductService extends BaseService {
 
-  public ResponseEntity<Product> createProduct(String username, ProductInfoDto dto) {
-    Product product = new Product();
-    product.updateProduct(dto);
-    product.setSellerUsername(username);
+    public ResponseEntity<Product> createProduct(String username, ProductInfoDto dto) {
+        Product product = new Product();
+        product.updateProduct(dto);
+        product.setSellerUsername(username);
 
-    productStorage.save(product);
-    return ResponseEntity.ok(product);
-  }
+        productStorage.save(product);
+        return ResponseEntity.ok(product);
+    }
 
-  public ResponseEntity<Product> updateProduct(String username, ProductDto dto) {
-    Product product = productStorage.findProductById(dto.getProductId());
-    if (Objects.isNull(product)) throw new ResourceNotFoundException("product not exist");
+    public ResponseEntity<Product> updateProduct(String username, ProductDto dto) {
+        Product product = productStorage.findProductById(dto.getProductId());
+        if (Objects.isNull(product)) throw new ResourceNotFoundException("product not exist");
 
-    product.updateProduct(dto);
-    return ResponseEntity.ok(product);
-  }
+        product.updateProduct(dto);
+        return ResponseEntity.ok(product);
+    }
 
-  public ResponseEntity<PageResponse<Product>> getAllProduct(Pageable pageable) {
-    Page<Product> productPage = productStorage.findAllProduct(pageable);
-    return ResponseEntity.ok(PageResponse.createFrom(productPage));
-  }
+    public ResponseEntity<PageResponse<Product>> getAllProduct(Pageable pageable) {
+        Page<Product> productPage = productStorage.findAllProduct(pageable);
+        return ResponseEntity.ok(PageResponse.createFrom(productPage));
+    }
 
-  public ResponseEntity<Product> getProductDetail(String productId) {
-    return ResponseEntity.ok(productStorage.findProductById(productId));
-  }
+    public ResponseEntity<Product> getProductDetail(String productId) {
+        return ResponseEntity.ok(productStorage.findProductById(productId));
+    }
 }

@@ -7,16 +7,16 @@ import java.util.List;
 
 @Data
 public class ProductInfoDto {
-  private String productName;
+    private String productName;
 
-  private String description;
+    private String description;
 
-  private ProductType type;
+    private ProductType type;
 
-  private Double price;
+    private Double price;
 
-  private String sellingAddress;
+    private String sellingAddress;
 
-  private List<String> images;
+    private List<String> images;
 
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
 public class WrongAccountOrPasswordException extends BaseException {
-  public WrongAccountOrPasswordException() {
-    super(ErrorCode.WRONG_ACCOUNT_OR_PASSWORD, "Wrong username or password");
-  }
+    public WrongAccountOrPasswordException() {
+        super(ErrorCode.WRONG_ACCOUNT_OR_PASSWORD, "Wrong username or password");
+    }
 }

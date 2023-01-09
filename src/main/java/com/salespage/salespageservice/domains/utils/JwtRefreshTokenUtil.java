@@ -12,38 +12,38 @@ import java.util.UUID;
 @Component
 public class JwtRefreshTokenUtil {
 
-  @Autowired
-  @Lazy
-  protected RemoteCacheManager remoteCacheManager;
-  @Value("${jwt.token-refresh-expire-time}")
-  private int tokenRefreshExpireTime;
+    @Autowired
+    @Lazy
+    protected RemoteCacheManager remoteCacheManager;
+    @Value("${jwt.token-refresh-expire-time}")
+    private int tokenRefreshExpireTime;
 
-  public String generateToken(TokenInfo tokenInfo) {
-    UUID uuid = UUID.randomUUID();
-    String hashToken = Helper.md5Token(tokenInfo.getUsername() + uuid);
-    String sessionKey = CacheKey.genSessionKey(hashToken);
+    public String generateToken(TokenInfo tokenInfo) {
+        UUID uuid = UUID.randomUUID();
+        String hashToken = Helper.md5Token(tokenInfo.getUsername() + uuid);
+        String sessionKey = CacheKey.genSessionKey(hashToken);
 
 //    cacheManager.set(sessionKey, JsonParser.toJson(tokenInfo), tokenRefreshExpireTime);
 
-    return hashToken;
-  }
+        return hashToken;
+    }
 
-  public TokenInfo validate(String refreshToken) {
-    String sessionKey = CacheKey.genSessionKey(refreshToken);
-    try {
+    public TokenInfo validate(String refreshToken) {
+        String sessionKey = CacheKey.genSessionKey(refreshToken);
+        try {
 //      return cacheManager.get(sessionKey, TokenInfo.class);
-    } catch (Exception e) {
-      return null;
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
     }
-    return null;
-  }
 
-  public void delete(String refreshToken) {
-    String sessionKey = CacheKey.genSessionKey(refreshToken);
-    try {
+    public void delete(String refreshToken) {
+        String sessionKey = CacheKey.genSessionKey(refreshToken);
+        try {
 //      cacheManager.del(sessionKey);
-    } catch (Exception e) {
+        } catch (Exception e) {
 
+        }
     }
-  }
 }

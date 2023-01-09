@@ -6,14 +6,14 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class UserInfoDto {
-  @NotNull
-  private String displayName;
+    @NotNull
+    private String displayName;
 
-  @NotNull
-  private String phoneNumber;
+    @NotNull
+    private String phoneNumber;
 
-  @NotNull
-  private String imageUrl;
+    @NotNull
+    private String imageUrl;
 
 
 }

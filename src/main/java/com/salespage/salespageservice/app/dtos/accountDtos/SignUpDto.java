@@ -8,25 +8,25 @@ import java.util.Date;
 @Data
 public class SignUpDto {
 
-  @NotNull
-  private String username;
+    @NotNull
+    private String username;
 
-  @NotNull
-  private String password;
+    @NotNull
+    private String password;
 
-  @NotNull
-  private String firstName;
+    @NotNull
+    private String firstName;
 
-  @NotNull
-  private String lastName;
+    @NotNull
+    private String lastName;
 
-  @NotNull
-  private String email;
+    @NotNull
+    private String email;
 
-  @NotNull
-  private String phoneNumber;
+    @NotNull
+    private String phoneNumber;
 
-  @NotNull
-  private Date dateOfBirth;
+    @NotNull
+    private Date dateOfBirth;
 
 }

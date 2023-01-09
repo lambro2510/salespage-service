@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("v1/api/product")
 public class PrivateProductController extends BaseController {
 
-  @Autowired
-  private ProductService productService;
+    @Autowired
+    private ProductService productService;
 
-  @PostMapping("")
-  public ResponseEntity<Product> createProduct(Authentication authentication, @RequestBody ProductInfoDto dto) {
-    return productService.createProduct(getUsername(authentication), dto);
-  }
+    @PostMapping("")
+    public ResponseEntity<Product> createProduct(Authentication authentication, @RequestBody ProductInfoDto dto) {
+        return productService.createProduct(getUsername(authentication), dto);
+    }
 
-  @PutMapping("")
-  public ResponseEntity<Product> updateProduct(Authentication authentication, @RequestBody ProductDto dto) {
-    return productService.updateProduct(getUsername(authentication), dto);
-  }
+    @PutMapping("")
+    public ResponseEntity<Product> updateProduct(Authentication authentication, @RequestBody ProductDto dto) {
+        return productService.updateProduct(getUsername(authentication), dto);
+    }
 
 }
