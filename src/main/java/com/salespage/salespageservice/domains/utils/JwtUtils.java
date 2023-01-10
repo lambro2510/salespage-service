@@ -6,9 +6,7 @@ import com.salespage.salespageservice.domains.entities.types.UserState;
 import com.salespage.salespageservice.domains.info.TokenInfo;
 import io.jsonwebtoken.*;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -16,11 +14,11 @@ import java.util.Date;
 @Component
 @Log4j2
 public class JwtUtils {
-    @Autowired
-    @Lazy
-    protected RemoteCacheManager remoteCacheManager;
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+//    @Autowired
+//    @Lazy
+//    protected RemoteCacheManager remoteCacheManager;
+@Value("${jwt.secret}")
+private String jwtSecret;
     @Value("${jwt.token-expire-time}")
     private long jwtExpirationMs;
 
