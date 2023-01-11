@@ -9,16 +9,19 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.admin</groupId>
-    <artifactId>adminservice</artifactId>
+    <artifactId>salepage-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SalesPageAdminService</name>
-    <description>Admin service</description>
+    <name>salepage-service</name>
+    <description>sale page service</description>
     <properties>
         <java.version>11</java.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <redisson.version>3.19.0</redisson.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <protoc.version>3.19.4</protoc.version>
+        <avro.version>1.11.1</avro.version>
+        <grpc.version>1.42.2</grpc.version><!-- CURRENT_GRPC_VERSION -->
     </properties>
     <dependencies>
         <dependency>
@@ -98,7 +101,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -127,9 +129,29 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.6.1</version>
+                <configuration>
+                    <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}
+                    </protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}
+                    </pluginArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
+                            <goal>test-compile</goal>
+                            <goal>test-compile-custom</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
+
+
         </plugins>
     </build>
 

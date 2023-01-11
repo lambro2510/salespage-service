@@ -1,6 +1,6 @@
 version: "3"
 services:
-  spring_boot_docker_compose:
+  salepage-service:
     image: salepage:latest
     ports:
       - "8080:8080"
