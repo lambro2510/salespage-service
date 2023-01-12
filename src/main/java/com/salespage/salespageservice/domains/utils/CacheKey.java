@@ -17,6 +17,11 @@ public class CacheKey {
   }
 
   public static String getVerifyUser(String username) {
-    return "verify:user:" + username;
+    return prefix + "verify:user:" + username;
+  }
+
+  public static String listProduct(int pageIndex) {
+    return prefix + "products" + pageIndex;
+
   }
 }
