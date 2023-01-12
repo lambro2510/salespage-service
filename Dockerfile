@@ -17,3 +17,6 @@ FROM eclipse-temurin:11.0.17_8-jre
 COPY --from=build /app/target/salepage-service-0.0.1-SNAPSHOT.jar /usr/local/lib/salepage-service.jar
 EXPOSE 8080
 ENTRYPOINT ["sh", "-c", "java $JVM_OPTS -jar /usr/local/lib/salepage-service.jar"]
+
+FROM redis
+COPY redis.conf /redis/redis.conf
