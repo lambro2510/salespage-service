@@ -1,3 +1,5 @@
+FROM redis:alpine
+COPY redis.conf /usr/local/etc/redis.conf
 #
 # Build stage
 #
@@ -10,6 +12,7 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn -Dmaven.test.skip=true clean package
 
+
 #
 # Package stage
 #
@@ -18,5 +21,3 @@ COPY --from=build /app/target/salepage-service-0.0.1-SNAPSHOT.jar /usr/local/lib
 EXPOSE 8080
 ENTRYPOINT ["sh", "-c", "java $JVM_OPTS -jar /usr/local/lib/salepage-service.jar"]
 
-FROM redis
-COPY redis.conf /redis/redis.conf
