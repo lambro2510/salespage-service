@@ -1,4 +1,11 @@
+# build container with redis
 FROM redis:alpine
+
+# copy the redis configuration file
+COPY redis.conf /usr/local/etc/redis.conf
+
+# run the redis server
+CMD ["redis-server", "/usr/local/etc/redis.conf"]
 #
 # Build stage
 #
