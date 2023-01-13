@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
 
 @Service
 public class ProductTransactionService extends BaseService {
@@ -57,6 +60,17 @@ public class ProductTransactionService extends BaseService {
 
         return ResponseEntity.ok(productTransaction);
     }
+
+    public void productTransactionCancel(String productId){
+        List<ProductTransaction> productTransactions = productStorage.findAllProductById(productId);
+        if(productTransactions.size() == 0) return ;
+
+        productTransactions.forEach(transaction -> transaction.updateState(ProductTransactionState.CANCEL));
+        productStorage.saveAll(productTransactions);
+
+    }
+
+
 
     private long parseToUsd(long money) {
 

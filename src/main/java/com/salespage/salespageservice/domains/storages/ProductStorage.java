@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
@@ -29,5 +30,17 @@ public class ProductStorage extends BaseStorage {
     }
     log.debug("==========Get size product data: " + cacheData.size());
     return new PageImpl<>(cacheData, pageable, cacheData.size());
+  }
+
+  public void delete(String productId) {
+    productRepository.deleteById(new ObjectId(productId));
+  }
+
+  public List<ProductTransaction> findAllProductById(String productId) {
+    return productTransactionRepository.findAllProductTransactionByProduct_Id(new ObjectId(productId));
+  }
+
+  public void saveAll(List<ProductTransaction> productTransactions) {
+    productTransactionRepository.saveAll(productTransactions);
   }
 }

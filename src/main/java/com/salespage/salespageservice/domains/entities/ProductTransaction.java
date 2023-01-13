@@ -54,6 +54,10 @@ public class ProductTransaction extends BaseEntity {
         note = dto.getNote();
     }
 
+    public void updateState(ProductTransactionState state) {
+        this.state = state;
+    }
+
     @EqualsAndHashCode(callSuper = true)
     @Data
     public static class Message extends BaseEntity {
