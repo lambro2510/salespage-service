@@ -8,28 +8,27 @@ import java.util.Date;
 @Data
 public class SignUpDto {
 
-    @NotNull
+    @NotNull(message = "Username is required")
     private String username;
 
-    @NotNull
+    @NotNull(message = "Password is required")
     private String password;
 
-    @NotNull
+    @NotNull(message = "Confirm password is required")
     private String confirmPassword;
 
-    @NotNull
+    @NotNull(message = "First name is required")
     private String firstName;
 
-    @NotNull
+    @NotNull(message = "Last name is required")
     private String lastName;
 
-    @NotNull
+    @NotNull(message = "Email is required")
     private String email;
 
-    @NotNull
+    @NotNull(message = "Phone number is required")
     private String phoneNumber;
 
-    @NotNull
+    @NotNull(message = "Date of birth is required")
     private Date dateOfBirth;
-
 }
