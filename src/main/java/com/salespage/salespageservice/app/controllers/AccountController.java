@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
+import javax.validation.Valid;
+
+@CrossOrigin
 @RestController
 @RequestMapping("v1/api/account")
 public class AccountController {
@@ -17,12 +19,12 @@ public class AccountController {
   private AccountService accountService;
 
   @PostMapping("sign-up")
-  public ResponseEntity<JwtResponse> signUp(@RequestBody SignUpDto dto) {
+  public ResponseEntity<JwtResponse> signUp(@RequestBody @Valid SignUpDto dto) {
     return accountService.signUp(dto);
   }
 
   @PostMapping("sign-in")
-  public ResponseEntity<JwtResponse> login(@RequestBody LoginDto dto) {
+  public ResponseEntity<JwtResponse> login(@RequestBody @Valid LoginDto dto) {
     return accountService.signIn(dto);
   }
 }
