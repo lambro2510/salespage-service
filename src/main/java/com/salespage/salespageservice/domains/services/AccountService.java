@@ -28,6 +28,7 @@ public class AccountService extends BaseService {
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public ResponseEntity<JwtResponse> signUp(SignUpDto dto) {
 
+    if(!dto.getConfirmPassword().equals(dto.getPassword())) throw new ResourceExitsException("Invalid password");
     if (accountStorage.existByUsername(dto.getUsername())) throw new ResourceExitsException("User existed");
 
     Account account = new Account();

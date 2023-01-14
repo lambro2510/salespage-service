@@ -15,6 +15,9 @@ public class SignUpDto {
     private String password;
 
     @NotNull
+    private String confirmPassword;
+
+    @NotNull
     private String firstName;
 
     @NotNull
