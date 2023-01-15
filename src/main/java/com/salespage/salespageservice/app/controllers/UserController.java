@@ -15,6 +15,10 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("profile")
+    public ResponseEntity<User> getProfile(Authentication authentication) {
+        return userService.getUserDetail(getUsername(authentication));
+    }
     @GetMapping("detail")
     public ResponseEntity<User> getUserDetail(@RequestParam String username) {
         return userService.getUserDetail(username);
