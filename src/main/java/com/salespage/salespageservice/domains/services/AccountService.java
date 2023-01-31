@@ -9,6 +9,7 @@ import com.salespage.salespageservice.domains.exceptions.AccountNotExistsExcepti
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.info.TokenInfo;
+import com.salespage.salespageservice.domains.producer.Producer;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,13 @@ public class AccountService extends BaseService {
   @Autowired
   private UserService userService;
 
+  @Autowired
+  private Producer producer;
+
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public ResponseEntity<JwtResponse> signUp(SignUpDto dto) {
 
-    if(!dto.getConfirmPassword().equals(dto.getPassword())) throw new ResourceExitsException("Invalid password");
+    if (!dto.getConfirmPassword().equals(dto.getPassword())) throw new ResourceExitsException("Invalid password");
     if (accountStorage.existByUsername(dto.getUsername())) throw new ResourceExitsException("User existed");
 
     Account account = new Account();

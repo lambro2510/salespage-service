@@ -1,0 +1,19 @@
+{
+  "namespace": "com.salespage.avro",
+  "name": "CreateProductTransactionAvro",
+  "type": "record",
+  "fields": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "productId",
+      "type": "string"
+    },
+    {
+      "name": "userReceiveId",
+      "type": "string"
+    }
+  ]
+}

@@ -7,6 +7,8 @@ import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
+import com.salespage.salespageservice.domains.producer.Producer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,11 +21,13 @@ import java.util.Objects;
 
 @Service
 public class ProductTransactionService extends BaseService {
+
+    @Autowired
+    private Producer producer;
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ResponseEntity<ProductTransaction> createProductTransaction(String username, ProductTransactionDto dto) {
         User user = userStorage.findByUsername(username);
-
-
         ProductTransaction productTransaction = new ProductTransaction();
         productTransaction.createNewTransaction(username, dto);
 

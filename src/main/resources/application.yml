@@ -8,6 +8,22 @@ spring:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    properties:
+      sasl.mechanism: SCRAM-SHA-512
+      security.protocol: SASL_PLAINTEXT
+      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="bizfly-7-413-admin" password="admin123";
+    topic:
+      replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
+      num-partitions: ${KAFKA_NUM_PARTITIONS:3}
+    producer:
+      acks: all
+      retries: 1000
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      template:
+        default-topic: test
   data:
     mongodb:
       uri: ${MONGODB_URI}
@@ -24,12 +40,3 @@ jwt:
   privateKey: ${JWT_PRIVATE_KEY}
 
 
-grpc:
-  client:
-    player-service:
-      address: ${SPORT_GRPC_SERVER_ADDRESS}
-      enableKeepAlive: true
-      keepAliveTime: 60
-      keepAliveWithoutCalls: true
-      keepAliveTimeout: 20
-      negotiationType: plaintext
