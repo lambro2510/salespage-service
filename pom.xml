@@ -102,6 +102,7 @@
       <artifactId>jackson-datatype-jsr310</artifactId>
       <version>${jackson.version}</version>
     </dependency>
+<!--    redis-->
     <dependency>
       <groupId>org.redisson</groupId>
       <artifactId>redisson-spring-data-27</artifactId>

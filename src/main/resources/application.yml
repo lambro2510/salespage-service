@@ -24,6 +24,13 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       template:
         default-topic: test
+    consumer:
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+      group-id: "bizfly-7-413-ProductTransaction"
   data:
     mongodb:
       uri: ${MONGODB_URI}
