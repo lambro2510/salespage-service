@@ -21,10 +21,11 @@ public class ProductTransactionConsumer {
   @KafkaListener(topics = TopicConfig.SALE_PAGE_PRODUCT_TRANSACTION)
   public void processReturnReward(String message) {
     log.debug("====> processReturnReward: {} " + message);
-    ProductTransaction productTransaction = null;
+    ProductTransaction productTransaction = new ProductTransaction();
     try {
       productTransaction = JsonParser.entity(message, ProductTransaction.class);
     } catch (Exception e) {
+      producer.createProductTransaction(productTransaction);
       log.error("====> processReturnReward error: {} " + productTransaction);
     } finally {
 
