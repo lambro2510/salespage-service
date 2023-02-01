@@ -17,23 +17,12 @@ import org.springframework.stereotype.Component;
 public class Producer {
 
   @Autowired
-  protected KafkaTemplate<String, Object> kafkaTemplate;
+  protected KafkaTemplate<String, String> kafkaTemplate;
 
-//  public void createProductTransaction(ProductTransaction productTransaction) {
-//    try {
-//      log.debug("====write placeLogSingle log success" + productTransaction);
-//      kafkaTemplate.send(TopicConfig.SALE_PAGE_PRODUCT_TRANSACTION, JsonParser.toJson(productTransaction));
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      log.error(String.valueOf(e));
-//    }
-//  }
-
-
-  public void test() {
+  public void createProductTransaction(ProductTransaction productTransaction) {
     try {
-      log.debug("====write placeLogSingle log success");
-      kafkaTemplate.send(TopicConfig.SALE_PAGE_PRODUCT_TRANSACTION, CreateProductTransactionAvro.newBuilder().setProductId("123").setUserId("123").setUserReceiveId("123").build());
+      log.debug("====write createProductTransaction log success" + productTransaction);
+      kafkaTemplate.send(TopicConfig.SALE_PAGE_PRODUCT_TRANSACTION, JsonParser.toJson(productTransaction));
     } catch (Exception e) {
       log.error(String.valueOf(e));
     }
