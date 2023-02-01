@@ -21,21 +21,14 @@ spring:
       acks: all
       retries: 1000
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
-      properties:
-        specific.avro.reader: true
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
       template:
         default-topic: test
     consumer:
       enable-auto-commit: true
-      properties:
-        request:
-          timeout:
-            ms: 120000
-        specific.avro.reader: true
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: "bizfly-7-413-ProductTransaction"
   data:
     mongodb:
