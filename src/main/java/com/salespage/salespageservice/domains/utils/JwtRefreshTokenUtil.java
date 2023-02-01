@@ -16,16 +16,6 @@ public class JwtRefreshTokenUtil {
 @Value("${jwt.token-refresh-expire-time}")
 private int tokenRefreshExpireTime;
 
-    public String generateToken(TokenInfo tokenInfo) {
-        UUID uuid = UUID.randomUUID();
-        String hashToken = Helper.md5Token(tokenInfo.getUsername() + uuid);
-        String sessionKey = CacheKey.genSessionKey(hashToken);
-
-//    cacheManager.set(sessionKey, JsonParser.toJson(tokenInfo), tokenRefreshExpireTime);
-
-        return hashToken;
-    }
-
     public TokenInfo validate(String refreshToken) {
         String sessionKey = CacheKey.genSessionKey(refreshToken);
         try {
