@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.consumers;
 
+import com.salespage.avro.CreateProductTransactionAvro;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.producer.TopicConfig;
@@ -19,17 +20,18 @@ public class ProductTransactionConsumer {
   private Producer producer;
 
   @KafkaListener(topics = TopicConfig.SALE_PAGE_PRODUCT_TRANSACTION)
-  public void processReturnReward(String message) {
+  public void processReturnReward(CreateProductTransactionAvro message) {
     log.debug("====> processReturnReward: {} " + message);
     ProductTransaction productTransaction = new ProductTransaction();
     try {
-      productTransaction = JsonParser.entity(message, ProductTransaction.class);
+//      productTransaction = JsonParser.entity(message, ProductTransaction.class);
+      log.info(message.getProductId());
       if (productTransaction != null) {
         log.error("===== >");
         throw new Exception();
       }
     } catch (Exception e) {
-      producer.createProductTransaction(productTransaction);
+//      producer.createProductTransaction(productTransaction);
       log.error("====> processReturnReward error: {} " + productTransaction);
     } finally {
 
