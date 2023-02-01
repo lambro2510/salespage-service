@@ -33,7 +33,6 @@ public class ProductTransactionService extends BaseService {
 
         productTransactionStorage.save(productTransaction);
 
-        //TODO Thêm vào kafka xử lý bất đồng bộ
         return ResponseEntity.ok(productTransaction);
     }
 
