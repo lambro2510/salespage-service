@@ -41,5 +41,9 @@ spring:
 server:
   port: ${PORT}
 
+google:
+  api:
+    url: ${DRIVER_URI}
+
 
 
