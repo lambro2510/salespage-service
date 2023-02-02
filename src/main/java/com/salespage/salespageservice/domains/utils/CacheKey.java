@@ -3,8 +3,8 @@ package com.salespage.salespageservice.domains.utils;
 public class CacheKey {
   private static final String prefix = "sale:";
 
-  public static String genSessionKey(String uuid) {
-    return "session:" + uuid;
+  public static String genSessionKey(String username) {
+    return "session:" + username;
   }
 
   public static String getConfigKey(String key) {

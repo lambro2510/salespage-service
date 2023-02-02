@@ -38,8 +38,7 @@ public class UserController extends BaseController {
     public ResponseEntity<String> uploadImage(Authentication authentication, @RequestParam("image") MultipartFile image) throws IOException {
         return userService.uploadImage(getUsername(authentication), image);
     }
-
-
+    
     @PostMapping("voting")
     public ResponseEntity<?> voting(Authentication authentication, @RequestParam String userId, @RequestParam Long point) {
         return userService.voting(getUsername(authentication), userId, point);

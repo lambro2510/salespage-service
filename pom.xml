@@ -102,7 +102,7 @@
       <artifactId>jackson-datatype-jsr310</artifactId>
       <version>${jackson.version}</version>
     </dependency>
-<!--    redis-->
+    <!--    redis-->
     <dependency>
       <groupId>org.redisson</groupId>
       <artifactId>redisson-spring-data-27</artifactId>
@@ -133,6 +133,13 @@
       <groupId>com.google.apis</groupId>
       <artifactId>google-api-services-drive</artifactId>
       <version>v3-rev136-1.25.0</version>
+    </dependency>
+
+    <!--gmail api-->
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
     </dependency>
 
 
