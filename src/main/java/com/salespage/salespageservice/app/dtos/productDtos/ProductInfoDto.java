@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.dtos.productDtos;
 
 import com.salespage.salespageservice.domains.entities.types.ProductType;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,7 +17,5 @@ public class ProductInfoDto {
     private Double price;
 
     private String sellingAddress;
-
-    private List<String> images;
 
 }

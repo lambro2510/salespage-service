@@ -49,7 +49,8 @@ public class AccountService extends BaseService {
     return ResponseEntity.ok(new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState()))));
   }
 
-  public ResponseEntity<JwtResponse> signIn(LoginDto dto) {
+  public ResponseEntity<JwtResponse> signIn(LoginDto dto) throws IOException {
+    System.out.println(googleDriver.getAllFolders());
     Account account = accountStorage.findByUsername(dto.getUsername());
     if (account == null || !account.getUsername().equals(dto.getUsername()) || !BCrypt.checkpw(dto.getPassword(), account.getPassword()))
       throw new AccountNotExistsException("Invalid username or password");
