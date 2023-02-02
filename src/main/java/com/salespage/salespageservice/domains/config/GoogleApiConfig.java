@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -42,13 +43,8 @@ public class GoogleApiConfig {
     elenco.add("https://www.googleapis.com/auth/drive");
     HttpTransport httpTransport = new NetHttpTransport();
     JacksonFactory jsonFactory = new JacksonFactory();
-    return new GoogleCredential.Builder()
-            .setTransport(httpTransport)
-            .setJsonFactory(jsonFactory)
-            .setServiceAccountId(url)
-            .setServiceAccountScopes(elenco)
-            .setServiceAccountPrivateKeyFromP12File(new File("./connect.p12"))
-            .build();
+    return GoogleCredential.fromStream(new FileInputStream("salepage-374708-1ef203c3e998.json"))
+            .createScoped(elenco);
   }
 
 

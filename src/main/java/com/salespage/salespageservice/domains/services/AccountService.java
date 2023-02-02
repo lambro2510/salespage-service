@@ -10,6 +10,7 @@ import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.info.TokenInfo;
 import com.salespage.salespageservice.domains.producer.Producer;
+import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Objects;
 
 @Service
@@ -28,6 +30,9 @@ public class AccountService extends BaseService {
 
   @Autowired
   private Producer producer;
+
+  @Autowired
+  private GoogleDriver googleDriver;
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public ResponseEntity<JwtResponse> signUp(SignUpDto dto) {
