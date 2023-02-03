@@ -1,12 +1,16 @@
 package com.salespage.salespageservice.domains.utils;
 
 
-import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,11 +40,6 @@ public class Helper {
     Matcher matcher = pattern.matcher(email);
     return matcher.find();
   }
-
-  public static String md5Token(String token) {
-    return DigestUtils.sha256Hex(token);
-  }
-
 
   public static double round(double value) {
     if (value - Math.round(value) == 0) return (long) value;
@@ -79,6 +78,19 @@ public class Helper {
     byte[] array = new byte[len];
     new Random().nextBytes(array);
     return new String(array, StandardCharsets.UTF_8);
+  }
+
+  public static java.io.File convertMultiPartToFile(MultipartFile file) throws IOException {
+    java.io.File convFile = new java.io.File(Objects.requireNonNull(file.getOriginalFilename()));
+    FileOutputStream fos = new FileOutputStream(convFile);
+    fos.write(file.getBytes());
+    fos.close();
+    return convFile;
+  }
+
+  public static String extractFileIdFromUrl(String imageUrl) {
+    String[] parts = imageUrl.split("=");
+    return parts[parts.length - 1];
   }
 
 }
