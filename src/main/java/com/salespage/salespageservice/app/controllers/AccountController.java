@@ -31,12 +31,12 @@ public class AccountController extends BaseController {
     return accountService.signIn(dto);
   }
 
-  @PostMapping("/verify-code")
+  @PostMapping("verify-code")
   public ResponseEntity<String> createVerifyCode(Authentication authentication) {
     return accountService.createVerifyCode(getUsername(authentication));
   }
 
-  @PostMapping("/verify")
+  @PostMapping("verify")
   public ResponseEntity<String> verifyCode(Authentication authentication, @RequestParam String code) {
     return accountService.verifyCode(getUsername(authentication), code);
   }
