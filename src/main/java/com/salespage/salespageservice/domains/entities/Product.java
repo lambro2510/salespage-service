@@ -45,6 +45,5 @@ public class Product {
         type = dto.getType();
         price = dto.getPrice();
         sellingAddress = dto.getSellingAddress();
-        imageUrls = dto.getImages();
     }
 }

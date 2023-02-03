@@ -24,10 +24,6 @@ public class ProductTransactionConsumer {
     ProductTransaction productTransaction = new ProductTransaction();
     try {
       productTransaction = JsonParser.entity(message, ProductTransaction.class);
-      if (productTransaction != null) {
-        log.error("===== >");
-        throw new Exception();
-      }
     } catch (Exception e) {
       producer.createProductTransaction(productTransaction);
       log.error("====> processReturnReward error: {} " + productTransaction);
