@@ -37,18 +37,10 @@ public class GoogleApiConfig {
             .build();
   }
 
-//  @Bean
-//  public Gmail getGmailService() throws GeneralSecurityException, IOException {
-//    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-//    Gmail service = new Gmail.Builder(HTTP_TRANSPORT, JacksonFactory.getDefaultInstance(), googleCredential)
-//            .setApplicationName("salespage")
-//            .build();
-//    return service;
-//  }
-
   @Bean
   public GoogleCredential googleCredential() throws GeneralSecurityException, IOException {
     Collection<String> elenco = new ArrayList<String>();
+    elenco.add("https://www.googleapis.com/auth/gmail.send");
     elenco.add("https://www.googleapis.com/auth/drive");
     HttpTransport httpTransport = new NetHttpTransport();
     JacksonFactory jsonFactory = new JacksonFactory();
