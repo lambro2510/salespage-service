@@ -52,6 +52,7 @@ public class AccountService extends BaseService {
   }
 
   public ResponseEntity<JwtResponse> signIn(LoginDto dto) throws IOException {
+
     Account account = accountStorage.findByUsername(dto.getUsername());
     if (account == null || !account.getUsername().equals(dto.getUsername()) || !BCrypt.checkpw(dto.getPassword(), account.getPassword()))
       throw new AccountNotExistsException("Invalid username or password");

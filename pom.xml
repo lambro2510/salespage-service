@@ -22,10 +22,8 @@
     <javax.persistence-api.version>2.2</javax.persistence-api.version>
     <zero-allocation-hashing.version>0.16</zero-allocation-hashing.version>
     <redisson.version>3.19.1</redisson.version>
-    <commons-codec.version>1.15</commons-codec.version>
     <jbcrypt.version>0.4</jbcrypt.version>
     <jackson.version>2.14.0</jackson.version>
-    <commons-lang3.version>3.12.0</commons-lang3.version>
     <mapstruct.version>1.5.3.Final</mapstruct.version>
     <log4j2.version>2.18.0</log4j2.version>
     <netty-socketio-protocol.version>1.7.19-20220808.075338-2</netty-socketio-protocol.version>
@@ -37,7 +35,6 @@
     <jjwt-api.version>0.11.5</jjwt-api.version>
     <modelmapper.version>3.1.0</modelmapper.version>
     <avro.version>1.11.1</avro.version>
-    <confluent.version>7.2.1</confluent.version>
     <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
     <fst.version>2.57</fst.version>
     <caffeine.version>3.1.2</caffeine.version>
@@ -71,26 +68,8 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct</artifactId>
-      <version>${mapstruct.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>${commons-lang3.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mindrot</groupId>
-      <artifactId>jbcrypt</artifactId>
-      <version>${jbcrypt.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>${commons-codec.version}</version>
-    </dependency>
+
+
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
@@ -117,20 +96,6 @@
       <version>${avro.version}</version>
     </dependency>
 
-    <!--    google api-->
-    <dependency>
-      <groupId>com.google.apis</groupId>
-      <artifactId>google-api-services-drive</artifactId>
-      <version>v3-rev136-1.25.0</version>
-    </dependency>
-
-    <!--gmail api-->
-    <dependency>
-      <groupId>com.sun.mail</groupId>
-      <artifactId>javax.mail</artifactId>
-      <version>1.6.2</version>
-    </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -139,7 +104,6 @@
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-mongodb</artifactId>
     </dependency>
-
 
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
@@ -183,27 +147,7 @@
       <artifactId>jaxb-api</artifactId>
       <version>2.4.0-b180830.0359</version>
     </dependency>
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java-util</artifactId>
-      <version>${protobuf.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-      <version>${protobuf.version}</version>
-    </dependency>
 
-    <dependency>
-      <groupId>de.ruedigermoeller</groupId>
-      <artifactId>fst</artifactId>
-      <version>${fst.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.ben-manes.caffeine</groupId>
-      <artifactId>caffeine</artifactId>
-      <version>${caffeine.version}</version>
-    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-log4j2</artifactId>

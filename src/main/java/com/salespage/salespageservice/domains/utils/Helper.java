@@ -1,8 +1,8 @@
 package com.salespage.salespageservice.domains.utils;
 
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,11 +40,6 @@ public class Helper {
     Matcher matcher = pattern.matcher(email);
     return matcher.find();
   }
-
-  public static String md5Token(String token) {
-    return DigestUtils.sha256Hex(token);
-  }
-
 
   public static double round(double value) {
     if (value - Math.round(value) == 0) return (long) value;
