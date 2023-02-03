@@ -42,12 +42,6 @@
     <fst.version>2.57</fst.version>
     <caffeine.version>3.1.2</caffeine.version>
   </properties>
-  <repositories>
-    <repository>
-      <id>maven-group</id>
-      <url>https://maven.wiinvent.tv/repository/maven-public/</url>
-    </repository>
-  </repositories>
 
   <dependencies>
     <dependency>
@@ -122,22 +116,8 @@
       <artifactId>avro</artifactId>
       <version>${avro.version}</version>
     </dependency>
-    <dependency>
-      <groupId>io.confluent</groupId>
-      <artifactId>kafka-avro-serializer</artifactId>
-      <version>${confluent.version}</version>
-    </dependency>
 
-    <dependency>
-      <artifactId>common-config</artifactId>
-      <groupId>io.confluent</groupId>
-      <version>${confluent.version}</version>
-    </dependency>
-    <dependency>
-      <artifactId>common-utils</artifactId>
-      <groupId>io.confluent</groupId>
-      <version>${confluent.version}</version>
-    </dependency>
+
     <dependency>
       <groupId>net.openhft</groupId>
       <artifactId>zero-allocation-hashing</artifactId>
@@ -167,11 +147,8 @@
       <artifactId>geoip2</artifactId>
       <version>${geoip2.version}</version>
     </dependency>
-    <dependency>
-      <groupId>com.corundumstudio.socketio</groupId>
-      <artifactId>netty-socketio-protocol</artifactId>
-      <version>${netty-socketio-protocol.version}</version>
-    </dependency>
+
+
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-openfeign</artifactId>
