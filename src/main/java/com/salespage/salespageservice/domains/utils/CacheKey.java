@@ -24,4 +24,8 @@ public class CacheKey {
     return prefix + "products" + pageIndex;
 
   }
+
+  public static String getUserToken(String username) {
+    return prefix + "token:" + username;
+  }
 }

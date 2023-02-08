@@ -18,12 +18,12 @@ public class AccountStorage extends BaseStorage {
     accountRepository.save(account);
   }
 
-  public void saveTokenToRemoteCache(String token) {
-    remoteCacheManager.set(CacheKey.genSessionKey(token), token, 24 * 60 * 60);  //1 ngày
+  public void saveTokenToRemoteCache(String username, String token) {
+    remoteCacheManager.set(CacheKey.getUserToken(username), token, 24 * 60 * 60);  //1 ngày
   }
 
-  public void saveVerifyCode(String username, Double code) {
-    remoteCacheManager.set(CacheKey.getVerifyUser(username), code.toString());
+  public void saveVerifyCode(String username, String code) {
+    remoteCacheManager.set(CacheKey.getVerifyUser(username), code);
   }
 
   public Integer getVerifyCode(String username) {
