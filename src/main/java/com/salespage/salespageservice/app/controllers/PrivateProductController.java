@@ -8,6 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("v1/api/product")
@@ -19,6 +24,16 @@ public class PrivateProductController extends BaseController {
     @PostMapping("")
     public ResponseEntity<Product> createProduct(Authentication authentication, @RequestBody ProductInfoDto dto) {
         return productService.createProduct(getUsername(authentication), dto);
+    }
+
+    @PostMapping("/upload-images")
+    public ResponseEntity<List<String>> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam List<MultipartFile> files) throws IOException {
+        return productService.uploadProductImage(getUsername(authentication), productId, files);
+    }
+
+    @DeleteMapping("/upload-images")
+    public ResponseEntity<List<String>> deleteImages(Authentication authentication, @RequestParam String productId, @RequestParam List<String> imageUrls) throws IOException {
+        return productService.deleteProductImages(getUsername(authentication), productId, imageUrls);
     }
 
     @PutMapping("")
