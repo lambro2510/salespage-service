@@ -97,12 +97,6 @@
     </dependency>
 
     <dependency>
-      <groupId>net.openhft</groupId>
-      <artifactId>zero-allocation-hashing</artifactId>
-      <version>${zero-allocation-hashing.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-mongodb</artifactId>
     </dependency>
@@ -111,11 +105,6 @@
       <artifactId>spring-data-mongodb</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
-    </dependency>
     <dependency>
       <groupId>javax.persistence</groupId>
       <artifactId>javax.persistence-api</artifactId>
@@ -127,14 +116,7 @@
       <version>${geoip2.version}</version>
     </dependency>
 
-
     <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-openfeign</artifactId>
-      <version>${openfeign.version}</version>
-    </dependency>
-    <dependency>
-
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
       <version>${jjwt.version}</version>
