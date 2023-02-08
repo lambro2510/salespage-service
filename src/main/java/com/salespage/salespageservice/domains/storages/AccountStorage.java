@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.utils.CacheKey;
+import com.salespage.salespageservice.domains.utils.RemoteCacheManager;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,7 +27,7 @@ public class AccountStorage extends BaseStorage {
     remoteCacheManager.set(CacheKey.getVerifyUser(username), code);
   }
 
-  public Integer getVerifyCode(String username) {
-    return Integer.valueOf(remoteCacheManager.get(CacheKey.getVerifyUser(username)));
+  public String getVerifyCode(String username) {
+    return remoteCacheManager.get(CacheKey.getVerifyUser(username));
   }
 }

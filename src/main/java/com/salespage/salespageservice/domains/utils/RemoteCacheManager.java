@@ -13,15 +13,19 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 public class RemoteCacheManager {
 
-    private static final int TOKEN_EXPIRE = 604800;
+
+  public static final int HOUR = 3600; //1h
+
+  public static final int DAY = 3600 * 24; //1h
+  private static final int TOKEN_EXPIRE = 604800;
 
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+  @Autowired
+  private RedisTemplate<String, String> redisTemplate;
 
-    public void set(String key, String value, int expireTime) {
-        redisTemplate.opsForValue().set(key, value, expireTime, TimeUnit.SECONDS);
-    }
+  public void set(String key, String value, int expireTime) {
+    redisTemplate.opsForValue().set(key, value, expireTime, TimeUnit.SECONDS);
+  }
 
     public void set(String key, String value) {
         redisTemplate.opsForValue().set(key, value);

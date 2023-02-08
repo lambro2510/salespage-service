@@ -64,9 +64,9 @@ public class AccountService extends BaseService {
 
   }
 
+
   public ResponseEntity<String> verifyCode(String username, int code) {
     Integer verifyCode = accountStorage.getVerifyCode(username);
-
     if (Objects.nonNull(verifyCode) && !verifyCode.equals(code))
       throw new ResourceNotFoundException("Invalid verify code");
 

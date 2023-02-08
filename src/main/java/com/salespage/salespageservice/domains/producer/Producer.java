@@ -1,13 +1,9 @@
 package com.salespage.salespageservice.domains.producer;
 
-
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
-import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import lombok.extern.log4j.Log4j2;
-import org.apache.avro.specific.SpecificRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
