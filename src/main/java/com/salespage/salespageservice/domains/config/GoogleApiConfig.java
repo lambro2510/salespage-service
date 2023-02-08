@@ -26,9 +26,6 @@ public class GoogleApiConfig {
   @Lazy
   private GoogleCredential googleCredential;
 
-  @Value("${google.api.url}")
-  private String url;
-
   @Bean
   public Drive getService() throws GeneralSecurityException, IOException {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -44,7 +41,7 @@ public class GoogleApiConfig {
     elenco.add("https://www.googleapis.com/auth/drive");
     HttpTransport httpTransport = new NetHttpTransport();
     JacksonFactory jsonFactory = new JacksonFactory();
-    return GoogleCredential.fromStream(new FileInputStream("salepage-374708-1ef203c3e998.json"))
+    return GoogleCredential.fromStream(new FileInputStream("oath2.json"))
             .createScoped(elenco);
   }
 
