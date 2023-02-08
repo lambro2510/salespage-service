@@ -43,6 +43,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ExceptionResponse.createFrom(exception), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler({AuthorizationException.class})
+    public ResponseEntity<Object> handleUnAuthorizationException(BaseException exception, WebRequest webRequest) {
+        return new ResponseEntity<>(ExceptionResponse.createFrom(exception), HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleException(BaseException exception, WebRequest webRequest) {
         return new ResponseEntity<>(ExceptionResponse.createFrom(exception), HttpStatus.INTERNAL_SERVER_ERROR);
