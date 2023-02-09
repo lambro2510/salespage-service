@@ -7,7 +7,6 @@ import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
-import com.salespage.salespageservice.domains.utils.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
