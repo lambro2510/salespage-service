@@ -1,7 +1,5 @@
 package com.salespage.salespageservice.domains.producer;
 
-
-import com.salespage.avro.CreateProductTransactionAvro;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.JsonParser;
