@@ -45,5 +45,7 @@ google:
   api:
     url: ${DRIVER_URI}
 
-
+jwt:
+  publicKey: ${JWT_PUBLIC_KEY}
+  privateKey: ${JWT_PRIVATE_KEY}
 
