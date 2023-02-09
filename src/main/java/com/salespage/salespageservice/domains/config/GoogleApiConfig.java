@@ -26,9 +26,6 @@ public class GoogleApiConfig {
   @Lazy
   private GoogleCredential googleCredential;
 
-  @Value("${google.api.url}")
-  private String url;
-
   @Bean
   public Drive getService() throws GeneralSecurityException, IOException {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();

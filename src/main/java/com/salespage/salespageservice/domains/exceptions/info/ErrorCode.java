@@ -15,4 +15,5 @@ public class ErrorCode {
     public static final int LUCKY_SPIN_SLOT_ERROR = 1011;
     public static final int NOT_ENOUGH_DIAMOND = 1018;
     public static final int NOT_ENOUGH_TURN = 1019;
+    public static final int AUTHORIZATION = 1020;
 }

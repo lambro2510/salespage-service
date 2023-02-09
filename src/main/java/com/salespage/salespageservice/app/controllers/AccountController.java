@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @CrossOrigin
 @RestController
@@ -24,7 +25,7 @@ public class AccountController {
   }
 
   @PostMapping("sign-in")
-  public ResponseEntity<JwtResponse> login(@RequestBody @Valid LoginDto dto) {
+  public ResponseEntity<JwtResponse> login(@RequestBody @Valid LoginDto dto) throws IOException {
     return accountService.signIn(dto);
   }
 }
