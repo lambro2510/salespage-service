@@ -37,7 +37,7 @@ public class AccountController extends BaseController {
   }
 
   @PostMapping("verify")
-  public ResponseEntity<String> verifyCode(Authentication authentication, @RequestParam String code) {
+  public ResponseEntity<String> verifyCode(Authentication authentication, @RequestParam Integer code) {
     return accountService.verifyCode(getUsername(authentication), code);
   }
 }
