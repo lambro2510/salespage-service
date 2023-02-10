@@ -26,13 +26,13 @@ public class GoogleApiConfig {
   @Lazy
   private GoogleCredential googleCredential;
 
-//  @Bean
-//  public Drive getService() throws GeneralSecurityException, IOException {
-//    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-//    return new Drive.Builder(HTTP_TRANSPORT,
-//            JacksonFactory.getDefaultInstance(), googleCredential)
-//            .build();
-//  }
+  @Bean
+  public Drive getService() throws GeneralSecurityException, IOException {
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    return new Drive.Builder(HTTP_TRANSPORT,
+            JacksonFactory.getDefaultInstance(), googleCredential)
+            .build();
+  }
 //
 //  @Bean
 //  public GoogleCredential googleCredential() throws GeneralSecurityException, IOException {
