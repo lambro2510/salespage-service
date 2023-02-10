@@ -8,6 +8,7 @@ WORKDIR /app
 COPY pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B
 COPY src ./src
+COPY oath2.json ./oath2.json
 RUN mvn -Dmaven.test.skip=true clean package
 
 #
