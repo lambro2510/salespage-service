@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Lazy;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +42,9 @@ public class GoogleApiConfig {
     elenco.add("https://www.googleapis.com/auth/drive");
     HttpTransport httpTransport = new NetHttpTransport();
     JacksonFactory jsonFactory = new JacksonFactory();
-    return GoogleCredential.fromStream(new FileInputStream("src/main/resources/oath2.json"))
+    InputStream inputStream = GoogleApiConfig.class.getClassLoader().getResourceAsStream("oath2.json");
+    assert inputStream != null;
+    return GoogleCredential.fromStream(inputStream)
             .createScoped(elenco);
   }
 
