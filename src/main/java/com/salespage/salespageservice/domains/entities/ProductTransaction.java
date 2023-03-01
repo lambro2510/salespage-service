@@ -54,8 +54,9 @@ public class ProductTransaction extends BaseEntity {
         note = dto.getNote();
     }
 
-    public void updateState(ProductTransactionState state) {
+    public void updateState(ProductTransactionState state, String note) {
         this.state = state;
+        this.note = note;
     }
 
     @EqualsAndHashCode(callSuper = true)
