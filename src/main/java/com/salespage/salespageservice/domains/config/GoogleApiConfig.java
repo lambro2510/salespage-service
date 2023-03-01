@@ -34,16 +34,16 @@ public class GoogleApiConfig {
             .build();
   }
 
-  @Bean
-  public GoogleCredential googleCredential() throws GeneralSecurityException, IOException {
-    Collection<String> elenco = new ArrayList<String>();
-    elenco.add("https://www.googleapis.com/auth/gmail.send");
-    elenco.add("https://www.googleapis.com/auth/drive");
-    HttpTransport httpTransport = new NetHttpTransport();
-    JacksonFactory jsonFactory = new JacksonFactory();
-    return GoogleCredential.fromStream(new FileInputStream("src/main/resources/oath2.json"))
-            .createScoped(elenco);
-  }
+  // @Bean
+  // public GoogleCredential googleCredential() throws GeneralSecurityException, IOException {
+  //   Collection<String> elenco = new ArrayList<String>();
+  //   elenco.add("https://www.googleapis.com/auth/gmail.send");
+  //   elenco.add("https://www.googleapis.com/auth/drive");
+  //   HttpTransport httpTransport = new NetHttpTransport();
+  //   JacksonFactory jsonFactory = new JacksonFactory();
+  //   return GoogleCredential.fromStream(new FileInputStream("src/main/resources/oath2.json"))
+  //           .createScoped(elenco);
+  // }
 
 
 }
