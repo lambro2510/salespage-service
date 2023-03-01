@@ -41,7 +41,7 @@ public class GoogleApiConfig {
     elenco.add("https://www.googleapis.com/auth/drive");
     HttpTransport httpTransport = new NetHttpTransport();
     JacksonFactory jsonFactory = new JacksonFactory();
-    return GoogleCredential.fromStream(new FileInputStream("oath2.json"))
+    return GoogleCredential.fromStream(new FileInputStream("src/main/resources/oath2.json"))
             .createScoped(elenco);
   }
 
