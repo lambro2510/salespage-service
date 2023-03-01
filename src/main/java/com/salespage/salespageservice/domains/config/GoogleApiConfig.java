@@ -22,18 +22,18 @@ import java.util.Collection;
 @Configuration
 public class GoogleApiConfig {
 
-  @Autowired
-  @Lazy
-  private GoogleCredential googleCredential;
-
-  @Bean
-  public Drive getService() throws GeneralSecurityException, IOException {
-    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    return new Drive.Builder(HTTP_TRANSPORT,
-            JacksonFactory.getDefaultInstance(), googleCredential)
-            .build();
-  }
-
+//  @Autowired
+//  @Lazy
+//  private GoogleCredential googleCredential;
+//
+//  @Bean
+//  public Drive getService() throws GeneralSecurityException, IOException {
+//    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+//    return new Drive.Builder(HTTP_TRANSPORT,
+//            JacksonFactory.getDefaultInstance(), googleCredential)
+//            .build();
+//  }
+//
 //  @Bean
 //  public GoogleCredential googleCredential() throws GeneralSecurityException, IOException {
 //    Collection<String> elenco = new ArrayList<String>();
