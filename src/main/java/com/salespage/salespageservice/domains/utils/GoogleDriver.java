@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Log4j2
+@Component
 public class GoogleDriver {
 
   @Autowired

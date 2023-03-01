@@ -229,7 +229,7 @@
         <version>${maven-compiler-plugin.version}</version>
         <configuration>
           <source>${java.version}</source>
-          <target>8</target>
+          <target>${java.version}</target>
           <encoding>${project.build.sourceEncoding}</encoding>
           <annotationProcessorPaths>
             <path>
