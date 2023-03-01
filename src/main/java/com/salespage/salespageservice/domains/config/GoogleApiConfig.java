@@ -23,7 +23,6 @@ import java.util.Collection;
 public class GoogleApiConfig {
 
   @Autowired
-  @Lazy
   private GoogleCredential googleCredential;
 
   @Bean
