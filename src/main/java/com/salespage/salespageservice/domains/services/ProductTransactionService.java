@@ -25,9 +25,12 @@ public class ProductTransactionService extends BaseService {
     @Autowired
     private Producer producer;
 
+    /*
+    * Người dùng tạo 1 đơn hàng
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ResponseEntity<ProductTransaction> createProductTransaction(String username, ProductTransactionDto dto) {
-        User user = userStorage.findByUsername(username);
+
         ProductTransaction productTransaction = new ProductTransaction();
         productTransaction.createNewTransaction(username, dto);
 
@@ -36,6 +39,9 @@ public class ProductTransactionService extends BaseService {
         return ResponseEntity.ok(productTransaction);
     }
 
+    /*
+    *Người dùng chỉnh sửa đơn hàng
+     */
     public ResponseEntity<ProductTransaction> updateProductTransaction(String username, ProductTransactionInfoDto dto) {
         ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(dto.getTransactionId());
 
@@ -64,12 +70,15 @@ public class ProductTransactionService extends BaseService {
         return ResponseEntity.ok(productTransaction);
     }
 
+    /*
+    *Chuyển các đơn hàng có product bị xóa về trạng thái hủy bỏ
+     */
     public void productTransactionCancel(String productId){
-        List<ProductTransaction> productTransactions = productStorage.findAllProductById(productId);
+        List<ProductTransaction> productTransactions = productTransactionStorage.findAllProductById(productId);
         if(productTransactions.size() == 0) return ;
 
-        productTransactions.forEach(transaction -> transaction.updateState(ProductTransactionState.CANCEL));
-        productStorage.saveAll(productTransactions);
+        productTransactions.forEach(transaction -> transaction.updateState(ProductTransactionState.CANCEL, "Sản phẩm đã ngừng bán hoặc không tồn tại"));
+        productTransactionStorage.saveAll(productTransactions);
 
     }
 

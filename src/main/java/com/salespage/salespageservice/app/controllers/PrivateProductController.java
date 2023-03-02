@@ -26,14 +26,19 @@ public class PrivateProductController extends BaseController {
         return productService.createProduct(getUsername(authentication), dto);
     }
 
-    @PostMapping("/upload-images")
+    @PostMapping("upload-images")
     public ResponseEntity<List<String>> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam List<MultipartFile> files) throws IOException {
         return productService.uploadProductImage(getUsername(authentication), productId, files);
     }
 
-    @DeleteMapping("/upload-images")
+    @DeleteMapping("delete-images")
     public ResponseEntity<List<String>> deleteImages(Authentication authentication, @RequestParam String productId, @RequestParam List<String> imageUrls) throws IOException {
         return productService.deleteProductImages(getUsername(authentication), productId, imageUrls);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<Boolean> deleteProduct(Authentication authentication, @RequestParam String productId) throws IOException {
+        return productService.deleteProduct(getUsername(authentication), productId);
     }
 
     @PutMapping("")
