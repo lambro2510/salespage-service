@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 
-@CrossOrigin(origins = "https://salepage-fontend-yygsn.appengine.bfcplatform.vn", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("v1/api/account")
 public class AccountController extends BaseController {
