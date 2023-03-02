@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("v1/api/account")
 public class AccountController extends BaseController {
