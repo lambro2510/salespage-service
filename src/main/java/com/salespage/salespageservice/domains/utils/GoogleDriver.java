@@ -64,8 +64,8 @@ public class GoogleDriver {
         // Update the existing file
         deleteFile(existingFile.getId());
       }
-      log.info("file upload " + filePath());
-      log.info("file upload name" + filePath.getName());
+      log.info("=======>file upload: " + filePath());
+      log.info("=======>file upload name: " + filePath.getName());
       // Create a new file
       InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
       File file = googleDrive.files().create(fileMetadata,
