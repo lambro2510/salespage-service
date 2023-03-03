@@ -9,8 +9,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,8 +65,9 @@ public class GoogleDriver {
         deleteFile(existingFile.getId());
       }
       // Create a new file
+      InputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
       File file = googleDrive.files().create(fileMetadata,
-                      new InputStreamContent("image/jpeg", new FileInputStream(filePath)))
+                      new InputStreamContent("image/jpeg", inputStream))
               .setFields("id").execute();
       fileId = file.getId();
       log.info("Upload image success with id: " + fileId);
