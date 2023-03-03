@@ -65,7 +65,7 @@ public class GoogleDriver {
         deleteFile(existingFile.getId());
       }
       // Create a new file
-      InputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
+      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
       File file = googleDrive.files().create(fileMetadata,
                       new InputStreamContent("image/jpeg", inputStream))
               .setFields("id").execute();
