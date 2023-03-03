@@ -47,37 +47,44 @@ public class GoogleDriver {
   public String uploadPublicImage(String folderId, String fileName, java.io.File filePath) {
     String fileId = null;
     try {
-      File fileMetadata = new File();
-      fileMetadata.setName(fileName);
-      fileMetadata.setParents(List.of(folderId));
+        File fileMetadata = new File();
+        fileMetadata.setName(fileName);
+        fileMetadata.setParents(List.of(folderId));
 
-      // Check if a file with the same name already exists
-      File existingFile = searchFileByName(fileName, folderId);
+        // Check if a file with the same name already exists
+        File existingFile = searchFileByName(fileName, folderId);
 
-      // Set file permissions to be publicly readable
-      Permission permission = new Permission();
-      permission.setRole("reader");
-      permission.setType("anyone");
-      googleDrive.permissions().create(fileId, permission).execute();
+        // Set file permissions to be publicly readable
+        Permission permission = new Permission();
+        permission.setRole("reader");
+        permission.setType("anyone");
 
-      if (existingFile != null) {
-        // Update the existing file
-        deleteFile(existingFile.getId());
-      }
-      log.info("=======>file upload: " + filePath());
-      log.info("=======>file upload name: " + filePath.getName());
-      // Create a new file
-      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
-      File file = googleDrive.files().create(fileMetadata,
+        // Set fileId to null before creating a new file
+        fileId = null;
+
+        if (existingFile != null) {
+            // Update the existing file
+            deleteFile(existingFile.getId());
+        }
+        log.info("=======>file upload: " + filePath());
+        log.info("=======>file upload name: " + filePath.getName());
+        // Create a new file
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
+        File file = googleDrive.files().create(fileMetadata,
                       new InputStreamContent("image/jpeg", inputStream))
               .setFields("id").execute();
-      fileId = file.getId();
-      log.info("Upload image success with id: " + fileId);
+        fileId = file.getId();
+
+        // Set file permissions using the fileId retrieved from the created file object
+        googleDrive.permissions().create(fileId, permission).execute();
+
+        log.info("Upload image success with id: " + fileId);
     } catch (Exception e) {
-      log.error("==========> Can't upload image: " + e);
+        log.error("==========> Can't upload image: " + e);
     }
     return getImageURL(fileId);
-  }
+}
+
 
 
   public List<File> getAllFolders() throws IOException {
