@@ -46,6 +46,10 @@ public class GoogleDriver {
 
   public String uploadPublicImage(String folderId, String fileName, java.io.File filePath) {
     String fileId = null;
+    log.error("=======>file upload: " + filePath());
+        log.error("=======>file upload name: " + filePath.getName());
+        log.error("=======>file name: " + fileName);
+        log.error("=======>foder id : " + folderId);
     try {
         File fileMetadata = new File();
         fileMetadata.setName(fileName);
@@ -66,8 +70,7 @@ public class GoogleDriver {
             // Update the existing file
             deleteFile(existingFile.getId());
         }
-        log.error("=======>file upload: " + filePath());
-        log.error("=======>file upload name: " + filePath.getName());
+        
         // Create a new file
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
         File file = googleDrive.files().create(fileMetadata,
