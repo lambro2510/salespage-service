@@ -34,7 +34,7 @@ public class UserController extends BaseController {
         return userService.updateUser(getUsername(authentication), dto);
     }
 
-    @PostMapping("/uploadImage")
+    @PostMapping("uploadImage")
     public ResponseEntity<String> uploadImage(Authentication authentication, @RequestParam("image") MultipartFile image) throws IOException {
         return userService.uploadImage(getUsername(authentication), image);
     }
