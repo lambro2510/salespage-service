@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@Log4j2
 public class ProductService extends BaseService {
 
   @Autowired
@@ -74,6 +76,7 @@ public class ProductService extends BaseService {
     if (!product.getSellerUsername().equals(username))
       throw new AuthorizationException("Can't upload image for this product");
     List<String> imageUrls = new ArrayList<>();
+    log.error("===============> " + imageUrls + "================> " + files)
     for (MultipartFile multipartFile : files) {
       String imageUrl = googleDriver.uploadPublicImage(googleDriver.getFolderIdByName(productId), multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
       product.getImageUrls().add(imageUrl);
