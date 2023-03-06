@@ -78,7 +78,7 @@ public class ProductService extends BaseService {
     List<String> imageUrls = new ArrayList<>();
     if(files.size() = 0){
       log.error("===============> " + imageUrls + "================> " + files)
-      return false;
+      return null;
     }
     
     for (MultipartFile multipartFile : files) {
