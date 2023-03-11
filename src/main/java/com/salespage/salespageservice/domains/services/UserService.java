@@ -67,4 +67,9 @@ public class UserService extends BaseService {
         return ResponseEntity.ok("Upload success");
     }
 
+    //todo Cần lấy ngẫu nhiên shiper ở gần
+    public String getRandomShiper(){
+        return null;
+    }
+
 }

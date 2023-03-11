@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTran
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
+import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.producer.Producer;
@@ -44,7 +45,7 @@ public class ProductTransactionService extends BaseService {
      */
     public ResponseEntity<ProductTransaction> updateProductTransaction(String username, ProductTransactionInfoDto dto) {
         ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(dto.getTransactionId());
-
+        if(username.equals(productTransaction.getPurchaserUsername())) throw new BadRequestException("Bạn không có quyền chỉnh sửa đơn hàng");
         if (Objects.isNull(productTransaction)) throw new ResourceNotFoundException("Không tìm thấy đơn hàng");
 
         if (!productTransaction.getState().equals(ProductTransactionState.WAITING) && !productTransaction.getState().equals(ProductTransactionState.CANCEL))
@@ -57,6 +58,10 @@ public class ProductTransactionService extends BaseService {
         return ResponseEntity.ok(productTransaction);
     }
 
+    public ResponseEntity<ProductTransaction> shipperAcceptProductTransaction(String productId){
+        //TODO cần lấy shiper sau đó gắn đơn và cập nhật trạng thái cho shiper 
+        return null;
+    }
 
     public ResponseEntity<ProductTransaction> cancelProductTransaction(String username, String transactionId) {
         ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);

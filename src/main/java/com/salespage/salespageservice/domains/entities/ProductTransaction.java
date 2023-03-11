@@ -35,6 +35,9 @@ public class ProductTransaction extends BaseEntity {
     @Field("quantity")
     private Long quantity;
 
+    @Field("address")
+    private String address;
+
     @Field("note")
     private String note;
 
@@ -44,6 +47,7 @@ public class ProductTransaction extends BaseEntity {
     public void createNewTransaction(String username, ProductTransactionDto dto) {
         this.purchaserUsername = username;
         product = dto.getProduct();
+        address = dto.getAddress();
         quantity = dto.getQuantity();
         note = dto.getNote();
         state = ProductTransactionState.WAITING;
