@@ -9,7 +9,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,8 +24,8 @@ public class GoogleDriver {
 
   public List<File> getAllGoogleDriveFiles() throws IOException {
     FileList result = googleDrive.files().list()
-            .setFields("nextPageToken, files(id, name, parents, mimeType)")
-            .execute();
+        .setFields("nextPageToken, files(id, name, parents, mimeType)")
+        .execute();
     return result.getFiles();
   }
 
@@ -46,54 +45,53 @@ public class GoogleDriver {
 
   public String uploadPublicImage(String folderId, String fileName, java.io.File filePath) {
     String fileId = null;
-    log.error("=======>file upload: " + filePath());
-        log.error("=======>file upload name: " + filePath.getName());
-        log.error("=======>file name: " + fileName);
-        log.error("=======>foder id : " + folderId);
+    log.debug("=======>file upload: " + filePath);
+    log.debug("=======>file upload name: " + filePath.getName());
+    log.debug("=======>file name: " + fileName);
+    log.debug("=======>foder id : " + folderId);
     try {
-        File fileMetadata = new File();
-        fileMetadata.setName(fileName);
-        fileMetadata.setParents(List.of(folderId));
+      File fileMetadata = new File();
+      fileMetadata.setName(fileName);
+      fileMetadata.setParents(List.of(folderId));
 
-        // Check if a file with the same name already exists
-        File existingFile = searchFileByName(fileName, folderId);
+      // Check if a file with the same name already exists
+      File existingFile = searchFileByName(fileName, folderId);
 
-        // Set file permissions to be publicly readable
-        Permission permission = new Permission();
-        permission.setRole("reader");
-        permission.setType("anyone");
+      // Set file permissions to be publicly readable
+      Permission permission = new Permission();
+      permission.setRole("reader");
+      permission.setType("anyone");
 
-        // Set fileId to null before creating a new file
-        fileId = null;
+      // Set fileId to null before creating a new file
+      fileId = null;
 
-        if (existingFile != null) {
-            // Update the existing file
-            deleteFile(existingFile.getId());
-        }
-        
-        // Create a new file
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
-        File file = googleDrive.files().create(fileMetadata,
-                      new InputStreamContent("image/jpeg", inputStream))
-              .setFields("id").execute();
-        fileId = file.getId();
+      if (existingFile != null) {
+        // Update the existing file
+        deleteFile(existingFile.getId());
+      }
 
-        // Set file permissions using the fileId retrieved from the created file object
-        googleDrive.permissions().create(fileId, permission).execute();
+      // Create a new file
+      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
+      File file = googleDrive.files().create(fileMetadata,
+              new InputStreamContent("image/jpeg", inputStream))
+          .setFields("id").execute();
+      fileId = file.getId();
 
-        log.info("Upload image success with id: " + fileId);
+      // Set file permissions using the fileId retrieved from the created file object
+      googleDrive.permissions().create(fileId, permission).execute();
+
+      log.info("Upload image success with id: " + fileId);
     } catch (Exception e) {
-        log.error("==========> Can't upload image: " + e);
+      log.error("==========> Can't upload image: " + e);
     }
     return getImageURL(fileId);
-}
-
+  }
 
 
   public List<File> getAllFolders() throws IOException {
     List<File> allFiles = getAllGoogleDriveFiles();
     List<File> folders = allFiles.stream().filter(file -> "application/vnd.google-apps.folder".equals(file.getMimeType()))
-            .collect(Collectors.toList());
+        .collect(Collectors.toList());
     return folders;
   }
 

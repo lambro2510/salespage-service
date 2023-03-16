@@ -76,8 +76,8 @@ public class ProductService extends BaseService {
     if (!product.getSellerUsername().equals(username))
       throw new AuthorizationException("Can't upload image for this product");
     List<String> imageUrls = new ArrayList<>();
-    if(files.size() = 0){
-      log.error("===============> " + imageUrls + "================> " + files)
+    if(files.size() == 0){
+      log.error("===============> " + imageUrls + "================> " + files);
       return null;
     }
     
