@@ -4,6 +4,7 @@ import com.fasterxml.classmate.TypeResolver;
 import com.salespage.salespageservice.domains.Constants;
 import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -28,6 +29,7 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 @EnableWebMvc
+@ComponentScan
 public class SwaggerConfig implements WebMvcConfigurer {
 
     TypeResolver typeResolver = new TypeResolver();
