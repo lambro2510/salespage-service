@@ -80,10 +80,9 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
 
-        // Thêm đoạn mã dưới đây để có thể truy cập vào các file của Swagger UI.
         registry.addResourceHandler("/swagger/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
-                .resourceChain(false)
+                .resourceChain(true)
                 .addResolver(new PathResourceResolver() {
                     @Override
                     protected Resource getResource(String resourcePath,
@@ -94,5 +93,6 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                     }
                 });
     }
+
 
 }
