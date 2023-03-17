@@ -60,7 +60,7 @@ public class ProductService extends BaseService {
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public ResponseEntity<Boolean> deleteProduct(String username, String productId) {
+  public ResponseEntity<Boolean> deleteProduct(String username, String productId) throws IOException {
 
     Product product = productStorage.findProductById(productId);
 
@@ -68,6 +68,7 @@ public class ProductService extends BaseService {
 
     productTransactionService.productTransactionCancel(productId);
     productStorage.delete(productId);
+    googleDriver.deleteFolderByName(productId);
     return ResponseEntity.ok(true);
   }
 
