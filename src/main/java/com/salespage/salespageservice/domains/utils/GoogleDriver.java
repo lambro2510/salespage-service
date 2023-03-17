@@ -58,21 +58,18 @@ public class GoogleDriver {
       permission.setRole("reader");
       permission.setType("anyone");
 
-      // Set fileId to null before creating a new file
-      fileId = null;
-
       if (existingFile != null) {
         // Update the existing file
         deleteFile(existingFile.getId());
       }
-
+      log.info("file id: " + fileId);
       // Create a new file
       InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
       File file = googleDrive.files().create(fileMetadata,
               new InputStreamContent("image/jpeg", inputStream))
           .setFields("id").execute();
       fileId = file.getId();
-      log.info("file id: " + fileId);
+      log.info("file id: " + file.getId());
       log.info("permission : " + permission.toJson);
       // Set file permissions using the fileId retrieved from the created file object
       googleDrive.permissions().create(fileId, permission).execute();
