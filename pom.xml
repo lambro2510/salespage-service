@@ -166,26 +166,16 @@
     </dependency>
 
     <!-- Swagger2 -->
-      <dependency>
-          <groupId>io.springfox</groupId>
-          <artifactId>springfox-swagger2</artifactId>
-          <version>3.0.0</version>
-      </dependency>
-      <dependency>
-          <groupId>io.springfox</groupId>
-          <artifactId>springfox-swagger-ui</artifactId>
-          <version>2.9.2</version>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-parent</artifactId>
-          <version>3.0.4</version>
-      </dependency>
-      <dependency>
-          <groupId>io.springfox</groupId>
-          <artifactId>springfox-boot-starter</artifactId>
-          <version>3.0.0</version>
-      </dependency>
+    <dependency>
+   <groupId>io.springfox</groupId>
+   <artifactId>springfox-swagger2</artifactId>
+   <version>3.0.0</version>
+</dependency>
+<dependency>
+   <groupId>io.springfox</groupId>
+   <artifactId>springfox-boot-starter</artifactId>
+   <version>3.0.0</version>
+</dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -292,21 +282,6 @@
           </execution>
         </executions>
       </plugin>
-
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>3.2.0</version>
-            <configuration>
-                <archive>
-                    <addMavenDescriptor>false</addMavenDescriptor>
-                    <manifestEntries>
-                        <Class-Path>.</Class-Path>
-                    </manifestEntries>
-                </archive>
-            </configuration>
-        </plugin>
-
     </plugins>
   </build>
 </project>
