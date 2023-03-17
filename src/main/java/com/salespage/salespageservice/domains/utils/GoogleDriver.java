@@ -72,10 +72,11 @@ public class GoogleDriver {
               new InputStreamContent("image/jpeg", inputStream))
           .setFields("id").execute();
       fileId = file.getId();
+      log.info("file id: " + fileId);
+      log.info("permission : " + permission.toJson);
       // Set file permissions using the fileId retrieved from the created file object
       googleDrive.permissions().create(fileId, permission).execute();
 
-      log.info("file-id: " + fileId);
       log.info("Upload image success with id: " + fileId);
     } catch (Exception e) {
       log.error("==========> Can't upload image: " + e);
