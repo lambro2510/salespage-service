@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Configuration
 public class TopicConfig {
-  public static final String SALE_PAGE_PRODUCT_TRANSACTION = "bizfly-7-413-ProductTransaction";
+  public static final String SALE_PAGE_PRODUCT_TRANSACTION = "bizfly-7-453-ProductTransaction";
 
 
 //  @Value("${spring.kafka.topic.replication-factor}")
