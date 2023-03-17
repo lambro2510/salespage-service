@@ -32,7 +32,7 @@ public class PrivateProductController extends BaseController {
     }
 
     @DeleteMapping("delete-images")
-    public ResponseEntity<List<String>> deleteImages(Authentication authentication, @RequestParam String productId, @RequestParam List<String> imageUrls) throws IOException {
+    public ResponseEntity<List<String>> deleteImages(Authentication authentication, @RequestParam String productId, @RequestBody List<String> imageUrls) throws IOException {
         return productService.deleteProductImages(getUsername(authentication), productId, imageUrls);
     }
 
