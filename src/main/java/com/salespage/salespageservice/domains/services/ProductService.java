@@ -85,6 +85,7 @@ public class ProductService extends BaseService {
     for (MultipartFile multipartFile : files) {
       String imageUrl = googleDriver.uploadPublicImage(googleDriver.getFolderIdByName(productId), multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
       product.getImageUrls().add(imageUrl);
+      imageUrls.add(imageUrl);
       productStorage.save(product);
     }
     return ResponseEntity.ok(imageUrls);
