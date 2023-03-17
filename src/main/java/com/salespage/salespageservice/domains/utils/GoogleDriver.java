@@ -147,8 +147,8 @@ public class GoogleDriver {
     if (folder != null) {
       return folder.getId();
     } else {
-      log.error("==========> Can't find folder with name " + folderName);
-      return null;
+      log.debug("==========> Can't find folder with name: " + folderName + " -> create folder");
+      return createNewFolder(folderName);
     }
   }
 
