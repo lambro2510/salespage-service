@@ -45,10 +45,6 @@ public class GoogleDriver {
 
   public String uploadPublicImage(String folderId, String fileName, java.io.File filePath) {
     String fileId = null;
-    log.debug("=======>file upload: " + filePath);
-    log.debug("=======>file upload name: " + filePath.getName());
-    log.debug("=======>file name: " + fileName);
-    log.debug("=======>foder id : " + folderId);
     try {
       File fileMetadata = new File();
       fileMetadata.setName(fileName);
