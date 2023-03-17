@@ -78,6 +78,7 @@ public class GoogleDriver {
     } catch (Exception e) {
       log.error("==========> Can't upload image: " + e);
     }
+    log.info(getImageURL(fileId));
     return getImageURL(fileId);
   }
 
