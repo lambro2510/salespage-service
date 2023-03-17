@@ -29,7 +29,7 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      group-id: "bizfly-7-413-ProductTransaction"
+      group-id: "bizfly-7-453-ProductTransaction"
   data:
     mongodb:
       uri: ${MONGODB_URI}
