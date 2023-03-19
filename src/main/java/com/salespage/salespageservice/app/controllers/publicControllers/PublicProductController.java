@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin()
+@CrossOrigin
 @RestController
-@RequestMapping("/v1/api/public/product")
+@RequestMapping("v1/api/public/product")
 public class PublicProductController {
   @Autowired
   private ProductService productService;
