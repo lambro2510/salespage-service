@@ -25,6 +25,9 @@ public class VoucherStore extends BaseEntity{
   private ObjectId productId; //Sản phẩm áp dụng cho voucher, nếu type là product thì cho phép nhưới dùng mua sản
                               //phẩm miễn phí, nếu type = sale thì giảm giá sản phẩm đó
 
+  @Field("value")
+  private Long value;
+
   @Field("voucher_store_detail")
   private VoucherStoreDetail voucherStoreDetail;
 
@@ -33,6 +36,7 @@ public class VoucherStore extends BaseEntity{
 
   @Field("created_by")
   private String createdBy;
+
   @Data
   public static class VoucherStoreDetail{
 
@@ -56,12 +60,19 @@ public class VoucherStore extends BaseEntity{
     setVoucherStoreName(voucherStoreDto.getVoucherStoreName());
     setVoucherStoreType(voucherStoreDto.getVoucherStoreType());
     setProductId(new ObjectId(voucherStoreDto.getProductId()));
+
+    if(voucherStoreType == VoucherStoreType.DESC_PERCENT_PRODUCT_PRICE){
+      setValue(voucherStoreDto.getValuePercent());
+    }
+    else if(voucherStoreType == VoucherStoreType.MONEY || voucherStoreType == VoucherStoreType.DESC_PRODUCT_PRICE){
+      setUpdatedAt(voucherStoreDto.getValue());
+    }
+
     VoucherStore.VoucherStoreDetail voucherStoreDetail = new VoucherStore.VoucherStoreDetail();
 
     voucherStoreDetail.setMaxVoucherPerUser(voucherStoreDto.getMaxVoucherPerUser());
     voucherStoreDetail.setMaxAblePrice(voucherStoreDto.getMaxAblePrice());
     voucherStoreDetail.setMinAblePrice(voucherStoreDto.getMinAblePrice());
-
     setVoucherStoreDetail(voucherStoreDetail);
   }
 }

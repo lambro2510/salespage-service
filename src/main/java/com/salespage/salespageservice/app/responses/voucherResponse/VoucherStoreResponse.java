@@ -20,5 +20,5 @@ public class VoucherStoreResponse {
 
   private String productName;
 
-  private Long price;
+  private Long value;
 }
