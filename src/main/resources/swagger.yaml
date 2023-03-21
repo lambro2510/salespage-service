@@ -1,23 +1,16 @@
-swagger: "2.0"
-info:
-  version: "1.0.0"
-  title: "API"
-paths:
-  /example:
-    get:
-      description: "Example endpoint"
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: '#/parameters/JWTToken'
-      responses:
-        200:
-          description: "Success"
-      tags:
-        - Example
-securityDefinitions:
-  bearerAuth:
-    type: apiKey
-    name: Authorization
-    in: header
-    description: "Access token with the JWT format."
+openapi: 3.0.0
+...
+# 1) Define the security scheme type (HTTP bearer)
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+# 2) Apply the security globally to all operations
+security:
+  - bearerAuth: []         # use the same name as above
+components:
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
