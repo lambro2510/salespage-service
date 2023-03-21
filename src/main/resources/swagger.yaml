@@ -1,0 +1,5 @@
+securitySchemes:
+  bearerAuth:
+    type: jwt
+    in: header
+    name: Authorization
