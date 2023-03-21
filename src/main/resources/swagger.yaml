@@ -1,15 +1,23 @@
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-  parameters:
-    JWTToken:
-      name: Authorization
-      in: header
-      description: Access token with the JWT format.
-      required: true
-      schema:
-        type: string
-        format: JWT
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "API"
+paths:
+  /example:
+    get:
+      description: "Example endpoint"
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/parameters/JWTToken'
+      responses:
+        200:
+          description: "Success"
+      tags:
+        - Example
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: "Access token with the JWT format."
