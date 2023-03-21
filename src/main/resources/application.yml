@@ -37,6 +37,9 @@ spring:
     proxy-target-class: true
   main:
     allow-bean-definition-overriding: true
+  springdoc:
+    swagger-ui:
+      path:/swagger-ui.html
 
 server:
   port: ${PORT}
