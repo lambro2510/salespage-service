@@ -1,5 +1,15 @@
-securitySchemes:
-  bearerAuth:
-    type: jwt
-    in: header
-    name: Authorization
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    JWTToken:
+      name: Authorization
+      in: header
+      description: Access token with the JWT format.
+      required: true
+      schema:
+        type: string
+        format: JWT
