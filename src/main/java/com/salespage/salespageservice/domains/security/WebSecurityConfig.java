@@ -66,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                .antMatchers(
                        "/v1/api/public/**",
                        "/v1/api/account/**",
-                       "/v3/api-docs/**",
+                       "/v3/**",
                        "/configuration/ui",
                        "/context-path/**",
                        "/swagger-resources/**",

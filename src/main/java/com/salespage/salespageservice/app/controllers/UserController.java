@@ -3,6 +3,8 @@ package com.salespage.salespageservice.app.controllers;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.services.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,6 +16,8 @@ import java.io.IOException;
 @CrossOrigin
 @RestController
 @RequestMapping("v1/api/user")
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "User", description = "The User API. Contains all the operations that can be performed on a user.")
 public class UserController extends BaseController {
 
     @Autowired
