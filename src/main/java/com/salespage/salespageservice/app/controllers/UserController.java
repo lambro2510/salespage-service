@@ -17,7 +17,6 @@ import java.io.IOException;
 @RestController
 @RequestMapping("v1/api/user")
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name = "User", description = "The User API. Contains all the operations that can be performed on a user.")
 public class UserController extends BaseController {
 
     @Autowired

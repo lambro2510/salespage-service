@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("v1/api/product-transaction")
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name = "User", description = "The User API. Contains all the operations that can be performed on a user.")
 public class ProductTransactionController extends BaseController {
 
     @Autowired
