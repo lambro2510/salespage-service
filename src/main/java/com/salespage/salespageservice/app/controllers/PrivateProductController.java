@@ -1,3 +1,21 @@
+package com.salespage.salespageservice.app.controllers;
+
+import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
+import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.services.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("v1/api/product")
@@ -17,7 +35,7 @@ public class PrivateProductController extends BaseController {
     @PostMapping("upload-images")
     @Operation(summary = "Upload images for a product", description = "Upload one or more images for a product with the given ID")
     @ApiResponse(responseCode = "200", description = "Images uploaded successfully")
-    public ResponseEntity<List<String>> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam List<MultipartFile> files) throws IOException {
+    public ResponseEntity<List<String>> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam List<MultipartFile> files) throws IOException, IOException {
         return productService.uploadProductImage(getUsername(authentication), productId, files);
     }
 
