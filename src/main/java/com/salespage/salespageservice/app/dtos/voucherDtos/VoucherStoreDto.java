@@ -22,7 +22,7 @@ public class VoucherStoreDto {
   private String productId;
 
   @Positive(message = "Giá trị không được âm")
-  @Schema(description = "Giá trị của voucher", example = "50000")
+  @Schema(description = "Giá trị của voucher", example = "5000000")
   private Long value;
 
   @Min(value = 0, message = "Giá trị phần trăm không được nhỏ hơn 0")

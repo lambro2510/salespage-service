@@ -61,10 +61,10 @@ public class VoucherStore extends BaseEntity{
     setVoucherStoreType(voucherStoreDto.getVoucherStoreType());
     setProductId(new ObjectId(voucherStoreDto.getProductId()));
 
-    if(voucherStoreType == VoucherStoreType.DESC_PERCENT_PRODUCT_PRICE){
+    if(voucherStoreType == VoucherStoreType.DISCOUNT_PERCENT){
       setValue(voucherStoreDto.getValuePercent());
     }
-    else if(voucherStoreType == VoucherStoreType.MONEY || voucherStoreType == VoucherStoreType.DESC_PRODUCT_PRICE){
+    else if(voucherStoreType == VoucherStoreType.MONEY || voucherStoreType == VoucherStoreType.DISCOUNT){
       setUpdatedAt(voucherStoreDto.getValue());
     }
 
