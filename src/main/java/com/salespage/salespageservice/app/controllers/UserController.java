@@ -40,17 +40,7 @@ public class UserController extends BaseController {
         return userService.getUserDetail(getUsername(authentication));
     }
 
-    @GetMapping("detail")
-    @Operation(summary = "Lấy thông tin chi tiết người dùng", description = "Lấy thông tin chi tiết cho một người dùng cụ thể theo tên đăng nhập")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Thành công"),
-            @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
-            @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
-            @ApiResponse(responseCode = "404", description = "Không tìm thấy người dùng")
-    })
-    public ResponseEntity<User> getUserDetail(@Parameter(description = "Tên đăng nhập của người dùng cần lấy thông tin") @RequestParam String username) {
-        return userService.getUserDetail(username);
-    }
+
 
     @PutMapping("")
     @Operation(summary = "Cập nhật thông tin người dùng", description = "Cập nhật thông tin hồ sơ cho người dùng đã xác thực")
