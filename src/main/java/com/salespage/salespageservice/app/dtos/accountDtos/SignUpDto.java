@@ -44,9 +44,9 @@ public class SignUpDto {
     private String phoneNumber;
 
     @NotNull(message = "Date of birth is required")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Past(message = "Date of birth must be a past date")
-    @Schema(description = "Ngày sinh của người dùng", format = "date", example = "01/01/1990")
+    @Schema(description = "Ngày sinh của người dùng", format = "date", example = "01-01-1990")
     private Date dateOfBirth;
 
 }
