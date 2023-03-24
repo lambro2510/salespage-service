@@ -2,8 +2,6 @@ spring:
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
-      time-zone: server
-      date-format: dd-MM-yyyy HH:mm:ss
   application:
     name: salespage-service
   autoconfigure:

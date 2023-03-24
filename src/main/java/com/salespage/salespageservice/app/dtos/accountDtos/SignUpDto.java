@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.dtos.accountDtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,9 +45,10 @@ public class SignUpDto {
     private String phoneNumber;
 
     @NotNull(message = "Date of birth is required")
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Past(message = "Date of birth must be a past date")
     @Schema(description = "Ngày sinh của người dùng", format = "date", example = "01-01-1990")
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date dateOfBirth;
 
 }
