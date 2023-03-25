@@ -30,4 +30,10 @@ public class ProductInfoDto {
   @Size(max = 255, message = "Địa chỉ bán sản phẩm tối đa 255 ký tự")
   @Schema(description = "Địa chỉ bán sản phẩm", example = "123 đường ABC, quận XYZ, thành phố Hồ Chí Minh")
   private String sellingAddress;
+
+  @NotBlank(message = "Id cửa hàng không được để trống")
+  @Size(max = 30, message = "Id cửa hàng tối đa 30 ký tự")
+  @Schema(description = "Id cửa hàng", example = "store123")
+  private String storeId;
+
 }

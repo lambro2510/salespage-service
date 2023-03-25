@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
+import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.CurrencyType;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -67,25 +68,6 @@ public class User {
         displayName = dto.getDisplayName();
         imageUrl = dto.getImageUrl();
         phoneNumber = dto.getPhoneNumber();
-    }
-
-    public void processRatePoint(Long point) {
-        rate.totalRate += 1;
-        rate.totalPoint += point;
-        rate.avgPoint = getRate().totalPoint / rate.totalRate;
-    }
-
-    @Data
-    public static class Rate {
-
-        @Field("total_point")
-        private float totalPoint = 0;
-
-        @Field("total_rate")
-        private float totalRate = 0;
-
-        @Field("avg_point")
-        private float avgPoint = 0;
     }
 
     @Data

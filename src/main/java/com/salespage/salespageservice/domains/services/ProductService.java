@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
@@ -34,6 +35,10 @@ public class ProductService extends BaseService {
   private GoogleDriver googleDriver;
 
   public ResponseEntity<Product> createProduct(String username, ProductInfoDto dto) {
+    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
+    if(sellerStore.getOwnerStoreName() != username){
+      throw new AuthorizationException("Không được phép");
+    }
     Product product = new Product();
     product.updateProduct(dto);
     product.setSellerUsername(username);

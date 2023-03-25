@@ -26,5 +26,8 @@ public class BaseStorage {
     protected VoucherCodeRepository voucherCodeRepository;
 
     @Autowired
+    protected  SellerStoreRepository sellerStoreRepository;
+
+    @Autowired
     protected RemoteCacheManager remoteCacheManager;
 }

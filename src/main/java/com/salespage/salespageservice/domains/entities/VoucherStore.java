@@ -22,7 +22,7 @@ public class VoucherStore extends BaseEntity{
   private VoucherStoreType voucherStoreType;
 
   @Field("product_id")
-  private ObjectId productId; //Sản phẩm áp dụng cho voucher, nếu type là product thì cho phép nhưới dùng mua sản
+  private String productId; //Sản phẩm áp dụng cho voucher, nếu type là product thì cho phép nhưới dùng mua sản
                               //phẩm miễn phí, nếu type = sale thì giảm giá sản phẩm đó
 
   @Field("value")
@@ -59,7 +59,7 @@ public class VoucherStore extends BaseEntity{
   public void updatedVoucherStore(VoucherStoreDto voucherStoreDto){
     setVoucherStoreName(voucherStoreDto.getVoucherStoreName());
     setVoucherStoreType(voucherStoreDto.getVoucherStoreType());
-    setProductId(new ObjectId(voucherStoreDto.getProductId()));
+    setProductId(voucherStoreDto.getProductId());
 
     if(voucherStoreType == VoucherStoreType.DISCOUNT_PERCENT){
       setValue(voucherStoreDto.getValuePercent());

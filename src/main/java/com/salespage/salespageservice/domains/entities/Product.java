@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.entities;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
+import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.ProductType;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -33,11 +34,17 @@ public class Product {
     @Field("price")
     private Double price;
 
+    @Field("rate")
+    private Rate rate;
+
     @Field("selling_address")
     private String sellingAddress;
 
     @Field("seller_id")
     private String sellerUsername;
+
+    @Field("seller_store_id")
+    private String sellerStoreId;
 
     public void updateProduct(ProductInfoDto dto) {
         productName = dto.getProductName();
@@ -45,5 +52,6 @@ public class Product {
         type = dto.getType();
         price = dto.getPrice();
         sellingAddress = dto.getSellingAddress();
+        sellerStoreId = dto.getStoreId();
     }
 }

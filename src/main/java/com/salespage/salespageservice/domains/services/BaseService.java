@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.services;
 
+import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.storages.*;
 import com.salespage.salespageservice.domains.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class BaseService {
 
     @Autowired
     protected VoucherCodeStorage voucherCodeStorage;
+
+    @Autowired
+    protected SellerStoreStorage sellerStoreStorage;
 
     @Autowired
     protected JwtUtils jwtUtils;
