@@ -106,22 +106,25 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(true);
   }
 
-  public ResponseEntity<String> uploadProductImage(String username, String productId, MultipartFile file) throws IOException {
-    String imageUrl = null;
+  public ResponseEntity<List<String>> uploadProductImage(String username, String productId, List<MultipartFile> multipartFiles) throws IOException {
+    List<String> imageUrls = new ArrayList<>();
     try {
       Product product = productStorage.findProductById(productId);
       if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
       if (!product.getSellerUsername().equals(username))
         throw new AuthorizationException("Không được phép");
 
-      imageUrl = googleDriver.uploadPublicImageNotDelete(googleDriver.getFolderIdByName("Product-" + productId), file.getName(), Helper.convertMultiPartToFile(file));
-      product.getImageUrls().add(imageUrl);
-      productStorage.save(product);
+      for(MultipartFile multipartFile : multipartFiles){
+        String imageUrl = googleDriver.uploadPublicImage(googleDriver.getFolderIdByName("Product-" + productId), multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
+        product.getImageUrls().add(imageUrl);
+        imageUrls.add(imageUrl);
+        productStorage.save(product);
+      }
 
     } catch (Exception ex) {
       log.error(ex.getMessage());
     }
-    return ResponseEntity.ok(imageUrl);
+    return ResponseEntity.ok(imageUrls);
   }
 
   public ResponseEntity<List<String>> deleteProductImages(String username, String productId, List<String> images) {

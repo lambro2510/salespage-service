@@ -50,8 +50,8 @@ public class PrivateProductController extends BaseController {
             @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
     })
-    public ResponseEntity<String> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam MultipartFile file) throws IOException {
-        return productService.uploadProductImage(getUsername(authentication), productId, file);
+    public ResponseEntity<List<String>> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam List<MultipartFile> files) throws IOException {
+        return productService.uploadProductImage(getUsername(authentication), productId, files);
     }
 
 
