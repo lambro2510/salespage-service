@@ -46,6 +46,8 @@ public class GoogleApiConfig {
     assert inputStream != null;
     return GoogleCredential.fromStream(inputStream)
             .createScoped(elenco);
+//    return GoogleCredential.fromStream(new FileInputStream("oath2.json"))
+//        .createScoped(elenco);
   }
 
 

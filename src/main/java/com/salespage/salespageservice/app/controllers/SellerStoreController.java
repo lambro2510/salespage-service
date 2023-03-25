@@ -3,7 +3,6 @@ package com.salespage.salespageservice.app.controllers;
 import com.salespage.salespageservice.app.dtos.SellerStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
-import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.services.SellerStoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,7 +38,7 @@ public class SellerStoreController extends BaseController{
     return sellerStoreService.getAllStore(getUsername(authentication), pageable);
   }
 
-  @GetMapping("")
+  @PostMapping("")
   @Operation(summary = "Lấy thông tin các cửa hàng", description = "Lấy thông tin các cửa hàng của người bán")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),

@@ -77,23 +77,21 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(true);
   }
 
-  public ResponseEntity<List<String>> uploadProductImage(String username, String productId, List<MultipartFile> files) throws IOException {
-    Product product = productStorage.findProductById(productId);
-    if (!product.getSellerUsername().equals(username))
-      throw new AuthorizationException("Can't upload image for this product");
-    List<String> imageUrls = new ArrayList<>();
-    if(files.size() == 0){
-      log.error("===============> " + imageUrls + "================> " + files);
-      return null;
-    }
-    
-    for (MultipartFile multipartFile : files) {
-      String imageUrl = googleDriver.uploadPublicImage(googleDriver.getFolderIdByName("Product-" + productId), multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
-      product.getImageUrls().add(imageUrl);
-      imageUrls.add(imageUrl);
+  public ResponseEntity<String> uploadProductImage(String username, String productId, MultipartFile file) throws IOException {
+    String imageUrl = null;
+    try {
+      Product product = productStorage.findProductById(productId);
+      if (!product.getSellerUsername().equals(username))
+        throw new AuthorizationException("Can't upload image for this product");
+
+
+      imageUrl = googleDriver.uploadPublicImage(googleDriver.getFolderIdByName("Product-" + productId), file.getName(), Helper.convertMultiPartToFile(file));
       productStorage.save(product);
+
+    } catch (Exception ex) {
+      log.error(ex.getMessage());
     }
-    return ResponseEntity.ok(imageUrls);
+    return ResponseEntity.ok(imageUrl);
   }
 
   public ResponseEntity<List<String>> deleteProductImages(String username, String productId, List<String> images) {

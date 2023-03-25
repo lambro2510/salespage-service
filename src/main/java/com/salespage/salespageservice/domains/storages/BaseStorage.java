@@ -28,6 +28,8 @@ public class BaseStorage {
     @Autowired
     protected  SellerStoreRepository sellerStoreRepository;
 
+    @Autowired SystemLogRepository systemLogRepository;
+
     @Autowired
     protected RemoteCacheManager remoteCacheManager;
 }
