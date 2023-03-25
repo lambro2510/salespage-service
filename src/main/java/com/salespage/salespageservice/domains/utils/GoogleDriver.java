@@ -82,6 +82,35 @@ public class GoogleDriver {
     return getImageURL(fileId);
   }
 
+  public String uploadPublicImageNotDelete(String folderId, String fileName, java.io.File filePath) {
+    String fileId = null;
+    try {
+      File fileMetadata = new File();
+      fileMetadata.setName(fileName);
+      fileMetadata.setParents(List.of(folderId));
+
+      // Set file permissions to be publicly readable
+      Permission permission = new Permission();
+      permission.setRole("reader");
+      permission.setType("anyone");
+
+      // Create a new file
+      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
+      File file = googleDrive.files().create(fileMetadata,
+              new InputStreamContent("image/jpeg", inputStream))
+          .setFields("id").execute();
+
+      fileId = file.getId();
+      // Set file permissions using the fileId retrieved from the created file object
+      googleDrive.permissions().create(fileId, permission).execute();
+
+      log.info("Upload image success with id: " + fileId);
+    } catch (Exception e) {
+      log.error("==========> Can't upload image: " + e);
+    }
+    log.info(getImageURL(fileId));
+    return getImageURL(fileId);
+  }
 
   public List<File> getAllFolders() throws IOException {
     List<File> allFiles = getAllGoogleDriveFiles();
