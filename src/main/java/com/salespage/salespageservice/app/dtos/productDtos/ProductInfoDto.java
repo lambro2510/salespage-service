@@ -1,21 +1,39 @@
 package com.salespage.salespageservice.app.dtos.productDtos;
 
 import com.salespage.salespageservice.domains.entities.types.ProductType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
+import javax.validation.constraints.*;
 
 @Data
 public class ProductInfoDto {
+
+  @NotBlank(message = "Tên sản phẩm không được để trống")
+  @Size(max = 255, message = "Tên sản phẩm tối đa 255 ký tự")
+  @Schema(description = "Tên sản phẩm", example = "Điện thoại iPhone 13")
   private String productName;
 
-    private String description;
+  @NotBlank(message = "Mô tả không được để trống")
+  @Schema(description = "Mô tả sản phẩm", example = "Điện thoại iPhone 13 với thiết kế mới, camera đột phá và hiệu suất tuyệt vời")
+  private String description;
 
-    private ProductType type;
+  @NotNull(message = "Loại sản phẩm không được để trống")
+  @Schema(description = "Loại sản phẩm", example = "ELECTRONICS")
+  private ProductType type;
 
-    private Double price;
+  @NotNull(message = "Giá sản phẩm không được để trống")
+  @DecimalMin(value = "0.0", inclusive = false, message = "Giá sản phẩm phải lớn hơn 0")
+  @Schema(description = "Giá sản phẩm", example = "20990000")
+  private Double price;
 
-    private String sellingAddress;
+  @NotBlank(message = "Địa chỉ bán sản phẩm không được để trống")
+  @Size(max = 255, message = "Địa chỉ bán sản phẩm tối đa 255 ký tự")
+  @Schema(description = "Địa chỉ bán sản phẩm", example = "123 đường ABC, quận XYZ, thành phố Hồ Chí Minh")
+  private String sellingAddress;
+
+  @NotBlank(message = "Id cửa hàng không được để trống")
+  @Size(max = 30, message = "Id cửa hàng tối đa 30 ký tự")
+  @Schema(description = "Id cửa hàng", example = "store123")
+  private String storeId;
 
 }

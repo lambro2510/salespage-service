@@ -51,7 +51,7 @@ public class UserService extends BaseService {
 
         if (user == null) throw new ResourceNotFoundException("Không tìm thấy người dùng này");
 
-        user.processRatePoint(point);
+        user.getRate().processRatePoint(point);
 
         userStorage.save(user);
 

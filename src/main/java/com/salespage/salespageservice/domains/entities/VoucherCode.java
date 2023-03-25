@@ -1,34 +1,34 @@
 package com.salespage.salespageservice.domains.entities;
 
-import com.salespage.salespageservice.domains.entities.types.VoucherStatus;
+import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
+import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
-@Document("voucher")
-public class VoucherCode {
+@Document("voucher_code")
+@Data
+public class VoucherCode extends BaseEntity{
+
   @Id
   private ObjectId id;
 
   @Field("voucher_store_id")
-  private ObjectId voucherStoreId;
+  private String voucherStoreId;
 
-  @Field("voucher_status")
-  private VoucherStatus voucherStatus;
+  @Field("owner")
+  private ObjectId ownerId;
 
-  @Field("voucher_code")
-  private String voucherCode;
-
-  @Field("used_at")
-  private LocalDateTime usedAt;
+  @Field("code")
+  private String code;
 
   @Field("expire_time")
-  private LocalDateTime expireTime;
+  private Date expireTime;
 
-  @Field("user_id")
-  private ObjectId userId;
+  @Field("voucher_code_status")
+  private VoucherCodeStatus voucherCodeStatus;
 
 }

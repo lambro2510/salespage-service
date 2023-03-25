@@ -7,11 +7,11 @@ import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.Permission;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +24,8 @@ public class GoogleDriver {
 
   public List<File> getAllGoogleDriveFiles() throws IOException {
     FileList result = googleDrive.files().list()
-            .setFields("nextPageToken, files(id, name, parents, mimeType)")
-            .execute();
+        .setFields("nextPageToken, files(id, name, parents, mimeType)")
+        .execute();
     return result.getFiles();
   }
 
@@ -57,21 +57,28 @@ public class GoogleDriver {
       Permission permission = new Permission();
       permission.setRole("reader");
       permission.setType("anyone");
-      googleDrive.permissions().create(fileId, permission).execute();
 
       if (existingFile != null) {
         // Update the existing file
         deleteFile(existingFile.getId());
       }
       // Create a new file
+      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
       File file = googleDrive.files().create(fileMetadata,
-                      new InputStreamContent("image/jpeg", new FileInputStream(filePath)))
-              .setFields("id").execute();
+              new InputStreamContent("image/jpeg", inputStream))
+          .setFields("id").execute();
+
+      log.info("file id: " + file.getId());
       fileId = file.getId();
+      log.info("permission : " + permission);
+      // Set file permissions using the fileId retrieved from the created file object
+      googleDrive.permissions().create(fileId, permission).execute();
+
       log.info("Upload image success with id: " + fileId);
     } catch (Exception e) {
       log.error("==========> Can't upload image: " + e);
     }
+    log.info(getImageURL(fileId));
     return getImageURL(fileId);
   }
 
@@ -79,7 +86,7 @@ public class GoogleDriver {
   public List<File> getAllFolders() throws IOException {
     List<File> allFiles = getAllGoogleDriveFiles();
     List<File> folders = allFiles.stream().filter(file -> "application/vnd.google-apps.folder".equals(file.getMimeType()))
-            .collect(Collectors.toList());
+        .collect(Collectors.toList());
     return folders;
   }
 
@@ -135,8 +142,8 @@ public class GoogleDriver {
     if (folder != null) {
       return folder.getId();
     } else {
-      log.error("==========> Can't find folder with name " + folderName);
-      return null;
+      log.debug("==========> Can't find folder with name: " + folderName + " -> create folder");
+      return createNewFolder(folderName);
     }
   }
 

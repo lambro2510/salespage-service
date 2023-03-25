@@ -4,5 +4,9 @@ public enum ProductType {
     PHONE,
     TIVI,
     LAPTOP,
-    FOOD
+    FOOD,
+    CLOTHING,
+    BEAUTY,
+    HOME_APPLIANCES,
+    BOOKS;
 }

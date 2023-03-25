@@ -1,2 +1,5 @@
-sudo systemctl start mongod
-sudo systemctl start redis
+git add .
+git commit -m "auto push"
+git push
+lambro25102001@gmail.com
+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
