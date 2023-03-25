@@ -115,7 +115,7 @@ public class ProductService extends BaseService {
         throw new AuthorizationException("Không được phép");
 
       for(MultipartFile multipartFile : multipartFiles){
-        String imageUrl = googleDriver.uploadPublicImageNotDelete(googleDriver.getFolderIdByName("Product-" + productId), multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
+        String imageUrl = googleDriver.uploadPublicImageNotDelete(googleDriver.getFolderIdByName("Product-" + productId), multipartFile.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(multipartFile));
         product.getImageUrls().add(imageUrl);
         imageUrls.add(imageUrl);
         productStorage.save(product);

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("v1/api/voucher")
 @SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Quản lý kho voucher cửa người dùng", description = "Quản lý voucher của người dùng")
 public class VoucherController extends BaseController {
   @Autowired
   private VoucherStoreService voucherStoreService;

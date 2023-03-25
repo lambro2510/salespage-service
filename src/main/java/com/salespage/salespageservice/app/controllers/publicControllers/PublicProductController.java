@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("v1/api/public/product")
-@Tag(name = "Quản lý sản phẩm", description = "API cho việc quản lý sản phẩm")
+@Tag(name = "Thông tin của sản phẩm", description = "Thông tin sản phẩm được bán")
 public class PublicProductController {
   @Autowired
   private ProductService productService;

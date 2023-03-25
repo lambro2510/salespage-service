@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 @RequestMapping("v1/api/product-transaction")
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name = "Product Transaction API", description = "APIs for managing product transactions")
+@Tag(name = "Quản lý giao dịch của người dùng", description = "Quản lý các giao dịch mua bán của người dùng")
 public class ProductTransactionController extends BaseController {
 
     @Autowired
