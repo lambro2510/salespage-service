@@ -13,4 +13,7 @@ import java.util.List;
 public interface SellerStoreRepository extends MongoRepository<SellerStore, ObjectId> {
   Page<SellerStore> findByOwnerStoreName(String username, Pageable pageable);
 
+  List<ObjectId> findIdByOwnerStoreName(String username);
+
+  List<ObjectId> findIdByStoreName(String storeName);
 }

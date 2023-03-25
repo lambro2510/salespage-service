@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.controllers.publicControllers;
 
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.types.ProductType;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,13 @@ public class PublicProductController {
   private ProductService productService;
 
   @GetMapping("")
-  public ResponseEntity<PageResponse<Product>> getAllProduct(Pageable pageable) {
-    return productService.getAllProduct(pageable);
+  public ResponseEntity<PageResponse<Product>> getAllProduct(@RequestParam(required = false) ProductType productType,
+                                                             @RequestParam(required = false) Long minPrice,
+                                                             @RequestParam(required = false) Long maxPrice,
+                                                             @RequestParam(required = false) String storeName,
+                                                             @RequestParam(required = false) String username,
+                                                             Pageable pageable) {
+    return productService.getAllProduct(productType, minPrice, maxPrice, storeName, username, pageable);
   }
 
   @GetMapping("detail")

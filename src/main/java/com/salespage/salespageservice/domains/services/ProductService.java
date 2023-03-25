@@ -5,13 +5,17 @@ import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.SellerStore;
+import com.salespage.salespageservice.domains.entities.types.ProductType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import com.salespage.salespageservice.domains.utils.Helper;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,6 +35,8 @@ public class ProductService extends BaseService {
   @Autowired
   private ProductTransactionService productTransactionService;
 
+  @Autowired
+  private SellerStoreService sellerStoreService;
   @Autowired
   private GoogleDriver googleDriver;
 
@@ -55,8 +61,24 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(product);
   }
 
-  public ResponseEntity<PageResponse<Product>> getAllProduct(Pageable pageable) {
-    Page<Product> productPage = productStorage.findAllProduct(pageable);
+  public ResponseEntity<PageResponse<Product>> getAllProduct(ProductType productType, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
+
+    Query query = new Query();
+    if(productType != null)
+      query.addCriteria(Criteria.where("product_type").is(productType));
+    if(minPrice != null)
+      query.addCriteria(Criteria.where("price").gte(minPrice));
+    if(productType != null)
+      query.addCriteria(Criteria.where("price").lte(maxPrice));
+    if(storeName != null){
+      List<String> ids = Helper.convertObjectIdListToHexStringList(sellerStoreService.findIdByStoreName(storeName));
+      query.addCriteria(Criteria.where("seller_store_id").in(ids));
+    }
+    if(username != null){
+      List<String> ids = Helper.convertObjectIdListToHexStringList(sellerStoreService.findIdByOwnerStoreId(storeName));
+      query.addCriteria(Criteria.where("seller_store_id").in(ids));
+    }
+    Page<Product> productPage = productStorage.findAll(query,pageable);
     return ResponseEntity.ok(PageResponse.createFrom(productPage));
   }
 

@@ -2,7 +2,11 @@ package com.salespage.salespageservice.domains.repositories;
 
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
+import com.salespage.salespageservice.domains.repositories.base.MongoResourceRepository;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +17,5 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
 
   Product findProductById(ObjectId id);
 
-  List<ProductTransaction> findAllProductById(ObjectId objectId);
+  Page<Product> findAll(Query query, Pageable pageable);
 }

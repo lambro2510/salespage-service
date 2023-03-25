@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.dtos.SellerStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
 import com.salespage.salespageservice.domains.entities.SellerStore;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -39,5 +40,13 @@ public class SellerStoreService extends BaseService{
     sellerStore.setOwnerStoreName(username);
     sellerStoreStorage.save(sellerStore);
     return ResponseEntity.ok(true);
+  }
+
+  public List<ObjectId> findIdByStoreName(String storeName) {
+    return sellerStoreStorage.findIdByStoreName(storeName);
+  }
+
+  public List<ObjectId> findIdByOwnerStoreId(String username) {
+    return sellerStoreStorage.findByOwnerStoreName(username);
   }
 }

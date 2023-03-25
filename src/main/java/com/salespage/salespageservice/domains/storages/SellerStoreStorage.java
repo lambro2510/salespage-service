@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class SellerStoreStorage extends BaseStorage{
 
@@ -13,6 +15,9 @@ public class SellerStoreStorage extends BaseStorage{
     return sellerStoreRepository.findByOwnerStoreName(username, pageable);
   }
 
+  public List<ObjectId> findByOwnerStoreName(String username) {
+    return sellerStoreRepository.findIdByOwnerStoreName(username);
+  }
 
   public void save(SellerStore sellerStore) {
     sellerStoreRepository.save(sellerStore);
@@ -20,5 +25,9 @@ public class SellerStoreStorage extends BaseStorage{
 
   public SellerStore findById(String storeId) {
     return sellerStoreRepository.findById(new ObjectId(storeId)).get();
+  }
+
+  public List<ObjectId> findIdByStoreName(String storeName) {
+    return sellerStoreRepository.findIdByStoreName(storeName);
   }
 }
