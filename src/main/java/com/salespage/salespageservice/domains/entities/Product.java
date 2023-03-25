@@ -11,6 +11,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document("product")
@@ -27,7 +28,7 @@ public class Product {
     private String description;
 
     @Field("image_url")
-    private List<String> imageUrls;
+    private List<String> imageUrls = new ArrayList<>();
 
     @Field("product_type")
     private ProductType type;

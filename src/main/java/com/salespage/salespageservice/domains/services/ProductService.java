@@ -85,8 +85,8 @@ public class ProductService extends BaseService {
       if (!product.getSellerUsername().equals(username))
         throw new AuthorizationException("Không được phép");
 
-
       imageUrl = googleDriver.uploadPublicImage(googleDriver.getFolderIdByName("Product-" + productId), file.getName(), Helper.convertMultiPartToFile(file));
+      product.getImageUrls().add(imageUrl);
       productStorage.save(product);
 
     } catch (Exception ex) {
