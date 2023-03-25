@@ -34,4 +34,8 @@ public class SellerStoreStorage extends BaseStorage{
   public List<SellerStore> findIdsByOwnerStoreName(String username) {
     return sellerStoreRepository.findIdsByOwnerStoreName(username);
   }
+
+  public Page<SellerStore> findAll(Pageable newPageable) {
+    return sellerStoreRepository.findAll(newPageable);
+  }
 }

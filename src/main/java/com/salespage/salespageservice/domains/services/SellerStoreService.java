@@ -34,6 +34,22 @@ public class SellerStoreService extends BaseService{
     return ResponseEntity.ok(PageResponse.createFrom(pageStoreDataResponse));
   }
 
+  public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(Pageable pageable) {
+    Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+    Page<SellerStore> sellerStores = sellerStoreStorage.findAll(newPageable);
+    List<SellerStore> sellerStoreList = sellerStores.getContent();
+
+    List<StoreDataResponse> storeDataResponses = new ArrayList<>();
+    for(SellerStore sellerStore : sellerStoreList){
+      StoreDataResponse storeDataResponse = new StoreDataResponse();
+      storeDataResponse.assignFromSellerStore(sellerStore);
+      storeDataResponses.add(storeDataResponse);
+    }
+
+    Page<StoreDataResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, newPageable, sellerStores.getTotalElements());
+    return ResponseEntity.ok(PageResponse.createFrom(pageStoreDataResponse));
+  }
+
   public ResponseEntity<?> createStore(String username, SellerStoreDto sellerStoreDto) {
     SellerStore sellerStore = new SellerStore();
     sellerStore.assignFromSellerStoreDto(sellerStoreDto);
