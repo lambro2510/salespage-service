@@ -42,11 +42,11 @@ public class SellerStoreService extends BaseService{
     return ResponseEntity.ok(true);
   }
 
-  public List<ObjectId> findIdByStoreName(String storeName) {
-    return sellerStoreStorage.findIdByStoreName(storeName);
+  public List<SellerStore> findIdsByStoreName(String storeName) {
+    return sellerStoreStorage.findIdsByStoreName(storeName);
   }
 
-  public List<ObjectId> findIdByOwnerStoreId(String username) {
-    return sellerStoreStorage.findByOwnerStoreName(username);
+  public List<SellerStore> findIdsByOwnerStoreName(String username) {
+    return sellerStoreStorage.findIdsByOwnerStoreName(username);
   }
 }

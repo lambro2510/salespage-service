@@ -27,7 +27,11 @@ public class SellerStoreStorage extends BaseStorage{
     return sellerStoreRepository.findById(new ObjectId(storeId)).get();
   }
 
-  public List<ObjectId> findIdByStoreName(String storeName) {
-    return sellerStoreRepository.findIdByStoreName(storeName);
+  public List<SellerStore> findIdsByStoreName(String storeName) {
+    return sellerStoreRepository.findIdsByStoreName(storeName);
+  }
+
+  public List<SellerStore> findIdsByOwnerStoreName(String username) {
+    return sellerStoreRepository.findIdsByOwnerStoreName(username);
   }
 }

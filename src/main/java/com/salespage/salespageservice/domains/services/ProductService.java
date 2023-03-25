@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -70,12 +71,18 @@ public class ProductService extends BaseService {
       query.addCriteria(Criteria.where("price").gte(minPrice));
     if(productType != null)
       query.addCriteria(Criteria.where("price").lte(maxPrice));
-    if(storeName != null){
-      List<String> ids = Helper.convertObjectIdListToHexStringList(sellerStoreService.findIdByStoreName(storeName));
+    if (storeName != null) {
+      List<SellerStore> sellerStores = sellerStoreService.findIdsByStoreName(storeName);
+      List<String> ids = sellerStores.stream()
+          .map(s -> s.getId().toHexString())
+          .collect(Collectors.toList());
       query.addCriteria(Criteria.where("seller_store_id").in(ids));
     }
-    if(username != null){
-      List<String> ids = Helper.convertObjectIdListToHexStringList(sellerStoreService.findIdByOwnerStoreId(storeName));
+    if (username != null) {
+      List<SellerStore> sellerStores = sellerStoreService.findIdsByOwnerStoreName(username);
+      List<String> ids = sellerStores.stream()
+          .map(s -> s.getId().toHexString())
+          .collect(Collectors.toList());
       query.addCriteria(Criteria.where("seller_store_id").in(ids));
     }
     Page<Product> productPage = productStorage.findAll(query,pageable);
