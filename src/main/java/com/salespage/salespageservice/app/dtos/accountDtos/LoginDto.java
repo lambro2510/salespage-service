@@ -8,13 +8,13 @@ import javax.validation.constraints.Size;
 
 @Data
 public class LoginDto {
-    @NotNull(message = "Username is required")
-    @Size(min = 8, max = 18, message = "Username must be between 8 and 18 characters")
-    @Schema(description = "The username of the account", example = "johndoe123")
+    @NotNull(message = "Tên đăng nhập không được để trống")
+    @Size(min = 8, max = 18, message = "Tên đăng nhập phải từ 8 đến 18 ký tự")
+    @Schema(description = "Tên đăng nhập tài khoản", example = "lambro25102001")
     private String username;
 
-    @NotNull(message = "Password is required")
-    @Size(min = 6, max = 24, message = "Password must be between 6 and 24 characters")
-    @Schema(description = "The password of the account", example = "password123")
+    @NotNull(message = "Mật khẩu không được để trống")
+    @Size(min = 6, max = 24, message = "Mật khẩu phải tử 6 đến 24 ký tự")
+    @Schema(description = "Mật khẩu của tài khoản", example = "banhmy09@")
     private String password;
 }
