@@ -68,9 +68,7 @@ public class GoogleDriver {
               new InputStreamContent("image/jpeg", inputStream))
           .setFields("id").execute();
 
-      log.info("file id: " + file.getId());
       fileId = file.getId();
-      log.info("permission : " + permission);
       // Set file permissions using the fileId retrieved from the created file object
       googleDrive.permissions().create(fileId, permission).execute();
 
@@ -104,11 +102,10 @@ public class GoogleDriver {
       // Set file permissions using the fileId retrieved from the created file object
       googleDrive.permissions().create(fileId, permission).execute();
 
-      log.info("Upload image success with id: " + fileId);
+      log.info("Upload image not delete success with id: " + fileId);
     } catch (Exception e) {
       log.error("==========> Can't upload image: " + e);
     }
-    log.info(getImageURL(fileId));
     return getImageURL(fileId);
   }
 
