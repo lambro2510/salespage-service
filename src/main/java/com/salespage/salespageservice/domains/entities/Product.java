@@ -30,6 +30,7 @@ public class Product {
 
     @Field("product_type")
     private ProductType type;
+    
     @Field("price")
     private Double price;
 
