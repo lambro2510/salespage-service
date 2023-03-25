@@ -47,7 +47,7 @@ public class PrivateProductController extends BaseController {
             @ApiResponse(responseCode = "200", description = "Hình ảnh tải lên thành công"),
             @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
             @ApiResponse(responseCode = "401", description = "Không được phép"),
-            @ApiResponse(responseCode = "404", description = "Không tìm thấy sản phẩm"),
+            @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
     })
     public ResponseEntity<String> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam MultipartFile file) throws IOException {
@@ -89,7 +89,7 @@ public class PrivateProductController extends BaseController {
             @ApiResponse(responseCode = "200", description = "Sản phẩm được cập nhật thành công"),
             @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
             @ApiResponse(responseCode = "401", description = "Không được phép"),
-            @ApiResponse(responseCode = "404", description = "Không tìm thấy sản phẩm"),
+            @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
     })
     public ResponseEntity<Product> updateProduct(Authentication authentication, @RequestBody ProductDto dto) {

@@ -36,7 +36,7 @@ public class ProductService extends BaseService {
 
   public ResponseEntity<Product> createProduct(String username, ProductInfoDto dto) {
     SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
-    if(sellerStore.getOwnerStoreName() != username){
+    if (!Objects.equals(sellerStore.getOwnerStoreName(), username)) {
       throw new AuthorizationException("Không được phép");
     }
     Product product = new Product();
@@ -49,7 +49,7 @@ public class ProductService extends BaseService {
 
   public ResponseEntity<Product> updateProduct(String username, ProductDto dto) {
     Product product = productStorage.findProductById(dto.getProductId());
-    if (Objects.isNull(product)) throw new ResourceNotFoundException("Product not exist");
+    if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
 
     product.updateProduct(dto);
     return ResponseEntity.ok(product);
@@ -81,8 +81,9 @@ public class ProductService extends BaseService {
     String imageUrl = null;
     try {
       Product product = productStorage.findProductById(productId);
+      if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
       if (!product.getSellerUsername().equals(username))
-        throw new AuthorizationException("Can't upload image for this product");
+        throw new AuthorizationException("Không được phép");
 
 
       imageUrl = googleDriver.uploadPublicImage(googleDriver.getFolderIdByName("Product-" + productId), file.getName(), Helper.convertMultiPartToFile(file));
