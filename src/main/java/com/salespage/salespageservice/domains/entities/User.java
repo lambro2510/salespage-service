@@ -47,7 +47,7 @@ public class User {
     private String imageUrl;
 
     @Field("rate")
-    private Rate rate;
+    private Rate rate = new Rate();
 
     @Field("balance")
     private UserBalance balance;

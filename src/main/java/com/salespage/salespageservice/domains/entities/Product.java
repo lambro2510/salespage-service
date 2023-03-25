@@ -36,7 +36,7 @@ public class Product {
     private Double price;
 
     @Field("rate")
-    private Rate rate;
+    private Rate rate = new Rate();
 
     @Field("selling_address")
     private String sellingAddress;
