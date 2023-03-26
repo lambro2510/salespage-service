@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.SellerStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.SellerStore;
@@ -45,6 +46,12 @@ public class SellerStoreService extends BaseService{
       StoreDataResponse storeDataResponse = new StoreDataResponse();
       storeDataResponse.assignFromSellerStore(sellerStore);
       List<Product> products = productStorage.findBySellerStoreId(sellerStore.getId().toHexString());
+      List<ProductDataResponse> productDataResponses = new ArrayList<>();
+      for(Product product : products){
+        ProductDataResponse productDataResponse = new ProductDataResponse();
+        productDataResponse.assignFromProduct(product);
+        productDataResponse.setStoreName(sellerStore.getStoreName());
+      }
       storeDataResponses.add(storeDataResponse);
     }
 

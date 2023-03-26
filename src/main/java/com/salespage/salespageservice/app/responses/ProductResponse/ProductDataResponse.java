@@ -1,7 +1,9 @@
 package com.salespage.salespageservice.app.responses.ProductResponse;
 
 import com.salespage.salespageservice.domains.entities.Product;
+import lombok.Data;
 
+@Data
 public class ProductDataResponse {
   private String productId;
 
@@ -21,6 +23,7 @@ public class ProductDataResponse {
     productId = product.getId().toHexString();
     productName = product.getProductName();
     productPrice = product.getPrice();
+    sellerUsername = product.getSellerUsername();
     totalRate = product.getRate().getTotalRate();
     avgPoint = product.getRate().getAvgPoint();
   }
