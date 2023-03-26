@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,9 +63,14 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(product);
   }
 
-  public ResponseEntity<PageResponse<Product>> getAllProduct(ProductType productType, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
+  public ResponseEntity<PageResponse<Product>> getAllProduct(ProductType productType,String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
 
     Query query = new Query();
+    if(productName != null) {
+      Pattern pattern = Pattern.compile(productName + ".*", Pattern.CASE_INSENSITIVE);
+      query.addCriteria(Criteria.where("product_name").regex(pattern));
+    }
+
     if(productType != null)
       query.addCriteria(Criteria.where("product_type").is(productType));
     if(minPrice != null)

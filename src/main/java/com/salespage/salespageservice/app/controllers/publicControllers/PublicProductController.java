@@ -20,12 +20,13 @@ public class PublicProductController {
 
   @GetMapping("")
   public ResponseEntity<PageResponse<Product>> getAllProduct(@RequestParam(required = false) ProductType productType,
+                                                             @RequestParam(required = false) String productName,
                                                              @RequestParam(required = false) Long minPrice,
                                                              @RequestParam(required = false) Long maxPrice,
                                                              @RequestParam(required = false) String storeName,
                                                              @RequestParam(required = false) String username,
                                                              Pageable pageable) {
-    return productService.getAllProduct(productType, minPrice, maxPrice, storeName, username, pageable);
+    return productService.getAllProduct(productType,productName, minPrice, maxPrice, storeName, username, pageable);
   }
 
   @GetMapping("detail")
