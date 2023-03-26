@@ -44,9 +44,9 @@ public class SignUpDto {
     @Schema(description = "Số điện thoại của người dùng")
     private String phoneNumber;
 
-    @NotNull(message = "Date of birth is required")
+    @NotNull(message = "Ngày sinh là bắt buộc")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @Past(message = "Date of birth must be a past date")
+    @Past(message = "Ngày sinh không được lớn hơn ngày hiện tại")
     @Schema(description = "Ngày sinh của người dùng", format = "date", example = "01-01-1990")
     @JsonFormat(pattern="dd-MM-yyyy")
     private Date dateOfBirth;
