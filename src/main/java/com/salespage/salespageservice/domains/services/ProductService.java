@@ -67,7 +67,7 @@ public class ProductService extends BaseService {
 
     Query query = new Query();
     if(productName != null) {
-      Pattern pattern = Pattern.compile(productName + ".*", Pattern.CASE_INSENSITIVE);
+      Pattern pattern = Pattern.compile(".*" + productName + ".*", Pattern.CASE_INSENSITIVE);
       query.addCriteria(Criteria.where("product_name").regex(pattern));
     }
 
