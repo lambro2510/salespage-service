@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.SellerStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
+import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -43,6 +44,7 @@ public class SellerStoreService extends BaseService{
     for(SellerStore sellerStore : sellerStoreList){
       StoreDataResponse storeDataResponse = new StoreDataResponse();
       storeDataResponse.assignFromSellerStore(sellerStore);
+      List<Product> products = productStorage.findBySellerStoreId(sellerStore.getId().toHexString());
       storeDataResponses.add(storeDataResponse);
     }
 

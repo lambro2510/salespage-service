@@ -32,4 +32,7 @@ public class ProductStorage extends BaseStorage {
     productRepository.deleteById(new ObjectId(productId));
   }
 
+  public List<Product> findBySellerStoreId(String storeId) {
+    return productRepository.findBySellerStoreId(storeId);
+  }
 }

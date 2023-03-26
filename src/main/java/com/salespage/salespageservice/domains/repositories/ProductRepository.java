@@ -18,4 +18,6 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
   Product findProductById(ObjectId id);
 
   Page<Product> findAll(Query query, Pageable pageable);
+
+  List<Product> findBySellerStoreId(String storeId);
 }
