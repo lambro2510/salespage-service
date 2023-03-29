@@ -39,8 +39,7 @@ public class ProductService extends BaseService {
 
   @Autowired
   private SellerStoreService sellerStoreService;
-  @Autowired
-  private GoogleDriver googleDriver;
+
 
   public ResponseEntity<Product> createProduct(String username, ProductInfoDto dto) {
     SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
@@ -121,7 +120,7 @@ public class ProductService extends BaseService {
         throw new AuthorizationException("Không được phép");
 
       for(MultipartFile multipartFile : multipartFiles){
-        String imageUrl = googleDriver.uploadPublicImageNotDelete(googleDriver.getFolderIdByName("Product-" + productId), multipartFile.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(multipartFile));
+        String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, multipartFile.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(multipartFile));
         product.getImageUrls().add(imageUrl);
         imageUrls.add(imageUrl);
         productStorage.save(product);

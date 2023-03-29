@@ -32,7 +32,7 @@ public class VoucherStore extends BaseEntity{
   private VoucherStoreDetail voucherStoreDetail;
 
   @Field("voucher_store_status")
-  private VoucherStoreStatus voucherStoreStatus= VoucherStoreStatus.INACTIVE;
+  private VoucherStoreStatus voucherStoreStatus = VoucherStoreStatus.INACTIVE;
 
   @Field("created_by")
   private String createdBy;

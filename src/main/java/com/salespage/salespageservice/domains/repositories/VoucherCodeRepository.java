@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VoucherCodeRepository extends MongoRepository<VoucherCode, ObjectId> {
+  VoucherCode findByOwnerIdAndCode(String username, String code);
 }

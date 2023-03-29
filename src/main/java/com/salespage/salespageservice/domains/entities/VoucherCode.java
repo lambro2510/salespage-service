@@ -19,8 +19,8 @@ public class VoucherCode extends BaseEntity{
   @Field("voucher_store_id")
   private String voucherStoreId;
 
-  @Field("owner")
-  private ObjectId ownerId;
+  @Field("owner_id")
+  private String ownerId;
 
   @Field("code")
   private String code;
@@ -29,6 +29,6 @@ public class VoucherCode extends BaseEntity{
   private Date expireTime;
 
   @Field("voucher_code_status")
-  private VoucherCodeStatus voucherCodeStatus;
+  private VoucherCodeStatus voucherCodeStatus = VoucherCodeStatus.NEW;
 
 }

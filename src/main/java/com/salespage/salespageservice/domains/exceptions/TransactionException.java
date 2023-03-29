@@ -7,4 +7,8 @@ public class TransactionException extends BaseException {
     public TransactionException(String message) {
         super(ErrorCode.INVALID_STATE, message);
     }
+
+    public TransactionException(int code, String message) {
+        super(code, message);
+    }
 }

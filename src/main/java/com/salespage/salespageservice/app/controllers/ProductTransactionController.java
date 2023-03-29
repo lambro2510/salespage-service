@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
+import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.services.ProductTransactionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +35,7 @@ public class ProductTransactionController extends BaseController {
             @ApiResponse(responseCode = "401", description = "Không được phép"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
     })
-    public ResponseEntity<ProductTransaction> createProductTransaction(
+    public ResponseEntity<ProductTransactionResponse> createProductTransaction(
             Authentication authentication,
             @RequestBody ProductTransactionDto dto) {
         return productTransactionService.createProductTransaction(getUsername(authentication), dto);
@@ -49,8 +50,8 @@ public class ProductTransactionController extends BaseController {
             @ApiResponse(responseCode = "404", description = "Không tìm thấy giao dịch sản phẩm"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
     })
-    public ResponseEntity<ProductTransaction> updateProductTransaction(Authentication authentication, @RequestBody ProductTransactionInfoDto dto) {
-        return productTransactionService.updateProductTransaction(getUsername(authentication), dto);
+    public ResponseEntity<ProductTransactionResponse> updateProductTransaction(Authentication authentication, @RequestParam String transactionId, @RequestBody ProductTransactionInfoDto dto) {
+        return productTransactionService.updateProductTransaction(getUsername(authentication), dto,transactionId);
     }
 
     @PutMapping("cancel")

@@ -43,7 +43,9 @@ public class GoogleDriver {
     return null;
   }
 
-  public String uploadPublicImage(String folderId, String fileName, java.io.File filePath) {
+  public String uploadPublicImage(String folderName, String fileName, java.io.File filePath) {
+
+    String folderId = createNewFolder(folderName);
     String fileId = null;
     try {
       File fileMetadata = new File();

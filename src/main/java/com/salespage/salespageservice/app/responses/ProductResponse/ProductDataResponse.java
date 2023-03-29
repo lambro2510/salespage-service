@@ -9,7 +9,7 @@ public class ProductDataResponse {
 
   private String productName;
 
-  private Double productPrice;
+  private Long productPrice;
 
   private float totalRate;
 
@@ -22,7 +22,7 @@ public class ProductDataResponse {
   public void assignFromProduct(Product product){
     productId = product.getId().toHexString();
     productName = product.getProductName();
-    productPrice = product.getPrice();
+    productPrice = product.getPrice().longValue();
     sellerUsername = product.getSellerUsername();
     totalRate = product.getRate().getTotalRate();
     avgPoint = product.getRate().getAvgPoint();
