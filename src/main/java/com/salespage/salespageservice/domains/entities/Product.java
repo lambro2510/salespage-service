@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class Product {
     private ProductType type;
     
     @Field("price")
-    private Double price;
+    private BigDecimal price;
 
     @Field("rate")
     private Rate rate = new Rate();
@@ -53,7 +54,7 @@ public class Product {
         productName = dto.getProductName();
         description = dto.getDescription();
         type = dto.getType();
-        price = dto.getPrice();
+        price = BigDecimal.valueOf(dto.getPrice());
         sellingAddress = dto.getSellingAddress();
         sellerStoreId = dto.getStoreId();
     }

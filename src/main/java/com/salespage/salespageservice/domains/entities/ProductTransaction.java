@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
+import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,6 +13,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +28,8 @@ public class ProductTransaction extends BaseEntity {
   @Field("purchaser_username")
   private String purchaserUsername;
 
-  @Field("product")
-  private Product product;
+  @Field("product_id")
+  private String productId;
 
   @Field("state")
   private ProductTransactionState state;
@@ -35,18 +37,23 @@ public class ProductTransaction extends BaseEntity {
   @Field("quantity")
   private Long quantity;
 
+  @Field("price_per_product")
+  private BigDecimal pricePerProduct;
+
   @Field("note")
   private String note;
 
   @Field("is_use_voucher")
-  private String isUseVoucher;
+  private Boolean isUseVoucher = false;
 
+  @Field("voucher_info")
+  private VoucherInfo voucherInfo;
   @Field("message")
   private List<Message> messages = new ArrayList<>();
 
   public void createNewTransaction(String username, ProductTransactionDto dto) {
     this.purchaserUsername = username;
-    product = dto.getProduct();
+    productId = dto.getProductId();
     quantity = dto.getQuantity();
     note = dto.getNote();
     state = ProductTransactionState.WAITING;

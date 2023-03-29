@@ -9,10 +9,6 @@ import javax.validation.constraints.*;
 @Data
 public class ProductTransactionInfoDto {
 
-  @NotBlank(message = "Mã giao dịch không được để trống")
-  @Schema(description = "Mã giao dịch", example = "123456789")
-  private String transactionId;
-
   @NotNull(message = "Số lượng sản phẩm là bắt buộc")
   @Min(value = 1, message = "Số lượng sản phẩm tối thiểu phải là 1")
   @Max(value = 1000, message = "Số lượng sản phẩm không được lớn hơn 1000")
