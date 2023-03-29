@@ -18,4 +18,8 @@ public class ProductTransactionInfoDto {
   @NotBlank(message = "Ghi chú không được để trống")
   @Schema(description = "Ghi chú", example = "Vui lòng gửi sản phẩm sớm nhất có thể")
   private String note;
+
+  @NotBlank(message = "Địa chỉ nhận hàng không được để trống")
+  @Schema(description = "Địa chỉ nhận hàng", example = "24/5 Phường Trường Thi")
+  private String address;
 }

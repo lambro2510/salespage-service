@@ -52,6 +52,9 @@ public class ProductTransaction extends BaseEntity {
   @Field("price_per_product")
   private BigDecimal pricePerProduct;
 
+  @Field("address_receive")
+  private String addressReceive;
+
   @Field("note")
   private String note;
 
@@ -68,6 +71,7 @@ public class ProductTransaction extends BaseEntity {
     productId = dto.getProductId();
     quantity = dto.getQuantity();
     note = dto.getNote();
+    addressReceive = dto.getAddress();
     state = ProductTransactionState.WAITING;
   }
 
