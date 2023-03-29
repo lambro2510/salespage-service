@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -34,8 +31,10 @@ public class PublicSellerStoreController extends BaseController {
       @ApiResponse(responseCode = "200", description = "Thành công"),
       @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
-  public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(Pageable pageable) {
-    return sellerStoreService.getAllStore(pageable);
+  public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(@RequestParam(required = false) String storeId,
+                                                                     @RequestParam(required = false) String storeName,
+                                                                     Pageable pageable) {
+    return sellerStoreService.getAllStore(storeId, storeName, pageable);
   }
 
 }

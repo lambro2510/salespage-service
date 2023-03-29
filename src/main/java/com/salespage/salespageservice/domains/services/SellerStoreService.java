@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +38,14 @@ public class SellerStoreService extends BaseService{
     return ResponseEntity.ok(PageResponse.createFrom(pageStoreDataResponse));
   }
 
-  public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(Pageable pageable) {
-    Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-    Page<SellerStore> sellerStores = sellerStoreStorage.findAll(newPageable);
+  public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(String storeId, String storeName, Pageable pageable) {
+    Query query = new Query();
+    if(storeId != null){
+      query.addCriteria(Criteria.where("id").is(storeId));
+    }if(storeName != null){
+      query.addCriteria(Criteria.where("store_name").is(storeName));
+    }
+    Page<SellerStore> sellerStores = sellerStoreStorage.findAll(pageable);
     List<SellerStore> sellerStoreList = sellerStores.getContent();
 
     List<StoreDataResponse> storeDataResponses = new ArrayList<>();
@@ -51,11 +58,12 @@ public class SellerStoreService extends BaseService{
         ProductDataResponse productDataResponse = new ProductDataResponse();
         productDataResponse.assignFromProduct(product);
         productDataResponse.setStoreName(sellerStore.getStoreName());
+        productDataResponses.add(productDataResponse);
       }
       storeDataResponses.add(storeDataResponse);
     }
 
-    Page<StoreDataResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, newPageable, sellerStores.getTotalElements());
+    Page<StoreDataResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, pageable, sellerStores.getTotalElements());
     return ResponseEntity.ok(PageResponse.createFrom(pageStoreDataResponse));
   }
 
