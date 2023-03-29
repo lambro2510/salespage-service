@@ -14,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @CrossOrigin
 @RestController
@@ -48,5 +51,17 @@ public class SellerStoreController extends BaseController{
   })
   public ResponseEntity<?> createStore(Authentication authentication, @RequestBody SellerStoreDto dto) {
     return sellerStoreService.createStore(getUsername(authentication),dto);
+  }
+
+  @PostMapping("upload-image")
+  @Operation(summary = "Tải ảnh lên cho cửa hàng", description = "Tải ảnh lên cho cửa hàng")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+  })
+  public ResponseEntity<?> uploadImage(Authentication authentication, @RequestParam String storeId, @RequestParam MultipartFile multipartFile) throws IOException {
+    return sellerStoreService.uploadImage(getUsername(authentication),storeId,multipartFile);
   }
 }

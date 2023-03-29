@@ -15,7 +15,7 @@ public class VoucherInfo {
 
   private VoucherStoreType voucherStoreType;
 
-  private String value;
+  private Long value;
 
   private BigDecimal priceBefore;
   private BigDecimal priceAfter;

@@ -17,4 +17,7 @@ public class ErrorCode {
     public static final int RESOURCE_FOUND = 1021;
     public static final int INVALID_STATE = 1022;
 
+    public static final int EXPIRE_VOUCHER = 1023;
+
+    public static final int TRANSACTION_EXCEPTION = 1024;
 }

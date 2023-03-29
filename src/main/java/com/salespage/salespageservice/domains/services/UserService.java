@@ -19,8 +19,6 @@ import java.util.Objects;
 @Service
 public class UserService extends BaseService {
 
-    @Autowired
-    private GoogleDriver googleDriver;
 
     public void createUser(SignUpDto dto) {
         User user = new User();
@@ -60,7 +58,7 @@ public class UserService extends BaseService {
 
 
     public ResponseEntity<String> uploadImage(String username, MultipartFile image) throws IOException {
-        String imageUrl = googleDriver.uploadPublicImage(googleDriver.getFolderIdByName("user-image"), username, Helper.convertMultiPartToFile(image));
+        String imageUrl = googleDriver.uploadPublicImage("user-image", username, Helper.convertMultiPartToFile(image));
         User user = userStorage.findByUsername(username);
         user.setImageUrl(imageUrl);
         userStorage.save(user);

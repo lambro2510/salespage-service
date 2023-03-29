@@ -4,6 +4,9 @@ import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.producer.Producer;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,11 +22,15 @@ public class ProductTransactionStorage extends BaseStorage {
         return productTransactionRepository.findProductTransactionById(new ObjectId((id)));
     }
 
-    public List<ProductTransaction> findAllProductById(String productId) {
-        return productTransactionRepository.findAllProductTransactionByProduct_Id(new ObjectId(productId));
-    }
-
     public void saveAll(List<ProductTransaction> productTransactions) {
         productTransactionRepository.saveAll(productTransactions);
     }
+
+  public Page<ProductTransaction> findAll(Query query, Pageable pageable) {
+        return productTransactionRepository.findAll(query,pageable);
+  }
+
+  public List<ProductTransaction> findAllProductTransactionByProductId(String productId) {
+    return productTransactionRepository.findAllProductTransactionByProductId(new ObjectId(productId));
+  }
 }

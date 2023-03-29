@@ -31,6 +31,18 @@ public class ProductTransaction extends BaseEntity {
   @Field("product_id")
   private String productId;
 
+  @Field("seller_username")
+  private String sellerUsername;
+
+  @Field("store_name")
+  private String storeName;
+
+  @Field("store_id")
+  private String storeId;
+
+  @Field("product_name")
+  private String productName;
+
   @Field("state")
   private ProductTransactionState state;
 
