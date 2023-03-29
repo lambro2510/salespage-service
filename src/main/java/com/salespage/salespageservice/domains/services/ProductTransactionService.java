@@ -12,6 +12,7 @@ import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
+import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import com.salespage.salespageservice.domains.producer.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -74,6 +75,7 @@ public class ProductTransactionService extends BaseService {
   public ResponseEntity<ProductTransactionResponse> createProductTransaction(String username, ProductTransactionDto dto) {
     ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
     Product product = productStorage.findProductById(dto.getProductId());
+    if(username.equals(product.getProductName())) throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Bạn không thể mua mặt hàng này");
     SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
 
     ProductTransaction productTransaction = new ProductTransaction();

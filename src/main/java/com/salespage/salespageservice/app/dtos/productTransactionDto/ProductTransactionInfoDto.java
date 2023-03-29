@@ -18,8 +18,4 @@ public class ProductTransactionInfoDto {
   @NotBlank(message = "Ghi chú không được để trống")
   @Schema(description = "Ghi chú", example = "Vui lòng gửi sản phẩm sớm nhất có thể")
   private String note;
-
-  @NotNull(message = "Trạng thái là bắt buộc")
-  @Schema(description = "Trạng thái", example = "WAITING")
-  private ProductTransactionState state;
 }
