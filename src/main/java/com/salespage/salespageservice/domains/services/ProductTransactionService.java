@@ -44,22 +44,22 @@ public class ProductTransactionService extends BaseService {
   public ResponseEntity<PageResponse<ProductTransactionResponse>> getAllTransaction(String username, String sellerUsername, String storeName, Date startDate, Date endDate, Pageable pageable) {
     Query query = new Query();
     query.addCriteria(Criteria.where("purchaser_username").is(username));
-    if(sellerUsername != null){
+    if (sellerUsername != null) {
       query.addCriteria(Criteria.where("seller_username").is(sellerUsername));
     }
-    if(storeName != null){
+    if (storeName != null) {
       query.addCriteria(Criteria.where("store_name").is(storeName));
     }
-    if(startDate != null){
+    if (startDate != null) {
       query.addCriteria(Criteria.where("created_at").gte(startDate));
     }
-    if(endDate != null){
+    if (endDate != null) {
       query.addCriteria(Criteria.where("created_at").lte(endDate));
     }
 
     Page<ProductTransaction> productTransactions = productTransactionStorage.findAll(query, pageable);
     List<ProductTransactionResponse> productTransactionResponses = new ArrayList<>();
-    for(ProductTransaction productTransaction : productTransactions.getContent()){
+    for (ProductTransaction productTransaction : productTransactions.getContent()) {
       ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
       productTransactionResponse.partnerFromProductTransaction(productTransaction);
       productTransactionResponses.add(productTransactionResponse);
@@ -75,7 +75,8 @@ public class ProductTransactionService extends BaseService {
   public ResponseEntity<ProductTransactionResponse> createProductTransaction(String username, ProductTransactionDto dto) {
     ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
     Product product = productStorage.findProductById(dto.getProductId());
-    if(username.equals(product.getProductName())) throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Bạn không thể mua mặt hàng này");
+    if (username.equals(product.getProductName()))
+      throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Bạn không thể mua mặt hàng này");
     SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
 
     ProductTransaction productTransaction = new ProductTransaction();
@@ -84,8 +85,8 @@ public class ProductTransactionService extends BaseService {
     productTransaction.setStoreId(sellerStore.getId().toHexString());
     productTransaction.setStoreName(sellerStore.getStoreName());
     productTransaction.setPricePerProduct(product.getPrice());
-    if(Objects.nonNull(dto.getVoucherCode())){
-      VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), product.getId().toHexString(),product.getPrice().longValue());
+    if (Objects.nonNull(dto.getVoucherCode())) {
+      VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), product.getId().toHexString(), product.getPrice().longValue());
       productTransaction.setVoucherInfo(voucherInfo);
     }
     productTransactionResponse.partnerFromProductTransaction(productTransaction);

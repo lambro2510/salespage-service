@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static org.springframework.http.HttpStatus.*;
 
 @CrossOrigin
@@ -37,7 +39,7 @@ public class ProductTransactionController extends BaseController {
     })
     public ResponseEntity<ProductTransactionResponse> createProductTransaction(
             Authentication authentication,
-            @RequestBody ProductTransactionDto dto) {
+            @RequestBody @Valid ProductTransactionDto dto) {
         return productTransactionService.createProductTransaction(getUsername(authentication), dto);
     }
 
