@@ -2,7 +2,7 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.salespage.salespageservice.app.dtos.voucherDtos.VoucherStoreDto;
-import com.salespage.salespageservice.domains.services.BaseService;
+import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.services.VoucherCodeService;
 import com.salespage.salespageservice.domains.services.VoucherStoreService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -76,7 +77,7 @@ public class VoucherController extends BaseController {
     return voucherStoreService.getAllVoucherStore(getUsername(authentication));
   }
 
-  @GetMapping("voucher-code")
+  @PostMapping("voucher-code")
   @Operation(summary = "Tạo các voucher code", description = "Tạo ngẫu nhiên danh sách các voucher code")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Tạo mã code thành công"),
@@ -86,5 +87,29 @@ public class VoucherController extends BaseController {
   })
   public ResponseEntity<?> createVoucherCode(Authentication authentication, @RequestParam String voucherStoreId, @RequestParam Long numberVoucher, @RequestParam(required = false) @JsonFormat(pattern = "dd-MM-yyyy") Date expireTime){
     return voucherCodeService.generateVoucherCode(getUsername(authentication),voucherStoreId, numberVoucher, expireTime);
+  }
+
+  @GetMapping("receive/voucher-code")
+  @Operation(summary = "Nhận các mã voucher code", description = "Nhận mã voucher trong store")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Lấy mã code thành công"),
+      @ApiResponse(responseCode = "401", description = "Không được phép"),
+      @ApiResponse(responseCode = "404", description = "Không tìm thấy Voucher Store"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> receiveVoucher(Authentication authentication, @RequestParam String voucherStoreId){
+    return voucherCodeService.receiveVoucher(getUsername(authentication),voucherStoreId);
+  }
+
+  @GetMapping("voucher-code")
+  @Operation(summary = "Lấy các mã voucher code", description = "Lấy toàn bộ các mã voucher trong store")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Lấy mã code thành công"),
+      @ApiResponse(responseCode = "401", description = "Không được phép"),
+      @ApiResponse(responseCode = "404", description = "Không tìm thấy Voucher Store"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> getAllVoucherCode(Authentication authentication, @RequestParam String voucherStoreId, @RequestParam(required = false) VoucherCodeStatus voucherCodeStatus, Pageable pageable){
+    return voucherCodeService.getAllVoucherCodeInStore(getUsername(authentication),voucherStoreId, voucherCodeStatus, pageable);
   }
 }

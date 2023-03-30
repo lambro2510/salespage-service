@@ -1,9 +1,12 @@
 package com.salespage.salespageservice.domains.services;
 
+import com.salespage.salespageservice.app.responses.PageResponse;
+import com.salespage.salespageservice.app.responses.voucherResponse.VoucherCodeResponse;
 import com.salespage.salespageservice.domains.entities.VoucherCode;
 import com.salespage.salespageservice.domains.entities.VoucherCodeLimit;
 import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
+import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
 import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
@@ -15,12 +18,18 @@ import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VoucherCodeService extends BaseService{
@@ -99,19 +108,34 @@ public class VoucherCodeService extends BaseService{
       voucherInfo.setPriceAfter(new BigDecimal(price));
     }
 
-
-
     else if(voucherStore.getVoucherStoreType() == VoucherStoreType.DISCOUNT_PERCENT){
       long price = productPrice -  (productPrice * voucherStore.getValue())/100;
       if(price < 0) price = 0L;
       voucherInfo.setPriceAfter(new BigDecimal(price));
     }
-
     else throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION,"Mã không thể sử dụng cho sản phẩm này");
 
     voucherInfo.setVoucherCode(code);
     voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
     voucherInfo.setValue(voucherStore.getValue());
     return voucherInfo;
+  }
+
+  public ResponseEntity<?> getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
+    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
+    if(Objects.isNull(voucherStore)) throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Cửa hàng này đã bị xóa");
+    if(!voucherStore.getCreatedBy().equals(username)) throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Không có quyền truy cập");
+    Query query = new Query();
+    query.addCriteria(Criteria.where("voucher_store_id").is(voucherStoreId));
+    if(Objects.nonNull(voucherCodeStatus))
+      query.addCriteria(Criteria.where("voucher_code_status").is(voucherCodeStatus));
+    Page<VoucherCode> voucherCodes = voucherCodeStorage.findAll(query, pageable);
+    List<VoucherCodeResponse> voucherCodeResponses = voucherCodes.getContent()
+        .stream()
+        .map(VoucherCode::convertTovoucherCodeResponse)
+        .collect(Collectors.toList());
+
+    Page<VoucherCodeResponse> codeResponses = new PageImpl<>(voucherCodeResponses,pageable,voucherCodes.getTotalElements());
+    return ResponseEntity.ok(PageResponse.createFrom(codeResponses));
   }
 }
