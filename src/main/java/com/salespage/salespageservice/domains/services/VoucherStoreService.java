@@ -77,6 +77,7 @@ public class VoucherStoreService extends BaseService {
       response.setTotalUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed());
       response.setProductId(voucherStore.getProductId());
       response.setProductName(productMap.get(voucherStore.getProductId()));
+      response.setVoucherStoreId(voucherStore.getId().toHexString())
       response.setValue(voucherStore.getValue());
       voucherStoreResponses.add(response);
     }

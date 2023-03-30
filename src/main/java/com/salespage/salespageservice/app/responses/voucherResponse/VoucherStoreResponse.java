@@ -8,6 +8,9 @@ import lombok.Data;
 @Data
 public class VoucherStoreResponse {
 
+  @Schema(description = "Id của cửa hàng voucher", example = "VCST123")
+  private String voucherStoreId;
+
   @Schema(description = "Tên của cửa hàng voucher", example = "Voucher Store A")
   private String voucherStoreName;
 
