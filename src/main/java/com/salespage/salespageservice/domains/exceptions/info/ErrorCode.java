@@ -20,4 +20,6 @@ public class ErrorCode {
     public static final int EXPIRE_VOUCHER = 1023;
 
     public static final int TRANSACTION_EXCEPTION = 1024;
+
+  public static final int VOUCHER_CODE = 1025;
 }

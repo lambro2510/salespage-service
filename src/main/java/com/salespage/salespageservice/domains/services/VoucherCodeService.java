@@ -1,18 +1,23 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.domains.entities.VoucherCode;
+import com.salespage.salespageservice.domains.entities.VoucherCodeLimit;
 import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
+import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
+import com.salespage.salespageservice.domains.exceptions.VoucherCodeException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -24,11 +29,12 @@ public class VoucherCodeService extends BaseService{
   @Lazy
   private VoucherStoreService voucherStoreService;
 
+
   public void deleteAllVoucherCodeInStore(){
 
   }
 
-  public void generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, Date expireTime){
+  public ResponseEntity<?> generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, Date expireTime){
     voucherStoreService.updateQuantityOfVoucherStore(voucherStoreId, 0L, numberVoucher , username);
     List<VoucherCode> voucherCodes = new ArrayList<>();
     for(int i = 0 ; i < numberVoucher; i++){
@@ -38,8 +44,34 @@ public class VoucherCodeService extends BaseService{
       voucherCode.setCode(UUID.randomUUID().toString());
     }
     voucherCodeStorage.saveAll(voucherCodes);
+    return ResponseEntity.ok(ResponseType.CREATED);
   }
 
+  @Transactional
+  public ResponseEntity<?> receiveVoucher(String username, String voucherStoreId){
+    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
+
+    if(Objects.isNull(voucherStore) || voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.INACTIVE))
+      throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
+
+    VoucherCodeLimit voucherCodeLimit = voucherCodeLimitStorage.findByUsernameAndVoucherStoreId(username, voucherStoreId);
+    if(Objects.isNull(voucherCodeLimit)){
+      voucherCodeLimit = new VoucherCodeLimit();
+      voucherCodeLimit.setUsername(username);
+      voucherCodeLimit.setVoucherStoreId(voucherStoreId);
+      voucherCodeLimit.setNumberReceiveVoucher(0L);
+    }
+    voucherCodeLimit.setNumberReceiveVoucher(voucherCodeLimit.getNumberReceiveVoucher() + 1);
+    if(voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getQuantityUsed())
+      throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Bạn đã nhận tối đa số lượng mã giảm giá");
+    VoucherCode voucherCode = voucherCodeStorage.findFirstByVoucherStoreId(voucherStoreId, new Date());
+    voucherCode.setOwnerId(username);
+    voucherStore.getVoucherStoreDetail().setQuantityUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed() + 1);
+    voucherCodeStorage.save(voucherCode);
+    voucherCodeLimitStorage.save(voucherCodeLimit);
+    voucherStoreStorage.save(voucherStore);
+    return ResponseEntity.ok(ResponseType.UPDATED);
+  }
   public VoucherInfo useVoucher(String username, String code, String productId, Long productPrice) {
     VoucherInfo voucherInfo = new VoucherInfo();
     voucherInfo.setPriceBefore(new BigDecimal(productPrice));

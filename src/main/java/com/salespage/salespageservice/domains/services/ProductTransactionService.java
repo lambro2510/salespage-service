@@ -14,6 +14,7 @@ import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundExcepti
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import com.salespage.salespageservice.domains.producer.Producer;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -75,15 +76,17 @@ public class ProductTransactionService extends BaseService {
   public ResponseEntity<ProductTransactionResponse> createProductTransaction(String username, ProductTransactionDto dto) {
     ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
     Product product = productStorage.findProductById(dto.getProductId());
-    if (username.equals(product.getProductName()))
+    if (username.equals(product.getSellerUsername()))
       throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Bạn không thể mua mặt hàng này");
     SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
 
     ProductTransaction productTransaction = new ProductTransaction();
+    productTransaction.setId(new ObjectId());
     productTransaction.createNewTransaction(username, dto);
     productTransaction.setSellerUsername(productTransaction.getSellerUsername());
     productTransaction.setStoreId(sellerStore.getId().toHexString());
     productTransaction.setStoreName(sellerStore.getStoreName());
+    productTransaction.setProductName(productTransaction.getProductName());
     productTransaction.setPricePerProduct(product.getPrice());
     if (Objects.nonNull(dto.getVoucherCode())) {
       VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), product.getId().toHexString(), product.getPrice().longValue());

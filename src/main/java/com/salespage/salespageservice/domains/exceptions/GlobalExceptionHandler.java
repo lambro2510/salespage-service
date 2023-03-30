@@ -68,15 +68,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("error: {}" , exception.getMessage());
         return new ResponseEntity<>(ExceptionResponse.createFrom(new BaseException(ErrorCode.NOT_VALID, ex.getMessage())), HttpStatus.BAD_REQUEST);
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("error: {}" , exception.getMessage());
         return new ResponseEntity<>(ExceptionResponse.createFrom(new BaseException(ErrorCode.BAD_REQUEST, ex.getMessage())), HttpStatus.BAD_REQUEST);
-
     }
 }
 

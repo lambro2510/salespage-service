@@ -1,7 +1,9 @@
 package com.salespage.salespageservice.app.controllers;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
+import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.services.ProductTransactionService;
@@ -11,11 +13,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.Date;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -68,5 +73,23 @@ public class ProductTransactionController extends BaseController {
     public ResponseEntity<ProductTransaction> cancelProductTransaction(Authentication authentication, @RequestParam String transactionId) {
         return productTransactionService.cancelProductTransaction(getUsername(authentication), transactionId);
     }
+
+  @GetMapping("")
+  @Operation(summary = "Tìm kiếm lịch sử giao dịch", description = "Tìm kiếm lịch sử giao dịch")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Tìm kiếm giao dịch thành công"),
+      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+      @ApiResponse(responseCode = "401", description = "Không được phép"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<PageResponse<ProductTransactionResponse>> getAllProductTransaction(Authentication authentication,
+                                                                                           @RequestParam(required = false) String sellerUsername,
+                                                                                           @RequestParam(required = false) String storeName,
+                                                                                           @RequestParam(required = false) @JsonFormat(pattern = "dd-MM-yyyy") Date startDate,
+                                                                                           @RequestParam(required = false) @JsonFormat(pattern = "dd-MM-yyyy") Date endDate,
+                                                                                           Pageable pageable
+                                                                                           ) {
+    return productTransactionService.getAllTransaction(getUsername(authentication), sellerUsername, storeName, startDate, endDate, pageable);
+  }
 
 }
