@@ -17,7 +17,7 @@ public class ProductTransactionResponse {
 
   private String sellerName;
 
-  private String buyerUsername;
+  private String buyerName;
 
   private String storeName;
 
@@ -37,7 +37,7 @@ public class ProductTransactionResponse {
     productName = productTransaction.getProductName();
     pricePerProduct = productTransaction.getPricePerProduct().longValue();
     sellerName = productTransaction.getSellerUsername();
-    buyerUsername = productTransaction.getBuyerUsername();
+    buyerName = productTransaction.getBuyerUsername();
     storeName = productTransaction.getStoreName();
     quantity = productTransaction.getQuantity();
     isUseVoucher = productTransaction.getIsUseVoucher();
