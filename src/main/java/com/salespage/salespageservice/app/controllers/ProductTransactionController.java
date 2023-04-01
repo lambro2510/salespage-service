@@ -8,12 +8,14 @@ import com.salespage.salespageservice.app.responses.transactionResponse.ProductT
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.services.ProductTransactionService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -85,8 +87,8 @@ public class ProductTransactionController extends BaseController {
   public ResponseEntity<PageResponse<ProductTransactionResponse>> getAllProductTransaction(Authentication authentication,
                                                                                            @RequestParam(required = false) String sellerUsername,
                                                                                            @RequestParam(required = false) String storeName,
-                                                                                           @RequestParam(required = false) @JsonFormat(pattern = "dd-MM-yyyy") Date startDate,
-                                                                                           @RequestParam(required = false) @JsonFormat(pattern = "dd-MM-yyyy") Date endDate,
+                                                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") @Schema(type = "string", format = "date") Date startDate,
+                                                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") @Schema(type = "string", format = "date") Date endDate,
                                                                                            Pageable pageable
                                                                                            ) {
     return productTransactionService.getAllTransaction(getUsername(authentication), sellerUsername, storeName, startDate, endDate, pageable);
