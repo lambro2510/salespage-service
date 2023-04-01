@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -39,4 +40,15 @@ public class Helper {
     return parts[parts.length - 1];
   }
 
+  public static String generateRandomString() {
+    final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    final int STRING_LENGTH = 10;
+
+    StringBuilder sb = new StringBuilder(STRING_LENGTH);
+    Random random = new SecureRandom();
+    for (int i = 0; i < STRING_LENGTH; i++) {
+      sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+    }
+    return sb.toString();
+  }
 }

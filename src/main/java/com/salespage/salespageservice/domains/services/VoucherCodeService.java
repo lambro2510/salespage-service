@@ -15,6 +15,7 @@ import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundExcepti
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.VoucherCodeException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -51,7 +52,7 @@ public class VoucherCodeService extends BaseService{
       VoucherCode voucherCode = new VoucherCode();
       voucherCode.setVoucherStoreId(voucherStoreId);
       voucherCode.setExpireTime(expireTime);
-      voucherCode.setCode(UUID.randomUUID().toString());
+      voucherCode.setCode(Helper.generateRandomString());
       voucherCodes.add(voucherCode);
     }
     voucherCodeStorage.saveAll(voucherCodes);
