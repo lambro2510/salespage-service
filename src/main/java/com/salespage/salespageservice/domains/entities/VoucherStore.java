@@ -59,7 +59,7 @@ public class VoucherStore extends BaseEntity{
   public void updatedVoucherStore(UpdateVoucherStoreDto updateVoucherStoreDto){
     setVoucherStoreName(updateVoucherStoreDto.getVoucherStoreName());
     setVoucherStoreType(updateVoucherStoreDto.getVoucherStoreType());
-
+    setVoucherStoreStatus(updateVoucherStoreDto.getVoucherStoreStatus());
     if(voucherStoreType == VoucherStoreType.DISCOUNT_PERCENT){
       setValue(updateVoucherStoreDto.getValuePercent());
     }

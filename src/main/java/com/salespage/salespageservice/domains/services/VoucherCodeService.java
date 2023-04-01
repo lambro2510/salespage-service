@@ -43,6 +43,7 @@ public class VoucherCodeService extends BaseService{
 
   }
 
+  @Transactional
   public ResponseEntity<?> generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, Date expireTime){
     voucherStoreService.updateQuantityOfVoucherStore(voucherStoreId, 0L, numberVoucher , username);
     List<VoucherCode> voucherCodes = new ArrayList<>();
@@ -51,6 +52,7 @@ public class VoucherCodeService extends BaseService{
       voucherCode.setVoucherStoreId(voucherStoreId);
       voucherCode.setExpireTime(expireTime);
       voucherCode.setCode(UUID.randomUUID().toString());
+      voucherCodes.add(voucherCode);
     }
     voucherCodeStorage.saveAll(voucherCodes);
     return ResponseEntity.ok(ResponseType.CREATED);
