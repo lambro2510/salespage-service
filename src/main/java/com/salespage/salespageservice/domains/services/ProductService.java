@@ -62,9 +62,13 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(product);
   }
 
-  public ResponseEntity<PageResponse<Product>> getAllProduct(ProductType productType,String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
+  public ResponseEntity<PageResponse<Product>> getAllProduct(String users, ProductType productType,String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
 
     Query query = new Query();
+    if(username != null){
+      query.addCriteria(Criteria.where("seller_username").ne(users));
+    }
+
     if(productName != null) {
       Pattern pattern = Pattern.compile(".*" + productName + ".*", Pattern.CASE_INSENSITIVE);
       query.addCriteria(Criteria.where("product_name").regex(pattern));
@@ -83,6 +87,7 @@ public class ProductService extends BaseService {
           .collect(Collectors.toList());
       query.addCriteria(Criteria.where("seller_store_id").in(ids));
     }
+
     if (username != null) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByOwnerStoreName(username);
       List<String> ids = sellerStores.stream()

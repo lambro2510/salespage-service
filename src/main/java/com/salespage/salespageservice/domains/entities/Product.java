@@ -44,7 +44,7 @@ public class Product {
     @Field("selling_address")
     private String sellingAddress;
 
-    @Field("seller_id")
+    @Field("seller_username")
     private String sellerUsername;
 
     @Field("seller_store_id")

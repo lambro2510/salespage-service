@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.controllers.publicControllers;
 
+import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.types.ProductType;
@@ -8,13 +9,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
 @RequestMapping("v1/api/public/product")
 @Tag(name = "Thông tin của sản phẩm", description = "Thông tin sản phẩm được bán")
-public class PublicProductController {
+public class PublicProductController extends BaseController {
   @Autowired
   private ProductService productService;
 
@@ -24,9 +26,10 @@ public class PublicProductController {
                                                              @RequestParam(required = false) Long minPrice,
                                                              @RequestParam(required = false) Long maxPrice,
                                                              @RequestParam(required = false) String storeName,
-                                                             @RequestParam(required = false) String username,
+                                                             @RequestParam(required = false) String ownerStaoreUsername,
+                                                             Authentication authentication,
                                                              Pageable pageable) {
-    return productService.getAllProduct(productType,productName, minPrice, maxPrice, storeName, username, pageable);
+    return productService.getAllProduct(getUsername(authentication),productType,productName, minPrice, maxPrice, storeName, ownerStaoreUsername, pageable);
   }
 
   @GetMapping("detail")
