@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.repositories;
 
 import com.salespage.salespageservice.domains.entities.VoucherCode;
+import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,9 +13,10 @@ import java.util.Date;
 
 @Repository
 public interface VoucherCodeRepository extends MongoRepository<VoucherCode, ObjectId> {
-  VoucherCode findByOwnerIdAndCode(String username, String code);
 
   VoucherCode findFirstByVoucherStoreIdAndExpireTimeGreaterThan(String voucherStoreId, Date expireTime);
 
   Page<VoucherCode> findAll(Query query, Pageable pageable);
+
+  VoucherCode findByOwnerIdAndCodeAndVoucherCodeStatus(String username, String code, VoucherCodeStatus voucherCodeStatus);
 }

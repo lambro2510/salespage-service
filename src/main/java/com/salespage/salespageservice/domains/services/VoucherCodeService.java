@@ -88,7 +88,7 @@ public class VoucherCodeService extends BaseService{
     VoucherInfo voucherInfo = new VoucherInfo();
     voucherInfo.setPriceBefore(new BigDecimal(productPrice));
 
-    VoucherCode voucherCode = voucherCodeStorage.findByOwnerIdAndCode(username,code);
+    VoucherCode voucherCode = voucherCodeStorage.findCodeCanUse(username,code);
     if(Objects.isNull(voucherCode)) throw new ResourceNotFoundException("Mã giảm giá không hợp lệ");
     if(voucherCode.getExpireTime().after(new Date())) throw new TransactionException(ErrorCode.EXPIRE_VOUCHER,"Mã giảm giá đã hết hạn");
 

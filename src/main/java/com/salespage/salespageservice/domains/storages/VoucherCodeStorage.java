@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.VoucherCode;
+import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
@@ -15,8 +16,8 @@ public class VoucherCodeStorage extends BaseStorage{
     voucherCodeRepository.saveAll(voucherCodes);
   }
 
-  public VoucherCode findByOwnerIdAndCode(String username, String code) {
-    return voucherCodeRepository.findByOwnerIdAndCode(username, code);
+  public VoucherCode findCodeCanUse(String username, String code) {
+    return voucherCodeRepository.findByOwnerIdAndCodeAndVoucherCodeStatus(username, code, VoucherCodeStatus.OWNER);
   }
 
   public VoucherCode findFirstByVoucherStoreId(String voucherStoreId, Date expireTime) {
