@@ -25,8 +25,8 @@ public class ProductTransaction extends BaseEntity {
   @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
-  @Field("purchaser_username")
-  private String purchaserUsername;
+  @Field("buyer_username")
+  private String buyerUsername;
 
   @Field("product_id")
   private String productId;
@@ -67,7 +67,7 @@ public class ProductTransaction extends BaseEntity {
   private List<Message> messages = new ArrayList<>();
 
   public void createNewTransaction(String username, ProductTransactionDto dto) {
-    this.purchaserUsername = username;
+    buyerUsername = username;
     productId = dto.getProductId();
     quantity = dto.getQuantity();
     note = dto.getNote();
@@ -78,6 +78,7 @@ public class ProductTransaction extends BaseEntity {
   public void updateTransaction(ProductTransactionInfoDto dto) {
     quantity = dto.getQuantity();
     note = dto.getNote();
+    addressReceive = dto.getAddress();
   }
 
   public void updateState(ProductTransactionState state, String note) {
