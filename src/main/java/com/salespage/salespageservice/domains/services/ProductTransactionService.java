@@ -83,7 +83,7 @@ public class ProductTransactionService extends BaseService {
     ProductTransaction productTransaction = new ProductTransaction();
     productTransaction.setId(new ObjectId());
     productTransaction.createNewTransaction(username, dto);
-    productTransaction.setSellerUsername(productTransaction.getSellerUsername());
+    productTransaction.setSellerUsername(product.getSellerUsername());
     productTransaction.setStoreId(sellerStore.getId().toHexString());
     productTransaction.setStoreName(sellerStore.getStoreName());
     productTransaction.setProductName(product.getProductName());

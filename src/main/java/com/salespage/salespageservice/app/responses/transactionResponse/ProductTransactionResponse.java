@@ -19,6 +19,8 @@ public class ProductTransactionResponse {
 
   private String storeName;
 
+  private String note;
+
   private Long quantity;
 
   private Boolean isUseVoucher;
@@ -38,5 +40,6 @@ public class ProductTransactionResponse {
     isUseVoucher = productTransaction.getIsUseVoucher();
     productTransactionState = productTransaction.getState();
     voucherInfo = productTransaction.getVoucherInfo();
+    note = productTransaction.getNote();
   }
 }
