@@ -8,5 +8,5 @@ public enum ProductType {
     CLOTHING,
     BEAUTY,
     HOME_APPLIANCES,
-    BOOKS;
+    BOOKS
 }

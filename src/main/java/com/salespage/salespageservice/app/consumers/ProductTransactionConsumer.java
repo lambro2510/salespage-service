@@ -31,8 +31,6 @@ public class ProductTransactionConsumer {
     } catch (Exception e) {
       producer.createProductTransaction(productTransaction);
       log.error("====> processReturnReward error: {} " + productTransaction);
-    } finally {
-
     }
   }
 }
