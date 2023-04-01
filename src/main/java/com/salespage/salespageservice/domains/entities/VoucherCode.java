@@ -6,6 +6,7 @@ import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -13,6 +14,7 @@ import java.util.Date;
 
 @Document("voucher_code")
 @Data
+@CompoundIndex(name = "code_owner_status_index", def = "{'code' : 1, 'ownerId' : 1, 'voucherCodeStatus' : 1}", unique = true)
 public class VoucherCode extends BaseEntity{
 
   @Id
