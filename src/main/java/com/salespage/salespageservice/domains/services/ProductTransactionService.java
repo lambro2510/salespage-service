@@ -86,7 +86,7 @@ public class ProductTransactionService extends BaseService {
     productTransaction.setSellerUsername(productTransaction.getSellerUsername());
     productTransaction.setStoreId(sellerStore.getId().toHexString());
     productTransaction.setStoreName(sellerStore.getStoreName());
-    productTransaction.setProductName(productTransaction.getProductName());
+    productTransaction.setProductName(product.getProductName());
     productTransaction.setPricePerProduct(product.getPrice());
     if (Objects.nonNull(dto.getVoucherCode())) {
       VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), product.getId().toHexString(), product.getPrice().longValue());
