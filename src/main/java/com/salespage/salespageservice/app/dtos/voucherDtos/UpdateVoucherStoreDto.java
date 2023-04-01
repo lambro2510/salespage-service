@@ -8,7 +8,7 @@ import lombok.Data;
 import javax.validation.constraints.*;
 
 @Data
-public class VoucherStoreDto {
+public class UpdateVoucherStoreDto {
 
   @NotBlank(message = "Tên voucher store không được để trống")
   @Schema(description = "Tên voucher store", example = "Voucher Store 1")
@@ -17,10 +17,6 @@ public class VoucherStoreDto {
   @NotNull(message = "Loại voucher store không được để trống")
   @Schema(description = "Loại voucher store", example = "DISCOUNT")
   private VoucherStoreType voucherStoreType;
-
-  @NotBlank(message = "ID sản phẩm không được để trống")
-  @Schema(description = "ID sản phẩm", example = "123456")
-  private String productId;
 
   @Schema(description = "Trạng thái của kho voucher", example = "INACTIVE")
   private VoucherStoreStatus voucherStoreStatus;

@@ -1,6 +1,6 @@
 package com.salespage.salespageservice.domains.entities;
 
-import com.salespage.salespageservice.app.dtos.voucherDtos.VoucherStoreDto;
+import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto;
 import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import lombok.Data;
@@ -56,23 +56,22 @@ public class VoucherStore extends BaseEntity{
     private Long maxVoucherPerUser;
   }
 
-  public void updatedVoucherStore(VoucherStoreDto voucherStoreDto){
-    setVoucherStoreName(voucherStoreDto.getVoucherStoreName());
-    setVoucherStoreType(voucherStoreDto.getVoucherStoreType());
-    setProductId(voucherStoreDto.getProductId());
+  public void updatedVoucherStore(UpdateVoucherStoreDto updateVoucherStoreDto){
+    setVoucherStoreName(updateVoucherStoreDto.getVoucherStoreName());
+    setVoucherStoreType(updateVoucherStoreDto.getVoucherStoreType());
 
     if(voucherStoreType == VoucherStoreType.DISCOUNT_PERCENT){
-      setValue(voucherStoreDto.getValuePercent());
+      setValue(updateVoucherStoreDto.getValuePercent());
     }
     else if(voucherStoreType == VoucherStoreType.MONEY || voucherStoreType == VoucherStoreType.DISCOUNT){
-      setValue(voucherStoreDto.getValue());
+      setValue(updateVoucherStoreDto.getValue());
     }
 
     VoucherStore.VoucherStoreDetail voucherStoreDetail = new VoucherStore.VoucherStoreDetail();
 
-    voucherStoreDetail.setMaxVoucherPerUser(voucherStoreDto.getMaxVoucherPerUser());
-    voucherStoreDetail.setMaxAblePrice(voucherStoreDto.getMaxAblePrice());
-    voucherStoreDetail.setMinAblePrice(voucherStoreDto.getMinAblePrice());
+    voucherStoreDetail.setMaxVoucherPerUser(updateVoucherStoreDto.getMaxVoucherPerUser());
+    voucherStoreDetail.setMaxAblePrice(updateVoucherStoreDto.getMaxAblePrice());
+    voucherStoreDetail.setMinAblePrice(updateVoucherStoreDto.getMinAblePrice());
     setVoucherStoreDetail(voucherStoreDetail);
   }
 }

@@ -1,10 +1,10 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.dtos.voucherDtos.VoucherStoreDto;
+import com.salespage.salespageservice.app.dtos.voucherDtos.CreateVoucherStoreDto;
+import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.types.ResponseType;
-import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.app.responses.voucherResponse.VoucherStoreResponse;
@@ -20,16 +20,17 @@ public class VoucherStoreService extends BaseService {
   @Autowired
   private VoucherCodeService voucherCodeService;
 
-  public ResponseEntity<?> createVoucherStore(String username, VoucherStoreDto voucherStoreDto) {
+  public ResponseEntity<?> createVoucherStore(String username, CreateVoucherStoreDto createVoucherStoreDto) {
     VoucherStore voucherStore = new VoucherStore();
-    voucherStore.updatedVoucherStore(voucherStoreDto);
+    voucherStore.updatedVoucherStore(createVoucherStoreDto);
+    voucherStore.setProductId(createVoucherStoreDto.getProductId());
     voucherStore.setCreatedAt(System.currentTimeMillis());
     voucherStore.setCreatedBy(username);
     voucherStoreStorage.save(voucherStore);
     return ResponseEntity.ok(ResponseType.CREATED.name());
   }
 
-  public ResponseEntity<?> updateVoucherStore(String username, VoucherStoreDto voucherStoreDto, String voucherStoreId) {
+  public ResponseEntity<?> updateVoucherStore(String username, UpdateVoucherStoreDto updateVoucherStoreDto, String voucherStoreId) {
 
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
     if (voucherStore == null) {
@@ -40,7 +41,7 @@ public class VoucherStoreService extends BaseService {
       throw new AuthorizationException("Bạn không có quyền chỉnh sửa loại code này");
     }
 
-    voucherStore.updatedVoucherStore(voucherStoreDto);
+    voucherStore.updatedVoucherStore(updateVoucherStoreDto);
     voucherStore.setUpdatedAt(System.currentTimeMillis());
     voucherStoreStorage.save(voucherStore);
     return ResponseEntity.ok(ResponseType.UPDATED);

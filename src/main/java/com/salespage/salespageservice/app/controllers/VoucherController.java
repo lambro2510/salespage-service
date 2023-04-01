@@ -1,7 +1,8 @@
 package com.salespage.salespageservice.app.controllers;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.salespage.salespageservice.app.dtos.voucherDtos.VoucherStoreDto;
+import com.salespage.salespageservice.app.dtos.voucherDtos.CreateVoucherStoreDto;
+import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.services.VoucherCodeService;
 import com.salespage.salespageservice.domains.services.VoucherStoreService;
@@ -37,8 +38,8 @@ public class VoucherController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Không được phép"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> createVoucherStore(Authentication authentication, @RequestBody VoucherStoreDto voucherStoreDto){
-    return voucherStoreService.createVoucherStore(getUsername(authentication), voucherStoreDto);
+  public ResponseEntity<?> createVoucherStore(Authentication authentication, @RequestBody CreateVoucherStoreDto updateVoucherStoreDto){
+    return voucherStoreService.createVoucherStore(getUsername(authentication), updateVoucherStoreDto);
   }
 
   @PutMapping("voucher-store")
@@ -50,8 +51,8 @@ public class VoucherController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy Voucher Store"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> updateVoucherStore(Authentication authentication, @RequestBody VoucherStoreDto voucherStoreDto, @RequestParam String voucherStoreId){
-    return voucherStoreService.updateVoucherStore(getUsername(authentication), voucherStoreDto, voucherStoreId);
+  public ResponseEntity<?> updateVoucherStore(Authentication authentication, @RequestBody UpdateVoucherStoreDto updateVoucherStoreDto, @RequestParam String voucherStoreId){
+    return voucherStoreService.updateVoucherStore(getUsername(authentication), updateVoucherStoreDto, voucherStoreId);
   }
 
   @DeleteMapping("voucher-store")
@@ -85,7 +86,7 @@ public class VoucherController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tìm thấy Voucher Store"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> createVoucherCode(Authentication authentication, @RequestParam String voucherStoreId, @RequestParam Long numberVoucher, @RequestParam(required = false) @JsonFormat(pattern = "dd-MM-yyyy") Date expireTime){
+  public ResponseEntity<?> createVoucherCode(Authentication authentication, @RequestParam String voucherStoreId, @RequestParam Long numberVoucher, @RequestParam(required = false) @JsonFormat(pattern = "dd-mm-yyyy") Date expireTime){
     return voucherCodeService.generateVoucherCode(getUsername(authentication),voucherStoreId, numberVoucher, expireTime);
   }
 
