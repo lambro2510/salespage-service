@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.dtos.voucherDtos;
 
+import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -20,6 +21,9 @@ public class VoucherStoreDto {
   @NotBlank(message = "ID sản phẩm không được để trống")
   @Schema(description = "ID sản phẩm", example = "123456")
   private String productId;
+
+  @Schema(description = "Trạng thái của kho voucher", example = "INACTIVE")
+  private VoucherStoreStatus voucherStoreStatus;
 
   @Positive(message = "Giá trị không được âm")
   @Schema(description = "Giá trị của voucher", example = "5000000")
