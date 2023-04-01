@@ -120,7 +120,7 @@ public class ProductTransactionService extends BaseService {
 
   public ResponseEntity<ProductTransaction> cancelProductTransaction(String username, String transactionId) {
     ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
-    if (!username.equals(productTransaction.getPurchaserUsername()))
+    if (!username.equals(productTransaction.getBuyerUsername()))
       throw new TransactionException("Bạn không có quyền hủy đơn hàng này");
 
     productTransaction.setState(ProductTransactionState.CANCEL);
