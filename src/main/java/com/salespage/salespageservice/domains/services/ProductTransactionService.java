@@ -45,10 +45,10 @@ public class ProductTransactionService extends BaseService {
   public ResponseEntity<PageResponse<ProductTransactionResponse>> getAllTransaction(String username, String sellerUsername, String storeName, Date startDate, Date endDate, Pageable pageable) {
     Query query = new Query();
     query.addCriteria(Criteria.where("buyer_username").is(username));
-    if (sellerUsername != null) {
+    if (sellerUsername != null && sellerUsername.length() > 0) {
       query.addCriteria(Criteria.where("seller_username").is(sellerUsername));
     }
-    if (storeName != null) {
+    if (storeName != null && storeName.length() > 0) {
       query.addCriteria(Criteria.where("store_name").is(storeName));
     }
     if (startDate != null) {
