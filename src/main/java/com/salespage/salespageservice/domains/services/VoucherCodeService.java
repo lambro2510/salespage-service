@@ -120,6 +120,7 @@ public class VoucherCodeService extends BaseService{
     else throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION,"Mã không thể sử dụng cho sản phẩm này");
     voucherCode.setUserAt(new Date());
     voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
+    voucherCodeStorage.save(voucherCode);
     voucherInfo.setVoucherCode(code);
     voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
     voucherInfo.setValue(voucherStore.getValue());

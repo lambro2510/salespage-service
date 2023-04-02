@@ -5,6 +5,12 @@ import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import lombok.Data;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
+
 @Data
 public class ProductTransactionResponse {
   private String transactionId;
@@ -31,6 +37,8 @@ public class ProductTransactionResponse {
 
   private VoucherInfo voucherInfo;
 
+  private LocalDateTime createdAt;
+
   public void partnerFromProductTransaction(ProductTransaction productTransaction){
     transactionId = productTransaction.getId().toHexString();
     productId = productTransaction.getProductId();
@@ -44,5 +52,8 @@ public class ProductTransactionResponse {
     productTransactionState = productTransaction.getState();
     voucherInfo = productTransaction.getVoucherInfo();
     note = productTransaction.getNote();
+    Instant instant = Instant.ofEpochSecond(productTransaction.getCreatedAt());
+    ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+    createdAt = zonedDateTime.toLocalDateTime();
   }
 }
