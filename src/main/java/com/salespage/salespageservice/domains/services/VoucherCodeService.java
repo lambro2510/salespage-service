@@ -63,7 +63,7 @@ public class VoucherCodeService extends BaseService{
   public ResponseEntity<?> receiveVoucher(String username, String voucherStoreId){
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
 
-    if(Objects.isNull(voucherStore) || voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
+    if(Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
       throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
 
     VoucherCodeLimit voucherCodeLimit = voucherCodeLimitStorage.findByUsernameAndVoucherStoreId(username, voucherStoreId);
