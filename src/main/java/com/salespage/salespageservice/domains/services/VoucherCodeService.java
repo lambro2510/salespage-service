@@ -76,7 +76,7 @@ public class VoucherCodeService extends BaseService{
     voucherCodeLimit.setNumberReceiveVoucher(voucherCodeLimit.getNumberReceiveVoucher() + 1);
     if(voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser())
       throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Bạn đã nhận tối đa số lượng mã giảm giá");
-    VoucherCode voucherCode = voucherCodeStorage.findFirstByVoucherStoreId(voucherStoreId, new Date());
+    VoucherCode voucherCode = voucherCodeStorage.findFirstVoucherCanUseByVoucherStoreId(voucherStoreId, new Date());
     voucherCode.setOwnerId(username);
     voucherCode.setVoucherCodeStatus(VoucherCodeStatus.OWNER);
     voucherStore.getVoucherStoreDetail().setQuantityUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed() + 1);
