@@ -91,11 +91,11 @@ public class VoucherCodeService extends BaseService{
 
     VoucherCode voucherCode = voucherCodeStorage.findCodeCanUse(username,code);
     if(Objects.isNull(voucherCode)) throw new ResourceNotFoundException("Mã giảm giá không hợp lệ");
-    if(voucherCode.getExpireTime().after(new Date())) throw new TransactionException(ErrorCode.EXPIRE_VOUCHER,"Mã giảm giá đã hết hạn");
+    if(voucherCode.getExpireTime().before(new Date())) throw new TransactionException(ErrorCode.EXPIRE_VOUCHER,"Mã giảm giá đã hết hạn");
 
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
 
-    if(Objects.isNull(voucherStore) || voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.INACTIVE))
+    if(Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
       throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
 
     if(voucherStore.getVoucherStoreDetail().getMaxAblePrice() < productPrice || voucherStore.getVoucherStoreDetail().getMinAblePrice() > productPrice)
