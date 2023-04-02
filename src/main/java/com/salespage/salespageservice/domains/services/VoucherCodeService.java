@@ -78,11 +78,12 @@ public class VoucherCodeService extends BaseService{
       throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Bạn đã nhận tối đa số lượng mã giảm giá");
     VoucherCode voucherCode = voucherCodeStorage.findFirstByVoucherStoreId(voucherStoreId, new Date());
     voucherCode.setOwnerId(username);
+    voucherCode.setVoucherCodeStatus(VoucherCodeStatus.OWNER);
     voucherStore.getVoucherStoreDetail().setQuantityUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed() + 1);
     voucherCodeStorage.save(voucherCode);
     voucherCodeLimitStorage.save(voucherCodeLimit);
     voucherStoreStorage.save(voucherStore);
-    return ResponseEntity.ok(ResponseType.UPDATED);
+    return ResponseEntity.ok(voucherCode.getCode());
   }
   public VoucherInfo useVoucher(String username, String code, String productId, Long productPrice) {
     VoucherInfo voucherInfo = new VoucherInfo();
@@ -117,7 +118,8 @@ public class VoucherCodeService extends BaseService{
       voucherInfo.setPriceAfter(new BigDecimal(price));
     }
     else throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION,"Mã không thể sử dụng cho sản phẩm này");
-
+    voucherCode.setUserAt(new Date());
+    voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
     voucherInfo.setVoucherCode(code);
     voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
     voucherInfo.setValue(voucherStore.getValue());
