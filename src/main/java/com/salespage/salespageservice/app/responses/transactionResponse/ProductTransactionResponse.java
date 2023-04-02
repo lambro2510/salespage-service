@@ -1,9 +1,11 @@
 package com.salespage.salespageservice.app.responses.transactionResponse;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -27,6 +29,8 @@ public class ProductTransactionResponse {
 
   private String storeName;
 
+  private String address;
+
   private String note;
 
   private Long quantity;
@@ -37,7 +41,8 @@ public class ProductTransactionResponse {
 
   private VoucherInfo voucherInfo;
 
-  private LocalDateTime createdAt;
+  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+  private Date createdAt;
 
   public void partnerFromProductTransaction(ProductTransaction productTransaction){
     transactionId = productTransaction.getId().toHexString();
@@ -52,8 +57,7 @@ public class ProductTransactionResponse {
     productTransactionState = productTransaction.getState();
     voucherInfo = productTransaction.getVoucherInfo();
     note = productTransaction.getNote();
-    Instant instant = Instant.ofEpochSecond(productTransaction.getCreatedAt());
-    ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
-    createdAt = zonedDateTime.toLocalDateTime();
+    address = productTransaction.getAddressReceive();
+    createdAt = new Date(productTransaction.getCreatedAt());
   }
 }
