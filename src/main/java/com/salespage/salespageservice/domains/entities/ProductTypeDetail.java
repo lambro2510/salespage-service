@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Document("product_type_detail")
 public class ProductTypeDetail extends BaseEntity {
   @Id
-  ObjectId id;
+  private ObjectId id;
 
   @Field("type_name")
   private String typeName;
