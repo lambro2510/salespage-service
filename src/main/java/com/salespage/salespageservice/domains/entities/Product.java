@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.entities;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.ProductType;
 import lombok.Data;
@@ -58,4 +59,16 @@ public class Product {
         sellingAddress = dto.getSellingAddress();
         sellerStoreId = dto.getStoreId();
     }
+
+    public ProductDataResponse assignToProductResponse() {
+        ProductDataResponse response = new ProductDataResponse();
+        response.setProductId(id.toHexString());
+        response.setProductName(productName);
+        response.setProductPrice(price);
+        response.setSellerUsername(sellerUsername);
+        response.setTotalRate(rate.getTotalRate());
+        response.setAvgPoint(rate.getAvgPoint());
+        return response;
+    }
+
 }

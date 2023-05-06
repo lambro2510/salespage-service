@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <RollingFile name="fileAppender" fileName="logs/app.log"
+                     filePattern="logs/app.%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout>
+                <pattern>%d [%t] %-5p %c{1}:%L - %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="fileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>

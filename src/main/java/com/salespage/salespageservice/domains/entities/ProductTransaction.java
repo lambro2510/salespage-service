@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Document("product_transaction")
 @Data
 public class ProductTransaction extends BaseEntity {
