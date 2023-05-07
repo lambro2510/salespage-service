@@ -78,21 +78,21 @@ public class ProductService extends BaseService {
       query.addCriteria(Criteria.where("product_name").regex(pattern));
     }
 
-    if (productType != null)
+    if (StringUtil.isNotBlank(productType))
       query.addCriteria(Criteria.where("product_type").is(productType));
     if (minPrice != null)
       query.addCriteria(Criteria.where("price").gte(minPrice));
     if (maxPrice != null)
       query.addCriteria(Criteria.where("price").lte(maxPrice));
-    if (storeName != null) {
+    if (StringUtil.isNotBlank(storeName)) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByStoreName(storeName);
-      List<String> ids = sellerStores.stream()
-              .map(s -> s.getId().toHexString())
+      List<String> storeNames = sellerStores.stream()
+              .map(SellerStore::getStoreName)
               .collect(Collectors.toList());
-      query.addCriteria(Criteria.where("seller_store_id").in(ids));
+      query.addCriteria(Criteria.where("store_name").in(storeNames));
     }
 
-    if (username != null) {
+    if (StringUtil.isNotBlank(username)) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByOwnerStoreName(username);
       List<String> ids = sellerStores.stream()
               .map(s -> s.getId().toHexString())
