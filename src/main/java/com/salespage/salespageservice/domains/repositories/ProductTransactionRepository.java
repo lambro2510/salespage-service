@@ -12,8 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ProductTransactionRepository extends MongoRepository<ProductTransaction, ObjectId> {
-  ProductTransaction findProductTransactionById(ObjectId objectId);
-
+  ProductTransaction findProductTransactionById(ObjectId id);
 
   Page<ProductTransaction> findAll(Query query, Pageable pageable);
 

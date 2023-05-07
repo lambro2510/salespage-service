@@ -28,6 +28,7 @@ public class ProductTransaction extends BaseEntity {
   private ObjectId id;
 
   @Field("buyer_username")
+  @Indexed(name = "buyer_username_idx")
   private String buyerUsername;
 
   @Field("product_id")

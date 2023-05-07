@@ -5,6 +5,7 @@ import com.salespage.salespageservice.domains.entities.status.ProductTypeDetailS
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -30,6 +31,7 @@ public class ProductTypeDetail extends BaseEntity {
   private String note;
 
   @Field("status")
+  @Indexed(name = "status_idx")
   private ProductTypeDetailStatus status;
 
   @Field(name = "created_by")
