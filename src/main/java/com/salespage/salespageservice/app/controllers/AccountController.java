@@ -38,6 +38,17 @@ public class AccountController extends BaseController {
     return accountService.signUp(dto);
   }
 
+  @PostMapping("sign-up/admin")
+  @Operation(summary = "Tạo tài khoản admin", description = "Tạo tài khoản admin")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Tạo tài khoản thành công"),
+          @ApiResponse(responseCode = "409", description = "Tài khoản đã tồn tại"),
+          @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<JwtResponse> createdAdminRole() {
+    return accountService.createdAdminRole();
+  }
+
   @PostMapping("sign-in")
   @Operation(summary = "Đăng nhập", description = "Đăng nhập tài khoản")
   @ApiResponses(value = {
