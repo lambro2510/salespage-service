@@ -4,7 +4,6 @@ import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.types.ProductType;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class PublicProductController extends BaseController {
   private ProductService productService;
 
   @GetMapping("")
-  public ResponseEntity<PageResponse<ProductDataResponse>> getAllProduct(@RequestParam(required = false) ProductType productType,
+  public ResponseEntity<PageResponse<ProductDataResponse>> getAllProduct(@RequestParam(required = false) String productType,
                                                                          @RequestParam(required = false) String productName,
                                                                          @RequestParam(required = false) Long minPrice,
                                                                          @RequestParam(required = false) Long maxPrice,

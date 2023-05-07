@@ -1,7 +1,6 @@
 package com.salespage.salespageservice.app.controllers;
 
-import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
-import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
+import com.salespage.salespageservice.app.dtos.productDtos.*;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -96,5 +95,63 @@ public class PrivateProductController extends BaseController {
     return productService.updateProduct(getUsername(authentication), dto);
   }
 
+  @PostMapping("type")
+  @Operation(summary = "Tạo loại sản phẩm", description = "Tạo mới một loại sản phẩm")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Loại sản phẩm được tạo thành công"),
+          @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+          @ApiResponse(responseCode = "401", description = "Không được phép"),
+          @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> createProductType(Authentication authentication, @RequestBody ProductTypeDto dto) {
+    return productService.createProductType(getUsername(authentication), dto, getUserRoles(authentication));
+  }
 
+  @PutMapping("type")
+  @Operation(summary = "Cập nhật loại sản phẩm", description = "Cập nhật một loại sản phẩm")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Loại sản phẩm được cập nhật thành công"),
+          @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+          @ApiResponse(responseCode = "401", description = "Không được phép"),
+          @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> updateProductType(Authentication authentication, @RequestBody ProductTypeDto dto) {
+    return productService.updateProductType(getUsername(authentication), dto, getUserRoles(authentication));
+  }
+
+  @PostMapping("type-detail")
+  @Operation(summary = "Tạo loại chi tiết sản phẩm", description = "Tạo mới một loại chi tiết sản phẩm")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Loại chi tiết sản phẩm được tạo thành công"),
+          @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+          @ApiResponse(responseCode = "401", description = "Không được phép"),
+          @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> createProductTypeDetail(Authentication authentication, @RequestBody ProductTypeDetailDto dto) {
+    return productService.createProductTypeDetail(dto, getUsername(authentication));
+  }
+
+  @PutMapping("type-detail")
+  @Operation(summary = "Cập nhật loại chi tiết sản phẩm", description = "Cập nhật loại chi tiết sản phẩm một loại sản phẩm")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Cập nhật loại chi tiết sản phẩm được cập nhật thành công"),
+          @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+          @ApiResponse(responseCode = "401", description = "Không được phép"),
+          @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> updateProductTypeDetail(Authentication authentication, @RequestBody ProductTypeDetailDto dto) {
+    return productService.updateProductTypeDetail(dto, getUsername(authentication));
+  }
+
+  @PutMapping("type-detail-status")
+  @Operation(summary = "Cập nhật loại chi tiết sản phẩm", description = "Cập nhật loại chi tiết sản phẩm một loại sản phẩm")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Cập nhật loại chi tiết sản phẩm được cập nhật thành công"),
+          @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+          @ApiResponse(responseCode = "401", description = "Không được phép"),
+          @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> updateProductTypeDetail(Authentication authentication, @RequestBody UpdateTypeDetailStatusDto dto) {
+    return productService.updateStatusTypeDetail(dto, getUsername(authentication), getUserRoles(authentication));
+  }
 }

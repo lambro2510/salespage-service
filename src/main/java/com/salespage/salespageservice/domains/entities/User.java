@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Document("user")
@@ -60,6 +61,18 @@ public class User {
     imageUrl = "";
     phoneNumber = dto.getPhoneNumber();
     dateOfBirth = dto.getDateOfBirth();
+    rate = new Rate();
+    balance = new UserBalance();
+  }
+
+  public void createUserAdmin(Account account) {
+    username = account.getUsername();
+    firstName = "ADMIN";
+    lastName = "Hệ thống";
+    email = "admin@gmail.com";
+    imageUrl = "";
+    phoneNumber = "+84979163206";
+    dateOfBirth = new Date(2001, Calendar.NOVEMBER, 25);
     rate = new Rate();
     balance = new UserBalance();
   }

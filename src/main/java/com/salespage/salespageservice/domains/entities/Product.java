@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
-import com.salespage.salespageservice.domains.entities.types.ProductType;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -33,7 +32,7 @@ public class Product {
   private List<String> imageUrls = new ArrayList<>();
 
   @Field("product_type")
-  private ProductType type;
+  private String type;
 
   @Field("price")
   private BigDecimal price;

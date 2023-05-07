@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
+import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
@@ -21,6 +22,12 @@ public class UserService extends BaseService {
   public void createUser(SignUpDto dto) {
     User user = new User();
     user.createUser(dto);
+    userStorage.save(user);
+  }
+
+  public void createUserAdmin(Account account) {
+    User user = new User();
+    user.createUserAdmin(account);
     userStorage.save(user);
   }
 

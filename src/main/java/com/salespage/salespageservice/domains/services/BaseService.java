@@ -1,11 +1,14 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.domains.entities.types.LogType;
+import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.storages.*;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import com.salespage.salespageservice.domains.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+
+import java.util.List;
 
 public class BaseService {
   @Autowired
@@ -33,10 +36,14 @@ public class BaseService {
   protected SellerStoreStorage sellerStoreStorage;
 
   @Autowired
+  protected ProductTypeStorage productTypeStorage;
+
+  @Autowired
   protected SystemLogStorage systemLogStorage;
 
   @Autowired
   protected JwtUtils jwtUtils;
+
   @Autowired
   protected GoogleDriver googleDriver;
   @Autowired
@@ -45,5 +52,9 @@ public class BaseService {
 
   protected void writeLog(String message, String trace, LogType logType, String username) {
     systemLogService.createSystemLog(username, message, trace, logType);
+  }
+
+  protected boolean hasUserRole(List<UserRole> roles, UserRole role) {
+    return roles.contains(role);
   }
 }

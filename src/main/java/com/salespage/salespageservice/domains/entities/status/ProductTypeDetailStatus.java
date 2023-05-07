@@ -1,6 +1,8 @@
 package com.salespage.salespageservice.domains.entities.status;
 
-public enum ProductTypeStatus {
+public enum ProductTypeDetailStatus {
   ACTIVE,
+  WAITING,
+  DENY,
   INACTIVE
 }

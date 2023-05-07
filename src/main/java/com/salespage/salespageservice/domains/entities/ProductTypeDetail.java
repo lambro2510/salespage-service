@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.entities;
 
-import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
+import com.salespage.salespageservice.domains.entities.status.ProductTypeDetailStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
@@ -19,21 +20,32 @@ public class ProductTypeDetail extends BaseEntity {
   @Field("type_name")
   private String typeName;
 
+  @Field("type_detail_name")
+  private String typeDetailName;
+
   @Field("note")
   private String note;
 
   @Field("status")
-  private ProductTypeStatus status;
+  private ProductTypeDetailStatus status;
+
 
   @Field(name = "created_by")
   private String createdBy;
 
   @Field(name = "udpated_by")
-  private Long updatedBy;
+  private String updatedBy;
 
   @Field(name = "accepted_by")
   private String acceptedBy;
 
   @Field(name = "accepted_at")
   private Long acceptedAt;
+
+  public void partnerFromDto(ProductTypeDetailDto dto) {
+    typeName = dto.getTypeName();
+    typeDetailName = dto.getTypeDetailName();
+    note = dto.getNote();
+    status = ProductTypeDetailStatus.INACTIVE;
+  }
 }

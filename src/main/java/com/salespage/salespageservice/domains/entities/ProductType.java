@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,9 +24,19 @@ public class ProductType extends BaseEntity {
   @Field(name = "status")
   private ProductTypeStatus status;
 
+  @Field(name = "description")
+  private String description;
+
   @Field(name = "created_by")
   private String createdBy;
 
   @Field(name = "udpated_by")
-  private Long updatedBy;
+  private String updatedBy;
+
+  public void partnerFromDto(ProductTypeDto dto) {
+    productType = dto.getProductType();
+    productTypeName = dto.getTypeName();
+    status = dto.getStatus();
+    description = dto.getDescription();
+  }
 }

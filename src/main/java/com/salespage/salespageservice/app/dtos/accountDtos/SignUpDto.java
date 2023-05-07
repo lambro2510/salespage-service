@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.dtos.accountDtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.salespage.salespageservice.domains.entities.types.UserRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,5 +51,9 @@ public class SignUpDto {
   @Schema(description = "Ngày sinh của người dùng", format = "date", example = "01-01-1990")
   @JsonFormat(pattern = "dd-MM-yyyy")
   private Date dateOfBirth;
+
+  @NotBlank
+  @Schema(description = "Quyền của người dùng", example = "USER")
+  private UserRole userRole;
 
 }

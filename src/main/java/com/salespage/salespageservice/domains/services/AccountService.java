@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.entities.types.UserState;
 import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
@@ -48,7 +49,26 @@ public class AccountService extends BaseService {
 
     userService.createUser(dto);
 
-    return ResponseEntity.ok(new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState()))));
+    return ResponseEntity.ok(new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole()));
+  }
+
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public ResponseEntity<JwtResponse> createdAdminRole() {
+    String username = "admin-he-thong";
+    String password = "admin-he-thong";
+    if (accountStorage.existByUsername(username)) throw new ResourceExitsException("User existed");
+
+    Account account = new Account();
+    account.setRole(UserRole.ADMIN);
+    account.setSalt(BCrypt.gensalt());
+    account.setUsername(username);
+    account.setPassword(BCrypt.hashpw(password, account.getSalt()));
+    account.setState(UserState.VERIFIED);
+    accountStorage.save(account);
+
+    userService.createUserAdmin(account);
+
+    return ResponseEntity.ok(new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole()));
   }
 
   public ResponseEntity<JwtResponse> signIn(LoginDto dto) throws IOException {
@@ -60,7 +80,7 @@ public class AccountService extends BaseService {
     TokenInfo tokenInfo = new TokenInfo(account.getUsername(), account.getRole(), account.getState());
     String token = jwtUtils.generateToken(tokenInfo);
     accountStorage.saveTokenToRemoteCache(account.getUsername(), token);
-    return ResponseEntity.ok(new JwtResponse(account.getUsername(), token));
+    return ResponseEntity.ok(new JwtResponse(account.getUsername(), token, account.getRole()));
 
   }
 

@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.responses;
 
+import com.salespage.salespageservice.domains.entities.types.UserRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,4 +13,7 @@ public class JwtResponse {
 
   @Schema(description = "Token JWT được trả về cho người dùng đã đăng nhập", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c")
   private String token;
+
+  @Schema(description = "Quyền người dungf", example = "USER")
+  private UserRole role;
 }

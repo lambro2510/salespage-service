@@ -1,6 +1,5 @@
 package com.salespage.salespageservice.app.dtos.productDtos;
 
-import com.salespage.salespageservice.domains.entities.types.ProductType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -23,7 +22,7 @@ public class ProductInfoDto {
 
   @NotNull(message = "Loại sản phẩm không được để trống")
   @Schema(description = "Loại sản phẩm", example = "ELECTRONICS")
-  private ProductType type;
+  private String type;
 
   @NotNull(message = "Giá sản phẩm không được để trống")
   @DecimalMin(value = "0.0", inclusive = false, message = "Giá sản phẩm phải lớn hơn 0")

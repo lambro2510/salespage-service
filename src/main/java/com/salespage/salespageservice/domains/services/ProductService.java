@@ -1,12 +1,14 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
-import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
+import com.salespage.salespageservice.app.dtos.productDtos.*;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.ProductType;
+import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
 import com.salespage.salespageservice.domains.entities.SellerStore;
-import com.salespage.salespageservice.domains.entities.types.ProductType;
+import com.salespage.salespageservice.domains.entities.types.ResponseType;
+import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.Helper;
@@ -63,7 +65,7 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(product);
   }
 
-  public ResponseEntity<PageResponse<ProductDataResponse>> getAllProduct(String users, ProductType productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
+  public ResponseEntity<PageResponse<ProductDataResponse>> getAllProduct(String users, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
 
     Query query = new Query();
     if (StringUtil.isNotBlank(username)) {
@@ -152,4 +154,71 @@ public class ProductService extends BaseService {
     }
     return ResponseEntity.ok(imageUrls);
   }
+
+  public ResponseEntity<ResponseType> createProductType(String username, ProductTypeDto dto, List<UserRole> roles) {
+    if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
+      throw new AuthorizationException("Bạn không có quyền tạo mới");
+    ProductType productType = new ProductType();
+    productType.partnerFromDto(dto);
+    productType.setCreatedBy(username);
+    productType.setUpdatedBy(username);
+    productTypeStorage.save(productType);
+    return ResponseEntity.ok(ResponseType.CREATED);
+  }
+
+  public ResponseEntity<ResponseType> updateProductType(String username, ProductTypeDto dto, List<UserRole> roles) {
+    if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
+      throw new AuthorizationException("Bạn không có quyền tạo mới");
+    ProductType productType = productTypeStorage.findByProductType(dto.getProductType());
+    if (Objects.isNull(productType)) throw new ResourceNotFoundException("Không tồn tại loại sản phẩm này");
+    productType.partnerFromDto(dto);
+    productType.setCreatedBy(username);
+    productType.setUpdatedBy(username);
+    productTypeStorage.save(productType);
+    return ResponseEntity.ok(ResponseType.UPDATED);
+  }
+
+  public ResponseEntity<ResponseType> createProductTypeDetail(ProductTypeDetailDto dto, String username) {
+    ProductType productType = productTypeStorage.findByProductType(dto.getTypeName());
+    if (Objects.isNull(productType)) throw new ResourceNotFoundException("Không tồn tại loại sản phẩm này");
+    ProductTypeDetail productTypeDetail = new ProductTypeDetail();
+    productTypeDetail.partnerFromDto(dto);
+    productTypeDetail.setCreatedBy(username);
+    productTypeDetail.setUpdatedBy(username);
+    productTypeStorage.save(productTypeDetail);
+    return ResponseEntity.ok(ResponseType.CREATED);
+  }
+
+  public ResponseEntity<ResponseType> updateProductTypeDetail(ProductTypeDetailDto dto, String username) {
+    ProductType productType = productTypeStorage.findByProductType(dto.getTypeName());
+    if (Objects.isNull(productType)) throw new ResourceNotFoundException("Không tồn tại loại sản phẩm này");
+    ProductTypeDetail typeDetail = productTypeStorage.findProductTypeDetailByTypeNameAndTypeDetailName(dto.getTypeName(), dto.getTypeDetailName());
+    if (Objects.isNull(typeDetail)) throw new ResourceNotFoundException("Không tồn tại chi tiết loại sản phẩm này");
+    if (!Objects.equals(typeDetail.getCreatedBy(), username))
+      throw new AuthorizationException("Bạn không có quyền sửa");
+    ProductTypeDetail productTypeDetail = new ProductTypeDetail();
+    productTypeDetail.partnerFromDto(dto);
+    productTypeDetail.setCreatedBy(username);
+    productTypeDetail.setUpdatedBy(username);
+    productTypeStorage.save(productTypeDetail);
+    return ResponseEntity.ok(ResponseType.UPDATED);
+  }
+
+  public ResponseEntity<ResponseType> updateStatusTypeDetail(UpdateTypeDetailStatusDto dto, String username, List<UserRole> roles) {
+    if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
+      throw new AuthorizationException("Bạn không có quyền tạo mới");
+    ProductType productType = productTypeStorage.findByProductType(dto.getTypeName());
+    if (Objects.isNull(productType)) throw new ResourceNotFoundException("Không tồn tại loại sản phẩm này");
+    ProductTypeDetail productTypeDetail = productTypeStorage.findProductTypeDetailByTypeNameAndTypeDetailName(dto.getTypeName(), dto.getTypeDetailName());
+    if (Objects.isNull(productTypeDetail))
+      throw new ResourceNotFoundException("Không tồn tại chi tiết loại sản phẩm này");
+
+    productTypeDetail.setStatus(dto.getStatus());
+    productTypeDetail.setUpdatedBy(username);
+    productTypeDetail.setUpdatedAt(System.currentTimeMillis());
+
+    productTypeStorage.save(productTypeDetail);
+    return ResponseEntity.ok(ResponseType.UPDATED);
+  }
+
 }
