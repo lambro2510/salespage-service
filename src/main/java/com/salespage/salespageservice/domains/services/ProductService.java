@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.productDtos.*;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
@@ -228,7 +229,7 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(productTypeStorage.findAll());
   }
 
-  public ResponseEntity<List<ProductType>> getAllActiveProductType() {
-    return ResponseEntity.ok(productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE));
+  public ResponseEntity<List<ProductTypeResponse>> getAllActiveProductType() {
+    return ResponseEntity.ok(productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList()));
   }
 }

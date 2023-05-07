@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.entities;
 
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,5 +39,12 @@ public class ProductType extends BaseEntity {
     productTypeName = dto.getTypeName();
     status = dto.getStatus();
     description = dto.getDescription();
+  }
+
+  public ProductTypeResponse partnerToProductTypeResponse() {
+    ProductTypeResponse response = new ProductTypeResponse();
+    response.setProductType(productType);
+    response.setTypeName(productTypeName);
+    return response;
   }
 }

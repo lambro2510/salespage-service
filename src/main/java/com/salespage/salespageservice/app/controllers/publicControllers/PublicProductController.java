@@ -3,8 +3,8 @@ package com.salespage.salespageservice.app.controllers.publicControllers;
 import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class PublicProductController extends BaseController {
   }
 
   @GetMapping("type")
-  public ResponseEntity<List<ProductType>> getAllActiveProductType() {
+  public ResponseEntity<List<ProductTypeResponse>> getAllActiveProductType() {
     return productService.getAllActiveProductType();
   }
 }
