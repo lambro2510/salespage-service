@@ -193,10 +193,10 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(ResponseType.CREATED);
   }
 
-  public ResponseEntity<ResponseType> updateProductTypeDetail(ProductTypeDetailDto dto, String username) {
+  public ResponseEntity<ResponseType> updateProductTypeDetail(ProductTypeDetailDto dto, String productTypeId, String username) {
     ProductType productType = productTypeStorage.findByProductType(dto.getTypeName());
     if (Objects.isNull(productType)) throw new ResourceNotFoundException("Không tồn tại loại sản phẩm này");
-    ProductTypeDetail typeDetail = productTypeStorage.findById(dto.getId());
+    ProductTypeDetail typeDetail = productTypeStorage.findById(productTypeId);
     if (Objects.isNull(typeDetail)) throw new ResourceNotFoundException("Không tồn tại chi tiết loại sản phẩm này");
     if (!Objects.equals(typeDetail.getCreatedBy(), username))
       throw new AuthorizationException("Bạn không có quyền sửa");

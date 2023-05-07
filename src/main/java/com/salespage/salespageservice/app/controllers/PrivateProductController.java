@@ -140,8 +140,8 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Không được phép"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> updateProductTypeDetail(Authentication authentication, @RequestBody ProductTypeDetailDto dto) {
-    return productService.updateProductTypeDetail(dto, getUsername(authentication));
+  public ResponseEntity<?> updateProductTypeDetail(Authentication authentication, @RequestBody ProductTypeDetailDto dto, @RequestParam String productTypeId) {
+    return productService.updateProductTypeDetail(dto, productTypeId, getUsername(authentication));
   }
 
   @PutMapping("type-detail-status")
