@@ -1,6 +1,5 @@
 package com.salespage.salespageservice.app.dtos.productTransactionDto;
 
-import com.salespage.salespageservice.domains.entities.Product;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -9,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class ProductTransactionDto extends ProductTransactionInfoDto {
 
   @NotNull
-  private String productId ;
+  private String productId;
 
   private String voucherCode;
 }

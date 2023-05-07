@@ -8,11 +8,8 @@ import java.util.List;
 
 @Data
 public class ListVoucherCodeResponse {
-  private String voucherStoreId;
-
-  private String voucherStoreName;
-
-  private VoucherStoreStatus voucherStoreStatus;
-
   List<VoucherCodeResponse> voucherCodes = new ArrayList<>();
+  private String voucherStoreId;
+  private String voucherStoreName;
+  private VoucherStoreStatus voucherStoreStatus;
 }

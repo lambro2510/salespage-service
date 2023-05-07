@@ -2,18 +2,13 @@ package com.salespage.salespageservice.domains.utils;
 
 import org.bson.types.ObjectId;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Helper {
@@ -23,8 +18,8 @@ public class Helper {
 
   public static List<String> convertObjectIdListToHexStringList(List<ObjectId> objectIdList) {
     return objectIdList.stream()
-        .map(ObjectId::toHexString)
-        .collect(Collectors.toList());
+            .map(ObjectId::toHexString)
+            .collect(Collectors.toList());
   }
 
   public static java.io.File convertMultiPartToFile(MultipartFile file) throws IOException {

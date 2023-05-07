@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -28,8 +27,8 @@ public class PublicSellerStoreController extends BaseController {
   @GetMapping("")
   @Operation(summary = "Lấy thông tin toàn bộ các cửa hàng", description = "Lấy thông tin toàn bộ các cửa hàng")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Thành công"),
-      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+          @ApiResponse(responseCode = "200", description = "Thành công"),
+          @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
   public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(@RequestParam(required = false) String storeId,
                                                                      @RequestParam(required = false) String storeName,

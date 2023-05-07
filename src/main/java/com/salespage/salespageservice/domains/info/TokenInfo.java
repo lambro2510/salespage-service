@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TokenInfo {
-    private String username;
-    private UserRole userRole;
-    private UserState userState;
+  private String username;
+  private UserRole userRole;
+  private UserState userState;
 }

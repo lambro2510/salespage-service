@@ -23,48 +23,48 @@ import java.io.IOException;
 @Log4j2
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
-    protected JwtUtils jwtUtils;
+  @Autowired
+  protected JwtUtils jwtUtils;
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+  @Autowired
+  private UserDetailsServiceImpl userDetailsService;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        try {
+  @Override
+  protected void doFilterInternal(HttpServletRequest request,
+                                  HttpServletResponse response, FilterChain filterChain)
+          throws ServletException, IOException {
+    try {
 
-            String jwt = getJwtFromRequest(request);
+      String jwt = getJwtFromRequest(request);
 
-            if (StringUtils.hasText(jwt) && jwtUtils.validateToken(jwt)) {
+      if (StringUtils.hasText(jwt) && jwtUtils.validateToken(jwt)) {
 
-                String username = jwtUtils.getUsernameFromJWT(jwt);
-                log.debug("=====username: " + username);
+        String username = jwtUtils.getUsernameFromJWT(jwt);
+        log.debug("=====username: " + username);
 
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                if (userDetails != null) {
-                    // Nếu người dùng hợp lệ, set thông tin cho Seturity Context
-                    UsernamePasswordAuthenticationToken
-                            authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (userDetails != null) {
+          // Nếu người dùng hợp lệ, set thông tin cho Seturity Context
+          UsernamePasswordAuthenticationToken
+                  authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+          authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            }
-        } catch (Exception ex) {
-            log.error("failed on set user authentication", ex);
+          SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-
-        filterChain.doFilter(request, response);
+      }
+    } catch (Exception ex) {
+      log.error("failed on set user authentication", ex);
     }
 
-    private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        // Kiểm tra xem header Authorization có chứa thông tin jwt không
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
+    filterChain.doFilter(request, response);
+  }
+
+  private String getJwtFromRequest(HttpServletRequest request) {
+    String bearerToken = request.getHeader("Authorization");
+    // Kiểm tra xem header Authorization có chứa thông tin jwt không
+    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+      return bearerToken.substring(7);
     }
+    return null;
+  }
 }

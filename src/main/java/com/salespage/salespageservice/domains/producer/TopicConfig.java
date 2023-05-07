@@ -1,12 +1,6 @@
 package com.salespage.salespageservice.domains.producer;
 
-import org.apache.kafka.clients.admin.NewTopic;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 public class TopicConfig {

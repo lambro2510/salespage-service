@@ -42,6 +42,7 @@ spring:
       path:/swagger-ui.html
 debug: ${DEBUG:debug}
 logging:
+  config: classpath:log.xml
   level:
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 

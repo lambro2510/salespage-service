@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Document("system_log")
 @Data
-public class SystemLog{
+public class SystemLog {
   @Id
   private ObjectId id;
 

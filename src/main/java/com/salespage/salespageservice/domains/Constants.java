@@ -1,5 +1,5 @@
 package com.salespage.salespageservice.domains;
 
 public class Constants {
-    public final static String AUTH_KEY = "Authorization";
+  public final static String AUTH_KEY = "Authorization";
 }

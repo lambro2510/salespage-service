@@ -1,7 +1,6 @@
 package com.salespage.salespageservice.domains.entities;
 
 import com.salespage.salespageservice.app.responses.voucherResponse.VoucherCodeResponse;
-import com.salespage.salespageservice.app.responses.voucherResponse.VoucherStoreResponse;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -15,7 +14,7 @@ import java.util.Date;
 @Document("voucher_code")
 @Data
 @CompoundIndex(name = "code_owner_status_index", def = "{'code' : 1, 'ownerId' : 1, 'voucherCodeStatus' : 1}", unique = true)
-public class VoucherCode extends BaseEntity{
+public class VoucherCode extends BaseEntity {
 
   @Id
   private ObjectId id;
@@ -38,7 +37,7 @@ public class VoucherCode extends BaseEntity{
   @Field("voucher_code_status")
   private VoucherCodeStatus voucherCodeStatus = VoucherCodeStatus.NEW;
 
-  public VoucherCodeResponse convertTovoucherCodeResponse(){
+  public VoucherCodeResponse convertTovoucherCodeResponse() {
     VoucherCodeResponse response = new VoucherCodeResponse();
     response.setVoucherCode(code);
     response.setUsedAt(userAt);

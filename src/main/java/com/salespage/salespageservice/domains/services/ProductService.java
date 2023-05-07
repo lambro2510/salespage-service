@@ -9,10 +9,9 @@ import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.types.ProductType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
-import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import com.salespage.salespageservice.domains.utils.Helper;
 import jodd.util.StringUtil;
-import org.bson.types.ObjectId;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,39 +63,39 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(product);
   }
 
-  public ResponseEntity<PageResponse<ProductDataResponse>> getAllProduct(String users, ProductType productType,String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
+  public ResponseEntity<PageResponse<ProductDataResponse>> getAllProduct(String users, ProductType productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
 
     Query query = new Query();
-    if(StringUtil.isNotBlank(username)){
+    if (StringUtil.isNotBlank(username)) {
       query.addCriteria(Criteria.where("seller_username").ne(users));
     }
-    if(StringUtil.isNotBlank(productName)) {
+    if (StringUtil.isNotBlank(productName)) {
       Pattern pattern = Pattern.compile(".*" + productName + ".*", Pattern.CASE_INSENSITIVE);
       query.addCriteria(Criteria.where("product_name").regex(pattern));
     }
 
-    if(productType != null)
+    if (productType != null)
       query.addCriteria(Criteria.where("product_type").is(productType));
-    if(minPrice != null)
+    if (minPrice != null)
       query.addCriteria(Criteria.where("price").gte(minPrice));
-    if(maxPrice != null)
+    if (maxPrice != null)
       query.addCriteria(Criteria.where("price").lte(maxPrice));
     if (storeName != null) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByStoreName(storeName);
       List<String> ids = sellerStores.stream()
-          .map(s -> s.getId().toHexString())
-          .collect(Collectors.toList());
+              .map(s -> s.getId().toHexString())
+              .collect(Collectors.toList());
       query.addCriteria(Criteria.where("seller_store_id").in(ids));
     }
 
     if (username != null) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByOwnerStoreName(username);
       List<String> ids = sellerStores.stream()
-          .map(s -> s.getId().toHexString())
-          .collect(Collectors.toList());
+              .map(s -> s.getId().toHexString())
+              .collect(Collectors.toList());
       query.addCriteria(Criteria.where("seller_store_id").in(ids));
     }
-    Page<Product> productPage = productStorage.findAll(query,pageable);
+    Page<Product> productPage = productStorage.findAll(query, pageable);
     List<ProductDataResponse> products = productPage.getContent().stream().map(Product::assignToProductResponse).collect(Collectors.toList());
 
 
@@ -129,7 +127,7 @@ public class ProductService extends BaseService {
       if (!product.getSellerUsername().equals(username))
         throw new AuthorizationException("Không được phép");
 
-      for(MultipartFile multipartFile : multipartFiles){
+      for (MultipartFile multipartFile : multipartFiles) {
         String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, multipartFile.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(multipartFile));
         product.getImageUrls().add(imageUrl);
         imageUrls.add(imageUrl);

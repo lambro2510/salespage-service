@@ -1,11 +1,9 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.utils.CacheKey;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -24,7 +22,7 @@ public class ProductStorage extends BaseStorage {
   }
 
   public Page<Product> findAll(Query query, Pageable pageable) {
-    return productRepository.findAll(query,pageable);
+    return productRepository.findAll(query, pageable);
 
   }
 

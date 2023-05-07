@@ -2,7 +2,6 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.utils.CacheKey;
-import com.salespage.salespageservice.domains.utils.RemoteCacheManager;
 import org.springframework.stereotype.Component;
 
 @Component

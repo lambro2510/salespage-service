@@ -1,6 +1,5 @@
 package com.salespage.salespageservice.domains.entities;
 
-import com.salespage.salespageservice.domains.entities.BaseEntity;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Id;
-import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

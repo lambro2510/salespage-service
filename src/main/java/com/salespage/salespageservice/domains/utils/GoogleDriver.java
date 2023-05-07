@@ -9,7 +9,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -24,8 +23,8 @@ public class GoogleDriver {
 
   public List<File> getAllGoogleDriveFiles() throws IOException {
     FileList result = googleDrive.files().list()
-        .setFields("nextPageToken, files(id, name, parents, mimeType)")
-        .execute();
+            .setFields("nextPageToken, files(id, name, parents, mimeType)")
+            .execute();
     return result.getFiles();
   }
 
@@ -67,8 +66,8 @@ public class GoogleDriver {
       // Create a new file
       InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
       File file = googleDrive.files().create(fileMetadata,
-              new InputStreamContent("image/jpeg", inputStream))
-          .setFields("id").execute();
+                      new InputStreamContent("image/jpeg", inputStream))
+              .setFields("id").execute();
 
       fileId = file.getId();
       // Set file permissions using the fileId retrieved from the created file object
@@ -97,8 +96,8 @@ public class GoogleDriver {
       // Create a new file
       InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
       File file = googleDrive.files().create(fileMetadata,
-              new InputStreamContent("image/jpeg", inputStream))
-          .setFields("id").execute();
+                      new InputStreamContent("image/jpeg", inputStream))
+              .setFields("id").execute();
 
       fileId = file.getId();
       // Set file permissions using the fileId retrieved from the created file object
@@ -114,7 +113,7 @@ public class GoogleDriver {
   public List<File> getAllFolders() throws IOException {
     List<File> allFiles = getAllGoogleDriveFiles();
     List<File> folders = allFiles.stream().filter(file -> "application/vnd.google-apps.folder".equals(file.getMimeType()))
-        .collect(Collectors.toList());
+            .collect(Collectors.toList());
     return folders;
   }
 

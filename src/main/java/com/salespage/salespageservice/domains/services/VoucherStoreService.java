@@ -2,12 +2,12 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.voucherDtos.CreateVoucherStoreDto;
 import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto;
+import com.salespage.salespageservice.app.responses.voucherResponse.VoucherStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
-import com.salespage.salespageservice.app.responses.voucherResponse.VoucherStoreResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -85,7 +85,7 @@ public class VoucherStoreService extends BaseService {
     return ResponseEntity.ok(voucherStoreResponses);
   }
 
-  public void updateQuantityOfVoucherStore(String voucherStoreId, Long totalQuantity, Long totalUsed, String username){
+  public void updateQuantityOfVoucherStore(String voucherStoreId, Long totalQuantity, Long totalUsed, String username) {
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
     if (voucherStore == null) {
       throw new ResourceNotFoundException("Không tồn tại loại code này");

@@ -30,7 +30,7 @@ public class PublicProductController extends BaseController {
                                                                          @RequestParam(required = false) String ownerStoreUsername,
                                                                          Authentication authentication,
                                                                          Pageable pageable) {
-    return productService.getAllProduct(getUsername(authentication),productType,productName, minPrice, maxPrice, storeName, ownerStoreUsername, pageable);
+    return productService.getAllProduct(getUsername(authentication), productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, pageable);
   }
 
   @GetMapping("detail")
