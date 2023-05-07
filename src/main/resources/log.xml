@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="warn" name="MyApp">
+<Configuration status="warn" name="Sale app">
     <Appenders>
         <RollingFile name="RollingFile" fileName="logs/app.log"
                      filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log">
-
             <PatternLayout>
                 <pattern>%d [%t] %-5p %c{1}:%L - %m%n%ex{20}</pattern>
             </PatternLayout>
