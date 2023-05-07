@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -30,6 +31,7 @@ public class ProductTransaction extends BaseEntity {
   private String buyerUsername;
 
   @Field("product_id")
+  @Indexed(name = "product_id_idx")
   private String productId;
 
   @Field("seller_username")
