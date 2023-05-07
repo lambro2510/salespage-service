@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class VoucherCodeStorage extends BaseStorage{
+public class VoucherCodeStorage extends BaseStorage {
   public void saveAll(List<VoucherCode> voucherCodes) {
     voucherCodeRepository.saveAll(voucherCodes);
   }
@@ -29,6 +29,6 @@ public class VoucherCodeStorage extends BaseStorage{
   }
 
   public Page<VoucherCode> findAll(Query query, Pageable pageable) {
-    return voucherCodeRepository.findAll(query,pageable);
+    return voucherCodeRepository.findAll(query, pageable);
   }
 }

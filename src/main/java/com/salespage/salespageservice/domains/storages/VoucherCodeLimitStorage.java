@@ -4,7 +4,7 @@ import com.salespage.salespageservice.domains.entities.VoucherCodeLimit;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VoucherCodeLimitStorage extends BaseStorage{
+public class VoucherCodeLimitStorage extends BaseStorage {
   public VoucherCodeLimit findByUsernameAndVoucherStoreId(String username, String voucherStoreId) {
     return voucherCodeLimitRepository.findByUsernameAndVoucherStoreId(username, voucherStoreId);
   }

@@ -71,7 +71,7 @@ public class AccountController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<String> verifyCode(@RequestParam("code") Integer code, Authentication authentication) {
-    return accountService.verifyCode( getUsername(authentication), code);
+    return accountService.verifyCode(getUsername(authentication), code);
   }
 
 

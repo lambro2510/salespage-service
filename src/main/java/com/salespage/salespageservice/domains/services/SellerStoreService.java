@@ -8,7 +8,6 @@ import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.utils.Helper;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class SellerStoreService extends BaseService{
+public class SellerStoreService extends BaseService {
 
   public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(String username, Pageable pageable) {
     Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
@@ -33,7 +32,7 @@ public class SellerStoreService extends BaseService{
     List<SellerStore> sellerStoreList = sellerStores.getContent();
 
     List<StoreDataResponse> storeDataResponses = new ArrayList<>();
-    for(SellerStore sellerStore : sellerStoreList){
+    for (SellerStore sellerStore : sellerStoreList) {
       StoreDataResponse storeDataResponse = new StoreDataResponse();
       storeDataResponse.assignFromSellerStore(sellerStore);
       storeDataResponses.add(storeDataResponse);
@@ -45,21 +44,22 @@ public class SellerStoreService extends BaseService{
 
   public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(String storeId, String storeName, Pageable pageable) {
     Query query = new Query();
-    if(storeId != null){
+    if (storeId != null) {
       query.addCriteria(Criteria.where("id").is(storeId));
-    }if(storeName != null){
+    }
+    if (storeName != null) {
       query.addCriteria(Criteria.where("store_name").is(storeName));
     }
     Page<SellerStore> sellerStores = sellerStoreStorage.findAll(pageable);
     List<SellerStore> sellerStoreList = sellerStores.getContent();
 
     List<StoreDataResponse> storeDataResponses = new ArrayList<>();
-    for(SellerStore sellerStore : sellerStoreList){
+    for (SellerStore sellerStore : sellerStoreList) {
       StoreDataResponse storeDataResponse = new StoreDataResponse();
       storeDataResponse.assignFromSellerStore(sellerStore);
       List<Product> products = productStorage.findBySellerStoreId(sellerStore.getId().toHexString());
       List<ProductDataResponse> productDataResponses = new ArrayList<>();
-      for(Product product : products){
+      for (Product product : products) {
         ProductDataResponse productDataResponse = new ProductDataResponse();
         productDataResponse.assignFromProduct(product);
         productDataResponse.setStoreName(sellerStore.getStoreName());
@@ -90,9 +90,9 @@ public class SellerStoreService extends BaseService{
 
   public ResponseEntity<?> uploadImage(String username, String storeId, MultipartFile multipartFile) throws IOException {
     SellerStore sellerStore = sellerStoreStorage.findById(storeId);
-    if(Objects.isNull(sellerStore) || !sellerStore.getOwnerStoreName().equals(username))
+    if (Objects.isNull(sellerStore) || !sellerStore.getOwnerStoreName().equals(username))
       throw new AuthorizationException("Không có quyền truy cập");
-    String imageUrl = googleDriver.uploadPublicImage(username + "-" + storeId,multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
+    String imageUrl = googleDriver.uploadPublicImage(username + "-" + storeId, multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
     sellerStore.setImageStoreUrl(imageUrl);
     return ResponseEntity.ok(imageUrl);
   }

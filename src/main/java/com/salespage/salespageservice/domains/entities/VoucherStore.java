@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document("voucher_store")
 @Data
-public class VoucherStore extends BaseEntity{
+public class VoucherStore extends BaseEntity {
   @Id
   private ObjectId id;
 
@@ -23,7 +23,7 @@ public class VoucherStore extends BaseEntity{
 
   @Field("product_id")
   private String productId; //Sản phẩm áp dụng cho voucher, nếu type là product thì cho phép nhưới dùng mua sản
-                              //phẩm miễn phí, nếu type = sale thì giảm giá sản phẩm đó
+  //phẩm miễn phí, nếu type = sale thì giảm giá sản phẩm đó
 
   @Field("value")
   private Long value;
@@ -37,8 +37,26 @@ public class VoucherStore extends BaseEntity{
   @Field("created_by")
   private String createdBy;
 
+  public void updatedVoucherStore(UpdateVoucherStoreDto updateVoucherStoreDto) {
+    setVoucherStoreName(updateVoucherStoreDto.getVoucherStoreName());
+    setVoucherStoreType(updateVoucherStoreDto.getVoucherStoreType());
+    setVoucherStoreStatus(updateVoucherStoreDto.getVoucherStoreStatus());
+    if (voucherStoreType == VoucherStoreType.DISCOUNT_PERCENT) {
+      setValue(updateVoucherStoreDto.getValuePercent());
+    } else if (voucherStoreType == VoucherStoreType.MONEY || voucherStoreType == VoucherStoreType.DISCOUNT) {
+      setValue(updateVoucherStoreDto.getValue());
+    }
+
+    VoucherStoreDetail voucherStoreDetail = new VoucherStoreDetail();
+
+    voucherStoreDetail.setMaxVoucherPerUser(updateVoucherStoreDto.getMaxVoucherPerUser());
+    voucherStoreDetail.setMaxAblePrice(updateVoucherStoreDto.getMaxAblePrice());
+    voucherStoreDetail.setMinAblePrice(updateVoucherStoreDto.getMinAblePrice());
+    setVoucherStoreDetail(voucherStoreDetail);
+  }
+
   @Data
-  public static class VoucherStoreDetail{
+  public static class VoucherStoreDetail {
 
     @Field("quantity")
     private Long quantity = 0L;
@@ -54,24 +72,5 @@ public class VoucherStore extends BaseEntity{
 
     @Field("max_voucher_per_user")
     private Long maxVoucherPerUser;
-  }
-
-  public void updatedVoucherStore(UpdateVoucherStoreDto updateVoucherStoreDto){
-    setVoucherStoreName(updateVoucherStoreDto.getVoucherStoreName());
-    setVoucherStoreType(updateVoucherStoreDto.getVoucherStoreType());
-    setVoucherStoreStatus(updateVoucherStoreDto.getVoucherStoreStatus());
-    if(voucherStoreType == VoucherStoreType.DISCOUNT_PERCENT){
-      setValue(updateVoucherStoreDto.getValuePercent());
-    }
-    else if(voucherStoreType == VoucherStoreType.MONEY || voucherStoreType == VoucherStoreType.DISCOUNT){
-      setValue(updateVoucherStoreDto.getValue());
-    }
-
-    VoucherStore.VoucherStoreDetail voucherStoreDetail = new VoucherStore.VoucherStoreDetail();
-
-    voucherStoreDetail.setMaxVoucherPerUser(updateVoucherStoreDto.getMaxVoucherPerUser());
-    voucherStoreDetail.setMaxAblePrice(updateVoucherStoreDto.getMaxAblePrice());
-    voucherStoreDetail.setMinAblePrice(updateVoucherStoreDto.getMinAblePrice());
-    setVoucherStoreDetail(voucherStoreDetail);
   }
 }

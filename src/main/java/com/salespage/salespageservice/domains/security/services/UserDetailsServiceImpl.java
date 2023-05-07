@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private AccountStorage accountStorage;
+  @Autowired
+  private AccountStorage accountStorage;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        Account account = accountStorage.findByUsername(username);
-        if (account == null) {
-            throw new WrongAccountOrPasswordException();
-        }
-        return UserDetailsImpl.build(account);
+  @Override
+  public UserDetails loadUserByUsername(String username) {
+    Account account = accountStorage.findByUsername(username);
+    if (account == null) {
+      throw new WrongAccountOrPasswordException();
     }
+    return UserDetailsImpl.build(account);
+  }
 }

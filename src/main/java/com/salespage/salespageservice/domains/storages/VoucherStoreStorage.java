@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class VoucherStoreStorage extends BaseStorage{
+public class VoucherStoreStorage extends BaseStorage {
   public void save(VoucherStore voucherStore) {
     voucherStoreRepository.save(voucherStore);
   }

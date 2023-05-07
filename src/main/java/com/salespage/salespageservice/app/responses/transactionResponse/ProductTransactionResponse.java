@@ -5,12 +5,7 @@ import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Data
@@ -44,7 +39,7 @@ public class ProductTransactionResponse {
   @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
   private Date createdAt;
 
-  public void partnerFromProductTransaction(ProductTransaction productTransaction){
+  public void partnerFromProductTransaction(ProductTransaction productTransaction) {
     transactionId = productTransaction.getId().toHexString();
     productId = productTransaction.getProductId();
     productName = productTransaction.getProductName();

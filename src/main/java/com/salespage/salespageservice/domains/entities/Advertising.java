@@ -9,13 +9,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 public class Advertising {
-    @Id
-    @JsonSerialize(using = ToStringSerializer.class)
-    private ObjectId id;
+  @Id
+  @JsonSerialize(using = ToStringSerializer.class)
+  private ObjectId id;
 
-    @Field("image_name")
-    private String image_name;
+  @Field("image_name")
+  private String image_name;
 
-    @Field("target")
-    private String target;
+  @Field("target")
+  private String target;
 }

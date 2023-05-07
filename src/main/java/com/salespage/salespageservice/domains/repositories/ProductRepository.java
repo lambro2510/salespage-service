@@ -1,8 +1,6 @@
 package com.salespage.salespageservice.domains.repositories;
 
 import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.ProductTransaction;
-import com.salespage.salespageservice.domains.repositories.base.MongoResourceRepository;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

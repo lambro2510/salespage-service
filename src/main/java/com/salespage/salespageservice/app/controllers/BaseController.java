@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class BaseController {
     protected String getUsername(Authentication authentication) {
-        if(Objects.isNull(authentication)) return null;
+        if (Objects.isNull(authentication)) return null;
         UserDetails userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return userDetails.getUsername();
     }

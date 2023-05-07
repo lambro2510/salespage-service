@@ -23,7 +23,7 @@ import java.io.IOException;
 @RequestMapping("v1/api/seller-store")
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Quản lý cửa hàng của người dùng", description = "Quản lý cửa hàng của người dùng")
-public class SellerStoreController extends BaseController{
+public class SellerStoreController extends BaseController {
 
   @Autowired
   private SellerStoreService sellerStoreService;
@@ -31,11 +31,11 @@ public class SellerStoreController extends BaseController{
   @GetMapping("")
   @Operation(summary = "Lấy thông tin các cửa hàng", description = "Lấy thông tin các cửa hàng của người bán")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Thành công"),
-      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
-      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
-      @ApiResponse(responseCode = "404", description = "Không tìm thấy cửa hàng"),
-      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+          @ApiResponse(responseCode = "200", description = "Thành công"),
+          @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+          @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+          @ApiResponse(responseCode = "404", description = "Không tìm thấy cửa hàng"),
+          @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
   public ResponseEntity<PageResponse<StoreDataResponse>> getStore(Authentication authentication, Pageable pageable) {
     return sellerStoreService.getAllStore(getUsername(authentication), pageable);
@@ -44,24 +44,24 @@ public class SellerStoreController extends BaseController{
   @PostMapping("")
   @Operation(summary = "Lấy thông tin các cửa hàng", description = "Lấy thông tin các cửa hàng của người bán")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Thành công"),
-      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
-      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
-      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+          @ApiResponse(responseCode = "200", description = "Thành công"),
+          @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+          @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+          @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
   public ResponseEntity<?> createStore(Authentication authentication, @RequestBody SellerStoreDto dto) {
-    return sellerStoreService.createStore(getUsername(authentication),dto);
+    return sellerStoreService.createStore(getUsername(authentication), dto);
   }
 
   @PostMapping("upload-image")
   @Operation(summary = "Tải ảnh lên cho cửa hàng", description = "Tải ảnh lên cho cửa hàng")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Thành công"),
-      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
-      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
-      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+          @ApiResponse(responseCode = "200", description = "Thành công"),
+          @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+          @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+          @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
   public ResponseEntity<?> uploadImage(Authentication authentication, @RequestParam String storeId, @RequestParam MultipartFile multipartFile) throws IOException {
-    return sellerStoreService.uploadImage(getUsername(authentication),storeId,multipartFile);
+    return sellerStoreService.uploadImage(getUsername(authentication), storeId, multipartFile);
   }
 }

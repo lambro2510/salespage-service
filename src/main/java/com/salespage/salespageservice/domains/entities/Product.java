@@ -12,7 +12,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,55 +19,55 @@ import java.util.List;
 @Document("product")
 @Data
 public class Product {
-    @Id
-    @JsonSerialize(using = ToStringSerializer.class)
-    private ObjectId id;
+  @Id
+  @JsonSerialize(using = ToStringSerializer.class)
+  private ObjectId id;
 
-    @Field("product_name")
-    private String productName;
+  @Field("product_name")
+  private String productName;
 
-    @Field("description")
-    private String description;
+  @Field("description")
+  private String description;
 
-    @Field("image_url")
-    private List<String> imageUrls = new ArrayList<>();
+  @Field("image_url")
+  private List<String> imageUrls = new ArrayList<>();
 
-    @Field("product_type")
-    private ProductType type;
-    
-    @Field("price")
-    private BigDecimal price;
+  @Field("product_type")
+  private ProductType type;
 
-    @Field("rate")
-    private Rate rate = new Rate();
+  @Field("price")
+  private BigDecimal price;
 
-    @Field("selling_address")
-    private String sellingAddress;
+  @Field("rate")
+  private Rate rate = new Rate();
 
-    @Field("seller_username")
-    private String sellerUsername;
+  @Field("selling_address")
+  private String sellingAddress;
 
-    @Field("seller_store_id")
-    private String sellerStoreId;
+  @Field("seller_username")
+  private String sellerUsername;
 
-    public void updateProduct(ProductInfoDto dto) {
-        productName = dto.getProductName();
-        description = dto.getDescription();
-        type = dto.getType();
-        price = BigDecimal.valueOf(dto.getPrice());
-        sellingAddress = dto.getSellingAddress();
-        sellerStoreId = dto.getStoreId();
-    }
+  @Field("seller_store_id")
+  private String sellerStoreId;
 
-    public ProductDataResponse assignToProductResponse() {
-        ProductDataResponse response = new ProductDataResponse();
-        response.setProductId(id.toHexString());
-        response.setProductName(productName);
-        response.setProductPrice(price);
-        response.setSellerUsername(sellerUsername);
-        response.setTotalRate(rate.getTotalRate());
-        response.setAvgPoint(rate.getAvgPoint());
-        return response;
-    }
+  public void updateProduct(ProductInfoDto dto) {
+    productName = dto.getProductName();
+    description = dto.getDescription();
+    type = dto.getType();
+    price = BigDecimal.valueOf(dto.getPrice());
+    sellingAddress = dto.getSellingAddress();
+    sellerStoreId = dto.getStoreId();
+  }
+
+  public ProductDataResponse assignToProductResponse() {
+    ProductDataResponse response = new ProductDataResponse();
+    response.setProductId(id.toHexString());
+    response.setProductName(productName);
+    response.setProductPrice(price);
+    response.setSellerUsername(sellerUsername);
+    response.setTotalRate(rate.getTotalRate());
+    response.setAvgPoint(rate.getAvgPoint());
+    return response;
+  }
 
 }

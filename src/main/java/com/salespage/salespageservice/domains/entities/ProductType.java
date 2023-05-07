@@ -6,14 +6,12 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.Column;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Document("product_type")
 @Data
-public class ProductType extends BaseEntity{
+public class ProductType extends BaseEntity {
 
   @Id
   @Field(name = "product_type")

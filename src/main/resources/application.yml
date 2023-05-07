@@ -40,9 +40,9 @@ spring:
   springdoc:
     swagger-ui:
       path:/swagger-ui.html
-debug: ${DEBUG:DEBUG}
+debug: ${DEBUG:debug}
 logging:
-  config : classpath:log.xml
+  config: classpath:log.xml
   level:
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
@@ -54,8 +54,6 @@ google:
     url: ${DRIVER_URI}
 
 jwt:
-  secret : ${JWT_SECRET:abajihi3hi234hihi3f09acn}
   publicKey: ${JWT_PUBLIC_KEY}
   privateKey: ${JWT_PRIVATE_KEY}
-  token-expire-time : ${JWT_TOKEN_EXPIRE_TIME:7200000}
 

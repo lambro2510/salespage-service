@@ -21,7 +21,7 @@ public class ProductDataResponse {
 
   private String storeName;
 
-  public void assignFromProduct(Product product){
+  public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();
     productPrice = product.getPrice();

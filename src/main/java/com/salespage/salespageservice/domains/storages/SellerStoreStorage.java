@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class SellerStoreStorage extends BaseStorage{
+public class SellerStoreStorage extends BaseStorage {
 
   public Page<SellerStore> findByOwnerStoreName(String username, Pageable pageable) {
     return sellerStoreRepository.findByOwnerStoreName(username, pageable);

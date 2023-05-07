@@ -21,7 +21,7 @@ public class StoreDataResponse {
 
   private List<ProductDataResponse> productDataResponses = new ArrayList<>();
 
-  public void assignFromSellerStore(SellerStore sellerStore){
+  public void assignFromSellerStore(SellerStore sellerStore) {
     storeId = sellerStore.getId().toHexString();
     imageUrl = sellerStore.getImageStoreUrl();
     storeName = sellerStore.getStoreName();

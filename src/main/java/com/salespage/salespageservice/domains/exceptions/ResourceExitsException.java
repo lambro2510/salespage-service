@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.FOUND)
 public class ResourceExitsException extends BaseException {
-    public ResourceExitsException() {
-        super(ErrorCode.RESOURCE_FOUND, "Resource Found");
-    }
+  public ResourceExitsException() {
+    super(ErrorCode.RESOURCE_FOUND, "Resource Found");
+  }
 
-    public ResourceExitsException(String message) {
-        super(message);
-    }
+  public ResourceExitsException(String message) {
+    super(message);
+  }
 }
