@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -35,5 +38,10 @@ public class PublicProductController extends BaseController {
   @GetMapping("detail")
   public ResponseEntity<Product> getProductDetail(@RequestParam String productId) {
     return productService.getProductDetail(productId);
+  }
+
+  @GetMapping("type")
+  public ResponseEntity<List<ProductType>> getAllProductType() {
+    return productService.getAllProductType();
   }
 }

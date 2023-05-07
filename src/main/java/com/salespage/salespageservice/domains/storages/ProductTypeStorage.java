@@ -33,4 +33,8 @@ public class ProductTypeStorage extends BaseStorage {
   public List<ProductTypeDetail> findByProductId(String productId) {
     return productTypeDetailRepository.findByProductId(productId);
   }
+
+  public List<ProductType> findAll() {
+    return productTypeRepository.findAll();
+  }
 }

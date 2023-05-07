@@ -221,4 +221,7 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(ResponseType.UPDATED);
   }
 
+  public ResponseEntity<List<ProductType>> getAllProductType() {
+    return ResponseEntity.ok(productTypeStorage.findAll());
+  }
 }
