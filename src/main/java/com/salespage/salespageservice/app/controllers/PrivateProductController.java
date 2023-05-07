@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.productDtos.*;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -154,4 +155,10 @@ public class PrivateProductController extends BaseController {
   public ResponseEntity<?> updateProductTypeDetail(Authentication authentication, @RequestBody UpdateTypeDetailStatusDto dto) {
     return productService.updateStatusTypeDetail(dto, getUsername(authentication), getUserRoles(authentication));
   }
+
+  @GetMapping("type")
+  public ResponseEntity<List<ProductType>> getAllProductType(Authentication authentication) {
+    return productService.getAllProductType(getUserRoles(authentication));
+  }
+
 }

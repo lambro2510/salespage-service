@@ -41,7 +41,7 @@ public class PublicProductController extends BaseController {
   }
 
   @GetMapping("type")
-  public ResponseEntity<List<ProductType>> getAllProductType() {
-    return productService.getAllProductType();
+  public ResponseEntity<List<ProductType>> getAllActiveProductType() {
+    return productService.getAllActiveProductType();
   }
 }

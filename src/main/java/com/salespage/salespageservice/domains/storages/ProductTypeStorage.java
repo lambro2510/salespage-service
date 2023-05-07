@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
+import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -36,5 +37,9 @@ public class ProductTypeStorage extends BaseStorage {
 
   public List<ProductType> findAll() {
     return productTypeRepository.findAll();
+  }
+
+  public List<ProductType> findByStatus(ProductTypeStatus status) {
+    return productTypeRepository.findByStatus(status);
   }
 }

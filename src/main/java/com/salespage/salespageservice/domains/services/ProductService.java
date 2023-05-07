@@ -7,6 +7,7 @@ import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
 import com.salespage.salespageservice.domains.entities.SellerStore;
+import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
@@ -221,7 +222,13 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(ResponseType.UPDATED);
   }
 
-  public ResponseEntity<List<ProductType>> getAllProductType() {
+  public ResponseEntity<List<ProductType>> getAllProductType(List<UserRole> roles) {
+    if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
+      throw new AuthorizationException("Bạn không có quyền xem danh sách này");
     return ResponseEntity.ok(productTypeStorage.findAll());
+  }
+
+  public ResponseEntity<List<ProductType>> getAllActiveProductType() {
+    return ResponseEntity.ok(productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE));
   }
 }
