@@ -99,8 +99,10 @@ public class ProductService extends BaseService {
     }
     Page<Product> productPage = productStorage.findAll(query, pageable);
     List<ProductDataResponse> products = productPage.getContent().stream().map(Product::assignToProductResponse).collect(Collectors.toList());
-
-
+    for (ProductDataResponse response : products) {
+      List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(response.getProductId());
+      response.setProductType(typeDetails.stream().map(ProductTypeDetail::getTypeDetailName).collect(Collectors.toList()));
+    }
     return ResponseEntity.ok(PageResponse.createFrom(new PageImpl<>(products, pageable, productPage.getTotalElements())));
   }
 
@@ -192,7 +194,7 @@ public class ProductService extends BaseService {
   public ResponseEntity<ResponseType> updateProductTypeDetail(ProductTypeDetailDto dto, String username) {
     ProductType productType = productTypeStorage.findByProductType(dto.getTypeName());
     if (Objects.isNull(productType)) throw new ResourceNotFoundException("Không tồn tại loại sản phẩm này");
-    ProductTypeDetail typeDetail = productTypeStorage.findProductTypeDetailByTypeNameAndTypeDetailName(dto.getTypeName(), dto.getTypeDetailName());
+    ProductTypeDetail typeDetail = productTypeStorage.findById(dto.getId());
     if (Objects.isNull(typeDetail)) throw new ResourceNotFoundException("Không tồn tại chi tiết loại sản phẩm này");
     if (!Objects.equals(typeDetail.getCreatedBy(), username))
       throw new AuthorizationException("Bạn không có quyền sửa");
@@ -207,9 +209,7 @@ public class ProductService extends BaseService {
   public ResponseEntity<ResponseType> updateStatusTypeDetail(UpdateTypeDetailStatusDto dto, String username, List<UserRole> roles) {
     if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
       throw new AuthorizationException("Bạn không có quyền tạo mới");
-    ProductType productType = productTypeStorage.findByProductType(dto.getTypeName());
-    if (Objects.isNull(productType)) throw new ResourceNotFoundException("Không tồn tại loại sản phẩm này");
-    ProductTypeDetail productTypeDetail = productTypeStorage.findProductTypeDetailByTypeNameAndTypeDetailName(dto.getTypeName(), dto.getTypeDetailName());
+    ProductTypeDetail productTypeDetail = productTypeStorage.findById(dto.getId());
     if (Objects.isNull(productTypeDetail))
       throw new ResourceNotFoundException("Không tồn tại chi tiết loại sản phẩm này");
 

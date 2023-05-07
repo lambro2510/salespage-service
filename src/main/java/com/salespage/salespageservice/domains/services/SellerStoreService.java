@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.utils.Helper;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class SellerStoreService extends BaseService {
@@ -64,6 +66,8 @@ public class SellerStoreService extends BaseService {
         productDataResponse.assignFromProduct(product);
         productDataResponse.setStoreName(sellerStore.getStoreName());
         productDataResponses.add(productDataResponse);
+        List<ProductTypeDetail> productTypeDetails = productTypeStorage.findByProductId(product.getId().toHexString());
+        productDataResponse.setProductType(productTypeDetails.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
       }
       storeDataResponses.add(storeDataResponse);
     }

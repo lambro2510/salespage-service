@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class UpdateTypeDetailStatusDto {
-  String typeName;
-  String typeDetailName;
+  String id;
   ProductTypeDetailStatus status;
 }

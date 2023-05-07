@@ -20,6 +20,9 @@ public class ProductTypeDetail extends BaseEntity {
   @Field("type_name")
   private String typeName;
 
+  @Field("product_id")
+  private String productId;
+
   @Field("type_detail_name")
   private String typeDetailName;
 
@@ -28,7 +31,6 @@ public class ProductTypeDetail extends BaseEntity {
 
   @Field("status")
   private ProductTypeDetailStatus status;
-
 
   @Field(name = "created_by")
   private String createdBy;
@@ -45,6 +47,7 @@ public class ProductTypeDetail extends BaseEntity {
   public void partnerFromDto(ProductTypeDetailDto dto) {
     typeName = dto.getTypeName();
     typeDetailName = dto.getTypeDetailName();
+    productId = dto.getProductId();
     note = dto.getNote();
     status = ProductTypeDetailStatus.INACTIVE;
   }

@@ -2,7 +2,10 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ProductTypeStorage extends BaseStorage {
@@ -21,5 +24,13 @@ public class ProductTypeStorage extends BaseStorage {
 
   public ProductTypeDetail findProductTypeDetailByTypeNameAndTypeDetailName(String typeName, String typeDetailName) {
     return productTypeDetailRepository.findProductTypeDetailByTypeNameAndTypeDetailName(typeName, typeDetailName);
+  }
+
+  public ProductTypeDetail findById(String id) {
+    return productTypeDetailRepository.findProductTypeDetailById(new ObjectId(id));
+  }
+
+  public List<ProductTypeDetail> findByProductId(String productId) {
+    return productTypeDetailRepository.findByProductId(productId);
   }
 }

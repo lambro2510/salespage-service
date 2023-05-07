@@ -4,6 +4,8 @@ import com.salespage.salespageservice.domains.entities.Product;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class ProductDataResponse {
@@ -12,6 +14,8 @@ public class ProductDataResponse {
   private String productName;
 
   private BigDecimal productPrice;
+
+  private List<String> productType = new ArrayList<>();
 
   private float totalRate;
 
