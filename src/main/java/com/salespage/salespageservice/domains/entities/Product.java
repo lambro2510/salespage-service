@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -28,8 +29,11 @@ public class Product {
   @Field("description")
   private String description;
 
-  @Field("image_url")
+  @Field("image_urls")
   private List<String> imageUrls = new ArrayList<>();
+
+  @Field("display_image_url")
+  private String displayImageUrl;
 
   @Field("product_type")
   private String type;
@@ -58,15 +62,17 @@ public class Product {
     sellerStoreId = dto.getStoreId();
   }
 
-  public ProductDataResponse assignToProductResponse() {
+  public ProductDataResponse assignToProductDataResponse() {
     ProductDataResponse response = new ProductDataResponse();
-    response.setProductId(id.toHexString());
-    response.setProductName(productName);
-    response.setProductPrice(price);
-    response.setSellerUsername(sellerUsername);
-    response.setTotalRate(rate.getTotalRate());
-    response.setAvgPoint(rate.getAvgPoint());
+    response.assignFromProduct(this);
     return response;
+  }
+
+  public ProductResponse assignToProductResponse() {
+    ProductResponse response = new ProductResponse();
+    response.assignFromProduct(this);
+    return response;
+
   }
 
 }

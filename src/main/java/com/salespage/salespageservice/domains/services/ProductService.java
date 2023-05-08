@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.productDtos.*;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductType;
@@ -67,7 +68,7 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(product);
   }
 
-  public ResponseEntity<PageResponse<ProductDataResponse>> getAllProduct(String users, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
+  public ResponseEntity<PageResponse<ProductResponse>> getAllProduct(String users, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
 
     Query query = new Query();
     if (StringUtil.isNotBlank(username)) {
@@ -100,7 +101,7 @@ public class ProductService extends BaseService {
       query.addCriteria(Criteria.where("seller_store_id").in(ids));
     }
     Page<Product> productPage = productStorage.findAll(query, pageable);
-    List<ProductDataResponse> products = productPage.getContent().stream().map(Product::assignToProductResponse).collect(Collectors.toList());
+    List<ProductResponse> products = productPage.getContent().stream().map(Product::assignToProductResponse).collect(Collectors.toList());
     for (ProductDataResponse response : products) {
       List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(response.getProductId());
       response.setProductType(typeDetails.stream().map(ProductTypeDetail::getTypeDetailName).collect(Collectors.toList()));
