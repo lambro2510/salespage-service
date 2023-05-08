@@ -63,8 +63,9 @@ public class ProductService extends BaseService {
   public ResponseEntity<Product> updateProduct(String username, ProductDto dto) {
     Product product = productStorage.findProductById(dto.getProductId());
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
-
-    product.updateProduct(dto);
+    if (!Objects.equals(product.getSellerUsername(), username))
+      throw new AuthorizationException("Bạn không có quyền cập nhật sản phẩm này");
+    product.updateProductInfo(dto);
     return ResponseEntity.ok(product);
   }
 
@@ -138,9 +139,9 @@ public class ProductService extends BaseService {
         String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, multipartFile.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(multipartFile));
         product.getImageUrls().add(imageUrl);
         imageUrls.add(imageUrl);
-        productStorage.save(product);
       }
 
+      productStorage.save(product);
     } catch (Exception ex) {
       log.error(ex.getMessage());
     }

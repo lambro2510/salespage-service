@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
@@ -53,13 +54,18 @@ public class Product {
   @Field("seller_store_id")
   private String sellerStoreId;
 
-  public void updateProduct(ProductInfoDto dto) {
+  public void updateProduct(CreateProductInfoDto dto) {
     productName = dto.getProductName();
     description = dto.getDescription();
     type = dto.getType();
     price = BigDecimal.valueOf(dto.getPrice());
     sellingAddress = dto.getSellingAddress();
     sellerStoreId = dto.getStoreId();
+  }
+
+  public void updateProductInfo(ProductInfoDto dto) {
+    updateProduct(dto);
+    displayImageUrl = dto.getDefaultImage();
   }
 
   public ProductDataResponse assignToProductDataResponse() {
