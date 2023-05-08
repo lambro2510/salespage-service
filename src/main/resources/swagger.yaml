@@ -25,3 +25,10 @@ components:
               items:
                 type: string
                 format: binary
+
+    requestBody:
+      multipart/form-data:
+        schema:
+          type: string
+          format: binary
+
