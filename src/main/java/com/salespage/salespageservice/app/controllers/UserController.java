@@ -62,8 +62,8 @@ public class UserController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Unauthorized access"),
           @ApiResponse(responseCode = "500", description = "Internal server error")
   })
-  public ResponseEntity<String> uploadImage(Authentication authentication, @RequestParam("image") @Schema(type = "file", format = "binary", description = "Cho phép tải 1 ảnh môt lần") MultipartFile image) throws IOException {
-    return userService.uploadImage(getUsername(authentication), image);
+  public ResponseEntity<String> uploadImage(Authentication authentication, @RequestBody @Schema(type = "file") MultipartFile file) throws IOException {
+    return userService.uploadImage(getUsername(authentication), file);
   }
 
   @PostMapping("voting")

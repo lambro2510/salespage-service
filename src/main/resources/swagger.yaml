@@ -20,15 +20,7 @@ components:
         schema:
           type: object
           properties:
-            files:
-              type: array
-              items:
-                type: string
-                format: binary
-
-    requestBody:
-      multipart/form-data:
-        schema:
-          type: string
-          format: binary
+            file:
+              type: string
+              format: binary
 
