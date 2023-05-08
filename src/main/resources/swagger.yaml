@@ -3,14 +3,25 @@ openapi: 3.0.0
 # 1) Define the security scheme type (HTTP bearer)
 components:
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuth: # arbitrary name for the security scheme
       type: http
       scheme: bearer
       bearerFormat: JWT    # optional, arbitrary value for documentation purposes
-# 2) Apply the security globally to all operations
-security:
-  - bearerAuth: []         # use the same name as above
-components:
+  # 2) Apply the security globally to all operations
+  security:
+    - bearerAuth: [ ]         # use the same name as above
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
+
+  requestBody:
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            files:
+              type: array
+              items:
+                type: string
+                format: binary

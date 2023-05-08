@@ -5,6 +5,7 @@ import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -50,7 +51,7 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<List<String>> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam List<MultipartFile> files) throws IOException {
+  public ResponseEntity<List<String>> uploadImages(Authentication authentication, @RequestParam String productId, @RequestBody @Schema(type = "array", format = "binary", description = "Cho phép tải nhiều ảnh môt lần") List<MultipartFile> files) throws IOException {
     return productService.uploadProductImage(getUsername(authentication), productId, files);
   }
 
