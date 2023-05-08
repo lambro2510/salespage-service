@@ -1,4 +1,7 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
