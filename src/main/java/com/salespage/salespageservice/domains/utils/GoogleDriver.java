@@ -168,6 +168,7 @@ public class GoogleDriver {
     List<File> folders = getAllFolders();
     File folder = folders.stream().filter(f -> folderName.equals(f.getName())).findFirst().orElse(null);
     if (folder != null) {
+      log.debug("==========> Find folder with name: " + folderName);
       return folder.getId();
     } else {
       log.debug("==========> Can't find folder with name: " + folderName + " -> create folder");
