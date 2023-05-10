@@ -152,7 +152,9 @@ public class ProductService extends BaseService {
       String fileId = Helper.extractFileIdFromUrl(imageUrl);
       googleDriver.deleteFile(fileId);
       imageUrls.add(fileId);
+      product.getImageUrls().remove(imageUrl);
     }
+    productStorage.save(product);
     return ResponseEntity.ok(imageUrls);
   }
 
