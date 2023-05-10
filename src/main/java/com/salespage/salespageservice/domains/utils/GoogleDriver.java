@@ -45,6 +45,7 @@ public class GoogleDriver {
   public String uploadPublicImage(String folderName, String fileName, java.io.File filePath) {
 
     String folderId = createNewFolder(folderName);
+    log.info("Folder iđ {{}} ", folderId);
     String fileId = null;
     try {
       File fileMetadata = new File();
@@ -73,9 +74,9 @@ public class GoogleDriver {
       // Set file permissions using the fileId retrieved from the created file object
       googleDrive.permissions().create(fileId, permission).execute();
 
-      log.info("Upload image success with id: " + fileId);
+      log.info("Upload image success with id {{}}", fileId);
     } catch (Exception e) {
-      log.error("==========> Can't upload image: " + e);
+      log.error("==========> Can't upload image {{}} ", e);
     }
     log.info(getImageURL(fileId));
     return getImageURL(fileId);
@@ -104,9 +105,9 @@ public class GoogleDriver {
       // Set file permissions using the fileId retrieved from the created file object
       googleDrive.permissions().create(fileId, permission).execute();
 
-      log.info("Upload image not delete success with id: " + fileId);
+      log.info("Upload image not delete success with id: ", fileId);
     } catch (Exception e) {
-      log.error("==========> Can't upload image: " + e);
+      log.error("==========> Can't upload image: ", e);
     }
     return getImageURL(fileId);
   }
@@ -127,6 +128,7 @@ public class GoogleDriver {
       // Xóa tất cả các file và folder con trong folder cần xóa
       for (File file : fileList.getFiles()) {
         if (file.getMimeType().equals("application/vnd.google-apps.folder")) {
+          log.debug("delete with file id {{}}", file.getId());
           deleteFolder(file.getId());
         } else {
           googleDrive.files().delete(file.getId()).execute();
@@ -168,10 +170,10 @@ public class GoogleDriver {
     List<File> folders = getAllFolders();
     File folder = folders.stream().filter(f -> folderName.equals(f.getName())).findFirst().orElse(null);
     if (folder != null) {
-      log.debug("==========> Find folder with name: " + folderName);
+      log.info("==========> Find folder with name: " + folderName);
       return folder.getId();
     } else {
-      log.debug("==========> Can't find folder with name: " + folderName + " -> create folder");
+      log.info("==========> Can't find folder with name: " + folderName + " -> create folder");
       return createNewFolder(folderName);
     }
   }
