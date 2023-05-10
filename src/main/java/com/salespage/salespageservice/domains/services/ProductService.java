@@ -129,7 +129,6 @@ public class ProductService extends BaseService {
 
   public ResponseEntity<List<String>> uploadProductImage(String username, String productId, List<MultipartFile> multipartFiles) throws IOException {
     List<String> imageUrls = new ArrayList<>();
-    try {
       Product product = productStorage.findProductById(productId);
       if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
       if (!product.getSellerUsername().equals(username))
@@ -140,11 +139,7 @@ public class ProductService extends BaseService {
         product.getImageUrls().add(imageUrl);
         imageUrls.add(imageUrl);
       }
-
       productStorage.save(product);
-    } catch (Exception ex) {
-      log.error(ex.getMessage());
-    }
     return ResponseEntity.ok(imageUrls);
   }
 

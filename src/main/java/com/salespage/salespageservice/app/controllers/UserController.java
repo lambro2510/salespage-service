@@ -62,7 +62,7 @@ public class UserController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Unauthorized access"),
           @ApiResponse(responseCode = "500", description = "Internal server error")
   })
-  public ResponseEntity<String> uploadImage(Authentication authentication, @RequestBody @Schema(type = "file") MultipartFile file) throws IOException {
+  public ResponseEntity<String> uploadImage(Authentication authentication, @RequestBody @Schema(type = "multipart", format = "binary") MultipartFile file) throws IOException {
     return userService.uploadImage(getUsername(authentication), file);
   }
 

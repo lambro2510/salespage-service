@@ -81,9 +81,10 @@ public class GoogleDriver {
     return getImageURL(fileId);
   }
 
-  public String uploadPublicImageNotDelete(String folderId, String fileName, java.io.File filePath) {
+  public String uploadPublicImageNotDelete(String folderName, String fileName, java.io.File filePath) {
     String fileId = null;
     try {
+      String folderId = createNewFolder(folderName);
       File fileMetadata = new File();
       fileMetadata.setName(fileName);
       fileMetadata.setParents(List.of(folderId));
