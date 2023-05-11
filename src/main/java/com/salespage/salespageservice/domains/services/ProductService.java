@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.productDtos.*;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.domains.entities.Product;
@@ -49,9 +50,9 @@ public class ProductService extends BaseService {
 
   public ResponseEntity<List<Product>> createProduct(String username, List<ProductInfoDto> dtos) {
     List<Product> products = new ArrayList<>();
-    for(ProductInfoDto dto : dtos){
+    for (ProductInfoDto dto : dtos) {
       SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
-      if(Objects.isNull(sellerStore))throw new ResourceNotFoundException("Không tồn tại cửa hàng này");
+      if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tồn tại cửa hàng này");
       if (!Objects.equals(sellerStore.getOwnerStoreName(), username)) {
         throw new AuthorizationException("Không được phép");
       }
@@ -116,8 +117,16 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(PageResponse.createFrom(new PageImpl<>(products, pageable, productPage.getTotalElements())));
   }
 
-  public ResponseEntity<Product> getProductDetail(String productId) {
-    return ResponseEntity.ok(productStorage.findProductById(productId));
+  public ResponseEntity<ProductDetailResponse> getProductDetail(String productId) throws Exception {
+    ProductDetailResponse response = new ProductDetailResponse();
+    Product product = productStorage.findProductById(productId);
+    SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
+    response.assignFromProduct(product);
+    response.setStoreName(sellerStore.getStoreName());
+    List<Product> similarProducts = findSimilarProducts(productId);
+    List<ProductResponse> listSimilarProduct = similarProducts.stream().map(Product::assignToProductResponse).collect(Collectors.toList());
+    response.setSimilarProducts(listSimilarProduct);
+    return ResponseEntity.ok(response);
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -135,17 +144,17 @@ public class ProductService extends BaseService {
 
   public ResponseEntity<List<String>> uploadProductImage(String username, String productId, List<MultipartFile> multipartFiles) throws IOException {
     List<String> imageUrls = new ArrayList<>();
-      Product product = productStorage.findProductById(productId);
-      if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
-      if (!product.getSellerUsername().equals(username))
-        throw new AuthorizationException("Không được phép");
+    Product product = productStorage.findProductById(productId);
+    if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
+    if (!product.getSellerUsername().equals(username))
+      throw new AuthorizationException("Không được phép");
 
-      for (MultipartFile multipartFile : multipartFiles) {
-        String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, multipartFile.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(multipartFile));
-        product.getImageUrls().add(imageUrl);
-        imageUrls.add(imageUrl);
-      }
-      productStorage.save(product);
+    for (MultipartFile multipartFile : multipartFiles) {
+      String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, multipartFile.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(multipartFile));
+      product.getImageUrls().add(imageUrl);
+      imageUrls.add(imageUrl);
+    }
+    productStorage.save(product);
     return ResponseEntity.ok(imageUrls);
   }
 
@@ -237,4 +246,21 @@ public class ProductService extends BaseService {
   public ResponseEntity<List<ProductTypeResponse>> getAllActiveProductType() {
     return ResponseEntity.ok(productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList()));
   }
+
+  private List<Product> findSimilarProducts(String productId) throws Exception {
+    List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(productId);
+    List<Product> products;
+    if (Objects.nonNull(typeDetails)) {
+      List<String> listType = typeDetails.stream()
+              .map(ProductTypeDetail::getTypeDetailName)
+              .collect(Collectors.toList());
+
+      List<ProductTypeDetail> similarType = productTypeStorage.getTop10SimilarProduct(listType);
+      products = productStorage.findByIdIn(similarType.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
+    } else {
+      products = productStorage.findTop10ByTypeOrderByCreatedAtDesc(typeDetails.get(0).getTypeName());
+    }
+    return products;
+  }
+
 }

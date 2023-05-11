@@ -28,4 +28,8 @@ public class CacheKey {
   public static String getUserToken(String username) {
     return prefix + "token:" + username;
   }
+
+  public static String getNumberProduct() {
+    return prefix + "count:product";
+  }
 }

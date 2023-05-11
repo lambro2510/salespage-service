@@ -2,9 +2,9 @@ package com.salespage.salespageservice.app.controllers.publicControllers;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.responses.PageResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
-import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class PublicProductController extends BaseController {
   }
 
   @GetMapping("detail")
-  public ResponseEntity<Product> getProductDetail(@RequestParam String productId) {
+  public ResponseEntity<ProductDetailResponse> getProductDetail(@RequestParam String productId) throws Exception {
     return productService.getProductDetail(productId);
   }
 

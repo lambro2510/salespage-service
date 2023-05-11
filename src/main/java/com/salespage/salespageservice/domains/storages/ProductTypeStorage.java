@@ -42,4 +42,8 @@ public class ProductTypeStorage extends BaseStorage {
   public List<ProductType> findByStatus(ProductTypeStatus status) {
     return productTypeRepository.findByStatus(status);
   }
+
+  public List<ProductTypeDetail> getTop10SimilarProduct(List<String> listType) {
+    return productTypeRepository.findTop10ByTypeDetailNameInOrderByCreatedAtDesc(listType);
+  }
 }
