@@ -8,6 +8,7 @@ import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataR
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,9 +18,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Document("product")
 @Data
-public class Product {
+public class Product extends BaseEntity {
   @Id
   @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;

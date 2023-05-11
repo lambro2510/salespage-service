@@ -14,4 +14,6 @@ public interface ProductTypeDetailRepository extends MongoRepository<ProductType
   ProductTypeDetail findProductTypeDetailById(ObjectId objectId);
 
   List<ProductTypeDetail> findByProductId(String productId);
+
+  List<ProductTypeDetail> findTop10ByTypeDetailNameInOrderByCreatedAtDesc(List<String> listType);
 }
