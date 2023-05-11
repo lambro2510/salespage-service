@@ -51,12 +51,14 @@ public class ProductService extends BaseService {
     List<Product> products = new ArrayList<>();
     for(ProductInfoDto dto : dtos){
       SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
+      if(Objects.isNull(sellerStore))throw new ResourceNotFoundException("Không tồn tại cửa hàng này");
       if (!Objects.equals(sellerStore.getOwnerStoreName(), username)) {
         throw new AuthorizationException("Không được phép");
       }
       Product product = new Product();
       product.updateProduct(dto);
       product.setSellerUsername(username);
+      product.setSellerStoreId(sellerStore.getId().toHexString());
       products.add(product);
     }
 
