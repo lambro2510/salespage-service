@@ -56,7 +56,7 @@ public class ProductService extends BaseService {
         throw new AuthorizationException("Không được phép");
       }
       Product product = new Product();
-      product.updateProduct(dto);
+      product.updateProductInfo(dto);
       product.setSellerUsername(username);
       product.setSellerStoreId(sellerStore.getId().toHexString());
       products.add(product);
