@@ -47,17 +47,21 @@ public class ProductService extends BaseService {
   private SellerStoreService sellerStoreService;
 
 
-  public ResponseEntity<Product> createProduct(String username, ProductInfoDto dto) {
-    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
-    if (!Objects.equals(sellerStore.getOwnerStoreName(), username)) {
-      throw new AuthorizationException("Không được phép");
+  public ResponseEntity<List<Product>> createProduct(String username, List<ProductInfoDto> dtos) {
+    List<Product> products = new ArrayList<>();
+    for(ProductInfoDto dto : dtos){
+      SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
+      if (!Objects.equals(sellerStore.getOwnerStoreName(), username)) {
+        throw new AuthorizationException("Không được phép");
+      }
+      Product product = new Product();
+      product.updateProduct(dto);
+      product.setSellerUsername(username);
+      products.add(product);
     }
-    Product product = new Product();
-    product.updateProduct(dto);
-    product.setSellerUsername(username);
 
-    productStorage.save(product);
-    return ResponseEntity.ok(product);
+    productStorage.saveAll(products);
+    return ResponseEntity.ok(products);
   }
 
   public ResponseEntity<Product> updateProduct(String username, ProductDto dto) {

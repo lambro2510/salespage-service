@@ -33,8 +33,8 @@ public class Product {
   @Field("image_urls")
   private List<String> imageUrls = new ArrayList<>();
 
-  @Field("display_image_url")
-  private String displayImageUrl;
+  @Field("default_image_url")
+  private String defaultImageUrl;
 
   @Field("product_type")
   private String type;
@@ -65,7 +65,7 @@ public class Product {
 
   public void updateProductInfo(ProductInfoDto dto) {
     updateProduct(dto);
-    displayImageUrl = dto.getDefaultImage();
+    defaultImageUrl = dto.getDefaultImage();
   }
 
   public ProductDataResponse assignToProductDataResponse() {

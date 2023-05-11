@@ -33,4 +33,8 @@ public class ProductStorage extends BaseStorage {
   public List<Product> findBySellerStoreId(String storeId) {
     return productRepository.findBySellerStoreId(storeId);
   }
+
+  public void saveAll(List<Product> products) {
+    productRepository.saveAll(products);
+  }
 }

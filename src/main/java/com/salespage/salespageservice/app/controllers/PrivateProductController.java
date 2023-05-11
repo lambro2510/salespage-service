@@ -37,7 +37,7 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Không được phép"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<Product> createProduct(Authentication authentication, @RequestBody ProductInfoDto dto) {
+  public ResponseEntity<List<Product>> createProduct(Authentication authentication, @RequestBody List<ProductInfoDto> dto) {
     return productService.createProduct(getUsername(authentication), dto);
   }
 
