@@ -1,5 +1,5 @@
 git add .
 git commit -m "auto push"
 git push
-lambro25102001@gmail.com
-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
+echo lambro25102001@gmail.com
+echo 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
