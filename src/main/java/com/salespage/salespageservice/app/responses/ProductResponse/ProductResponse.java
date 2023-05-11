@@ -11,6 +11,6 @@ public class ProductResponse extends ProductDataResponse {
   @Override
   public void assignFromProduct(Product product) {
     super.assignFromProduct(product);
-    imageUrl = product.getDisplayImageUrl();
+    imageUrl = product.getDefaultImageUrl();
   }
 }
