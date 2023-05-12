@@ -17,8 +17,8 @@ public class FavoriteProduct extends BaseEntity {
   @Id
   private ObjectId id;
 
-  @Field("user_id")
-  private String userId;
+  @Field("username")
+  private String username;
 
   @Field("product_id")
   private String productId;
