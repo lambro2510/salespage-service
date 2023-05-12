@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @CrossOrigin
 @RestController
@@ -38,7 +39,7 @@ public class PublicProductController extends BaseController {
   @GetMapping("detail")
   public ResponseEntity<ProductDetailResponse> getProductDetail(Authentication authentication, @RequestParam String productId) throws Exception {
     String username = null;
-    if (authentication.isAuthenticated()) {
+    if (Objects.nonNull(authentication)) {
       username = getUsername(authentication);
     }
     return productService.getProductDetail(username, productId);
