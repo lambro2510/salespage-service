@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import lombok.Data;
@@ -82,4 +83,10 @@ public class Product extends BaseEntity {
     return response;
   }
 
+
+  public ProductDetailResponse assignToProductDetailResponse() {
+    ProductDetailResponse response = new ProductDetailResponse();
+    response.assignFromProduct(this);
+    return response;
+  }
 }

@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.responses.ProductResponse;
 
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.infor.Rate;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -17,9 +18,7 @@ public class ProductDataResponse {
 
   private List<String> productType = new ArrayList<>();
 
-  private float totalRate;
-
-  private float avgPoint;
+  private Rate productRate;
 
   private String sellerUsername;
 
@@ -30,7 +29,6 @@ public class ProductDataResponse {
     productName = product.getProductName();
     productPrice = product.getPrice();
     sellerUsername = product.getSellerUsername();
-    totalRate = product.getRate().getTotalRate();
-    avgPoint = product.getRate().getAvgPoint();
+    productRate = product.getRate();
   }
 }

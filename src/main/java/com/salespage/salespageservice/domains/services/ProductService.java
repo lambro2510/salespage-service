@@ -117,6 +117,7 @@ public class ProductService extends BaseService {
   public ResponseEntity<ProductDetailResponse> getProductDetail(String username, String productId) throws Exception {
     ProductDetailResponse response = new ProductDetailResponse();
     Product product = productStorage.findProductById(productId);
+    response = product.assignToProductDetailResponse();
     SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
     FavoriteProduct favoriteProduct = new FavoriteProduct();
     if (Objects.nonNull(username)) {
