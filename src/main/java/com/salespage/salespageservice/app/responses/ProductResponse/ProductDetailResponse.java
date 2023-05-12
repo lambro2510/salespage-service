@@ -1,5 +1,7 @@
 package com.salespage.salespageservice.app.responses.ProductResponse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.salespage.salespageservice.domains.entities.Product;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -13,4 +15,14 @@ public class ProductDetailResponse extends ProductResponse {
 
   List<ProductResponse> similarProducts = new ArrayList<>();
 
+  @JsonProperty("isLike")
+  Boolean isLike;
+
+  Float rate;
+
+  @Override
+  public void assignFromProduct(Product product) {
+    super.assignFromProduct(product);
+    imageUrls = product.getImageUrls();
+  }
 }

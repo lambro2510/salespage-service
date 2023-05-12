@@ -80,7 +80,6 @@ public class Product extends BaseEntity {
     ProductResponse response = new ProductResponse();
     response.assignFromProduct(this);
     return response;
-
   }
 
 }

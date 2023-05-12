@@ -36,8 +36,12 @@ public class PublicProductController extends BaseController {
   }
 
   @GetMapping("detail")
-  public ResponseEntity<ProductDetailResponse> getProductDetail(@RequestParam String productId) throws Exception {
-    return productService.getProductDetail(productId);
+  public ResponseEntity<ProductDetailResponse> getProductDetail(Authentication authentication, @RequestParam String productId) throws Exception {
+    String username = null;
+    if (authentication.isAuthenticated()) {
+      username = getUsername(authentication);
+    }
+    return productService.getProductDetail(username, productId);
   }
 
   @GetMapping("type")

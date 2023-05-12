@@ -39,6 +39,9 @@ public class BaseService {
   protected ProductTypeStorage productTypeStorage;
 
   @Autowired
+  protected FavoriteProductStorage favoriteProductStorage;
+
+  @Autowired
   protected SystemLogStorage systemLogStorage;
 
   @Autowired

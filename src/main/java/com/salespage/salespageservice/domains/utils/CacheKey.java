@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.utils;
 
 public class CacheKey {
+  public static final int HOUR = 3600;
   private static final String prefix = "sale:";
 
   public static String genSessionKey(String username) {
@@ -31,5 +32,9 @@ public class CacheKey {
 
   public static String getNumberProduct() {
     return prefix + "count:product";
+  }
+
+  public static String getFavoriteProduct(String username, String productId) {
+    return prefix + "favorite:product:" + username + ":" + productId;
   }
 }

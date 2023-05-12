@@ -6,10 +6,7 @@ import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataR
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
-import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.ProductType;
-import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
-import com.salespage.salespageservice.domains.entities.SellerStore;
+import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
@@ -79,7 +76,7 @@ public class ProductService extends BaseService {
   public ResponseEntity<PageResponse<ProductResponse>> getAllProduct(String users, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
 
     Query query = new Query();
-    if (StringUtil.isNotBlank(username)) {
+    if (StringUtil.isNotBlank(users)) {
       query.addCriteria(Criteria.where("seller_username").ne(users));
     }
     if (StringUtil.isNotBlank(productName)) {
@@ -117,13 +114,19 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(PageResponse.createFrom(new PageImpl<>(products, pageable, productPage.getTotalElements())));
   }
 
-  public ResponseEntity<ProductDetailResponse> getProductDetail(String productId) throws Exception {
+  public ResponseEntity<ProductDetailResponse> getProductDetail(String username, String productId) throws Exception {
     ProductDetailResponse response = new ProductDetailResponse();
     Product product = productStorage.findProductById(productId);
     SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
+    FavoriteProduct favoriteProduct = new FavoriteProduct();
+    if (Objects.nonNull(username)) {
+      favoriteProduct = favoriteProductStorage.findByUsernameAndProductId(username, productId);
+    }
     response.assignFromProduct(product);
     response.setStoreName(sellerStore.getStoreName());
-    List<Product> similarProducts = findSimilarProducts(productId);
+    response.setIsLike(favoriteProduct.getIsLike());
+    response.setRate(favoriteProduct.getRateStar());
+    List<Product> similarProducts = findSimilarProducts(product);
     List<ProductResponse> listSimilarProduct = similarProducts.stream().map(Product::assignToProductResponse).collect(Collectors.toList());
     response.setSimilarProducts(listSimilarProduct);
     return ResponseEntity.ok(response);
@@ -247,10 +250,10 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList()));
   }
 
-  private List<Product> findSimilarProducts(String productId) throws Exception {
-    List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(productId);
+  private List<Product> findSimilarProducts(Product product) throws Exception {
+    List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(product.getId().toHexString());
     List<Product> products;
-    if (Objects.nonNull(typeDetails)) {
+    if (Objects.nonNull(typeDetails) && !typeDetails.isEmpty()) {
       List<String> listType = typeDetails.stream()
               .map(ProductTypeDetail::getTypeDetailName)
               .collect(Collectors.toList());
@@ -258,7 +261,7 @@ public class ProductService extends BaseService {
       List<ProductTypeDetail> similarType = productTypeStorage.getTop10SimilarProduct(listType);
       products = productStorage.findByIdIn(similarType.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
     } else {
-      products = productStorage.findTop10ByTypeOrderByCreatedAtDesc(typeDetails.get(0).getTypeName());
+      products = productStorage.findTop10ByTypeOrderByCreatedAtDesc(product.getType());
     }
     return products;
   }
