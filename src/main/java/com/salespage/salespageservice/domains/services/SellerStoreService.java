@@ -72,6 +72,7 @@ public class SellerStoreService extends BaseService {
         List<ProductTypeDetail> productTypeDetails = productTypeStorage.findByProductId(product.getId().toHexString());
         productDataResponse.setProductType(productTypeDetails.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
       }
+      storeDataResponse.setProductDataResponses(productDataResponses);
       storeDataResponses.add(storeDataResponse);
     }
 
