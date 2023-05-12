@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.salespage.salespageservice.domains.entities.types.FavoriteType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
@@ -21,6 +22,9 @@ public class FavoriteProduct extends BaseEntity {
 
   @Field("product_id")
   private String productId;
+
+  @Field("favorite_type")
+  private FavoriteType favoriteType;
 
   @Field("is_like")
   private Boolean isLike = false;

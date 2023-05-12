@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.responses.ProductResponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.infor.Rate;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -13,12 +14,17 @@ public class ProductDetailResponse extends ProductResponse {
 
   String storeName;
 
+
   List<ProductResponse> similarProducts = new ArrayList<>();
 
   @JsonProperty("isLike")
   Boolean isLike;
 
   Float rate;
+
+  String storeImageUrl;
+
+  Rate storeRate;
 
   @Override
   public void assignFromProduct(Product product) {

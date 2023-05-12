@@ -122,8 +122,13 @@ public class ProductService extends BaseService {
     if (Objects.nonNull(username)) {
       favoriteProduct = favoriteProductStorage.findByUsernameAndProductId(username, productId);
     }
-    response.assignFromProduct(product);
+
+    //assign from store
     response.setStoreName(sellerStore.getStoreName());
+    response.setStoreImageUrl(sellerStore.getStoreName());
+    response.setStoreRate(sellerStore.getRate());
+
+    //assign from favorite
     response.setIsLike(favoriteProduct.getIsLike());
     response.setRate(favoriteProduct.getRateStar());
     List<Product> similarProducts = findSimilarProducts(product);
