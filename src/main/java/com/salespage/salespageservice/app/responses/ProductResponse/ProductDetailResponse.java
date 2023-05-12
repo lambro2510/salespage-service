@@ -14,7 +14,7 @@ public class ProductDetailResponse extends ProductResponse {
 
   String storeName;
 
-
+  String description;
   List<ProductResponse> similarProducts = new ArrayList<>();
 
   @JsonProperty("isLike")
@@ -30,5 +30,6 @@ public class ProductDetailResponse extends ProductResponse {
   public void assignFromProduct(Product product) {
     super.assignFromProduct(product);
     imageUrls = product.getImageUrls();
+    description = product.getDescription();
   }
 }
