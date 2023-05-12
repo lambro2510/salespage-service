@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.controllers;
 
-import com.salespage.salespageservice.app.dtos.SellerStoreDto;
+import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
+import com.salespage.salespageservice.app.dtos.storeDtos.UpdateSellerStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
 import com.salespage.salespageservice.domains.services.SellerStoreService;
@@ -42,7 +43,7 @@ public class SellerStoreController extends BaseController {
   }
 
   @PostMapping("")
-  @Operation(summary = "Lấy thông tin các cửa hàng", description = "Lấy thông tin các cửa hàng của người bán")
+  @Operation(summary = "Tạo cửa hàng", description = "Tạo cửa hàng của người bán")
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Thành công"),
           @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
@@ -51,6 +52,18 @@ public class SellerStoreController extends BaseController {
   })
   public ResponseEntity<?> createStore(Authentication authentication, @RequestBody SellerStoreDto dto) {
     return sellerStoreService.createStore(getUsername(authentication), dto);
+  }
+
+  @PutMapping("")
+  @Operation(summary = "Cập nhật thông tin các cửa hàng", description = "Cập nhật thông tin các cửa hàng của người bán")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Thành công"),
+          @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+          @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+          @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+  })
+  public ResponseEntity<?> updateStore(Authentication authentication, @RequestBody UpdateSellerStoreDto dto) {
+    return sellerStoreService.updateStore(getUsername(authentication), dto);
   }
 
   @PostMapping("upload-image")

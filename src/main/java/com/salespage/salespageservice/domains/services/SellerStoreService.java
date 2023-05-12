@@ -1,13 +1,16 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.dtos.SellerStoreDto;
+import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
+import com.salespage.salespageservice.app.dtos.storeDtos.UpdateSellerStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
 import com.salespage.salespageservice.domains.entities.SellerStore;
+import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
+import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.Helper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -81,7 +84,16 @@ public class SellerStoreService extends BaseService {
     sellerStore.assignFromSellerStoreDto(sellerStoreDto);
     sellerStore.setOwnerStoreName(username);
     sellerStoreStorage.save(sellerStore);
-    return ResponseEntity.ok(true);
+    return ResponseEntity.ok(ResponseType.CREATED);
+  }
+
+  public ResponseEntity<?> updateStore(String username, UpdateSellerStoreDto dto) {
+    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
+    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy cửa hàng này");
+    sellerStore.assignFromSellerStoreDto(dto);
+    sellerStore.setOwnerStoreName(username);
+    sellerStoreStorage.save(sellerStore);
+    return ResponseEntity.ok(ResponseType.UPDATED);
   }
 
   public List<SellerStore> findIdsByStoreName(String storeName) {
