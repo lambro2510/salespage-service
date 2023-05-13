@@ -27,7 +27,7 @@ public class CreateProductInfoDto {
   @NotNull(message = "Giá sản phẩm không được để trống")
   @DecimalMin(value = "0.0", inclusive = false, message = "Giá sản phẩm phải lớn hơn 0")
   @Schema(description = "Giá sản phẩm", example = "20990000")
-  private Double price;
+  private Double productPrice;
 
   @NotBlank(message = "Địa chỉ bán sản phẩm không được để trống")
   @Size(max = 255, message = "Địa chỉ bán sản phẩm tối đa 255 ký tự")

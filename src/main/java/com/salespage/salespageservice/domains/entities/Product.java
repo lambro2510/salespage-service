@@ -61,14 +61,14 @@ public class Product extends BaseEntity {
     productName = dto.getProductName();
     description = dto.getDescription();
     type = dto.getType();
-    price = dto.getPrice();
+    price = dto.getProductPrice();
     sellingAddress = dto.getSellingAddress();
     sellerStoreId = dto.getStoreId();
   }
 
   public void updateProductInfo(ProductInfoDto dto) {
     updateProduct(dto);
-    defaultImageUrl = dto.getDefaultImage();
+    defaultImageUrl = dto.getImageUrl();
   }
 
   public ProductDataResponse assignToProductDataResponse() {
