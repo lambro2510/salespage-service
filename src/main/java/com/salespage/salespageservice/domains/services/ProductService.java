@@ -74,11 +74,11 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(product);
   }
 
-  public ResponseEntity<PageResponse<ProductResponse>> getAllProduct(String sellerUsername, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
+  public ResponseEntity<PageResponse<ProductResponse>> getAllProduct(String sellerUsername, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
 
     Query query = new Query();
     if (StringUtil.isNotBlank(sellerUsername)) {
-      query.addCriteria(Criteria.where("seller_username").ne(sellerUsername));
+      query.addCriteria(Criteria.where("seller_username").is(sellerUsername));
     }
     if (StringUtil.isNotBlank(productName)) {
       Pattern pattern = Pattern.compile(".*" + productName + ".*", Pattern.CASE_INSENSITIVE);
@@ -91,6 +91,9 @@ public class ProductService extends BaseService {
       query.addCriteria(Criteria.where("price").gte(minPrice));
     if (maxPrice != null)
       query.addCriteria(Criteria.where("price").lte(maxPrice));
+    if (Objects.nonNull(lte) && Objects.nonNull(gte)) {
+      query.addCriteria(Criteria.where("created_at").lte(gte).andOperator(Criteria.where("created_at").gte(lte)));
+    }
     if (StringUtil.isNotBlank(storeName)) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByStoreName(storeName);
       List<String> storeNames = sellerStores.stream()
