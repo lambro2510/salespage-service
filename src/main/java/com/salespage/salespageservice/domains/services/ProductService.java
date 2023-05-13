@@ -11,6 +11,7 @@ import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
+import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.Helper;
 import jodd.util.StringUtil;
@@ -163,6 +164,10 @@ public class ProductService extends BaseService {
       product.getImageUrls().add(imageUrl);
       imageUrls.add(imageUrl);
     }
+    if (imageUrls.isEmpty()) {
+      throw new BadRequestException("Tải ảnh lên không thành công");
+    }
+    product.setDefaultImageUrl(imageUrls.get(imageUrls.size() - 1));
     productStorage.save(product);
     return ResponseEntity.ok(imageUrls);
   }
