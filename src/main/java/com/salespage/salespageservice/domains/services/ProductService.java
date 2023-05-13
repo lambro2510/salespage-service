@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -88,9 +89,9 @@ public class ProductService extends BaseService {
     if (StringUtil.isNotBlank(productType))
       query.addCriteria(Criteria.where("product_type").is(productType));
     if (minPrice != null)
-      query.addCriteria(Criteria.where("price").gte(minPrice));
+      query.addCriteria(Criteria.where("price").gte(new BigDecimal(minPrice)));
     if (maxPrice != null)
-      query.addCriteria(Criteria.where("price").lte(maxPrice));
+      query.addCriteria(Criteria.where("price").lte(new BigDecimal(maxPrice)));
     if (Objects.nonNull(lte) && Objects.nonNull(gte)) {
       query.addCriteria(Criteria.where("created_at").lte(gte).andOperator(Criteria.where("created_at").gte(lte)));
     }

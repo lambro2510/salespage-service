@@ -20,4 +20,5 @@ public class MongoConfig {
                     .build();
     return new MongoTransactionManager(dbFactory, transactionOptions);
   }
+
 }
