@@ -4,7 +4,7 @@ import com.salespage.salespageservice.domains.entities.Product;
 import lombok.Data;
 
 @Data
-public class ProductItemResponse extends ProductDataResponse {
+public class ProductItemResponse extends ProductResponse {
   String storeId;
 
   @Override

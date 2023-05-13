@@ -131,9 +131,6 @@ public class ProductService extends BaseService {
     }
 
 
-    List<List<Product>> productsGroupedByStoreId = new ArrayList<>(productsByStoreId.values());
-
-
     return ResponseEntity.ok(PageResponse.createFrom(new PageImpl<>(products, pageable, productPage.getTotalElements())));
   }
 
