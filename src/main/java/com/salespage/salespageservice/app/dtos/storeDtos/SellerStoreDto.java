@@ -14,7 +14,7 @@ public class SellerStoreDto {
   private String storeName;
 
   @Schema(description = "Địa chỉ cửa hàng", example = "123 Đường ABC, Thành phố XYZ")
-  private String diaChi;
+  private String address;
 
   @Schema(description = "Mô tả cửa hàng", example = "Cửa hàng chuyên bán đồ điện tử")
   private String description;
@@ -27,7 +27,7 @@ public class SellerStoreDto {
 
   public void assignFromSellerStoreDto(SellerStore sellerStore) {
     storeName = sellerStore.getStoreName();
-    diaChi = sellerStore.getDiaChi();
+    address = sellerStore.getAddress();
     description = sellerStore.getDescription();
     status = sellerStore.getStatus();
     sellProducts = sellerStore.getSellProducts();
