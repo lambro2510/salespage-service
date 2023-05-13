@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
+import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,13 @@ public class PublicProductController extends BaseController {
                                                                      @RequestParam(required = false) String ownerStoreUsername,
                                                                      Authentication authentication,
                                                                      Pageable pageable) {
-    return productService.getAllProduct(getUsername(authentication), productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, pageable);
+    String sellerUsername = null;
+    if (Objects.nonNull(authentication)) {
+      if (getUserRoles(authentication).contains(UserRole.SELLER)) {
+        sellerUsername = getUsername(authentication);
+      }
+    }
+    return productService.getAllProduct(sellerUsername, productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, pageable);
   }
 
   @GetMapping("detail")

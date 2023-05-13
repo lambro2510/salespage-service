@@ -74,11 +74,11 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(product);
   }
 
-  public ResponseEntity<PageResponse<ProductResponse>> getAllProduct(String users, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
+  public ResponseEntity<PageResponse<ProductResponse>> getAllProduct(String sellerUsername, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Pageable pageable) {
 
     Query query = new Query();
-    if (StringUtil.isNotBlank(users)) {
-      query.addCriteria(Criteria.where("seller_username").ne(users));
+    if (StringUtil.isNotBlank(sellerUsername)) {
+      query.addCriteria(Criteria.where("seller_username").ne(sellerUsername));
     }
     if (StringUtil.isNotBlank(productName)) {
       Pattern pattern = Pattern.compile(".*" + productName + ".*", Pattern.CASE_INSENSITIVE);
