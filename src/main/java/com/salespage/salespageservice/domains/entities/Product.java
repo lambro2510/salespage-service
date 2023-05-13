@@ -43,6 +43,7 @@ public class Product extends BaseEntity {
   private String type;
 
   @Field("price")
+  @JsonSerialize(using = ToStringSerializer.class)
   private BigDecimal price;
 
   @Field("rate")

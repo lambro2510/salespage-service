@@ -54,6 +54,7 @@ public class ProductTransaction extends BaseEntity {
   private Long quantity;
 
   @Field("price_per_product")
+  @JsonSerialize(using = ToStringSerializer.class)
   private BigDecimal pricePerProduct;
 
   @Field("address_receive")
