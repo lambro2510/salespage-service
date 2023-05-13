@@ -8,25 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class StoreDataResponse {
-  private String storeId;
-
-  private String storeName;
-
-  private String imageUrl;
-
-  private Float totalRate;
-
-  private Float avgRate;
+public class StoreDataResponse extends StoreInfoResponse {
 
   private List<ProductDataResponse> productDataResponses = new ArrayList<>();
 
+  @Override
   public void assignFromSellerStore(SellerStore sellerStore) {
-    storeId = sellerStore.getId().toHexString();
-    imageUrl = sellerStore.getImageStoreUrl();
-    storeName = sellerStore.getStoreName();
-    totalRate = sellerStore.getRate().getTotalRate();
-    avgRate = sellerStore.getRate().getAvgPoint();
+    super.assignFromSellerStore(sellerStore);
   }
-
 }
