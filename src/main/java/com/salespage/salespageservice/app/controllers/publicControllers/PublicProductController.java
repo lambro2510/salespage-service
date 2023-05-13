@@ -3,7 +3,7 @@ package com.salespage.salespageservice.app.controllers.publicControllers;
 import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.services.ProductService;
@@ -26,16 +26,16 @@ public class PublicProductController extends BaseController {
   private ProductService productService;
 
   @GetMapping("")
-  public ResponseEntity<PageResponse<ProductResponse>> getAllProduct(@RequestParam(required = false) String productType,
-                                                                     @RequestParam(required = false) String productName,
-                                                                     @RequestParam(required = false) Long minPrice,
-                                                                     @RequestParam(required = false) Long maxPrice,
-                                                                     @RequestParam(required = false) String storeName,
-                                                                     @RequestParam(required = false) String ownerStoreUsername,
-                                                                     @RequestParam(required = false) Long lte,
-                                                                     @RequestParam(required = false) Long gte,
-                                                                     Authentication authentication,
-                                                                     Pageable pageable) {
+  public ResponseEntity<PageResponse<ProductItemResponse>> getAllProduct(@RequestParam(required = false) String productType,
+                                                                         @RequestParam(required = false) String productName,
+                                                                         @RequestParam(required = false) Long minPrice,
+                                                                         @RequestParam(required = false) Long maxPrice,
+                                                                         @RequestParam(required = false) String storeName,
+                                                                         @RequestParam(required = false) String ownerStoreUsername,
+                                                                         @RequestParam(required = false) Long lte,
+                                                                         @RequestParam(required = false) Long gte,
+                                                                         Authentication authentication,
+                                                                         Pageable pageable) {
     String sellerUsername = null;
     if (Objects.nonNull(authentication)) {
       if (getUserRoles(authentication).contains(UserRole.SELLER)) {

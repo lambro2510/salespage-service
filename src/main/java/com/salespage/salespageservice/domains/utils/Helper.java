@@ -22,6 +22,12 @@ public class Helper {
             .collect(Collectors.toList());
   }
 
+  public static List<ObjectId> convertListStringToListObjectId(List<String> stringList) {
+    return stringList.stream()
+            .map(ObjectId::new)
+            .collect(Collectors.toList());
+  }
+
   public static java.io.File convertMultiPartToFile(MultipartFile file) throws IOException {
     java.io.File convFile = new java.io.File(Objects.requireNonNull(file.getOriginalFilename()));
     FileOutputStream fos = new FileOutputStream(convFile);

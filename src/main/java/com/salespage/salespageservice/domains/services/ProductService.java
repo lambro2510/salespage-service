@@ -2,8 +2,8 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.productDtos.*;
 import com.salespage.salespageservice.app.responses.PageResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.domains.entities.*;
@@ -16,6 +16,7 @@ import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundExcepti
 import com.salespage.salespageservice.domains.utils.Helper;
 import jodd.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,10 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -75,7 +77,7 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(product);
   }
 
-  public ResponseEntity<PageResponse<ProductResponse>> getAllProduct(String sellerUsername, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
+  public ResponseEntity<PageResponse<ProductItemResponse>> getAllProduct(String sellerUsername, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
 
     Query query = new Query();
     if (StringUtil.isNotBlank(sellerUsername)) {
@@ -89,9 +91,9 @@ public class ProductService extends BaseService {
     if (StringUtil.isNotBlank(productType))
       query.addCriteria(Criteria.where("product_type").is(productType));
     if (minPrice != null)
-      query.addCriteria(Criteria.where("price").gte(new BigDecimal(minPrice)));
+      query.addCriteria(Criteria.where("price").gte(minPrice));
     if (maxPrice != null)
-      query.addCriteria(Criteria.where("price").lte(new BigDecimal(maxPrice)));
+      query.addCriteria(Criteria.where("price").lte(maxPrice));
     if (Objects.nonNull(lte) && Objects.nonNull(gte)) {
       query.addCriteria(Criteria.where("created_at").lte(gte).andOperator(Criteria.where("created_at").gte(lte)));
     }
@@ -110,12 +112,28 @@ public class ProductService extends BaseService {
               .collect(Collectors.toList());
       query.addCriteria(Criteria.where("seller_store_id").in(ids));
     }
+
     Page<Product> productPage = productStorage.findAll(query, pageable);
-    List<ProductResponse> products = productPage.getContent().stream().map(Product::assignToProductResponse).collect(Collectors.toList());
-    for (ProductDataResponse response : products) {
+    List<ProductItemResponse> products = productPage.getContent().stream().map(Product::assignToProductItemResponse).collect(Collectors.toList());
+
+    Map<String, List<Product>> productsByStoreId = productPage.getContent().stream()
+            .collect(Collectors.groupingBy(Product::getSellerStoreId));
+    List<String> listStoreId = new ArrayList<>(productsByStoreId.keySet());
+    List<SellerStore> sellerStores = sellerStoreStorage.findByIdIn(Helper.convertListStringToListObjectId(listStoreId));
+    Map<ObjectId, SellerStore> sellerStoreMap = sellerStores.stream().collect(Collectors.toMap(SellerStore::getId, Function.identity()));
+    for (ProductItemResponse response : products) {
+      SellerStore store = sellerStoreMap.get(new ObjectId(response.getStoreId()));
+      if (Objects.nonNull(store)) {
+        response.setStoreName(store.getStoreName());
+      }
       List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(response.getProductId());
       response.setProductType(typeDetails.stream().map(ProductTypeDetail::getTypeDetailName).collect(Collectors.toList()));
     }
+
+
+    List<List<Product>> productsGroupedByStoreId = new ArrayList<>(productsByStoreId.values());
+
+
     return ResponseEntity.ok(PageResponse.createFrom(new PageImpl<>(products, pageable, productPage.getTotalElements())));
   }
 

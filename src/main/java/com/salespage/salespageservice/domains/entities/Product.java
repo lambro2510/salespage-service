@@ -6,6 +6,7 @@ import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import lombok.Data;
@@ -15,7 +16,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class Product extends BaseEntity {
   private String type;
 
   @Field(value = "price")
-  private BigDecimal price;
+  private Double price;
 
   @Field("rate")
   private Rate rate = new Rate();
@@ -61,7 +61,7 @@ public class Product extends BaseEntity {
     productName = dto.getProductName();
     description = dto.getDescription();
     type = dto.getType();
-    price = BigDecimal.valueOf(dto.getPrice());
+    price = dto.getPrice();
     sellingAddress = dto.getSellingAddress();
     sellerStoreId = dto.getStoreId();
   }
@@ -73,6 +73,12 @@ public class Product extends BaseEntity {
 
   public ProductDataResponse assignToProductDataResponse() {
     ProductDataResponse response = new ProductDataResponse();
+    response.assignFromProduct(this);
+    return response;
+  }
+
+  public ProductItemResponse assignToProductItemResponse() {
+    ProductItemResponse response = new ProductItemResponse();
     response.assignFromProduct(this);
     return response;
   }

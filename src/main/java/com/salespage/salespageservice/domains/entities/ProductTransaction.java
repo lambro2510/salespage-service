@@ -14,7 +14,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class ProductTransaction extends BaseEntity {
 
   @Field("price_per_product")
   @JsonSerialize(using = ToStringSerializer.class)
-  private BigDecimal pricePerProduct;
+  private Double pricePerProduct;
 
   @Field("address_receive")
   private String addressReceive;

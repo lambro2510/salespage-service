@@ -4,7 +4,6 @@ import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class ProductDataResponse {
 
   private String productName;
 
-  private BigDecimal productPrice;
+  private Double productPrice;
 
   private List<String> productType = new ArrayList<>();
 

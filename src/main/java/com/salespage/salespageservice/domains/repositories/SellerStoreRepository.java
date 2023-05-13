@@ -18,4 +18,6 @@ public interface SellerStoreRepository extends MongoRepository<SellerStore, Obje
   List<SellerStore> findIdsByStoreName(String storeName);
 
   List<SellerStore> findIdsByOwnerStoreName(String username);
+
+  List<SellerStore> findByIdIn(List<ObjectId> ids);
 }

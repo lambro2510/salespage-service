@@ -38,4 +38,8 @@ public class SellerStoreStorage extends BaseStorage {
   public Page<SellerStore> findAll(Pageable newPageable) {
     return sellerStoreRepository.findAll(newPageable);
   }
+
+  public List<SellerStore> findByIdIn(List<ObjectId> ids) {
+    return sellerStoreRepository.findByIdIn(ids);
+  }
 }
