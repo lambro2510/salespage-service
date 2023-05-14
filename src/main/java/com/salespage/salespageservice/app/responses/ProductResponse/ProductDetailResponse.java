@@ -12,8 +12,6 @@ import java.util.List;
 public class ProductDetailResponse extends ProductResponse {
   List<String> imageUrls = new ArrayList<>();
 
-  String storeName;
-
   String description;
   List<ProductResponse> similarProducts = new ArrayList<>();
 
@@ -23,6 +21,9 @@ public class ProductDetailResponse extends ProductResponse {
   Float rate;
 
   String storeImageUrl;
+
+  String storeId;
+  String storeName;
 
   Rate storeRate;
 

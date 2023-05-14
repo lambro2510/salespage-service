@@ -150,6 +150,7 @@ public class ProductService extends BaseService {
 
     //assign from store
     response.setStoreName(sellerStore.getStoreName());
+    response.setStoreId(sellerStore.getId().toHexString());
     response.setStoreImageUrl(sellerStore.getStoreName());
     response.setStoreRate(sellerStore.getRate());
 
