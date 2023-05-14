@@ -74,6 +74,7 @@ public class ProductService extends BaseService {
     if (!Objects.equals(product.getSellerUsername(), username))
       throw new AuthorizationException("Bạn không có quyền cập nhật sản phẩm này");
     product.updateProductInfo(dto);
+    productStorage.save(product);
     return ResponseEntity.ok(product);
   }
 
