@@ -27,6 +27,8 @@ public class ProductDataResponse {
 
   private String storeName;
 
+  private String sellingAddress;
+
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();
@@ -35,5 +37,6 @@ public class ProductDataResponse {
     productRate = product.getRate();
     type = product.getType();
     description = product.getDescription();
+    sellingAddress = product.getSellingAddress();
   }
 }
