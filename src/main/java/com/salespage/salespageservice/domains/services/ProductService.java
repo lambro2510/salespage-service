@@ -127,7 +127,7 @@ public class ProductService extends BaseService {
         response.setStoreName(store.getStoreName());
       }
       List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(response.getProductId());
-      response.setProductType(typeDetails.stream().map(ProductTypeDetail::getTypeDetailName).collect(Collectors.toList()));
+      response.setProductTypes(typeDetails.stream().map(ProductTypeDetail::getTypeDetailName).collect(Collectors.toList()));
     }
 
 

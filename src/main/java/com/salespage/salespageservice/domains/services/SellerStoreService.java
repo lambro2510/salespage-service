@@ -70,7 +70,7 @@ public class SellerStoreService extends BaseService {
         productDataResponse.setStoreName(sellerStore.getStoreName());
         productDataResponses.add(productDataResponse);
         List<ProductTypeDetail> productTypeDetails = productTypeStorage.findByProductId(product.getId().toHexString());
-        productDataResponse.setProductType(productTypeDetails.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
+        productDataResponse.setProductTypes(productTypeDetails.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
       }
       storeDataResponse.setProductDataResponses(productDataResponses);
       storeDataResponses.add(storeDataResponse);
