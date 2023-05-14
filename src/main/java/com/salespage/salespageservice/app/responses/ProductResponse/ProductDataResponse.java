@@ -15,7 +15,11 @@ public class ProductDataResponse {
 
   private Double productPrice;
 
-  private List<String> productType = new ArrayList<>();
+  private String type;
+
+  private String description;
+
+  private List<String> productTypes = new ArrayList<>();
 
   private Rate productRate;
 
@@ -29,5 +33,7 @@ public class ProductDataResponse {
     productPrice = product.getPrice();
     sellerUsername = product.getSellerUsername();
     productRate = product.getRate();
+    type = product.getType();
+    description = product.getDescription();
   }
 }
