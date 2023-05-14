@@ -26,23 +26,25 @@ public class PublicProductController extends BaseController {
   private ProductService productService;
 
   @GetMapping("")
-  public ResponseEntity<PageResponse<ProductItemResponse>> getAllProduct(@RequestParam(required = false) String productType,
-                                                                         @RequestParam(required = false) String productName,
-                                                                         @RequestParam(required = false) Long minPrice,
-                                                                         @RequestParam(required = false) Long maxPrice,
-                                                                         @RequestParam(required = false) String storeName,
-                                                                         @RequestParam(required = false) String ownerStoreUsername,
-                                                                         @RequestParam(required = false) Long lte,
-                                                                         @RequestParam(required = false) Long gte,
-                                                                         Authentication authentication,
-                                                                         Pageable pageable) {
+  public ResponseEntity<PageResponse<ProductItemResponse>> getAllProduct(
+          @RequestParam(required = false) String productId,
+          @RequestParam(required = false) String productType,
+          @RequestParam(required = false) String productName,
+          @RequestParam(required = false) Long minPrice,
+          @RequestParam(required = false) Long maxPrice,
+          @RequestParam(required = false) String storeName,
+          @RequestParam(required = false) String ownerStoreUsername,
+          @RequestParam(required = false) Long lte,
+          @RequestParam(required = false) Long gte,
+          Authentication authentication,
+          Pageable pageable) {
     String sellerUsername = null;
     if (Objects.nonNull(authentication)) {
       if (getUserRoles(authentication).contains(UserRole.SELLER)) {
         sellerUsername = getUsername(authentication);
       }
     }
-    return productService.getAllProduct(sellerUsername, productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable);
+    return productService.getAllProduct(sellerUsername, productId, productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable);
   }
 
   @GetMapping("detail")
