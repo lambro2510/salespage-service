@@ -64,7 +64,7 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy sản phẩm"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<List<String>> deleteImages(Authentication authentication, @RequestParam String productId, @RequestBody List<String> imageIds) {
+  public ResponseEntity<List<String>> deleteImages(Authentication authentication, @RequestParam String productId, @RequestParam String imageIds) {
     return productService.deleteProductImages(getUsername(authentication), productId, imageIds);
   }
 

@@ -168,7 +168,7 @@ public class ProductService extends BaseService {
 
     Product product = productStorage.findProductById(productId);
 
-    if (!username.equals(product.getSellerUsername())) throw new ResourceNotFoundException("You haven't this item");
+    if (!username.equals(product.getSellerUsername())) throw new ResourceNotFoundException("Bạn không có sản phẩm này");
 
     productTransactionService.productTransactionCancel(productId);
     productStorage.delete(productId);
@@ -196,12 +196,13 @@ public class ProductService extends BaseService {
     return ResponseEntity.ok(imageUrls);
   }
 
-  public ResponseEntity<List<String>> deleteProductImages(String username, String productId, List<String> images) {
+  public ResponseEntity<List<String>> deleteProductImages(String username, String productId, String images) {
     Product product = productStorage.findProductById(productId);
     if (!product.getSellerUsername().equals(username))
-      throw new AuthorizationException("Can't delete image for this product");
+      throw new AuthorizationException("Bạn không thể xóa ảnh của sản phẩm này");
+    String[] listImages = images.split(",");
     List<String> imageUrls = new ArrayList<>();
-    for (String imageUrl : images) {
+    for (String imageUrl : listImages) {
       String fileId = Helper.extractFileIdFromUrl(imageUrl);
       googleDriver.deleteFile(fileId);
       imageUrls.add(fileId);
