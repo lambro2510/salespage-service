@@ -2,7 +2,7 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.LoginDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
-import com.salespage.salespageservice.app.responses.JwtResponse;
+import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,8 +34,12 @@ public class AccountController extends BaseController {
           @ApiResponse(responseCode = "409", description = "Tài khoản với email/tên đăng nhập này đã tồn tại"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<JwtResponse> signUp(@RequestBody @Valid SignUpDto dto) {
-    return accountService.signUp(dto);
+  public ResponseEntity<BaseResponse> signUp(@RequestBody @Valid SignUpDto dto) {
+    try {
+      return successApi("Đăng ký thành công", accountService.signUp(dto));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("sign-up/admin")
@@ -45,8 +49,12 @@ public class AccountController extends BaseController {
           @ApiResponse(responseCode = "409", description = "Tài khoản đã tồn tại"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<JwtResponse> createdAdminRole() {
-    return accountService.createdAdminRole();
+  public ResponseEntity<BaseResponse> createdAdminRole() {
+    try {
+      return successApi("Tạo tài khoản thành công", accountService.createdAdminRole());
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("sign-in")
@@ -57,8 +65,12 @@ public class AccountController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Không được ủy quyền, vui lòng kiểm tra thông tin đăng nhập của bạn"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<JwtResponse> login(@RequestBody @Valid LoginDto dto) throws IOException {
-    return accountService.signIn(dto);
+  public ResponseEntity<BaseResponse> login(@RequestBody @Valid LoginDto dto) throws IOException {
+    try {
+      return successApi("Đăng nhập thành công", accountService.signIn(dto));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("verify-code")
@@ -69,8 +81,12 @@ public class AccountController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   @SecurityRequirement(name = "bearerAuth")
-  public ResponseEntity<String> createVerifyCode(Authentication authentication) {
-    return accountService.createVerifyCode(getUsername(authentication));
+  public ResponseEntity<BaseResponse> createVerifyCode(Authentication authentication) {
+    try {
+      return successApi("Tạo mã xác nhận thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("verify")
@@ -81,8 +97,12 @@ public class AccountController extends BaseController {
           @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ, vui lòng kiểm tra các thông số yêu cầu"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<String> verifyCode(@RequestParam("code") Integer code, Authentication authentication) {
-    return accountService.verifyCode(getUsername(authentication), code);
+  public ResponseEntity<BaseResponse> verifyCode(@RequestParam("code") Integer code, Authentication authentication) {
+    try {
+      return successApi("Xác minh thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 
