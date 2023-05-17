@@ -83,6 +83,7 @@ public class AccountController extends BaseController {
   @SecurityRequirement(name = "bearerAuth")
   public ResponseEntity<BaseResponse> createVerifyCode(Authentication authentication) {
     try {
+      createVerifyCode(authentication);
       return successApi("Tạo mã xác nhận thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
@@ -99,6 +100,7 @@ public class AccountController extends BaseController {
   })
   public ResponseEntity<BaseResponse> verifyCode(@RequestParam("code") Integer code, Authentication authentication) {
     try {
+      accountService.verifyCode(getUsername(authentication), code);
       return successApi("Xác minh thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());

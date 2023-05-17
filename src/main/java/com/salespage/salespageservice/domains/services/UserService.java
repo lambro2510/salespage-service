@@ -8,7 +8,6 @@ import com.salespage.salespageservice.domains.exceptions.AccountNotExistsExcepti
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.Helper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,23 +30,23 @@ public class UserService extends BaseService {
     userStorage.save(user);
   }
 
-  public ResponseEntity<User> updateUser(String username, UserInfoDto dto) {
+  public User updateUser(String username, UserInfoDto dto) {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) throw new AccountNotExistsException("User not exist");
 
     user.updateUser(dto);
     userStorage.save(user);
-    return ResponseEntity.ok(user);
+    return user;
   }
 
-  public ResponseEntity<User> getUserDetail(String username) {
+  public User getUserDetail(String username) {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) throw new AccountNotExistsException("User not exist");
 
-    return ResponseEntity.ok(user);
+    return user;
   }
 
-  public ResponseEntity<?> voting(String username, String votingUsername, Long point) {
+  public void voting(String username, String votingUsername, Long point) {
     if (Objects.equals(username, votingUsername))
       throw new ResourceExitsException("Không thể tự đánh giá bản thân");
     User user = userStorage.findByUsername(votingUsername);
@@ -58,16 +57,14 @@ public class UserService extends BaseService {
 
     userStorage.save(user);
 
-    return ResponseEntity.ok(user.getRate());
   }
 
 
-  public ResponseEntity<String> uploadImage(String username, MultipartFile image) throws IOException {
+  public void uploadImage(String username, MultipartFile image) throws IOException {
     String imageUrl = googleDriver.uploadPublicImage("user-image", username, Helper.convertMultiPartToFile(image));
     User user = userStorage.findByUsername(username);
     user.setImageUrl(imageUrl);
     userStorage.save(user);
-    return ResponseEntity.ok("Upload success");
   }
 
 }

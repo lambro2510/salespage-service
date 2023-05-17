@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.controllers.publicControllers;
 
-import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.app.controllers.BaseController;
+import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("v1/api/public/user")
 @Tag(name = "Thông tin người dùng", description = "Thông tin của người dùng tài khoản")
-public class PublicUserController {
+public class PublicUserController extends BaseController {
 
   @Autowired
   private UserService userService;
@@ -28,7 +29,7 @@ public class PublicUserController {
           @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
           @ApiResponse(responseCode = "404", description = "Không tìm thấy người dùng")
   })
-  public ResponseEntity<User> getUserDetail(@Parameter(description = "Tên đăng nhập của người dùng cần lấy thông tin") @RequestParam String username) {
-    return userService.getUserDetail(username);
+  public ResponseEntity<BaseResponse> getUserDetail(@Parameter(description = "Tên đăng nhập của người dùng cần lấy thông tin") @RequestParam String username) {
+    return successApi(null, userService.getUserDetail(username));
   }
 }
