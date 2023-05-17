@@ -20,7 +20,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +39,7 @@ public class ProductTransactionService extends BaseService {
   @Autowired
   private VoucherCodeService voucherCodeService;
 
-  public ResponseEntity<PageResponse<ProductTransactionResponse>> getAllTransaction(String username, String sellerUsername, String storeName, Date startDate, Date endDate, Pageable pageable) {
+  public PageResponse<ProductTransactionResponse> getAllTransaction(String username, String sellerUsername, String storeName, Date startDate, Date endDate, Pageable pageable) {
     Query query = new Query();
     query.addCriteria(Criteria.where("buyer_username").is(username));
     if (sellerUsername != null && sellerUsername.length() > 0) {
@@ -64,14 +63,14 @@ public class ProductTransactionService extends BaseService {
       productTransactionResponses.add(productTransactionResponse);
     }
     Page<ProductTransactionResponse> pageResponse = new PageImpl<>(productTransactionResponses, pageable, productTransactions.getTotalElements());
-    return ResponseEntity.ok(PageResponse.createFrom(pageResponse));
+    return PageResponse.createFrom(pageResponse);
   }
 
   /*
    * Người dùng tạo 1 đơn hàng
    */
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public ResponseEntity<ProductTransactionResponse> createProductTransaction(String username, ProductTransactionDto dto) {
+  public ProductTransactionResponse createProductTransaction(String username, ProductTransactionDto dto) {
     ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
     Product product = productStorage.findProductById(dto.getProductId());
     if (username.equals(product.getSellerUsername()))
@@ -93,13 +92,13 @@ public class ProductTransactionService extends BaseService {
     }
     productTransactionResponse.partnerFromProductTransaction(productTransaction);
     productTransactionStorage.save(productTransaction);
-    return ResponseEntity.ok(productTransactionResponse);
+    return productTransactionResponse;
   }
 
   /*
    *Người dùng chỉnh sửa đơn hàng
    */
-  public ResponseEntity<ProductTransactionResponse> updateProductTransaction(String username, ProductTransactionInfoDto dto, String transactionId) {
+  public ProductTransactionResponse updateProductTransaction(String username, ProductTransactionInfoDto dto, String transactionId) {
     ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
     ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
 
@@ -113,11 +112,11 @@ public class ProductTransactionService extends BaseService {
     productTransactionResponse.partnerFromProductTransaction(productTransaction);
 
     //TODO Thêm vào kafka xử lý bất đồng bộ
-    return ResponseEntity.ok(productTransactionResponse);
+    return productTransactionResponse;
   }
 
 
-  public ResponseEntity<ProductTransaction> cancelProductTransaction(String username, String transactionId) {
+  public ProductTransaction cancelProductTransaction(String username, String transactionId) {
     ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
     if (!username.equals(productTransaction.getBuyerUsername()))
       throw new TransactionException("Bạn không có quyền hủy đơn hàng này");
@@ -126,7 +125,7 @@ public class ProductTransactionService extends BaseService {
 
     productTransactionStorage.save(productTransaction);
 
-    return ResponseEntity.ok(productTransaction);
+    return productTransaction;
   }
 
   /*

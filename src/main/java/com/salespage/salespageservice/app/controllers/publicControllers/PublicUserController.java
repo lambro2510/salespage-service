@@ -30,6 +30,10 @@ public class PublicUserController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy người dùng")
   })
   public ResponseEntity<BaseResponse> getUserDetail(@Parameter(description = "Tên đăng nhập của người dùng cần lấy thông tin") @RequestParam String username) {
-    return successApi(null, userService.getUserDetail(username));
+    try {
+      return successApi(null, userService.getUserDetail(username));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 }

@@ -40,7 +40,7 @@ public class PublicProductController extends BaseController {
         sellerUsername = getUsername(authentication);
       }
     }
-    return successApi("", productService.getAllProduct(sellerUsername, productId, productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
+    return successApi(productService.getAllProduct(sellerUsername, productId, productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
   }
 
   @GetMapping("detail")
@@ -49,11 +49,11 @@ public class PublicProductController extends BaseController {
     if (Objects.nonNull(authentication)) {
       username = getUsername(authentication);
     }
-    return successApi("", productService.getProductDetail(username, productId));
+    return successApi(productService.getProductDetail(username, productId));
   }
 
   @GetMapping("type")
   public ResponseEntity<BaseResponse> getAllActiveProductType() {
-    return successApi("", productService.getAllActiveProductType());
+    return successApi(productService.getAllActiveProductType());
   }
 }

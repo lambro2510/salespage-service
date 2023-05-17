@@ -8,7 +8,6 @@ import com.salespage.salespageservice.app.responses.storeResponse.StoreDataRespo
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
 import com.salespage.salespageservice.domains.entities.SellerStore;
-import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.Helper;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +29,7 @@ import java.util.stream.Collectors;
 @Service
 public class SellerStoreService extends BaseService {
 
-  public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(String username, Pageable pageable) {
+  public PageResponse<StoreDataResponse> getAllStore(String username, Pageable pageable) {
     Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
     Page<SellerStore> sellerStores = sellerStoreStorage.findByOwnerStoreName(username, newPageable);
     List<SellerStore> sellerStoreList = sellerStores.getContent();
@@ -44,10 +42,10 @@ public class SellerStoreService extends BaseService {
     }
 
     Page<StoreDataResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, newPageable, sellerStores.getTotalElements());
-    return ResponseEntity.ok(PageResponse.createFrom(pageStoreDataResponse));
+    return PageResponse.createFrom(pageStoreDataResponse);
   }
 
-  public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(String storeId, String storeName, Pageable pageable) {
+  public PageResponse<StoreDataResponse> getAllStore(String storeId, String storeName, Pageable pageable) {
     Query query = new Query();
     if (storeId != null) {
       query.addCriteria(Criteria.where("id").is(storeId));
@@ -77,24 +75,22 @@ public class SellerStoreService extends BaseService {
     }
 
     Page<StoreDataResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, pageable, sellerStores.getTotalElements());
-    return ResponseEntity.ok(PageResponse.createFrom(pageStoreDataResponse));
+    return PageResponse.createFrom(pageStoreDataResponse);
   }
 
-  public ResponseEntity<?> createStore(String username, SellerStoreDto sellerStoreDto) {
+  public void createStore(String username, SellerStoreDto sellerStoreDto) {
     SellerStore sellerStore = new SellerStore();
     sellerStore.assignFromSellerStoreDto(sellerStoreDto);
     sellerStore.setOwnerStoreName(username);
     sellerStoreStorage.save(sellerStore);
-    return ResponseEntity.ok(ResponseType.CREATED);
   }
 
-  public ResponseEntity<?> updateStore(String username, UpdateSellerStoreDto dto) {
+  public void updateStore(String username, UpdateSellerStoreDto dto) {
     SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy cửa hàng này");
     sellerStore.assignFromSellerStoreDto(dto);
     sellerStore.setOwnerStoreName(username);
     sellerStoreStorage.save(sellerStore);
-    return ResponseEntity.ok(ResponseType.UPDATED);
   }
 
   public List<SellerStore> findIdsByStoreName(String storeName) {
@@ -105,12 +101,12 @@ public class SellerStoreService extends BaseService {
     return sellerStoreStorage.findIdsByOwnerStoreName(username);
   }
 
-  public ResponseEntity<?> uploadImage(String username, String storeId, MultipartFile multipartFile) throws IOException {
+  public String uploadImage(String username, String storeId, MultipartFile multipartFile) throws IOException {
     SellerStore sellerStore = sellerStoreStorage.findById(storeId);
     if (Objects.isNull(sellerStore) || !sellerStore.getOwnerStoreName().equals(username))
       throw new AuthorizationException("Không có quyền truy cập");
     String imageUrl = googleDriver.uploadPublicImage(username + "-" + storeId, multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
     sellerStore.setImageStoreUrl(imageUrl);
-    return ResponseEntity.ok(imageUrl);
+    return imageUrl;
   }
 }

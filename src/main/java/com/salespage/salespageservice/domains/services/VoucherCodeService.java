@@ -8,7 +8,6 @@ import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
-import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
@@ -22,7 +21,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +44,7 @@ public class VoucherCodeService extends BaseService {
   }
 
   @Transactional
-  public ResponseEntity<?> generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, Date expireTime) {
+  public void generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, Date expireTime) {
     voucherStoreService.updateQuantityOfVoucherStore(voucherStoreId, 0L, numberVoucher, username);
     List<VoucherCode> voucherCodes = new ArrayList<>();
     for (int i = 0; i < numberVoucher; i++) {
@@ -57,11 +55,10 @@ public class VoucherCodeService extends BaseService {
       voucherCodes.add(voucherCode);
     }
     voucherCodeStorage.saveAll(voucherCodes);
-    return ResponseEntity.ok(ResponseType.CREATED);
   }
 
   @Transactional
-  public ResponseEntity<?> receiveVoucher(String username, String voucherStoreId) {
+  public String receiveVoucher(String username, String voucherStoreId) {
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
 
     if (Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
@@ -84,7 +81,7 @@ public class VoucherCodeService extends BaseService {
     voucherCodeStorage.save(voucherCode);
     voucherCodeLimitStorage.save(voucherCodeLimit);
     voucherStoreStorage.save(voucherStore);
-    return ResponseEntity.ok(voucherCode.getCode());
+    return voucherCode.getCode();
   }
 
   public VoucherInfo useVoucher(String username, String code, String productId, Long productPrice) {
@@ -125,7 +122,7 @@ public class VoucherCodeService extends BaseService {
     return voucherInfo;
   }
 
-  public ResponseEntity<?> getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
+  public PageResponse getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
     if (Objects.isNull(voucherStore)) throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Cửa hàng này đã bị xóa");
     if (!voucherStore.getCreatedBy().equals(username))
@@ -141,6 +138,6 @@ public class VoucherCodeService extends BaseService {
             .collect(Collectors.toList());
 
     Page<VoucherCodeResponse> codeResponses = new PageImpl<>(voucherCodeResponses, pageable, voucherCodes.getTotalElements());
-    return ResponseEntity.ok(PageResponse.createFrom(codeResponses));
+    return PageResponse.createFrom(codeResponses);
   }
 }

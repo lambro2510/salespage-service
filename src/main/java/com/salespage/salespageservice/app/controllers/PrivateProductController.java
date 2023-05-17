@@ -36,7 +36,11 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> createProduct(Authentication authentication, @RequestBody List<ProductInfoDto> dto) {
-    return successApi("Tạo sản phẩm thành công", productService.createProduct(getUsername(authentication), dto));
+    try {
+      return successApi("Tạo sản phẩm thành công", productService.createProduct(getUsername(authentication), dto));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 
@@ -50,7 +54,11 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam List<MultipartFile> files) throws IOException {
-    return successApi("Tải ảnh lên thành công", productService.uploadProductImage(getUsername(authentication), productId, files));
+    try {
+      return successApi("Tải ảnh lên thành công", productService.uploadProductImage(getUsername(authentication), productId, files));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 
@@ -64,7 +72,11 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> deleteImages(Authentication authentication, @RequestParam String productId, @RequestParam String imageIds) {
-    return successApi("Xóa ảnh thành công", productService.deleteProductImages(getUsername(authentication), productId, imageIds));
+    try {
+      return successApi("Xóa ảnh thành công", productService.deleteProductImages(getUsername(authentication), productId, imageIds));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 
@@ -78,7 +90,11 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> deleteProduct(Authentication authentication, @RequestParam String productId) throws IOException {
-    return successApi("Xóa sản phẩm thành công", productService.deleteProduct(getUsername(authentication), productId));
+    try {
+      return successApi("Xóa sản phẩm thành công", productService.deleteProduct(getUsername(authentication), productId));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 
@@ -92,7 +108,11 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> updateProduct(Authentication authentication, @RequestBody ProductDto dto) {
-    return successApi("Cập nhật sản phẩm thành công", productService.updateProduct(getUsername(authentication), dto));
+    try {
+      return successApi("Cập nhật sản phẩm thành công", productService.updateProduct(getUsername(authentication), dto));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("type")
@@ -104,8 +124,13 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> createProductType(Authentication authentication, @RequestBody ProductTypeDto dto) {
-    productService.createProductType(getUsername(authentication), dto, getUserRoles(authentication));
-    return successApi("Tạo loại sản phẩm thành công");
+    try {
+      productService.createProductType(getUsername(authentication), dto, getUserRoles(authentication));
+      return successApi("Tạo loại sản phẩm thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+
   }
 
   @PutMapping("type")
@@ -117,8 +142,12 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> updateProductType(Authentication authentication, @RequestBody ProductTypeDto dto) {
-    productService.updateProductType(getUsername(authentication), dto, getUserRoles(authentication));
-    return successApi("Cập nhật loại sản phẩm thành công");
+    try {
+      productService.updateProductType(getUsername(authentication), dto, getUserRoles(authentication));
+      return successApi("Cập nhật loại sản phẩm thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("type-detail")
@@ -130,8 +159,12 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> createProductTypeDetail(Authentication authentication, @RequestBody ProductTypeDetailDto dto) {
-    productService.createProductTypeDetail(dto, getUsername(authentication));
-    return successApi("Tạo loại chi tiết sản phẩm thành công");
+    try {
+      productService.createProductTypeDetail(dto, getUsername(authentication));
+      return successApi("Tạo loại chi tiết sản phẩm thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PutMapping("type-detail")
@@ -143,8 +176,12 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> updateProductTypeDetail(Authentication authentication, @RequestBody ProductTypeDetailDto dto, @RequestParam String productTypeId) {
-    productService.updateProductTypeDetail(dto, productTypeId, getUsername(authentication));
-    return successApi("Cập nhật loại chi tiết sản phẩm thành công");
+    try {
+      productService.updateProductTypeDetail(dto, productTypeId, getUsername(authentication));
+      return successApi("Cập nhật loại chi tiết sản phẩm thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PutMapping("type-detail-status")
@@ -156,13 +193,21 @@ public class PrivateProductController extends BaseController {
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> updateProductTypeStatus(Authentication authentication, @RequestBody UpdateTypeDetailStatusDto dto) {
-    productService.updateStatusTypeDetail(dto, getUsername(authentication), getUserRoles(authentication));
-    return successApi("Cập nhật trạng thái loại chi tiết sản phẩm thành công");
+    try {
+      productService.updateStatusTypeDetail(dto, getUsername(authentication), getUserRoles(authentication));
+      return successApi("Cập nhật trạng thái loại chi tiết sản phẩm thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @GetMapping("type")
   public ResponseEntity<BaseResponse> getAllProductType(Authentication authentication) {
-    return successApi(null, productService.getAllProductType(getUserRoles(authentication)));
+    try {
+      return successApi(null, productService.getAllProductType(getUserRoles(authentication)));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 }

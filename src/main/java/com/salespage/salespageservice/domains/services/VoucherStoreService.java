@@ -20,14 +20,13 @@ public class VoucherStoreService extends BaseService {
   @Autowired
   private VoucherCodeService voucherCodeService;
 
-  public ResponseEntity<?> createVoucherStore(String username, CreateVoucherStoreDto createVoucherStoreDto) {
+  public void createVoucherStore(String username, CreateVoucherStoreDto createVoucherStoreDto) {
     VoucherStore voucherStore = new VoucherStore();
     voucherStore.updatedVoucherStore(createVoucherStoreDto);
     voucherStore.setProductId(createVoucherStoreDto.getProductId());
     voucherStore.setCreatedAt(System.currentTimeMillis());
     voucherStore.setCreatedBy(username);
     voucherStoreStorage.save(voucherStore);
-    return ResponseEntity.ok(ResponseType.CREATED.name());
   }
 
   public ResponseEntity<?> updateVoucherStore(String username, UpdateVoucherStoreDto updateVoucherStoreDto, String voucherStoreId) {
@@ -47,7 +46,7 @@ public class VoucherStoreService extends BaseService {
     return ResponseEntity.ok(ResponseType.UPDATED);
   }
 
-  public ResponseEntity<?> deleteVoucherStore(String username, String voucherStoreId) {
+  public void deleteVoucherStore(String username, String voucherStoreId) {
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
     if (voucherStore == null) {
       throw new ResourceNotFoundException("Không tồn tại loại code này");
@@ -59,11 +58,10 @@ public class VoucherStoreService extends BaseService {
 
     voucherStoreStorage.deleteVoucherStoreById(voucherStoreId);
     voucherCodeService.deleteAllVoucherCodeInStore();
-    return ResponseEntity.ok(ResponseType.DELETED);
   }
 
 
-  public ResponseEntity<?> getAllVoucherStore(String username) {
+  public List<VoucherStoreResponse> getAllVoucherStore(String username) {
     List<VoucherStore> voucherStoreList = voucherStoreStorage.findVoucherStoreByCreatedBy(username);
     //TODO cần phải kiểm tra để lấy tên product của các sản phẩm trong store
     List<Product> products = new ArrayList<>();
@@ -82,7 +80,7 @@ public class VoucherStoreService extends BaseService {
       response.setValue(voucherStore.getValue());
       voucherStoreResponses.add(response);
     }
-    return ResponseEntity.ok(voucherStoreResponses);
+    return voucherStoreResponses;
   }
 
   public void updateQuantityOfVoucherStore(String voucherStoreId, Long totalQuantity, Long totalUsed, String username) {
