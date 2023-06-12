@@ -24,7 +24,7 @@ public class BankController extends BaseController{
     }
   }
 
-  @PostMapping("")
+  @GetMapping("")
   public ResponseEntity<?> getAllTransaction() throws Exception {
     try{
       return successApi(accountService.getAllTransaction());
