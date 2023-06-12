@@ -61,5 +61,5 @@ jwt:
   privateKey: ${JWT_PRIVATE_KEY}
 
 casso:
-  token : ${CASSO_TOKEN}
+  token : ${CASSO_TOKEN:lam12345}
 
