@@ -1,5 +1,8 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.StringSerializer;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -15,6 +18,7 @@ public class BankTransaction {
 
   @Id
   @Field("_id")
+  @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
   @Field("tid")
