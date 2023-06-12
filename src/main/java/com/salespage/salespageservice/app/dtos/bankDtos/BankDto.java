@@ -2,8 +2,11 @@ package com.salespage.salespageservice.app.dtos.bankDtos;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class BankDto {
   String error;
-  TransactionData data;
+
+  List<TransactionData> data;
 }
