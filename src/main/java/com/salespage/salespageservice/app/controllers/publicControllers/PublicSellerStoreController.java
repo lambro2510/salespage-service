@@ -1,8 +1,7 @@
 package com.salespage.salespageservice.app.controllers.publicControllers;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
-import com.salespage.salespageservice.app.responses.PageResponse;
-import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
+import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.SellerStoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,10 +29,14 @@ public class PublicSellerStoreController extends BaseController {
           @ApiResponse(responseCode = "200", description = "Thành công"),
           @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
-  public ResponseEntity<PageResponse<StoreDataResponse>> getAllStore(@RequestParam(required = false) String storeId,
-                                                                     @RequestParam(required = false) String storeName,
-                                                                     Pageable pageable) {
-    return sellerStoreService.getAllStore(storeId, storeName, pageable);
+  public ResponseEntity<BaseResponse> getAllStore(@RequestParam(required = false) String storeId,
+                                                  @RequestParam(required = false) String storeName,
+                                                  Pageable pageable) {
+    try {
+      return successApi(sellerStoreService.getAllStore(storeId, storeName, pageable));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 }

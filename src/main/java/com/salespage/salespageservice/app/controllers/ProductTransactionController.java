@@ -2,9 +2,7 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
-import com.salespage.salespageservice.app.responses.PageResponse;
-import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
-import com.salespage.salespageservice.domains.entities.ProductTransaction;
+import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.ProductTransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,10 +38,15 @@ public class ProductTransactionController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Không được phép"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<ProductTransactionResponse> createProductTransaction(
+  public ResponseEntity<BaseResponse> createProductTransaction(
           Authentication authentication,
           @RequestBody @Valid ProductTransactionDto dto) {
-    return productTransactionService.createProductTransaction(getUsername(authentication), dto);
+    try {
+      productTransactionService.createProductTransaction(getUsername(authentication), dto);
+      return successApi("Tạo mới giao dịch thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PutMapping("")
@@ -55,8 +58,13 @@ public class ProductTransactionController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy giao dịch sản phẩm"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<ProductTransactionResponse> updateProductTransaction(Authentication authentication, @RequestParam String transactionId, @RequestBody ProductTransactionInfoDto dto) {
-    return productTransactionService.updateProductTransaction(getUsername(authentication), dto, transactionId);
+  public ResponseEntity<BaseResponse> updateProductTransaction(Authentication authentication, @RequestParam String transactionId, @RequestBody ProductTransactionInfoDto dto) {
+    try {
+      productTransactionService.updateProductTransaction(getUsername(authentication), dto, transactionId);
+      return successApi("Cập nhật giao dịch thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PutMapping("cancel")
@@ -68,8 +76,13 @@ public class ProductTransactionController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy giao dịch sản phẩm"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<ProductTransaction> cancelProductTransaction(Authentication authentication, @RequestParam String transactionId) {
-    return productTransactionService.cancelProductTransaction(getUsername(authentication), transactionId);
+  public ResponseEntity<BaseResponse> cancelProductTransaction(Authentication authentication, @RequestParam String transactionId) {
+    try {
+      productTransactionService.cancelProductTransaction(getUsername(authentication), transactionId);
+      return successApi("Hủy bỏ giao dịch thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @GetMapping("")
@@ -80,14 +93,18 @@ public class ProductTransactionController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Không được phép"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<PageResponse<ProductTransactionResponse>> getAllProductTransaction(Authentication authentication,
-                                                                                           @RequestParam(required = false) String sellerUsername,
-                                                                                           @RequestParam(required = false) String storeName,
-                                                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") @Schema(type = "string", format = "date") Date startDate,
-                                                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") @Schema(type = "string", format = "date") Date endDate,
-                                                                                           Pageable pageable
+  public ResponseEntity<BaseResponse> getAllProductTransaction(Authentication authentication,
+                                                               @RequestParam(required = false) String sellerUsername,
+                                                               @RequestParam(required = false) String storeName,
+                                                               @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") @Schema(type = "string", format = "date") Date startDate,
+                                                               @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") @Schema(type = "string", format = "date") Date endDate,
+                                                               Pageable pageable
   ) {
-    return productTransactionService.getAllTransaction(getUsername(authentication), sellerUsername, storeName, startDate, endDate, pageable);
+    try {
+      return successApi(productTransactionService.getAllTransaction(getUsername(authentication), sellerUsername, storeName, startDate, endDate, pageable));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 }

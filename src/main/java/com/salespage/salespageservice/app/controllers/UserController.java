@@ -1,7 +1,7 @@
 package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
-import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,8 +36,12 @@ public class UserController extends BaseController {
           @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
           @ApiResponse(responseCode = "404", description = "Không tìm thấy người dùng")
   })
-  public ResponseEntity<User> getProfile(Authentication authentication) {
-    return userService.getUserDetail(getUsername(authentication));
+  public ResponseEntity<BaseResponse> getProfile(Authentication authentication) {
+    try {
+      return successApi(null, userService.getUserDetail(getUsername(authentication)));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 
@@ -49,9 +53,12 @@ public class UserController extends BaseController {
           @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
           @ApiResponse(responseCode = "404", description = "Không tìm thấy người dùng")
   })
-  public ResponseEntity<User> updateUser(Authentication authentication, @RequestBody @Schema(description = "Thông tin người dùng cần cập nhật") UserInfoDto dto) {
-    return userService.updateUser(getUsername(authentication), dto);
-
+  public ResponseEntity<BaseResponse> updateUser(Authentication authentication, @RequestBody @Schema(description = "Thông tin người dùng cần cập nhật") UserInfoDto dto) {
+    try {
+      return successApi("Cập nhật thông tin người dùng thành công", userService.updateUser(getUsername(authentication), dto));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("uploadImage")
@@ -62,8 +69,13 @@ public class UserController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Unauthorized access"),
           @ApiResponse(responseCode = "500", description = "Internal server error")
   })
-  public ResponseEntity<String> uploadImage(Authentication authentication, @RequestBody @Schema(type = "multipart", format = "binary") MultipartFile file) throws IOException {
-    return userService.uploadImage(getUsername(authentication), file);
+  public ResponseEntity<BaseResponse> uploadImage(Authentication authentication, @RequestBody @Schema(type = "multipart", format = "binary") MultipartFile file) throws IOException {
+    try {
+      userService.uploadImage(getUsername(authentication), file);
+      return successApi("Tải ảnh người dùng lên thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("voting")
@@ -74,8 +86,13 @@ public class UserController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Unauthorized access"),
           @ApiResponse(responseCode = "500", description = "Internal server error")
   })
-  public ResponseEntity<?> voting(Authentication authentication, @Parameter(description = "ID of the user to vote for") @RequestParam String userId, @Parameter(description = "Number of points to give") @RequestParam Long point) {
-    return userService.voting(getUsername(authentication), userId, point);
+  public ResponseEntity<BaseResponse> voting(Authentication authentication, @Parameter(description = "ID of the user to vote for") @RequestParam String userId, @Parameter(description = "Number of points to give") @RequestParam Long point) {
+    try {
+      userService.voting(getUsername(authentication), userId, point);
+      return successApi("Đánh giá người dùng thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
 }

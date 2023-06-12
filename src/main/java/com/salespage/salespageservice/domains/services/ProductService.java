@@ -8,7 +8,6 @@ import com.salespage.salespageservice.app.responses.ProductResponse.ProductRespo
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
-import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
@@ -23,7 +22,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +47,7 @@ public class ProductService extends BaseService {
   private SellerStoreService sellerStoreService;
 
 
-  public ResponseEntity<List<Product>> createProduct(String username, List<ProductInfoDto> dtos) {
+  public List<Product> createProduct(String username, List<ProductInfoDto> dtos) {
     List<Product> products = new ArrayList<>();
     for (ProductInfoDto dto : dtos) {
       SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
@@ -65,20 +63,20 @@ public class ProductService extends BaseService {
     }
 
     productStorage.saveAll(products);
-    return ResponseEntity.ok(products);
+    return products;
   }
 
-  public ResponseEntity<Product> updateProduct(String username, ProductDto dto) {
+  public Product updateProduct(String username, ProductDto dto) {
     Product product = productStorage.findProductById(dto.getProductId());
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
     if (!Objects.equals(product.getSellerUsername(), username))
       throw new AuthorizationException("Bạn không có quyền cập nhật sản phẩm này");
     product.updateProductInfo(dto);
     productStorage.save(product);
-    return ResponseEntity.ok(product);
+    return product;
   }
 
-  public ResponseEntity<PageResponse<ProductItemResponse>> getAllProduct(String sellerUsername, String productId, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
+  public PageResponse<ProductItemResponse> getAllProduct(String sellerUsername, String productId, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
 
     Query query = new Query();
     if (StringUtil.isNotBlank(sellerUsername)) {
@@ -135,10 +133,10 @@ public class ProductService extends BaseService {
     }
 
 
-    return ResponseEntity.ok(PageResponse.createFrom(new PageImpl<>(products, pageable, productPage.getTotalElements())));
+    return PageResponse.createFrom(new PageImpl<>(products, pageable, productPage.getTotalElements()));
   }
 
-  public ResponseEntity<ProductDetailResponse> getProductDetail(String username, String productId) throws Exception {
+  public ProductDetailResponse getProductDetail(String username, String productId) throws Exception {
     ProductDetailResponse response = new ProductDetailResponse();
     Product product = productStorage.findProductById(productId);
     response = product.assignToProductDetailResponse();
@@ -160,23 +158,23 @@ public class ProductService extends BaseService {
     List<Product> similarProducts = findSimilarProducts(product);
     List<ProductResponse> listSimilarProduct = similarProducts.stream().map(Product::assignToProductResponse).collect(Collectors.toList());
     response.setSimilarProducts(listSimilarProduct);
-    return ResponseEntity.ok(response);
+    return response;
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public ResponseEntity<Boolean> deleteProduct(String username, String productId) throws IOException {
+  public Boolean deleteProduct(String username, String productId) throws IOException {
 
     Product product = productStorage.findProductById(productId);
 
-    if (!username.equals(product.getSellerUsername())) throw new ResourceNotFoundException("You haven't this item");
+    if (!username.equals(product.getSellerUsername())) throw new ResourceNotFoundException("Bạn không có sản phẩm này");
 
     productTransactionService.productTransactionCancel(productId);
     productStorage.delete(productId);
     googleDriver.deleteFolderByName(productId);
-    return ResponseEntity.ok(true);
+    return true;
   }
 
-  public ResponseEntity<List<String>> uploadProductImage(String username, String productId, List<MultipartFile> multipartFiles) throws IOException {
+  public List<String> uploadProductImage(String username, String productId, List<MultipartFile> multipartFiles) throws IOException {
     List<String> imageUrls = new ArrayList<>();
     Product product = productStorage.findProductById(productId);
     if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
@@ -193,25 +191,26 @@ public class ProductService extends BaseService {
     }
     product.setDefaultImageUrl(imageUrls.get(imageUrls.size() - 1));
     productStorage.save(product);
-    return ResponseEntity.ok(imageUrls);
+    return (imageUrls);
   }
 
-  public ResponseEntity<List<String>> deleteProductImages(String username, String productId, List<String> images) {
+  public List<String> deleteProductImages(String username, String productId, String images) {
     Product product = productStorage.findProductById(productId);
     if (!product.getSellerUsername().equals(username))
-      throw new AuthorizationException("Can't delete image for this product");
+      throw new AuthorizationException("Bạn không thể xóa ảnh của sản phẩm này");
+    String[] listImages = images.split(",");
     List<String> imageUrls = new ArrayList<>();
-    for (String imageUrl : images) {
+    for (String imageUrl : listImages) {
       String fileId = Helper.extractFileIdFromUrl(imageUrl);
       googleDriver.deleteFile(fileId);
       imageUrls.add(fileId);
       product.getImageUrls().remove(imageUrl);
     }
     productStorage.save(product);
-    return ResponseEntity.ok(imageUrls);
+    return imageUrls;
   }
 
-  public ResponseEntity<ResponseType> createProductType(String username, ProductTypeDto dto, List<UserRole> roles) {
+  public void createProductType(String username, ProductTypeDto dto, List<UserRole> roles) {
     if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
       throw new AuthorizationException("Bạn không có quyền tạo mới");
     ProductType productType = new ProductType();
@@ -219,10 +218,9 @@ public class ProductService extends BaseService {
     productType.setCreatedBy(username);
     productType.setUpdatedBy(username);
     productTypeStorage.save(productType);
-    return ResponseEntity.ok(ResponseType.CREATED);
   }
 
-  public ResponseEntity<ResponseType> updateProductType(String username, ProductTypeDto dto, List<UserRole> roles) {
+  public void updateProductType(String username, ProductTypeDto dto, List<UserRole> roles) {
     if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
       throw new AuthorizationException("Bạn không có quyền tạo mới");
     ProductType productType = productTypeStorage.findByProductType(dto.getProductType());
@@ -231,10 +229,9 @@ public class ProductService extends BaseService {
     productType.setCreatedBy(username);
     productType.setUpdatedBy(username);
     productTypeStorage.save(productType);
-    return ResponseEntity.ok(ResponseType.UPDATED);
   }
 
-  public ResponseEntity<ResponseType> createProductTypeDetail(ProductTypeDetailDto dto, String username) {
+  public void createProductTypeDetail(ProductTypeDetailDto dto, String username) {
     ProductType productType = productTypeStorage.findByProductType(dto.getTypeName());
     if (Objects.isNull(productType)) throw new ResourceNotFoundException("Không tồn tại loại sản phẩm này");
     ProductTypeDetail productTypeDetail = new ProductTypeDetail();
@@ -242,10 +239,9 @@ public class ProductService extends BaseService {
     productTypeDetail.setCreatedBy(username);
     productTypeDetail.setUpdatedBy(username);
     productTypeStorage.save(productTypeDetail);
-    return ResponseEntity.ok(ResponseType.CREATED);
   }
 
-  public ResponseEntity<ResponseType> updateProductTypeDetail(ProductTypeDetailDto dto, String productTypeId, String username) {
+  public void updateProductTypeDetail(ProductTypeDetailDto dto, String productTypeId, String username) {
     ProductType productType = productTypeStorage.findByProductType(dto.getTypeName());
     if (Objects.isNull(productType)) throw new ResourceNotFoundException("Không tồn tại loại sản phẩm này");
     ProductTypeDetail typeDetail = productTypeStorage.findById(productTypeId);
@@ -257,10 +253,9 @@ public class ProductService extends BaseService {
     productTypeDetail.setCreatedBy(username);
     productTypeDetail.setUpdatedBy(username);
     productTypeStorage.save(productTypeDetail);
-    return ResponseEntity.ok(ResponseType.UPDATED);
   }
 
-  public ResponseEntity<ResponseType> updateStatusTypeDetail(UpdateTypeDetailStatusDto dto, String username, List<UserRole> roles) {
+  public void updateStatusTypeDetail(UpdateTypeDetailStatusDto dto, String username, List<UserRole> roles) {
     if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
       throw new AuthorizationException("Bạn không có quyền tạo mới");
     ProductTypeDetail productTypeDetail = productTypeStorage.findById(dto.getId());
@@ -272,17 +267,16 @@ public class ProductService extends BaseService {
     productTypeDetail.setUpdatedAt(System.currentTimeMillis());
 
     productTypeStorage.save(productTypeDetail);
-    return ResponseEntity.ok(ResponseType.UPDATED);
   }
 
-  public ResponseEntity<List<ProductType>> getAllProductType(List<UserRole> roles) {
+  public List<ProductType> getAllProductType(List<UserRole> roles) {
     if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
       throw new AuthorizationException("Bạn không có quyền xem danh sách này");
-    return ResponseEntity.ok(productTypeStorage.findAll());
+    return productTypeStorage.findAll();
   }
 
-  public ResponseEntity<List<ProductTypeResponse>> getAllActiveProductType() {
-    return ResponseEntity.ok(productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList()));
+  public List<ProductTypeResponse> getAllActiveProductType() {
+    return productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList());
   }
 
   private List<Product> findSimilarProducts(Product product) throws Exception {

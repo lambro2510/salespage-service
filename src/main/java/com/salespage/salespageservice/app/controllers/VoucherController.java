@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.voucherDtos.CreateVoucherStoreDto;
 import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto;
+import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.services.VoucherCodeService;
 import com.salespage.salespageservice.domains.services.VoucherStoreService;
@@ -40,8 +41,13 @@ public class VoucherController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Không được phép"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> createVoucherStore(Authentication authentication, @RequestBody CreateVoucherStoreDto updateVoucherStoreDto) {
-    return voucherStoreService.createVoucherStore(getUsername(authentication), updateVoucherStoreDto);
+  public ResponseEntity<BaseResponse> createVoucherStore(Authentication authentication, @RequestBody CreateVoucherStoreDto updateVoucherStoreDto) {
+    try {
+      voucherStoreService.createVoucherStore(getUsername(authentication), updateVoucherStoreDto);
+      return successApi("Tạo kho voucher mới thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PutMapping("voucher-store")
@@ -53,8 +59,13 @@ public class VoucherController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy Voucher Store"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> updateVoucherStore(Authentication authentication, @RequestBody UpdateVoucherStoreDto updateVoucherStoreDto, @RequestParam String voucherStoreId) {
-    return voucherStoreService.updateVoucherStore(getUsername(authentication), updateVoucherStoreDto, voucherStoreId);
+  public ResponseEntity<BaseResponse> updateVoucherStore(Authentication authentication, @RequestBody UpdateVoucherStoreDto updateVoucherStoreDto, @RequestParam String voucherStoreId) {
+    try {
+      voucherStoreService.updateVoucherStore(getUsername(authentication), updateVoucherStoreDto, voucherStoreId);
+      return successApi("Cập nhật kho voucher thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @DeleteMapping("voucher-store")
@@ -65,8 +76,13 @@ public class VoucherController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy Voucher Store"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> deleteVoucherStore(Authentication authentication, @RequestParam String voucherStoreId) {
-    return voucherStoreService.deleteVoucherStore(getUsername(authentication), voucherStoreId);
+  public ResponseEntity<BaseResponse> deleteVoucherStore(Authentication authentication, @RequestParam String voucherStoreId) {
+    try {
+      voucherStoreService.deleteVoucherStore(getUsername(authentication), voucherStoreId);
+      return successApi("Xóa kho voucher thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @GetMapping("voucher-store")
@@ -76,8 +92,12 @@ public class VoucherController extends BaseController {
           @ApiResponse(responseCode = "401", description = "Không được phép"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> getAllVoucherStore(Authentication authentication) {
-    return voucherStoreService.getAllVoucherStore(getUsername(authentication));
+  public ResponseEntity<BaseResponse> getAllVoucherStore(Authentication authentication) {
+    try {
+      return successApi(voucherStoreService.getAllVoucherStore(getUsername(authentication)));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("voucher-code")
@@ -88,11 +108,16 @@ public class VoucherController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy Voucher Store"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> createVoucherCode(Authentication authentication,
-                                             @RequestParam String voucherStoreId,
-                                             @RequestParam Long numberVoucher,
-                                             @RequestParam(required = false) @Schema(type = "string", format = "date") @DateTimeFormat(pattern = "dd-MM-yyyy") Date expireTime) {
-    return voucherCodeService.generateVoucherCode(getUsername(authentication), voucherStoreId, numberVoucher, expireTime);
+  public ResponseEntity<BaseResponse> createVoucherCode(Authentication authentication,
+                                                        @RequestParam String voucherStoreId,
+                                                        @RequestParam Long numberVoucher,
+                                                        @RequestParam(required = false) @Schema(type = "string", format = "date") @DateTimeFormat(pattern = "dd-MM-yyyy") Date expireTime) {
+    try {
+      voucherCodeService.generateVoucherCode(getUsername(authentication), voucherStoreId, numberVoucher, expireTime);
+      return successApi("Tạo mã voucher mới thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @GetMapping("receive/voucher-code")
@@ -103,8 +128,12 @@ public class VoucherController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy Voucher Store"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> receiveVoucher(Authentication authentication, @RequestParam String voucherStoreId) {
-    return voucherCodeService.receiveVoucher(getUsername(authentication), voucherStoreId);
+  public ResponseEntity<BaseResponse> receiveVoucher(Authentication authentication, @RequestParam String voucherStoreId) {
+    try {
+      return successApi("Nhận mã voucher thành công", voucherCodeService.receiveVoucher(getUsername(authentication), voucherStoreId));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @GetMapping("voucher-code")
@@ -115,7 +144,11 @@ public class VoucherController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy Voucher Store"),
           @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<?> getAllVoucherCode(Authentication authentication, @RequestParam String voucherStoreId, @RequestParam(required = false) VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
-    return voucherCodeService.getAllVoucherCodeInStore(getUsername(authentication), voucherStoreId, voucherCodeStatus, pageable);
+  public ResponseEntity<BaseResponse> getAllVoucherCode(Authentication authentication, @RequestParam String voucherStoreId, @RequestParam(required = false) VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
+    try {
+      return successApi(voucherCodeService.getAllVoucherCodeInStore(getUsername(authentication), voucherStoreId, voucherCodeStatus, pageable));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 }

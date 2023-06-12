@@ -1,10 +1,7 @@
 package com.salespage.salespageservice.app.controllers.publicControllers;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
-import com.salespage.salespageservice.app.responses.PageResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
+import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @CrossOrigin
@@ -26,7 +22,7 @@ public class PublicProductController extends BaseController {
   private ProductService productService;
 
   @GetMapping("")
-  public ResponseEntity<PageResponse<ProductItemResponse>> getAllProduct(
+  public ResponseEntity<BaseResponse> getAllProduct(
           @RequestParam(required = false) String productId,
           @RequestParam(required = false) String productType,
           @RequestParam(required = false) String productName,
@@ -44,20 +40,20 @@ public class PublicProductController extends BaseController {
         sellerUsername = getUsername(authentication);
       }
     }
-    return productService.getAllProduct(sellerUsername, productId, productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable);
+    return successApi(productService.getAllProduct(sellerUsername, productId, productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
   }
 
   @GetMapping("detail")
-  public ResponseEntity<ProductDetailResponse> getProductDetail(Authentication authentication, @RequestParam String productId) throws Exception {
+  public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId) throws Exception {
     String username = null;
     if (Objects.nonNull(authentication)) {
       username = getUsername(authentication);
     }
-    return productService.getProductDetail(username, productId);
+    return successApi(productService.getProductDetail(username, productId));
   }
 
   @GetMapping("type")
-  public ResponseEntity<List<ProductTypeResponse>> getAllActiveProductType() {
-    return productService.getAllActiveProductType();
+  public ResponseEntity<BaseResponse> getAllActiveProductType() {
+    return successApi(productService.getAllActiveProductType());
   }
 }

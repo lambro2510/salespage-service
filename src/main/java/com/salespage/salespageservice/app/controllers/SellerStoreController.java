@@ -2,8 +2,7 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
 import com.salespage.salespageservice.app.dtos.storeDtos.UpdateSellerStoreDto;
-import com.salespage.salespageservice.app.responses.PageResponse;
-import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
+import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.SellerStoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,8 +37,12 @@ public class SellerStoreController extends BaseController {
           @ApiResponse(responseCode = "404", description = "Không tìm thấy cửa hàng"),
           @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
-  public ResponseEntity<PageResponse<StoreDataResponse>> getStore(Authentication authentication, Pageable pageable) {
-    return sellerStoreService.getAllStore(getUsername(authentication), pageable);
+  public ResponseEntity<BaseResponse> getStore(Authentication authentication, Pageable pageable) {
+    try {
+      return successApi(sellerStoreService.getAllStore(getUsername(authentication), pageable));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("")
@@ -50,8 +53,13 @@ public class SellerStoreController extends BaseController {
           @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
           @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
-  public ResponseEntity<?> createStore(Authentication authentication, @RequestBody SellerStoreDto dto) {
-    return sellerStoreService.createStore(getUsername(authentication), dto);
+  public ResponseEntity<BaseResponse> createStore(Authentication authentication, @RequestBody SellerStoreDto dto) {
+    try {
+      sellerStoreService.createStore(getUsername(authentication), dto);
+      return successApi("Tạo cửa hàng thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PutMapping("")
@@ -62,8 +70,13 @@ public class SellerStoreController extends BaseController {
           @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
           @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
-  public ResponseEntity<?> updateStore(Authentication authentication, @RequestBody UpdateSellerStoreDto dto) {
-    return sellerStoreService.updateStore(getUsername(authentication), dto);
+  public ResponseEntity<BaseResponse> updateStore(Authentication authentication, @RequestBody UpdateSellerStoreDto dto) {
+    try {
+      sellerStoreService.updateStore(getUsername(authentication), dto);
+      return successApi("Cập nhật cửa hàng thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 
   @PostMapping("upload-image")
@@ -74,7 +87,11 @@ public class SellerStoreController extends BaseController {
           @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
           @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
-  public ResponseEntity<?> uploadImage(Authentication authentication, @RequestParam String storeId, @RequestParam MultipartFile multipartFile) throws IOException {
-    return sellerStoreService.uploadImage(getUsername(authentication), storeId, multipartFile);
+  public ResponseEntity<BaseResponse> uploadImage(Authentication authentication, @RequestParam String storeId, @RequestParam MultipartFile multipartFile) throws IOException {
+    try {
+      return successApi("Tải ảnh lên thành công", sellerStoreService.uploadImage(getUsername(authentication), storeId, multipartFile));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
   }
 }

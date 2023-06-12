@@ -17,7 +17,6 @@ import com.salespage.salespageservice.domains.utils.EmailRequest;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,7 +38,7 @@ public class AccountService extends BaseService {
   private GoogleDriver googleDriver;
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public ResponseEntity<JwtResponse> signUp(SignUpDto dto) {
+  public JwtResponse signUp(SignUpDto dto) {
 
     if (!dto.getConfirmPassword().equals(dto.getPassword())) throw new ResourceExitsException("Invalid password");
     if (accountStorage.existByUsername(dto.getUsername())) throw new ResourceExitsException("User existed");
@@ -50,11 +49,11 @@ public class AccountService extends BaseService {
 
     userService.createUser(dto);
 
-    return ResponseEntity.ok(new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole()));
+    return new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public ResponseEntity<JwtResponse> createdAdminRole() {
+  public JwtResponse createdAdminRole() {
     String username = "admin-he-thong";
     String password = "admin-he-thong";
     if (accountStorage.existByUsername(username)) throw new ResourceExitsException("User existed");
@@ -69,10 +68,10 @@ public class AccountService extends BaseService {
 
     userService.createUserAdmin(account);
 
-    return ResponseEntity.ok(new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole()));
+    return new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
   }
 
-  public ResponseEntity<JwtResponse> signIn(LoginDto dto) throws IOException {
+  public JwtResponse signIn(LoginDto dto) throws IOException {
 
     Account account = accountStorage.findByUsername(dto.getUsername());
     if (account == null || !account.getUsername().equals(dto.getUsername()) || !BCrypt.checkpw(dto.getPassword(), account.getPassword()))
@@ -81,12 +80,12 @@ public class AccountService extends BaseService {
     TokenInfo tokenInfo = new TokenInfo(account.getUsername(), account.getRole(), account.getState());
     String token = jwtUtils.generateToken(tokenInfo);
     accountStorage.saveTokenToRemoteCache(account.getUsername(), token);
-    return ResponseEntity.ok(new JwtResponse(account.getUsername(), token, account.getRole()));
+    return new JwtResponse(account.getUsername(), token, account.getRole());
 
   }
 
 
-  public ResponseEntity<String> verifyCode(String username, int code) {
+  public void verifyCode(String username, int code) {
     Integer verifyCode = Integer.valueOf(accountStorage.getVerifyCode(username));
     if (!verifyCode.equals(code))
       throw new ResourceNotFoundException("Invalid verify code");
@@ -94,10 +93,9 @@ public class AccountService extends BaseService {
     Account account = accountStorage.findByUsername(username);
     account.setState(UserState.VERIFIED);
     accountStorage.save(account);
-    return ResponseEntity.ok("Verify success");
   }
 
-  public ResponseEntity<String> createVerifyCode(String username) {
+  public void createVerifyCode(String username) {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) throw new AccountNotExistsException("Account not exist");
     int max = 99999;
@@ -105,7 +103,6 @@ public class AccountService extends BaseService {
     String code = Math.random() * (max - min + 1) + min + " ";
     accountStorage.saveVerifyCode(username, code);
     EmailRequest.sendVerificationCode(user.getEmail(), code);
-    return ResponseEntity.ok("Create verify code successful");
   }
 
   public ResponseEntity<?> receiveBankTransaction(BankDto bankDto) {
