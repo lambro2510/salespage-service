@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
-@RestController("api/v1/public/bank")
+@RestController("v1/api/public/bank")
 public class BankController {
 
   @Autowired
