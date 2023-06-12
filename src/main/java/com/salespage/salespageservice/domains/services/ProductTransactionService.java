@@ -13,6 +13,7 @@ import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundExcepti
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import com.salespage.salespageservice.domains.producer.Producer;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,10 +44,10 @@ public class ProductTransactionService extends BaseService {
   public ResponseEntity<PageResponse<ProductTransactionResponse>> getAllTransaction(String username, String sellerUsername, String storeName, Date startDate, Date endDate, Pageable pageable) {
     Query query = new Query();
     query.addCriteria(Criteria.where("buyer_username").is(username));
-    if (sellerUsername != null && sellerUsername.length() > 0) {
+    if (StringUtils.isNotBlank(sellerUsername)) {
       query.addCriteria(Criteria.where("seller_username").is(sellerUsername));
     }
-    if (storeName != null && storeName.length() > 0) {
+    if (StringUtils.isNotBlank(storeName)) {
       query.addCriteria(Criteria.where("store_name").is(storeName));
     }
     if (startDate != null) {
@@ -141,10 +142,4 @@ public class ProductTransactionService extends BaseService {
 
   }
 
-
-  private long parseToUsd(long money) {
-
-    //TODO Lấy api tỉ lệ hối đoái
-    return 0;
-  }
 }

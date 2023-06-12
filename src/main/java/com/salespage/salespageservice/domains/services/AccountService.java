@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.LoginDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
+import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.entities.User;
@@ -105,5 +106,10 @@ public class AccountService extends BaseService {
     accountStorage.saveVerifyCode(username, code);
     EmailRequest.sendVerificationCode(user.getEmail(), code);
     return ResponseEntity.ok("Create verify code successful");
+  }
+
+  public ResponseEntity<?> receiveBankTransaction(BankDto bankDto) {
+    log.info(bankDto);
+    return ResponseEntity.ok("Oke");
   }
 }
