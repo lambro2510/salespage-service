@@ -1,17 +1,16 @@
-package com.salespage.salespageservice.app.controllers.publicControllers;
+package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.domains.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
-@RequestMapping("v1/api/public/bank")
+@RequestMapping("api/v1/bank")
 public class BankController {
 
   @Autowired

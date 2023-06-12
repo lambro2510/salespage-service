@@ -5,6 +5,7 @@ import com.salespage.salespageservice.domains.security.services.UserDetailsServi
 import com.salespage.salespageservice.domains.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,9 @@ import java.io.IOException;
 @Log4j2
 public class AuthTokenFilter extends OncePerRequestFilter {
 
+  @Value("${casso.token}")
+  String cassoToken;
+
   @Autowired
   protected JwtUtils jwtUtils;
 
@@ -36,6 +40,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     try {
 
       String jwt = getJwtFromRequest(request);
+      String cassoToken = getCassoTokenFromRequest(request);
+      if(StringUtils.hasText(cassoToken)) return;
 
       if (StringUtils.hasText(jwt) && jwtUtils.validateToken(jwt)) {
 
@@ -65,6 +71,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
       return bearerToken.substring(7);
     }
+    return null;
+  }
+  private String getCassoTokenFromRequest(HttpServletRequest request){
+    String token = request.getHeader("secure-token");
+    if(StringUtils.hasText(token)) return token;
     return null;
   }
 }
