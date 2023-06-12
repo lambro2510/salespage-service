@@ -49,6 +49,9 @@ public class BaseService {
 
   @Autowired
   protected GoogleDriver googleDriver;
+
+  @Autowired
+  protected BankTransactionStorage bankTransactionStorage;
   @Autowired
   @Lazy
   private SystemLogService systemLogService;

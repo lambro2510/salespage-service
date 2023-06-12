@@ -44,5 +44,8 @@ public class BaseStorage {
   protected FavoriteProductRepository favoriteProductRepository;
 
   @Autowired
+  protected BankTransactionRepository bankTransactionRepository;
+
+  @Autowired
   protected RemoteCacheManager remoteCacheManager;
 }

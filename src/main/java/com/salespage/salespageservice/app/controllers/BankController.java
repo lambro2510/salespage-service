@@ -4,20 +4,32 @@ import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.domains.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController()
+@RestController
+@CrossOrigin
 @RequestMapping("api/v1/bank")
-public class BankController {
+public class BankController extends BaseController{
 
   @Autowired
   AccountService accountService;
 
-  @GetMapping("")
+  @PostMapping("")
   public ResponseEntity<?> receiveBankTransaction(@RequestBody BankDto bankDto) throws Exception {
-    return accountService.receiveBankTransaction(bankDto);
+    try{
+      accountService.receiveBankTransaction(bankDto);
+      return successApi("Lưu thông tin thành công");
+    }catch (Exception ex){
+      return errorApiStatus500("Không lưu được thông tin giao dịch");
+    }
+  }
+
+  @PostMapping("")
+  public ResponseEntity<?> getAllTransaction() throws Exception {
+    try{
+      return successApi(accountService.getAllTransaction());
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
   }
 }

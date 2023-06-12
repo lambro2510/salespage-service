@@ -3,8 +3,10 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.accountDtos.LoginDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
+import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.Account;
+import com.salespage.salespageservice.domains.entities.BankTransaction;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.entities.types.UserState;
@@ -24,6 +26,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -106,8 +110,19 @@ public class AccountService extends BaseService {
     EmailRequest.sendVerificationCode(user.getEmail(), code);
   }
 
-  public ResponseEntity<?> receiveBankTransaction(BankDto bankDto) {
-    log.info(bankDto);
-    return ResponseEntity.ok("Oke");
+  public void receiveBankTransaction(BankDto bankDto) {
+    List<BankTransaction> bankTransactions = new ArrayList<>();
+    for(TransactionData data : bankDto.getData()){
+      BankTransaction bankTransaction = new BankTransaction();
+      bankTransaction.partnerFromTransactionData(data);
+      bankTransactions.add(bankTransaction);
+    }
+    if(!bankTransactions.isEmpty()){
+      bankTransactionStorage.saveAll(bankTransactions);
+    }
+  }
+
+  public List<BankTransaction> getAllTransaction() {
+    return bankTransactionStorage.findAll();
   }
 }

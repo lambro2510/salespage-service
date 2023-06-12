@@ -50,4 +50,8 @@ public class BaseController {
     protected ResponseEntity<BaseResponse> errorApi(String message, Object data) {
         return ResponseEntity.ok(new BaseResponse(true, message, data));
     }
+
+    protected  ResponseEntity<BaseResponse> errorApiStatus500(String message){
+        return ResponseEntity.status(500).body(new BaseResponse(true, message, null));
+    }
 }
