@@ -61,5 +61,13 @@ jwt:
   privateKey: ${JWT_PRIVATE_KEY}
 
 casso:
+  url : ${CASSO_URL:https://oauth.casso.vn}
   token : ${CASSO_TOKEN:lam12345}
+  client-id : ${CASSO_CLIENT_ID}
+
+vietqr:
+  api:
+    client-id :
+    key :
+    url :
 

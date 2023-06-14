@@ -19,6 +19,7 @@ import com.salespage.salespageservice.domains.utils.EmailRequest;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,17 @@ import java.util.Objects;
 @Service
 @Log4j2
 public class AccountService extends BaseService {
+
+  @Value("${vietqr.api.client-id}")
+  private String vietQrClientId;
+
+  @Value("${vietqr.api.key}")
+  private String vietQrApiKey;
+
+  @Value("${vietqr.api.url}")
+  private String vietQrUrl;
+
+
   @Autowired
   private UserService userService;
 
@@ -110,19 +122,5 @@ public class AccountService extends BaseService {
     EmailRequest.sendVerificationCode(user.getEmail(), code);
   }
 
-  public void receiveBankTransaction(BankDto bankDto) {
-    List<BankTransaction> bankTransactions = new ArrayList<>();
-    for(TransactionData data : bankDto.getData()){
-      BankTransaction bankTransaction = new BankTransaction();
-      bankTransaction.partnerFromTransactionData(data);
-      bankTransactions.add(bankTransaction);
-    }
-    if(!bankTransactions.isEmpty()){
-      bankTransactionStorage.saveAll(bankTransactions);
-    }
-  }
 
-  public List<BankTransaction> getAllTransaction() {
-    return bankTransactionStorage.findAll();
-  }
 }

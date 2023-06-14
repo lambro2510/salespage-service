@@ -37,4 +37,8 @@ public class CacheKey {
   public static String getFavoriteProduct(String username, String productId) {
     return prefix + "favorite:product:" + username + ":" + productId;
   }
+
+  public static String getOath2Key(String clientId) {
+    return prefix + "key:casso:" + clientId;
+  }
 }
