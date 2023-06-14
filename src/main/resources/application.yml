@@ -66,9 +66,9 @@ casso:
   token : ${CASSO_TOKEN:lam12345}
   client-id : ${CASSO_CLIENT_ID:82d12a60-0900-11ee-9f74-0fa8491e0bd2}
 
-vietqr:
-  api:
-    client-id :
-    key :
-    url :
+#vietqr:
+#  api:
+#    client-id :
+#    key :
+#    url :
 
