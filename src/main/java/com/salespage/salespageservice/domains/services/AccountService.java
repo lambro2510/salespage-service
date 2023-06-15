@@ -7,6 +7,7 @@ import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.entities.BankTransaction;
+import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.entities.types.UserState;
@@ -122,5 +123,7 @@ public class AccountService extends BaseService {
     EmailRequest.sendVerificationCode(user.getEmail(), code);
   }
 
-
+  public List<PaymentTransaction> paymentTransactionOfUser(String username){
+    return paymentTransactionStorage.findByUsername(username);
+  }
 }

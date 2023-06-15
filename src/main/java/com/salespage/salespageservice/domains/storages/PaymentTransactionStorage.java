@@ -5,6 +5,8 @@ import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class PaymentTransactionStorage extends BaseStorage{
   public void save(PaymentTransaction paymentTransaction) {
@@ -17,5 +19,9 @@ public class PaymentTransactionStorage extends BaseStorage{
 
   public PaymentTransaction findByIdAndUsernameAndPaymentStatus(String paymentId, String username, PaymentStatus status) {
     return paymentTransactionRepository.findByIdAndUsernameAndPaymentStatus(new ObjectId(paymentId), username, status);
+  }
+
+  public List<PaymentTransaction> findByUsername(String username) {
+    return paymentTransactionRepository.findByUsername(username);
   }
 }
