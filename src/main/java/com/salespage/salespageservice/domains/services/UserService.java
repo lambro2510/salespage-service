@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
+import com.salespage.salespageservice.app.responses.transactionResponse.PaymentTransactionResponse;
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.User;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService extends BaseService {
@@ -69,7 +71,7 @@ public class UserService extends BaseService {
     userStorage.save(user);
   }
 
-  public List<PaymentTransaction> paymentTransactionOfUser(String username){
-    return paymentTransactionStorage.findByUsername(username);
+  public List<PaymentTransactionResponse> paymentTransactionOfUser(String username){
+    return paymentTransactionStorage.findByUsername(username).stream().map(PaymentTransaction::partnerToPaymentTransactionResponse).collect(Collectors.toList());
   }
 }
