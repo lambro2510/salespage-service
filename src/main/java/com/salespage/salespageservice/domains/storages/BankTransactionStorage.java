@@ -36,7 +36,7 @@ public class BankTransactionStorage extends BaseStorage{
       oath2CassoDto.setRedirectUri("https://www.example.com/auth-callback");
       oath2CassoDto.setResponseType("code");
       oath2CassoDto.setState("1");
-      oath2Key = (String) RequestUtil.request(HttpMethod.POST, cassoUrl,oath2CassoDto,new HashMap<>());
+      oath2Key = (String) RequestUtil.request(HttpMethod.POST, cassoUrl + "/auth/authorize",oath2CassoDto,new HashMap<>());
       remoteCacheManager.set(CacheKey.getOath2Key(clientId), oath2Key, 3600 * 5); //5h do 6h token hết hạn
     }
     return oath2Key;

@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -59,6 +60,9 @@ public class BankTransaction {
 
   @Field("corresponsive_bank_name")
   private String corresponsiveBankName;
+
+  @Field("created_at")
+  private LocalDateTime createdAt = LocalDateTime.now();
 
   public void partnerFromTransactionData(TransactionData transactionData) {
     setTid(transactionData.getTid());
