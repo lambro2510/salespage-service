@@ -29,7 +29,7 @@ public class BankTransaction {
   private String description;
 
   @Field("amount")
-  private Integer amount;
+  private Long amount;
 
   @Field("cusum_balance")
   private Integer cusumBalance;

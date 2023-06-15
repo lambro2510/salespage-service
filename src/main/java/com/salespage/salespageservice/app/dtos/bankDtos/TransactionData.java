@@ -11,7 +11,7 @@ public class TransactionData {
   private Integer id;
   private String tid;
   private String description;
-  private Integer amount;
+  private Long amount;
   private Integer cusumBalance;
   private String when;
   private String bankSubAccId;

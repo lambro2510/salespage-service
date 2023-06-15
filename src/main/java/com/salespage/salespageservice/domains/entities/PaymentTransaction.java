@@ -20,6 +20,9 @@ public class PaymentTransaction extends BaseEntity{
   @Field("username")
   private String username;
 
+  @Field("description")
+  private String description;
+
   @Field("payment_status")
   private PaymentStatus paymentStatus;
 

@@ -4,7 +4,9 @@ import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
 import com.salespage.salespageservice.domains.entities.BankTransaction;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
+import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
+import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
 import lombok.extern.log4j.Log4j2;
@@ -13,6 +15,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -66,17 +69,35 @@ public class BankService extends BaseService{
     return id.toHexString();
   }
 
+  @Transactional
   public String confirmPayment(String username, String paymentId) throws Exception {
+    User user = userStorage.findByUsername(username);
+    if(Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
     PaymentTransaction paymentTransaction = paymentTransactionStorage.findByIdAndUsernameAndPaymentStatus(paymentId, username, PaymentStatus.WAITING);
     if(Objects.isNull(paymentTransaction)) throw new Exception("Giao dịch không tồn tại hoặc đã được thanh toán");
     else {
       BankTransaction bankTransaction = bankTransactionStorage.findByDescription(Helper.genDescription(username, paymentId));
       if(Objects.isNull(bankTransaction)) return "Giao dịch đang được xử lý";
-      else{
+      if(user.updateBalance(bankTransaction.getAmount())){
+
         paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
+        String message;
+        if (bankTransaction.getAmount() >= 0) {
+          message = "Tài khoản của bạn được cộng " + bankTransaction.getAmount();
+        } else {
+          message = "Tài khoản của bạn bị trừ " + Math.abs(bankTransaction.getAmount());
+        }
+        paymentTransaction.setDescription(message);
+
+        paymentTransactionStorage.save(paymentTransaction);
+        userStorage.save(user);
+      }else{
+        paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
+        paymentTransaction.setDescription("Giao dịch đã bị hủy bỏ do tài khoản của bạn không đủ tiền");
         paymentTransactionStorage.save(paymentTransaction);
       }
     }
+
     return "Xử lý giao dịch thành công";
   }
 }

@@ -83,10 +83,15 @@ public class User {
     phoneNumber = dto.getPhoneNumber();
   }
 
+  public boolean updateBalance(long balance){
+    getBalance().money = getBalance().money + balance;
+    if(getBalance().money < 0) return false;
+    return true;
+  }
   @Data
   public static class UserBalance {
     @Field("currency_unit")
-    private CurrencyType type = CurrencyType.USD;
+    private CurrencyType type = CurrencyType.VND;
 
     @Field("money")
     private long money;
