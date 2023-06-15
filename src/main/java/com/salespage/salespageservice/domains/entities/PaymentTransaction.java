@@ -1,5 +1,7 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.responses.transactionResponse.PaymentTransactionResponse;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import lombok.Data;
@@ -15,6 +17,7 @@ import java.util.Date;
 public class PaymentTransaction extends BaseEntity{
 
   @Id
+  @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
   @Field("username")

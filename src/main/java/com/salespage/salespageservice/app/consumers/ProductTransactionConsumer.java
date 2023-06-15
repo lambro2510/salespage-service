@@ -28,7 +28,7 @@ public class ProductTransactionConsumer extends BankService {
       if (Objects.nonNull(paymentTransaction)) paymentTransactionStorage.save(paymentTransaction);
     } catch (Exception e) {
       log.error("====> processReturnReward error: {} " + paymentTransaction);
-      producer.createPaymentTransaction(paymentTransaction);
+//      producer.createPaymentTransaction(paymentTransaction);
     }
   }
 }
