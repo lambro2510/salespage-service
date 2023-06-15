@@ -9,11 +9,13 @@ import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
 import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONObject;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -41,14 +43,18 @@ public class BankService extends BaseService{
 
   @Value("${vietqr.api.url}")
   private String VIETQRURL;
+
+  @Autowired
+  Producer producer;
+
   public void receiveBankTransaction(BankDto bankDto) {
     List<BankTransaction> bankTransactions = new ArrayList<>();
-    for(TransactionData data : bankDto.getData()){
+    for (TransactionData data : bankDto.getData()) {
       BankTransaction bankTransaction = new BankTransaction();
       bankTransaction.partnerFromTransactionData(data);
       bankTransactions.add(bankTransaction);
     }
-    if(!bankTransactions.isEmpty()){
+    if (!bankTransactions.isEmpty()) {
       bankTransactionStorage.saveAll(bankTransactions);
     }
   }
@@ -85,7 +91,8 @@ public class BankService extends BaseService{
     paymentTransaction.setId(id);
     paymentTransaction.setUsername(username);
     paymentTransaction.setPaymentStatus(PaymentStatus.WAITING);
-    paymentTransactionStorage.save(paymentTransaction);
+    producer.createPaymentTransaction(paymentTransaction);
+//    paymentTransactionStorage.save(paymentTransaction);
     return id.toHexString();
   }
 
