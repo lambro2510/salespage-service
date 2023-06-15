@@ -37,7 +37,6 @@ public class BankController extends BaseController{
   @PostMapping("gen-qr")
   public ResponseEntity<?> genQrCode(@RequestParam Long amount, Authentication authentication){
     try{
-
       return successApi(null, bankService.genTransactionQr(getUsername(authentication), amount));
     }catch (Exception ex){
       return errorApi(ex.getMessage());

@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.GenQrCodeDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
+import com.salespage.salespageservice.app.responses.BankResponse.VietQrResponse;
 import com.salespage.salespageservice.domains.entities.BankTransaction;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.User;
@@ -56,7 +57,7 @@ public class BankService extends BaseService{
     return bankTransactionStorage.findAll();
   }
 
-  public String genTransactionQr(String username, Long amount) {
+  public VietQrResponse genTransactionQr(String username, Long amount) {
     GenQrCodeDto genQrCodeDto = new GenQrCodeDto();
     genQrCodeDto.setAccountNo(Long.parseLong(BANKACCID));
     genQrCodeDto.setAmount(amount);
@@ -64,8 +65,9 @@ public class BankService extends BaseService{
     genQrCodeDto.setTemplate("LDP0k8f");
     genQrCodeDto.setAcqId(970422L);
     genQrCodeDto.setAccountName("Thanh toán mua hàng");
-    genQrCodeDto.setAddInfo(username+amount);
-    return "";
+    genQrCodeDto.setAddInfo(username + amount);
+    Map<String, String> header = new HashMap<>();
+    return (VietQrResponse) RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/generate", VietQrResponse.class, header);
   }
 
   public void asyncTransaction() {
