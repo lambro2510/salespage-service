@@ -33,6 +33,15 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: "bizfly-7-453-PaymentTransaction"
+  kafka-consumers:
+    - group-id: "bizfly-7-453-PaymentTransaction"
+      topic:
+        replication-factor: 2
+        num-partitions: 1
+    - group-id: "bizfly-7-453-RewardGift"
+      topic:
+        replication-factor: 2
+        num-partitions: 1
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb+srv://lam:12345@db-salespage.h9186rq.mongodb.net/db-salespage}

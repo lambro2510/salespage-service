@@ -31,4 +31,10 @@ public class ProductTransactionConsumer extends BankService {
 //      producer.createPaymentTransaction(paymentTransaction);
     }
   }
+
+  @KafkaListener(topics = "bizfly-7-453-RewardGift", groupId = "bizfly-7-453-RewardGift")
+  public void receiveMessage(String message) {
+    System.out.println("Received message from bizfly-7-453-RewardGift topic: " + message);
+    // Xử lý tin nhắn nhận được từ Kafka
+  }
 }
