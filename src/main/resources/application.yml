@@ -69,7 +69,7 @@ casso:
 
 vietqr:
   api:
-    client-id :
-    key :
-    url :
+    client-id : ${VIETQR_CLIENTID:7a18d4ca-e369-44ea-9095-a1f8c2e5b006}
+    apikey : ${VIETQR_APIKEY:50ca1634-2c29-4386-8047-3593008466b2}
+    url : ${VIETQR_URL:https://api.vietqr.io}
 

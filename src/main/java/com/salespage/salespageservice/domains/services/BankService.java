@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
+import com.salespage.salespageservice.app.dtos.bankDtos.GenQrCodeDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
 import com.salespage.salespageservice.domains.entities.BankTransaction;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
@@ -30,6 +31,15 @@ public class BankService extends BaseService{
 
   @Value("${casso.url}")
   private String URL;
+
+  @Value("${vietqr.client-id}")
+  private String VIETQRCLIENTID;
+
+  @Value("${vietqr.apikey}")
+  private String VIETQRAPIKEY;
+
+  @Value("${vietqr.url}")
+  private String VIETQRURL;
   public void receiveBankTransaction(BankDto bankDto) {
     List<BankTransaction> bankTransactions = new ArrayList<>();
     for(TransactionData data : bankDto.getData()){
@@ -46,7 +56,15 @@ public class BankService extends BaseService{
     return bankTransactionStorage.findAll();
   }
 
-  public String genTransactionQr() {
+  public String genTransactionQr(String username, Long amount) {
+    GenQrCodeDto genQrCodeDto = new GenQrCodeDto();
+    genQrCodeDto.setAccountNo(Long.parseLong(BANKACCID));
+    genQrCodeDto.setAmount(amount);
+    genQrCodeDto.setFormat("text");
+    genQrCodeDto.setTemplate("LDP0k8f");
+    genQrCodeDto.setAcqId(970422L);
+    genQrCodeDto.setAccountName("Thanh toán mua hàng");
+    genQrCodeDto.setAddInfo(username+amount);
     return "";
   }
 
