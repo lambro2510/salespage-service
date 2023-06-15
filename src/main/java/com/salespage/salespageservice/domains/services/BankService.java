@@ -33,13 +33,13 @@ public class BankService extends BaseService{
   @Value("${casso.url}")
   private String URL;
 
-  @Value("${vietqr.client-id}")
+  @Value("${vietqr.api.client-id}")
   private String VIETQRCLIENTID;
 
-  @Value("${vietqr.apikey}")
+  @Value("${vietqr.api.apikey}")
   private String VIETQRAPIKEY;
 
-  @Value("${vietqr.url}")
+  @Value("${vietqr.api.url}")
   private String VIETQRURL;
   public void receiveBankTransaction(BankDto bankDto) {
     List<BankTransaction> bankTransactions = new ArrayList<>();

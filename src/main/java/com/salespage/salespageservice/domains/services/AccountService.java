@@ -2,12 +2,8 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.LoginDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
-import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
-import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.Account;
-import com.salespage.salespageservice.domains.entities.BankTransaction;
-import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.entities.types.UserState;
@@ -20,32 +16,17 @@ import com.salespage.salespageservice.domains.utils.EmailRequest;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Service
 @Log4j2
 public class AccountService extends BaseService {
-
-  @Value("${vietqr.api.client-id}")
-  private String vietQrClientId;
-
-  @Value("${vietqr.api.key}")
-  private String vietQrApiKey;
-
-  @Value("${vietqr.api.url}")
-  private String vietQrUrl;
-
-
   @Autowired
   private UserService userService;
 

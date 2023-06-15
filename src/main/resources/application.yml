@@ -32,7 +32,7 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      group-id: "bizfly-7-453-ProductTransaction"
+      group-id: "bizfly-7-453-PaymentTransaction"
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb+srv://lam:12345@db-salespage.h9186rq.mongodb.net/db-salespage}

@@ -1,34 +1,34 @@
 package com.salespage.salespageservice.app.consumers;
 
-import com.salespage.salespageservice.domains.entities.ProductTransaction;
+import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.producer.TopicConfig;
+import com.salespage.salespageservice.domains.services.BankService;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @Log4j2
-public class ProductTransactionConsumer {
+public class ProductTransactionConsumer extends BankService {
 
   @Autowired
   private Producer producer;
 
-  @KafkaListener(topics = TopicConfig.SALE_PAGE_PRODUCT_TRANSACTION)
+  @KafkaListener(topics = TopicConfig.SALE_PAGE_PAYMENT_TRANSACTION)
   public void processReturnReward(String message) {
     log.debug("====> processReturnReward: {} " + message);
-    ProductTransaction productTransaction = new ProductTransaction();
+    PaymentTransaction paymentTransaction = new PaymentTransaction();
     try {
-      productTransaction = JsonParser.entity(message, ProductTransaction.class);
-      if (productTransaction != null) {
-        log.error("===== >");
-        throw new Exception();
-      }
+      paymentTransaction = JsonParser.entity(message, PaymentTransaction.class);
+      if (Objects.nonNull(paymentTransaction)) paymentTransactionStorage.save(paymentTransaction);
     } catch (Exception e) {
-      producer.createProductTransaction(productTransaction);
-      log.error("====> processReturnReward error: {} " + productTransaction);
+      log.error("====> processReturnReward error: {} " + paymentTransaction);
+      producer.createPaymentTransaction(paymentTransaction);
     }
   }
 }
