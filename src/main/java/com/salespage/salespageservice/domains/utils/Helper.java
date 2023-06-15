@@ -54,6 +54,6 @@ public class Helper {
   }
 
   public static String genDescription(String username, String paymentId){
-    return username + ":" + paymentId;
+    return username + " " + paymentId;
   }
 }
