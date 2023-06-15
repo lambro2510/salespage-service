@@ -52,6 +52,13 @@ public class BaseService {
 
   @Autowired
   protected BankTransactionStorage bankTransactionStorage;
+
+  @Autowired
+  protected PaymentTransactionStorage paymentTransactionStorage;
+
+  @Autowired
+  protected NotificationStorage notificationStorage;
+
   @Autowired
   @Lazy
   private SystemLogService systemLogService;

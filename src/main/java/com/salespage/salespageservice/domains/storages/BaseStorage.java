@@ -47,5 +47,11 @@ public class BaseStorage {
   protected BankTransactionRepository bankTransactionRepository;
 
   @Autowired
+  protected PaymentTransactionRepository paymentTransactionRepository;
+
+  @Autowired
+  protected NotificationRepository notificationRepository;
+
+  @Autowired
   protected RemoteCacheManager remoteCacheManager;
 }

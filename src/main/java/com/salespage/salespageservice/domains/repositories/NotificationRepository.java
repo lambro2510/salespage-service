@@ -1,11 +1,10 @@
 package com.salespage.salespageservice.domains.repositories;
 
-import com.salespage.salespageservice.domains.entities.BankTransaction;
+import com.salespage.salespageservice.domains.entities.Notification;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BankTransactionRepository extends MongoRepository<BankTransaction, ObjectId> {
-  BankTransaction findByDescription(String description);
+public interface NotificationRepository extends MongoRepository<Notification, ObjectId> {
 }

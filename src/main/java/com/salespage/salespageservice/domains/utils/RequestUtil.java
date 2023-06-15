@@ -27,7 +27,7 @@ public class RequestUtil {
    * @param headerParam
    * @return
    */
-  public static <T> T sportRequest(
+  public static <T> T request(
           HttpMethod method, String requestUrl, Class<T> tClass, Object entity, Map<String, String> headerParam) {
     try {
       RestTemplate restTemplate = new RestTemplate();

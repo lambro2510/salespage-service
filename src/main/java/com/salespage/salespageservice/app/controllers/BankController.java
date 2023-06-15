@@ -44,20 +44,28 @@ public class BankController extends BaseController{
   }
 
   @PostMapping("async-data")
-  public ResponseEntity<?> asyncData(Authentication authentication){
+  public ResponseEntity<?> asyncData(){
     try{
-
-      bankService.asyncTransaction(getUsername(authentication));
+      bankService.asyncTransaction();
       return successApi(null, "Đồng bộ dữ liệu thành công");
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }
   }
 
-  @PostMapping("oath2Token")
-  public ResponseEntity<?> getToken(Authentication authentication){
+  @PostMapping("create-payment")
+  public ResponseEntity<?> createPayment(Authentication authentication){
     try{
-      return successApi(null, bankService.getOath2Token());
+      return successApi("Tạo giao dịch thành công.", bankService.createPayment(getUsername(authentication)));
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @PostMapping("confirm-payment")
+  public ResponseEntity<?> confirmPayment(Authentication authentication, @RequestParam String paymentId){
+    try{
+      return successApi(null, bankService.confirmPayment(getUsername(authentication), paymentId));
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }

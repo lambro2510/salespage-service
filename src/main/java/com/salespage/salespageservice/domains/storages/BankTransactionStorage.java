@@ -41,4 +41,8 @@ public class BankTransactionStorage extends BaseStorage{
     }
     return oath2Key;
   }
+
+  public BankTransaction findByDescription(String description) {
+    return bankTransactionRepository.findByDescription(description);
+  }
 }
