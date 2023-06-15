@@ -67,7 +67,7 @@ public class BankService extends BaseService{
     genQrCodeDto.setAccountName("Thanh toán mua hàng");
     genQrCodeDto.setAddInfo(username + amount);
     Map<String, String> header = new HashMap<>();
-    return (VietQrResponse) RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/generate", VietQrResponse.class, header);
+    return RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/generate", VietQrResponse.class, genQrCodeDto, header);
   }
 
   public void asyncTransaction() {
