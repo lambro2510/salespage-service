@@ -66,7 +66,7 @@ public class BankTransaction {
 
   public void partnerFromTransactionData(TransactionData transactionData) {
     setTid(transactionData.getTid());
-    setDescription(transactionData.getDescription());
+    setDescription(transactionData.getDescription().replaceAll(" ", ""));
     setAmount(transactionData.getAmount());
     setCusumBalance(transactionData.getCusumBalance());
     setWhen(transactionData.getWhen());
