@@ -123,7 +123,5 @@ public class AccountService extends BaseService {
     EmailRequest.sendVerificationCode(user.getEmail(), code);
   }
 
-  public List<PaymentTransaction> paymentTransactionOfUser(String username){
-    return paymentTransactionStorage.findByUsername(username);
-  }
+
 }

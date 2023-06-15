@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BankTransactionRepository extends MongoRepository<BankTransaction, ObjectId> {
-  BankTransaction findByDescription(String description);
+  BankTransaction findByDescriptionLike(String description);
 }

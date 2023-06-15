@@ -43,6 +43,6 @@ public class BankTransactionStorage extends BaseStorage{
   }
 
   public BankTransaction findByDescription(String description) {
-    return bankTransactionRepository.findByDescription(description);
+    return bankTransactionRepository.findByDescriptionLike(description);
   }
 }

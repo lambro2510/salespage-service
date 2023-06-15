@@ -108,18 +108,5 @@ public class AccountController extends BaseController {
   }
 
 
-  @GetMapping("payment-transaction")
-  @Operation(summary = "Lịch sử nạp và rút tiền", description = "Lịch sử nạp và rút tiền")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Thành công"),
-      @ApiResponse(responseCode = "401", description = "Không được ủy quyền, vui lòng kiểm tra thông tin xác thực của bạn"),
-      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
-  })
-  public ResponseEntity<BaseResponse> getPaymentTransaction(Authentication authentication) {
-    try {
-      return successApi(accountService.paymentTransactionOfUser(getUsername(authentication)));
-    } catch (Exception ex) {
-      return errorApi(ex.getMessage());
-    }
-  }
+
 }
