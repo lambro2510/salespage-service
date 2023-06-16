@@ -123,7 +123,7 @@ public class BankController extends BaseController{
   public ResponseEntity<?> linkBankAccount(Authentication authentication, @RequestBody BankAccountInfoRequest request){
     try{
       bankService.linkBankAccount(getUsername(authentication), request);
-      return successApi("Hủy bỏ giao dịch thành công" );
+      return successApi("Liên kết với tài khoản thành công" );
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }

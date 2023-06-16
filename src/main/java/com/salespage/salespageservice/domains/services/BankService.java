@@ -199,7 +199,6 @@ public class BankService extends BaseService{
   }
 
   public void linkBankAccount(String username, BankAccountInfoRequest request) throws Exception {
-
     List<BankListData> bankListData = getListBank();
     Map<String, BankListData> bankMap = bankListData.stream()
         .collect(Collectors.toMap(BankListData::getBin, Function.identity()));
@@ -207,10 +206,13 @@ public class BankService extends BaseService{
     BankListData bankData = bankMap.get(request.getBin());
     if(Objects.isNull(bankData)) throw new ResourceNotFoundException("Ngân hàng không được hỗ trợ");
 
+    BankAccount bankAccount = bankAccountStorage.findByBankIdAndAccountNo(bankData.getId(), request.getAccountNumber());
+    if(Objects.nonNull(bankAccount)) throw new ResourceExitsException("Tài khoản đã được liên kết");
+    else bankAccount = new BankAccount();
+
     BankAccountData bankAccountData = getBankAccountData(request.getBin(), request.getAccountNumber());
     if(Objects.isNull(bankAccountData)) throw new Exception("Tài khoản ngân hàng không hợp lệ");
 
-    BankAccount bankAccount = new BankAccount();
     bankAccount.setAccountNo(request.getAccountNumber());
     bankAccount.setBankName(bankData.getShortName());
     bankAccount.setBankFullName(bankData.getName());

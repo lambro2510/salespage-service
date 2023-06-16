@@ -12,4 +12,12 @@ public class BankAccountStorage extends BaseStorage{
   public void save(BankAccount bankAccount) {
     bankAccountRepository.save(bankAccount);
   }
+
+  public BankAccount findByUsernameAndBankIdAndAccountNo(String username, Long bankId, String accountNumber) {
+    return bankAccountRepository.findByUsernameAndBankIdAndAccountNo(username, bankId, accountNumber);
+  }
+
+  public BankAccount findByBankIdAndAccountNo(Long bankId, String accountNumber) {
+    return bankAccountRepository.findByBankIdAndAccountNo(bankId, accountNumber);
+  }
 }
