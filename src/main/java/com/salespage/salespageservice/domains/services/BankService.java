@@ -159,7 +159,7 @@ public class BankService extends BaseService{
     return JsonParser.arrayList(JsonParser.toJson(response.getData()), BankListData.class);
   }
 
-  public BankAccountData getBankAccountData(String bin, String accountNo) {
+  public BankAccountData getBankAccountData(String bin, String accountNo) throws IOException {
     Map<String, String> header = new HashMap<>();
     header.put("x-client-id", VIETQRCLIENTID);
     header.put("x-api-key", VIETQRAPIKEY);
@@ -170,7 +170,7 @@ public class BankService extends BaseService{
     if(Objects.isNull(response)) throw new ResourceNotFoundException("Lỗi hệ thống, không lấy được thông tin tài khoản ngân hàng");
     if(!Objects.equals(response.getCode(), "00")) throw new ResourceNotFoundException(response.getDesc());
     log.info("----getBankAccountData: "  + response);
-    return (BankAccountData) response.getData();
+    return JsonParser.entity(JsonParser.toJson(response.getData()), BankAccountData.class);
   }
 
   @Transactional
