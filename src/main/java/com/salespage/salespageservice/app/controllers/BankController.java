@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
+import com.salespage.salespageservice.app.responses.BankResponse.BankAccountData;
 import com.salespage.salespageservice.app.responses.BankResponse.BankListData;
 import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.BankService;
@@ -62,6 +63,20 @@ public class BankController extends BaseController{
   public ResponseEntity<?> getListBank(){
     try{
       return successApi(null, bankService.getListBank());
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @GetMapping("account-info")
+  @Operation(summary = "Thông tin tài khoản ngân hang", description = "Thông tin tài khoản ngân hàng")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Success", content = @Content(schema = @Schema(implementation = BankAccountData.class))),
+      @ApiResponse(responseCode = "500", description = "Internal Server Error")
+  })
+  public ResponseEntity<?> getBankAccountData(@RequestParam String bin, @RequestParam String accountNo){
+    try{
+      return successApi(null, bankService.getBankAccountData(bin, accountNo));
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }

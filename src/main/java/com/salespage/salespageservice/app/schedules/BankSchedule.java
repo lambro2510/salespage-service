@@ -13,7 +13,7 @@ public class BankSchedule {
   @Autowired
   private BankService bankService;
 
-  @Scheduled(fixedDelay = 1000 * 60) //1 phút 1 lần đồng bộ
+  @Scheduled(fixedDelay = 1000 * 60 * 60) //1 h 1 lần đồng bộ
   public void getOath2TokenFromCasso(){
     log.info("-----async transaction-----start");
     bankService.asyncTransaction();

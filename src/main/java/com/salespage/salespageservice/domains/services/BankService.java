@@ -1,8 +1,10 @@
 package com.salespage.salespageservice.domains.services;
 
+import com.salespage.salespageservice.app.dtos.bankDtos.BankAccountInfoRequest;
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.GenQrCodeDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
+import com.salespage.salespageservice.app.responses.BankResponse.BankAccountData;
 import com.salespage.salespageservice.app.responses.BankResponse.BankListData;
 import com.salespage.salespageservice.app.responses.BankResponse.QrData;
 import com.salespage.salespageservice.app.responses.BankResponse.VietQrResponse;
@@ -135,5 +137,16 @@ public class BankService extends BaseService{
     VietQrResponse response = RequestUtil.request(HttpMethod.GET, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>());
     log.info(response);
     return (List<BankListData>) response.getData();
+  }
+
+  public BankAccountData getBankAccountData(String bin, String accountNo) {
+    Map<String, String> header = new HashMap<>();
+    header.put("x-client-id", VIETQRCLIENTID);
+    header.put("x-api-key", VIETQRAPIKEY);
+    BankAccountInfoRequest request = new BankAccountInfoRequest();
+    request.setBin(bin);
+    request.setAccountNumber(accountNo);
+    VietQrResponse response = RequestUtil.request(HttpMethod.GET, VIETQRURL + "/v2/lookup", VietQrResponse.class, request,header);
+    return (BankAccountData) response.getData();
   }
 }
