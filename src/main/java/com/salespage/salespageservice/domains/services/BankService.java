@@ -20,6 +20,7 @@ import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.utils.Helper;
+import com.salespage.salespageservice.domains.utils.JsonParser;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
 import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONObject;
@@ -30,6 +31,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -149,12 +151,12 @@ public class BankService extends BaseService{
     return "Xử lý giao dịch thành công";
   }
 
-  public List<BankListData> getListBank() {
+  public List<BankListData> getListBank() throws IOException {
     VietQrResponse response = RequestUtil.request(HttpMethod.GET, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>());
     if(Objects.isNull(response)) throw new ResourceNotFoundException("Lỗi hệ thống, không lấy được danh sách ngân hàng");
     if(!Objects.equals(response.getCode(), "00")) throw new ResourceNotFoundException(response.getDesc());
     log.info(response);
-    return (List<BankListData>) response.getData();
+    return JsonParser.arrayList(JsonParser.toJson(response.getData()), BankListData.class);
   }
 
   public BankAccountData getBankAccountData(String bin, String accountNo) {
@@ -198,8 +200,11 @@ public class BankService extends BaseService{
 
   public void linkBankAccount(String username, BankAccountInfoRequest request) throws Exception {
 
-    Map<String, BankListData> bankListData = getListBank().stream().collect(Collectors.toMap(BankListData::getBin, Function.identity()));
-    BankListData bankData = bankListData.get(request.getBin());
+    List<BankListData> bankListData = getListBank();
+    Map<String, BankListData> bankMap = bankListData.stream()
+        .collect(Collectors.toMap(BankListData::getBin, Function.identity()));
+
+    BankListData bankData = bankMap.get(request.getBin());
     if(Objects.isNull(bankData)) throw new ResourceNotFoundException("Ngân hàng không được hỗ trợ");
 
     BankAccountData bankAccountData = getBankAccountData(request.getBin(), request.getAccountNumber());
