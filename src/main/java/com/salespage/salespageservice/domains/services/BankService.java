@@ -64,7 +64,7 @@ public class BankService extends BaseService{
     return bankTransactionStorage.findAll();
   }
 
-  public VietQrResponse genTransactionQr(String username, Long amount) {
+  public Object genTransactionQr(String username, Long amount) {
     GenQrCodeDto genQrCodeDto = new GenQrCodeDto();
     genQrCodeDto.setAccountNo(Long.parseLong(BANKACCID));
     genQrCodeDto.setAmount(amount);
@@ -74,7 +74,8 @@ public class BankService extends BaseService{
     genQrCodeDto.setAccountName("Thanh toán mua hàng");
     genQrCodeDto.setAddInfo(username + amount);
     Map<String, String> header = new HashMap<>();
-    return RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/generate", VietQrResponse.class, genQrCodeDto, header);
+    VietQrResponse response = RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/generate", VietQrResponse.class, genQrCodeDto, header);
+    return response.getData();
   }
 
   public void asyncTransaction() {
@@ -130,7 +131,7 @@ public class BankService extends BaseService{
   }
 
   public List<BankListData> getListBank() {
-    VietQrResponse response = RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>());
+    VietQrResponse response = RequestUtil.request(HttpMethod.GET, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>());
     log.info(response);
     return (List<BankListData>) response.getData();
   }
