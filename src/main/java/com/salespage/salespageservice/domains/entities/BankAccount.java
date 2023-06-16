@@ -42,4 +42,8 @@ public class BankAccount extends BaseEntity{
 
   @Field("money_out")
   private Double moneyOut;
+
+  public String getIdStr(){
+    return id.toHexString();
+  }
 }

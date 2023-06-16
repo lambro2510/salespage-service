@@ -91,34 +91,6 @@ public class BankController extends BaseController{
     }
   }
 
-  @PostMapping("create-payment")
-  public ResponseEntity<?> createPayment(Authentication authentication, @RequestBody CreatePaymentDto dto){
-    try{
-      return successApi("Tạo giao dịch thành công.", bankService.createPayment(getUsername(authentication), dto));
-    }catch (Exception ex){
-      return errorApi(ex.getMessage());
-    }
-  }
-
-  @PostMapping("confirm-payment")
-  public ResponseEntity<?> confirmPayment(Authentication authentication, @RequestParam String paymentId){
-    try{
-      return successApi(null, bankService.confirmPayment(getUsername(authentication), paymentId));
-    }catch (Exception ex){
-      return errorApi(ex.getMessage());
-    }
-  }
-
-  @PutMapping("cancel-payment")
-  public ResponseEntity<?> cancelPayment(Authentication authentication, @RequestParam String paymentId){
-    try{
-      bankService.cancelPayment(getUsername(authentication), paymentId);
-      return successApi("Hủy bỏ giao dịch thành công" );
-    }catch (Exception ex){
-      return errorApi(ex.getMessage());
-    }
-  }
-
   @PostMapping("link-bank-account")
   public ResponseEntity<?> linkBankAccount(Authentication authentication, @RequestBody BankAccountInfoRequest request){
     try{

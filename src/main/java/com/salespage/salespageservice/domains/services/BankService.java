@@ -9,6 +9,8 @@ import com.salespage.salespageservice.app.responses.BankResponse.BankAccountData
 import com.salespage.salespageservice.app.responses.BankResponse.BankListData;
 import com.salespage.salespageservice.app.responses.BankResponse.QrData;
 import com.salespage.salespageservice.app.responses.BankResponse.VietQrResponse;
+import com.salespage.salespageservice.app.responses.PaymentResponse.PaymentResponse;
+import com.salespage.salespageservice.app.responses.transactionResponse.PaymentTransactionResponse;
 import com.salespage.salespageservice.domains.entities.BankAccount;
 import com.salespage.salespageservice.domains.entities.BankTransaction;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
@@ -226,5 +228,22 @@ public class BankService extends BaseService{
     bankAccount.setMoneyIn(0D);
     bankAccount.setMoneyOut(0D);
     bankAccountStorage.save(bankAccount);
+  }
+
+  public List<PaymentTransactionResponse> getPayment(String username) {
+    List<PaymentTransactionResponse> responses = new ArrayList<>();
+    List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByUsername(username);
+    List<String> bankAccountIds = paymentTransactions.stream().map(PaymentTransaction::getBankAccountId).collect(Collectors.toList());
+    Map<String, BankAccount> bankAccountMap = bankAccountStorage.findBankAccountByIdIn(bankAccountIds).stream().collect(Collectors.toMap(BankAccount::getIdStr, Function.identity()));
+    for(PaymentTransaction paymentTransaction : paymentTransactions){
+      PaymentTransactionResponse paymentTransactionResponse = paymentTransaction.partnerToPaymentTransactionResponse();
+      BankAccount bankAccount = bankAccountMap.get(paymentTransaction.getBankAccountId());
+      if(Objects.isNull(bankAccount)) continue;
+      paymentTransactionResponse.setBankAccountName(bankAccount.getBankAccountName());
+      paymentTransactionResponse.setBankName(bankAccount.getBankName());
+      paymentTransactionResponse.setBankAccountNo(bankAccount.getAccountNo());
+      responses.add(paymentTransactionResponse);
+    }
+    return responses;
   }
 }

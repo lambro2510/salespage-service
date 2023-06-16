@@ -70,8 +70,4 @@ public class UserService extends BaseService {
     user.setImageUrl(imageUrl);
     userStorage.save(user);
   }
-
-  public List<PaymentTransactionResponse> paymentTransactionOfUser(String username){
-    return paymentTransactionStorage.findByUsername(username).stream().map(PaymentTransaction::partnerToPaymentTransactionResponse).collect(Collectors.toList());
-  }
 }

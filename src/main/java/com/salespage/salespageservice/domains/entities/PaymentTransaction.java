@@ -33,7 +33,7 @@ public class PaymentTransaction extends BaseEntity{
   @Field("payment_type")
   private PaymentType type;
 
-  @Field
+  @Field("bank_account_id")
   private String bankAccountId;
 
   @Field("payment_status")

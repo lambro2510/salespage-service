@@ -12,6 +12,12 @@ public class PaymentTransactionResponse {
 
   PaymentStatus status;
 
+  String bankName;
+
+  String bankAccountNo;
+
+  String bankAccountName;
+
   Long amount;
 
   @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
