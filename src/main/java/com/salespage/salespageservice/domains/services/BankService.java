@@ -146,7 +146,8 @@ public class BankService extends BaseService{
     BankAccountInfoRequest request = new BankAccountInfoRequest();
     request.setBin(bin);
     request.setAccountNumber(accountNo);
-    VietQrResponse response = RequestUtil.request(HttpMethod.GET, VIETQRURL + "/v2/lookup", VietQrResponse.class, request,header);
+    VietQrResponse response = RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/lookup", VietQrResponse.class, request,header);
+    log.info("----getBankAccountData: "  + response);
     return (BankAccountData) response.getData();
   }
 }
