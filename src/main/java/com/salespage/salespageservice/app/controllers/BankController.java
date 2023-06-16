@@ -43,6 +43,15 @@ public class BankController extends BaseController{
     }
   }
 
+  @GetMapping("list-bank")
+  public ResponseEntity<?> getListBank(){
+    try{
+      return successApi(null, bankService.getListBank());
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
+  }
+
   @PostMapping("async-data")
   public ResponseEntity<?> asyncData(){
     try{

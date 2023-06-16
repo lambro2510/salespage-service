@@ -8,5 +8,5 @@ public class VietQrResponse {
 
   private String desc;
 
-  private QrData data;
+  private Object data;
 }

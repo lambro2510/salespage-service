@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.GenQrCodeDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
+import com.salespage.salespageservice.app.responses.BankResponse.BankListData;
 import com.salespage.salespageservice.app.responses.BankResponse.VietQrResponse;
 import com.salespage.salespageservice.domains.entities.BankTransaction;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
@@ -126,5 +127,9 @@ public class BankService extends BaseService{
     }
 
     return "Xử lý giao dịch thành công";
+  }
+
+  public List<BankListData> getListBank() {
+    return (List<BankListData>) RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>()).getData();
   }
 }
