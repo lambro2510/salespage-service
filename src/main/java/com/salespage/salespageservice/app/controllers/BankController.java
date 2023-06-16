@@ -1,11 +1,21 @@
 package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
+import com.salespage.salespageservice.app.responses.BankResponse.BankListData;
+import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.BankService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -44,6 +54,11 @@ public class BankController extends BaseController{
   }
 
   @GetMapping("list-bank")
+  @Operation(summary = "Get List of Banks", description = "Retrieve a list of banks")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BankListData.class)))),
+      @ApiResponse(responseCode = "500", description = "Internal Server Error")
+  })
   public ResponseEntity<?> getListBank(){
     try{
       return successApi(null, bankService.getListBank());

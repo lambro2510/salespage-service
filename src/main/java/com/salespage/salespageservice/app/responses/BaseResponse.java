@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseResponse {
+public class BaseResponse<T> {
   boolean error;
 
   String message;
 
-  Object data;
+  T data;
 }
