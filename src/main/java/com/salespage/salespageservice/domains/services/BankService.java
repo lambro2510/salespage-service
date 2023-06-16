@@ -130,6 +130,7 @@ public class BankService extends BaseService{
   }
 
   public List<BankListData> getListBank() {
-    return (List<BankListData>) RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>()).getData();
+    VietQrResponse response = RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>());
+    return (List<BankListData>) response.getData();
   }
 }

@@ -3,10 +3,10 @@ package com.salespage.salespageservice.app.responses.BankResponse;
 import lombok.Data;
 
 @Data
-public class VietQrResponse {
+public class VietQrResponse<T> {
   private String code;
 
   private String desc;
 
-  private Object data;
+  private T data;
 }
