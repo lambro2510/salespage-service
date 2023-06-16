@@ -57,7 +57,7 @@ public class BankController extends BaseController{
   @GetMapping("list-bank")
   @Operation(summary = "Get List of Banks", description = "Retrieve a list of banks")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BankListData.class)))),
+      @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BaseResponse.class)))),
       @ApiResponse(responseCode = "500", description = "Internal Server Error")
   })
   public ResponseEntity<?> getListBank(){
