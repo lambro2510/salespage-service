@@ -24,4 +24,8 @@ public class PaymentTransactionStorage extends BaseStorage{
   public List<PaymentTransaction> findByUsername(String username) {
     return paymentTransactionRepository.findByUsername(username);
   }
+
+  public List<PaymentTransaction> findByPaymentStatus(PaymentStatus paymentStatus) {
+    return paymentTransactionRepository.findByPaymentStatus(paymentStatus);
+  }
 }

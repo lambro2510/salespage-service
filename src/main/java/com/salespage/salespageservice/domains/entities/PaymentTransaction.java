@@ -26,6 +26,12 @@ public class PaymentTransaction extends BaseEntity{
   @Field("description")
   private String description;
 
+  @Field("amount")
+  private Long amount;
+
+  @Field
+  private String bankAccountId;
+
   @Field("payment_status")
   private PaymentStatus paymentStatus;
 
@@ -34,7 +40,11 @@ public class PaymentTransaction extends BaseEntity{
     response.setPaymentId(id.toHexString());
     response.setStatus(paymentStatus);
     response.setCreated(new Date(createdAt));
+    response.setAmount(amount);
     return response;
   }
 
+  public boolean createdOneDayPeriod(){
+    return createdAt < (System.currentTimeMillis() - 24 * 60 * 60 * 1000);
+  }
 }

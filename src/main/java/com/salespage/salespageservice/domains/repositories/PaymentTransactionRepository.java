@@ -15,4 +15,6 @@ public interface PaymentTransactionRepository extends MongoRepository<PaymentTra
   PaymentTransaction findByIdAndUsernameAndPaymentStatus(ObjectId objectId, String username, PaymentStatus status);
 
   List<PaymentTransaction> findByUsername(String username);
+
+  List<PaymentTransaction> findByPaymentStatus(PaymentStatus paymentStatus);
 }

@@ -12,6 +12,8 @@ public class PaymentTransactionResponse {
 
   PaymentStatus status;
 
+  Long amount;
+
   @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
   Date created;
 }

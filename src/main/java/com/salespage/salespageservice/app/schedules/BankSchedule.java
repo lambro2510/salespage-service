@@ -19,4 +19,11 @@ public class BankSchedule {
     bankService.asyncTransaction();
     log.info("-----async transaction-----end");
   }
+
+  @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+  public void checkNotResolveTransaction() throws Exception {
+    log.info("-----checkNotResolveTransaction-----start");
+    bankService.checkNotResolveTransaction();
+    log.info("-----checkNotResolveTransaction-----end");
+  }
 }

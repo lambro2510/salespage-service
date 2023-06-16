@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.services;
 
+import com.salespage.salespageservice.app.dtos.PaymentDtos.CreatePaymentDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.BankAccountInfoRequest;
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.GenQrCodeDto;
@@ -8,10 +9,13 @@ import com.salespage.salespageservice.app.responses.BankResponse.BankAccountData
 import com.salespage.salespageservice.app.responses.BankResponse.BankListData;
 import com.salespage.salespageservice.app.responses.BankResponse.QrData;
 import com.salespage.salespageservice.app.responses.BankResponse.VietQrResponse;
+import com.salespage.salespageservice.domains.entities.BankAccount;
 import com.salespage.salespageservice.domains.entities.BankTransaction;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
+import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
+import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.utils.Helper;
@@ -50,6 +54,9 @@ public class BankService extends BaseService{
 
   @Autowired
   Producer producer;
+
+  @Autowired
+  NotificationService notificationService;
 
   public void receiveBankTransaction(BankDto bankDto) {
     List<BankTransaction> bankTransactions = new ArrayList<>();
@@ -90,23 +97,27 @@ public class BankService extends BaseService{
     log.info(response);
   }
 
-  public String createPayment(String username) {
+  public String createPayment(String username, CreatePaymentDto dto) {
+    BankAccount bankAccount = bankAccountStorage.findBankAccountById(dto.getBankAccountId());
+    if(Objects.isNull(bankAccount)) throw new ResourceNotFoundException("Không tìm thấy ngân hàng liên kết này");
     PaymentTransaction paymentTransaction = new PaymentTransaction();
     ObjectId id = new ObjectId();
     paymentTransaction.setId(id);
     paymentTransaction.setUsername(username);
     paymentTransaction.setPaymentStatus(PaymentStatus.WAITING);
+    paymentTransaction.setBankAccountId(dto.getBankAccountId());
+    paymentTransaction.setAmount(dto.getAmount());
     producer.createPaymentTransaction(paymentTransaction);
 //    paymentTransactionStorage.save(paymentTransaction);
     return id.toHexString();
   }
 
-  @Transactional
+  @Transactional(noRollbackFor = {ResourceNotFoundException.class})
   public String confirmPayment(String username, String paymentId) throws Exception {
     User user = userStorage.findByUsername(username);
     if(Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
     PaymentTransaction paymentTransaction = paymentTransactionStorage.findByIdAndUsernameAndPaymentStatus(paymentId, username, PaymentStatus.WAITING);
-    if(Objects.isNull(paymentTransaction)) throw new Exception("Giao dịch không tồn tại hoặc đã được thanh toán");
+    if(Objects.isNull(paymentTransaction)) throw new ResourceNotFoundException("Giao dịch không tồn tại hoặc đã được thanh toán");
     else {
       BankTransaction bankTransaction = bankTransactionStorage.findByDescription(Helper.genDescription(username, paymentId));
       if(Objects.isNull(bankTransaction)) return "Giao dịch đang được xử lý";
@@ -116,16 +127,18 @@ public class BankService extends BaseService{
         String message;
         if (bankTransaction.getAmount() >= 0) {
           message = "Tài khoản của bạn được cộng " + bankTransaction.getAmount();
+          notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getMessage());
         } else {
           message = "Tài khoản của bạn bị trừ " + Math.abs(bankTransaction.getAmount());
+          notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getMessage());
         }
         paymentTransaction.setDescription(message);
-
         paymentTransactionStorage.save(paymentTransaction);
         userStorage.save(user);
       }else{
         paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
         paymentTransaction.setDescription("Giao dịch đã bị hủy bỏ do tài khoản của bạn không đủ tiền");
+        notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getMessage());
         paymentTransactionStorage.save(paymentTransaction);
       }
     }
@@ -149,5 +162,30 @@ public class BankService extends BaseService{
     VietQrResponse response = RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/lookup", VietQrResponse.class, request,header);
     log.info("----getBankAccountData: "  + response);
     return (BankAccountData) response.getData();
+  }
+
+  @Transactional
+  public void cancelPayment(String username, String paymentId) {
+    PaymentTransaction paymentTransaction = paymentTransactionStorage.findByIdAndUsername(paymentId, username);
+    if(Objects.isNull(paymentTransaction)) throw new ResourceNotFoundException("Không tìm thấy giao dịch");
+    if(paymentTransaction.getPaymentStatus().equals(PaymentStatus.RESOLVE)) throw new ResourceExitsException("Giao dịch đã hoàn thành không thể hủy bỏ");
+    paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
+    notificationService.createNotification(username, "Hủy bỏ giao dịch", "Bạn đã hủy bỏ giao dịch với số giao dịch là: " + paymentId + ". Thông tin giao dịch: " + paymentTransaction.getDescription());
+    paymentTransactionStorage.save(paymentTransaction);
+  }
+
+  @Transactional(noRollbackFor = {ResourceNotFoundException.class})
+  public void checkNotResolveTransaction() throws Exception {
+    List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByPaymentStatus(PaymentStatus.WAITING);
+    log.info("----checkNotResolveTransaction----: " + paymentTransactions.size() +  " paymentTransactions chua duoc xu ly");
+    for(PaymentTransaction paymentTransaction : paymentTransactions){
+      if(paymentTransaction.createdOneDayPeriod()) {
+        paymentTransaction.setPaymentStatus(PaymentStatus.PENDING);
+        paymentTransaction.setDescription("Giao dịch không được xử lý");
+        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getMessage());
+        paymentTransactionStorage.save(paymentTransaction);
+      }
+      confirmPayment(paymentTransaction.getUsername(), paymentTransaction.getId().toHexString());
+    }
   }
 }

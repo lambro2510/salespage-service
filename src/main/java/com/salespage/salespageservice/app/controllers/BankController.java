@@ -1,8 +1,8 @@
 package com.salespage.salespageservice.app.controllers;
 
+import com.salespage.salespageservice.app.dtos.PaymentDtos.CreatePaymentDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.responses.BankResponse.BankAccountData;
-import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.app.responses.swaggerResponse.BankListDataRes;
 import com.salespage.salespageservice.domains.services.BankService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -91,9 +91,9 @@ public class BankController extends BaseController{
   }
 
   @PostMapping("create-payment")
-  public ResponseEntity<?> createPayment(Authentication authentication){
+  public ResponseEntity<?> createPayment(Authentication authentication, @RequestBody CreatePaymentDto dto){
     try{
-      return successApi("Tạo giao dịch thành công.", bankService.createPayment(getUsername(authentication)));
+      return successApi("Tạo giao dịch thành công.", bankService.createPayment(getUsername(authentication), dto));
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }
@@ -103,6 +103,16 @@ public class BankController extends BaseController{
   public ResponseEntity<?> confirmPayment(Authentication authentication, @RequestParam String paymentId){
     try{
       return successApi(null, bankService.confirmPayment(getUsername(authentication), paymentId));
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @PutMapping("cancel-payment")
+  public ResponseEntity<?> cancelPayment(Authentication authentication, @RequestParam String paymentId){
+    try{
+      bankService.cancelPayment(getUsername(authentication), paymentId);
+      return successApi("Hủy bỏ giao dịch thành công" );
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }

@@ -60,6 +60,9 @@ public class BaseService {
   protected NotificationStorage notificationStorage;
 
   @Autowired
+  protected BankAccountStorage bankAccountStorage;
+
+  @Autowired
   @Lazy
   private SystemLogService systemLogService;
 
