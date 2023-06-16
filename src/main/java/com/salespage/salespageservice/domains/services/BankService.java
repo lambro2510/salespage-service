@@ -79,18 +79,20 @@ public class BankService extends BaseService{
     return bankTransactionStorage.findAll();
   }
 
-  public QrData genTransactionQr(String username, Long amount) {
+  public QrData genTransactionQr(String username, String paymentId) throws IOException {
+    PaymentTransaction paymentTransaction = paymentTransactionStorage.findByIdAndUsername(paymentId, username);
+    if(Objects.isNull(paymentTransaction)) throw new ResourceNotFoundException("Không tìm thấy giao dịch");
     GenQrCodeDto genQrCodeDto = new GenQrCodeDto();
     genQrCodeDto.setAccountNo(Long.parseLong(BANKACCID));
-    genQrCodeDto.setAmount(amount);
+    genQrCodeDto.setAmount(paymentTransaction.getAmount());
     genQrCodeDto.setFormat("text");
     genQrCodeDto.setTemplate("LDP0k8f");
     genQrCodeDto.setAcqId(970422L);
     genQrCodeDto.setAccountName("Thanh toán mua hàng");
-    genQrCodeDto.setAddInfo(username + amount);
+    genQrCodeDto.setAddInfo(username + paymentTransaction.getAmount());
     Map<String, String> header = new HashMap<>();
     VietQrResponse response = RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/generate", VietQrResponse.class, genQrCodeDto, header);
-    return (QrData) response.getData();
+    return JsonParser.entity(JsonParser.toJson(response.getData()), QrData.class);
   }
 
   public void asyncTransaction() {
