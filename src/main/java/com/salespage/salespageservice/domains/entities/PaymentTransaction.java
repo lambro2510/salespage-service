@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.responses.transactionResponse.PaymentTransactionResponse;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
+import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,6 +29,9 @@ public class PaymentTransaction extends BaseEntity{
 
   @Field("amount")
   private Long amount;
+
+  @Field("payment_type")
+  private PaymentType type;
 
   @Field
   private String bankAccountId;

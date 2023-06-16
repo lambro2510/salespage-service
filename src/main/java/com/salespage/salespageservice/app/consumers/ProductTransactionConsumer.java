@@ -1,9 +1,12 @@
 package com.salespage.salespageservice.app.consumers;
 
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
+import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
+import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.producer.TopicConfig;
 import com.salespage.salespageservice.domains.services.BankService;
+import com.salespage.salespageservice.domains.services.NotificationService;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,9 @@ public class ProductTransactionConsumer extends BankService {
   @Autowired
   private Producer producer;
 
+  @Autowired
+  private NotificationService notificationService;
+
   @KafkaListener(topics = TopicConfig.SALE_PAGE_PAYMENT_TRANSACTION)
   public void processReturnReward(String message) {
     log.debug("====> processReturnReward: {} " + message);
@@ -26,6 +32,11 @@ public class ProductTransactionConsumer extends BankService {
     try {
       paymentTransaction = JsonParser.entity(message, PaymentTransaction.class);
       if (Objects.nonNull(paymentTransaction)) paymentTransactionStorage.save(paymentTransaction);
+      if(paymentTransaction.getType().equals(PaymentType.IN)){
+        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_IN_SUCCESS.getTittle(), NotificationMessage.PAYMENT_IN_SUCCESS.getMessage());
+      }else{
+        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_OUT_SUCCESS.getTittle(), NotificationMessage.PAYMENT_OUT_SUCCESS.getMessage());
+      }
     } catch (Exception e) {
       log.error("====> processReturnReward error: {} " + paymentTransaction);
 //      producer.createPaymentTransaction(paymentTransaction);
