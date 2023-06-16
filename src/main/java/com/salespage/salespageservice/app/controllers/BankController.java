@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.PaymentDtos.CreatePaymentDto;
+import com.salespage.salespageservice.app.dtos.bankDtos.BankAccountInfoRequest;
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.responses.BankResponse.BankAccountData;
 import com.salespage.salespageservice.app.responses.swaggerResponse.BankListDataRes;
@@ -112,6 +113,16 @@ public class BankController extends BaseController{
   public ResponseEntity<?> cancelPayment(Authentication authentication, @RequestParam String paymentId){
     try{
       bankService.cancelPayment(getUsername(authentication), paymentId);
+      return successApi("Hủy bỏ giao dịch thành công" );
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @PostMapping("link-bank-account")
+  public ResponseEntity<?> linkBankAccount(Authentication authentication, @RequestBody BankAccountInfoRequest request){
+    try{
+      bankService.linkBankAccount(getUsername(authentication), request);
       return successApi("Hủy bỏ giao dịch thành công" );
     }catch (Exception ex){
       return errorApi(ex.getMessage());

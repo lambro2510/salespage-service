@@ -21,10 +21,13 @@ public class BankAccount extends BaseEntity{
   private String accountNo;
 
   @Field("bank_id")
-  private String bankId;
+  private Long bankId;
 
   @Field("bank_name")
   private String bankName;
+
+  @Field("bank_logo_url")
+  private String bankLogoUrl;
 
   @Field("bank_full_name")
   private String bankFullName;

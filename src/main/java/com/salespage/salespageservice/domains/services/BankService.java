@@ -13,6 +13,7 @@ import com.salespage.salespageservice.domains.entities.BankAccount;
 import com.salespage.salespageservice.domains.entities.BankTransaction;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
@@ -30,6 +31,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -148,6 +151,8 @@ public class BankService extends BaseService{
 
   public List<BankListData> getListBank() {
     VietQrResponse response = RequestUtil.request(HttpMethod.GET, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>());
+    if(Objects.isNull(response)) throw new ResourceNotFoundException("Lỗi hệ thống, không lấy được danh sách ngân hàng");
+    if(!Objects.equals(response.getCode(), "00")) throw new ResourceNotFoundException(response.getDesc());
     log.info(response);
     return (List<BankListData>) response.getData();
   }
@@ -160,6 +165,8 @@ public class BankService extends BaseService{
     request.setBin(bin);
     request.setAccountNumber(accountNo);
     VietQrResponse response = RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/lookup", VietQrResponse.class, request,header);
+    if(Objects.isNull(response)) throw new ResourceNotFoundException("Lỗi hệ thống, không lấy được thông tin tài khoản ngân hàng");
+    if(!Objects.equals(response.getCode(), "00")) throw new ResourceNotFoundException(response.getDesc());
     log.info("----getBankAccountData: "  + response);
     return (BankAccountData) response.getData();
   }
@@ -187,5 +194,28 @@ public class BankService extends BaseService{
       }
       confirmPayment(paymentTransaction.getUsername(), paymentTransaction.getId().toHexString());
     }
+  }
+
+  public void linkBankAccount(String username, BankAccountInfoRequest request) throws Exception {
+
+    Map<String, BankListData> bankListData = getListBank().stream().collect(Collectors.toMap(BankListData::getBin, Function.identity()));
+    BankListData bankData = bankListData.get(request.getBin());
+    if(Objects.isNull(bankData)) throw new ResourceNotFoundException("Ngân hàng không được hỗ trợ");
+
+    BankAccountData bankAccountData = getBankAccountData(request.getBin(), request.getAccountNumber());
+    if(Objects.isNull(bankAccountData)) throw new Exception("Tài khoản ngân hàng không hợp lệ");
+
+    BankAccount bankAccount = new BankAccount();
+    bankAccount.setAccountNo(request.getAccountNumber());
+    bankAccount.setBankName(bankData.getShortName());
+    bankAccount.setBankFullName(bankData.getName());
+    bankAccount.setUsername(username);
+    bankAccount.setBankId(bankData.getId());
+    bankAccount.setBankLogoUrl(bankData.getLogo());
+    bankAccount.setBankAccountName(bankAccountData.getAccountName());
+    bankAccount.setStatus(BankStatus.ACTIVE);
+    bankAccount.setMoneyIn(0D);
+    bankAccount.setMoneyOut(0D);
+    bankAccountStorage.save(bankAccount);
   }
 }
