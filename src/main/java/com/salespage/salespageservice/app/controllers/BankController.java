@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.responses.BankResponse.BankAccountData;
 import com.salespage.salespageservice.app.responses.BankResponse.BankListData;
 import com.salespage.salespageservice.app.responses.BaseResponse;
+import com.salespage.salespageservice.domains.datas.PayloadResponse;
 import com.salespage.salespageservice.domains.services.BankService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -60,6 +61,7 @@ public class BankController extends BaseController{
       @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BaseResponse.class)))),
       @ApiResponse(responseCode = "500", description = "Internal Server Error")
   })
+  @PayloadResponse(List.class)
   public ResponseEntity<?> getListBank(){
     try{
       return successApi(null, bankService.getListBank());
