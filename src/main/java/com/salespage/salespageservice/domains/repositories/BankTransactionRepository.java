@@ -10,6 +10,4 @@ import java.util.List;
 @Repository
 public interface BankTransactionRepository extends MongoRepository<BankTransaction, ObjectId> {
   BankTransaction findByDescriptionLike(String description);
-
-  List<BankTransaction> findByDescriptionLikeIn(List<String> description);
 }

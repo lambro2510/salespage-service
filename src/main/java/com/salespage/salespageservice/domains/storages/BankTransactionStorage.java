@@ -46,7 +46,4 @@ public class BankTransactionStorage extends BaseStorage{
     return bankTransactionRepository.findByDescriptionLike(description);
   }
 
-  public List<BankTransaction> findByDescriptionIn(List<String> description) {
-    return bankTransactionRepository.findByDescriptionLikeIn(description);
-  }
 }

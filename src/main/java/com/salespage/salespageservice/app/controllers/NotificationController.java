@@ -25,7 +25,7 @@ public class NotificationController extends BaseController{
     }
   }
 
-  @GetMapping("")
+  @GetMapping("detail")
   public ResponseEntity<?> getNotificationDetail(Authentication authentication, @RequestParam String notificationId) throws Exception {
     try{
       return successApi(null, notificationService.getDetail(getUsername(authentication), notificationId));
