@@ -83,8 +83,11 @@ public class User {
     phoneNumber = dto.getPhoneNumber();
   }
 
-  public boolean updateBalance(long balance){
-    getBalance().money = getBalance().money + balance;
+  public boolean updateBalance(boolean add, long balance){
+    if(add)
+      getBalance().money = getBalance().money + balance;
+    else
+      getBalance().money = getBalance().money - balance;
     if(getBalance().money < 0) return false;
     return true;
   }

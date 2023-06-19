@@ -7,6 +7,7 @@ import com.salespage.salespageservice.app.responses.transactionResponse.ProductT
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.entities.SellerStore;
+import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
@@ -76,7 +77,13 @@ public class ProductTransactionService extends BaseService {
     Product product = productStorage.findProductById(dto.getProductId());
     if (username.equals(product.getSellerUsername()))
       throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Bạn không thể mua mặt hàng này");
+
     SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
+    if(Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Cửa hàng không tồn tại");
+
+    User user = userStorage.findByUsername(username);
+    if(Objects.isNull(user)) throw new ResourceNotFoundException("Người dùng không tồn tại");
+    if(!user.updateBalance(false, product.getPrice().longValue())) throw new ResourceNotFoundException("Tài khoản của bạn không đủ tiền để thành toán mặt hàng này");
 
     ProductTransaction productTransaction = new ProductTransaction();
     productTransaction.setId(new ObjectId());
