@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.consumers;
 
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
+import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.producer.TopicConfig;
@@ -33,9 +34,9 @@ public class ProductTransactionConsumer extends BankService {
       paymentTransaction = JsonParser.entity(message, PaymentTransaction.class);
       if (Objects.nonNull(paymentTransaction)) paymentTransactionStorage.save(paymentTransaction);
       if(paymentTransaction.getType().equals(PaymentType.IN)){
-        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_IN_SUCCESS.getTittle(), NotificationMessage.PAYMENT_IN_SUCCESS.getMessage());
+        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_IN_SUCCESS.getTittle(), NotificationMessage.PAYMENT_IN_SUCCESS.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
       }else{
-        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_OUT_SUCCESS.getTittle(), NotificationMessage.PAYMENT_OUT_SUCCESS.getMessage());
+        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_OUT_SUCCESS.getTittle(), NotificationMessage.PAYMENT_OUT_SUCCESS.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
       }
     } catch (Exception e) {
       log.error("====> processReturnReward error: {} " + paymentTransaction);

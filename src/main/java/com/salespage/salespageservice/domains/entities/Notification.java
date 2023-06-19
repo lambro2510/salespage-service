@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.entities;
 import com.salespage.salespageservice.app.responses.notificationResponse.NotificationDetailResponse;
 import com.salespage.salespageservice.app.responses.notificationResponse.NotificationResponse;
 import com.salespage.salespageservice.domains.entities.status.NotificationStatus;
+import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,6 +29,12 @@ public class Notification extends BaseEntity{
 
   @Field("notification_status")
   private NotificationStatus notificationStatus;
+
+  @Field("notification_type")
+  private NotificationType notificationType;
+
+  @Field("ref_id")
+  private String refId;
 
   public NotificationResponse partnerToNotificationResponse(){
     NotificationResponse response = new NotificationDetailResponse();

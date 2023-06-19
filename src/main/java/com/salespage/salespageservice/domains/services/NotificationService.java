@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.responses.notificationResponse.Notific
 import com.salespage.salespageservice.app.responses.notificationResponse.NotificationResponse;
 import com.salespage.salespageservice.domains.entities.Notification;
 import com.salespage.salespageservice.domains.entities.status.NotificationStatus;
+import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
@@ -20,11 +21,13 @@ import java.util.stream.Collectors;
 @Service
 public class NotificationService extends BaseService{
 
-  public void createNotification(String username, String tittle, String content){
+  public void createNotification(String username, String tittle, String content, NotificationType notificationType, String refId){
     Notification notification = new Notification();
     notification.setUsername(username);
     notification.setTittle(tittle);
     notification.setContent(content);
+    notification.setNotificationType(notificationType);
+    notification.setRefId(refId);
     notification.setNotificationStatus(NotificationStatus.NOT_SEEN);
     notificationStorage.save(notification);
   }

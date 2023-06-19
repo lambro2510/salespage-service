@@ -18,6 +18,7 @@ import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
+import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.producer.Producer;
@@ -137,10 +138,10 @@ public class BankService extends BaseService{
           String message;
           if (bankTransaction.getAmount() >= 0) {
             message = "Tài khoản của bạn được cộng " + bankTransaction.getAmount();
-            notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getMessage());
+            notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
           } else {
             message = "Tài khoản của bạn bị trừ " + Math.abs(bankTransaction.getAmount());
-            notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getMessage());
+            notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
           }
           paymentTransaction.setDescription(message);
           paymentTransactionStorage.save(paymentTransaction);
@@ -148,7 +149,7 @@ public class BankService extends BaseService{
         }else{
           paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
           paymentTransaction.setDescription("Giao dịch đã bị hủy bỏ do tài khoản của bạn không đủ tiền");
-          notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getMessage());
+          notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
           paymentTransactionStorage.save(paymentTransaction);
         }
       }
@@ -187,7 +188,7 @@ public class BankService extends BaseService{
     if(Objects.isNull(paymentTransaction)) throw new ResourceNotFoundException("Không tìm thấy giao dịch");
     if(paymentTransaction.getPaymentStatus().equals(PaymentStatus.RESOLVE)) throw new ResourceExitsException("Giao dịch đã hoàn thành không thể hủy bỏ");
     paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
-    notificationService.createNotification(username, "Hủy bỏ giao dịch", "Bạn đã hủy bỏ giao dịch với số giao dịch là: " + paymentId + ". Thông tin giao dịch: " + paymentTransaction.getDescription());
+    notificationService.createNotification(username, "Hủy bỏ giao dịch", "Bạn đã hủy bỏ giao dịch với số giao dịch là: " + paymentId + ". Thông tin giao dịch: " + paymentTransaction.getDescription(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
     paymentTransactionStorage.save(paymentTransaction);
   }
 
@@ -199,7 +200,7 @@ public class BankService extends BaseService{
       if(paymentTransaction.createdOneDayPeriod()) {
         paymentTransaction.setPaymentStatus(PaymentStatus.PENDING);
         paymentTransaction.setDescription("Giao dịch không được xử lý");
-        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getMessage());
+        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
         paymentTransactionStorage.save(paymentTransaction);
       }
       confirmPayment(paymentTransaction.getUsername(), paymentTransaction.getId().toHexString());
