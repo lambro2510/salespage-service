@@ -1,5 +1,7 @@
 package com.salespage.salespageservice.domains.utils;
 
+import com.salespage.salespageservice.domains.entities.types.FavoriteType;
+
 public class CacheKey {
   public static final int HOUR = 3600;
   private static final String prefix = "sale:";
@@ -34,8 +36,8 @@ public class CacheKey {
     return prefix + "count:product";
   }
 
-  public static String getFavoriteProduct(String username, String productId) {
-    return prefix + "favorite:product:" + username + ":" + productId;
+  public static String getUserFavorite(String username, String refId, FavoriteType type) {
+    return prefix + "favorite:" + username + ":" + type + ":" + refId;
   }
 
   public static String getOath2Key(String clientId) {

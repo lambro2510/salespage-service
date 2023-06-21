@@ -66,4 +66,8 @@ public class ProductStorage extends BaseStorage {
   public List<Product> findAll() {
     return productRepository.findAll();
   }
+
+    public boolean isExistByProductId(String refId) {
+      return productRepository.existsById(new ObjectId(refId));
+    }
 }

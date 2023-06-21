@@ -1,7 +1,6 @@
 package com.salespage.salespageservice.domains.storages;
 
 
-import com.salespage.salespageservice.domains.entities.BankAccount;
 import com.salespage.salespageservice.domains.repositories.*;
 import com.salespage.salespageservice.domains.utils.RemoteCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class BaseStorage {
   protected ProductTypeDetailRepository productTypeDetailRepository;
 
   @Autowired
-  protected FavoriteProductRepository favoriteProductRepository;
+  protected UserFavoriteRepository userFavoriteRepository;
 
   @Autowired
   protected BankTransactionRepository bankTransactionRepository;

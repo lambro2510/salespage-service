@@ -10,9 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import javax.persistence.Id;
 
 @EqualsAndHashCode(callSuper = true)
-@Document("favorite_product")
+@Document("user_favarite")
 @Data
-public class FavoriteProduct extends BaseEntity {
+public class UserFavorite extends BaseEntity {
 
   @Id
   private ObjectId id;
@@ -20,8 +20,8 @@ public class FavoriteProduct extends BaseEntity {
   @Field("username")
   private String username;
 
-  @Field("product_id")
-  private String productId;
+  @Field("ref_id")
+  private String refId;
 
   @Field("favorite_type")
   private FavoriteType favoriteType;

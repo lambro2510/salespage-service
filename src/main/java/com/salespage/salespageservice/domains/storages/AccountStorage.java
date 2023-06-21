@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.Account;
+import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.springframework.stereotype.Component;
 
@@ -28,5 +29,9 @@ public class AccountStorage extends BaseStorage {
 
   public String getVerifyCode(String username) {
     return remoteCacheManager.get(CacheKey.getVerifyUser(username));
+  }
+
+  public boolean existByUsernameAndRole(String username, UserRole role) {
+    return accountRepository.existByUsernameAndRole(username, role);
   }
 }

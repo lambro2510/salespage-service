@@ -8,6 +8,7 @@ import com.salespage.salespageservice.app.responses.ProductResponse.ProductRespo
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
+import com.salespage.salespageservice.domains.entities.types.FavoriteType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
@@ -141,9 +142,9 @@ public class ProductService extends BaseService {
     Product product = productStorage.findProductById(productId);
     response = product.assignToProductDetailResponse();
     SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
-    FavoriteProduct favoriteProduct = new FavoriteProduct();
+    UserFavorite userFavorite = new UserFavorite();
     if (Objects.nonNull(username)) {
-      favoriteProduct = favoriteProductStorage.findByUsernameAndProductId(username, productId);
+      userFavorite = userFavoriteStorage.findByUsernameAndRefIdAndFavoriteType(username, productId, FavoriteType.PRODUCT);
     }
 
     //assign from store
@@ -153,8 +154,8 @@ public class ProductService extends BaseService {
     response.setStoreRate(sellerStore.getRate());
 
     //assign from favorite
-    response.setIsLike(favoriteProduct.getIsLike());
-    response.setRate(favoriteProduct.getRateStar());
+    response.setIsLike(userFavorite.getIsLike());
+    response.setRate(userFavorite.getRateStar());
     List<Product> similarProducts = findSimilarProducts(product);
     List<ProductResponse> listSimilarProduct = similarProducts.stream().map(Product::assignToProductResponse).collect(Collectors.toList());
     response.setSimilarProducts(listSimilarProduct);
