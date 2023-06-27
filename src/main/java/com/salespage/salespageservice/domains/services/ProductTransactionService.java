@@ -101,6 +101,7 @@ public class ProductTransactionService extends BaseService {
         }
         productTransactionResponse.partnerFromProductTransaction(productTransaction);
         productTransactionStorage.save(productTransaction);
+        userStorage.save(user);
         return productTransactionResponse;
     }
 
