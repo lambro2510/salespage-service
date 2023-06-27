@@ -70,8 +70,4 @@ public class ProductStorage extends BaseStorage {
     public boolean isExistByProductId(String refId) {
         return productRepository.existsById(new ObjectId(refId));
     }
-
-  public List<Product> findByNeedAsync(boolean b) {
-        return productRepository.findByNeedAsync(b);
-  }
 }

@@ -16,8 +16,8 @@ public class TransactionStatisticService extends BaseService{
   public void statisticToday(){
     LocalDate today = LocalDate.now();
     String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
-    List<Product> needAsyncProducts = productStorage.findByNeedAsync(true);
-    for(Product product : needAsyncProducts){
+    List<Product> listProduct = productStorage.findAll();
+    for(Product product : listProduct){
       TransactionStatistic transactionStatistic = transactionStatisticStorage.findByDate(date);
       if(Objects.isNull(transactionStatistic)) transactionStatistic = new TransactionStatistic();
 

@@ -48,9 +48,6 @@ public class Product extends BaseEntity {
     @Field("rate")
     private Rate rate = new Rate();
 
-    @Field("need_async")
-    private boolean needAsync;
-
     @Field("selling_address")
     private String sellingAddress;
 
