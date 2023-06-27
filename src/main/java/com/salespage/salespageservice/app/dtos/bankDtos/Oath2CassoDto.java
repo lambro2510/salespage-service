@@ -6,16 +6,16 @@ import lombok.Data;
 @Data
 public class Oath2CassoDto {
 
-  @JsonProperty("client_id")
-  String clientId;
+    @JsonProperty("client_id")
+    String clientId;
 
-  String scope;
+    String scope;
 
-  @JsonProperty("redirect_uri")
-  String redirectUri;
+    @JsonProperty("redirect_uri")
+    String redirectUri;
 
-  @JsonProperty("response_type")
-  String responseType;
+    @JsonProperty("response_type")
+    String responseType;
 
-  String state;
+    String state;
 }

@@ -16,34 +16,34 @@ import java.util.Date;
 @CompoundIndex(name = "code_owner_status_index", def = "{'code' : 1, 'ownerId' : 1, 'voucherCodeStatus' : 1}", unique = true)
 public class VoucherCode extends BaseEntity {
 
-  @Id
-  private ObjectId id;
+    @Id
+    private ObjectId id;
 
-  @Field("voucher_store_id")
-  private String voucherStoreId;
+    @Field("voucher_store_id")
+    private String voucherStoreId;
 
-  @Field("owner_id")
-  private String ownerId;
+    @Field("owner_id")
+    private String ownerId;
 
-  @Field("used_at")
-  private Date userAt;
+    @Field("used_at")
+    private Date userAt;
 
-  @Field("code")
-  private String code;
+    @Field("code")
+    private String code;
 
-  @Field("expire_time")
-  private Date expireTime;
+    @Field("expire_time")
+    private Date expireTime;
 
-  @Field("voucher_code_status")
-  private VoucherCodeStatus voucherCodeStatus = VoucherCodeStatus.NEW;
+    @Field("voucher_code_status")
+    private VoucherCodeStatus voucherCodeStatus = VoucherCodeStatus.NEW;
 
-  public VoucherCodeResponse convertTovoucherCodeResponse() {
-    VoucherCodeResponse response = new VoucherCodeResponse();
-    response.setVoucherCode(code);
-    response.setUsedAt(userAt);
-    response.setUsedBy(ownerId);
-    response.setVoucherCodeStatus(voucherCodeStatus);
-    response.setExpireTime(expireTime);
-    return response;
-  }
+    public VoucherCodeResponse convertTovoucherCodeResponse() {
+        VoucherCodeResponse response = new VoucherCodeResponse();
+        response.setVoucherCode(code);
+        response.setUsedAt(userAt);
+        response.setUsedBy(ownerId);
+        response.setVoucherCodeStatus(voucherCodeStatus);
+        response.setExpireTime(expireTime);
+        return response;
+    }
 }

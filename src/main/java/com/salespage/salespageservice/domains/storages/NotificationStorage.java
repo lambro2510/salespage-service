@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class NotificationStorage extends BaseStorage{
-  public Page<Notification> findByUsername(String username, Pageable pageable) {
-    return notificationRepository.findByUsername(username, pageable);
-  }
+public class NotificationStorage extends BaseStorage {
+    public Page<Notification> findByUsername(String username, Pageable pageable) {
+        return notificationRepository.findByUsername(username, pageable);
+    }
 
-  public Notification findNotificationById(String notificationId) {
-    return notificationRepository.findNotificationById(notificationId);
-  }
+    public Notification findNotificationById(String notificationId) {
+        return notificationRepository.findNotificationById(notificationId);
+    }
 
-  public void save(Notification notification) {
-    notificationRepository.save(notification);
-  }
+    public void save(Notification notification) {
+        notificationRepository.save(notification);
+    }
 }

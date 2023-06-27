@@ -13,39 +13,39 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class NotificationService extends BaseService{
+public class NotificationService extends BaseService {
 
-  public void createNotification(String username, String tittle, String content, NotificationType notificationType, String refId){
-    Notification notification = new Notification();
-    notification.setUsername(username);
-    notification.setTittle(tittle);
-    notification.setContent(content);
-    notification.setNotificationType(notificationType);
-    notification.setRefId(refId);
-    notification.setNotificationStatus(NotificationStatus.NOT_SEEN);
-    notificationStorage.save(notification);
-  }
+    public void createNotification(String username, String tittle, String content, NotificationType notificationType, String refId) {
+        Notification notification = new Notification();
+        notification.setUsername(username);
+        notification.setTittle(tittle);
+        notification.setContent(content);
+        notification.setNotificationType(notificationType);
+        notification.setRefId(refId);
+        notification.setNotificationStatus(NotificationStatus.NOT_SEEN);
+        notificationStorage.save(notification);
+    }
 
-  public PageResponse<NotificationResponse> getNotification(String username, Pageable pageable) {
-    Page<Notification> notifications = notificationStorage.findByUsername(username, pageable);
-    List<NotificationResponse> listNotification = notifications.getContent().stream().map(Notification::partnerToNotificationResponse).collect(Collectors.toList());
-    Page<NotificationResponse> responses = new PageImpl<>(listNotification, pageable, notifications.getTotalElements());
-    return PageResponse.createFrom(responses);
-  }
+    public PageResponse<NotificationResponse> getNotification(String username, Pageable pageable) {
+        Page<Notification> notifications = notificationStorage.findByUsername(username, pageable);
+        List<NotificationResponse> listNotification = notifications.getContent().stream().map(Notification::partnerToNotificationResponse).collect(Collectors.toList());
+        Page<NotificationResponse> responses = new PageImpl<>(listNotification, pageable, notifications.getTotalElements());
+        return PageResponse.createFrom(responses);
+    }
 
-  public NotificationDetailResponse getDetail(String username, String notificationId) {
-    Notification notification = notificationStorage.findNotificationById(notificationId);
-    if(Objects.isNull(notification)) throw new ResourceNotFoundException("Không tìm thấy thông báo");
-    if(!notification.getUsername().equals(username)) throw new AuthorizationException("Bạn không có quyền xem thông tin này");
-    notification.setNotificationStatus(NotificationStatus.SEEN);
-    notification.setUpdatedAt(System.currentTimeMillis());
-    notificationStorage.save(notification);
-    return notification.partnerToNotificationDetailResponse();
-  }
+    public NotificationDetailResponse getDetail(String username, String notificationId) {
+        Notification notification = notificationStorage.findNotificationById(notificationId);
+        if (Objects.isNull(notification)) throw new ResourceNotFoundException("Không tìm thấy thông báo");
+        if (!notification.getUsername().equals(username))
+            throw new AuthorizationException("Bạn không có quyền xem thông tin này");
+        notification.setNotificationStatus(NotificationStatus.SEEN);
+        notification.setUpdatedAt(System.currentTimeMillis());
+        notificationStorage.save(notification);
+        return notification.partnerToNotificationDetailResponse();
+    }
 }

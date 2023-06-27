@@ -9,11 +9,11 @@ import java.util.List;
 
 @Repository
 public interface BankAccountRepository extends MongoRepository<BankAccount, ObjectId> {
-  BankAccount findBankAccountById(String bankAccountId);
+    BankAccount findBankAccountById(String bankAccountId);
 
-  BankAccount findByUsernameAndBankIdAndAccountNo(String username, Long bankId, String accountNumber);
+    BankAccount findByUsernameAndBankIdAndAccountNo(String username, Long bankId, String accountNumber);
 
-  BankAccount findByBankIdAndAccountNo(Long bankId, String accountNumber);
+    BankAccount findByBankIdAndAccountNo(Long bankId, String accountNumber);
 
-  List<BankAccount> findBankAccountByIdIn(List<String> bankAccountIds);
+    List<BankAccount> findBankAccountByIdIn(List<String> bankAccountIds);
 }

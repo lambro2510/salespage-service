@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserFavoriteRepository extends MongoRepository<UserFavorite, ObjectId> {
 
-  UserFavorite findByUsernameAndRefIdAndFavoriteType(String username, String productId);
+    UserFavorite findByUsernameAndRefIdAndFavoriteType(String username, String productId);
 }

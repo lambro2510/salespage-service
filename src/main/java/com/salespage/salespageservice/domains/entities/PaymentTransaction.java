@@ -15,40 +15,40 @@ import java.util.Date;
 
 @Document("payment_transaction")
 @Data
-public class PaymentTransaction extends BaseEntity{
+public class PaymentTransaction extends BaseEntity {
 
-  @Id
-  @JsonSerialize(using = ToStringSerializer.class)
-  private ObjectId id;
+    @Id
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId id;
 
-  @Field("username")
-  private String username;
+    @Field("username")
+    private String username;
 
-  @Field("description")
-  private String description;
+    @Field("description")
+    private String description;
 
-  @Field("amount")
-  private Long amount;
+    @Field("amount")
+    private Long amount;
 
-  @Field("payment_type")
-  private PaymentType type;
+    @Field("payment_type")
+    private PaymentType type;
 
-  @Field("bank_account_id")
-  private String bankAccountId;
+    @Field("bank_account_id")
+    private String bankAccountId;
 
-  @Field("payment_status")
-  private PaymentStatus paymentStatus;
+    @Field("payment_status")
+    private PaymentStatus paymentStatus;
 
-  public PaymentTransactionResponse partnerToPaymentTransactionResponse(){
-    PaymentTransactionResponse response = new PaymentTransactionResponse();
-    response.setPaymentId(id.toHexString());
-    response.setStatus(paymentStatus);
-    response.setCreated(new Date(createdAt));
-    response.setAmount(amount);
-    return response;
-  }
+    public PaymentTransactionResponse partnerToPaymentTransactionResponse() {
+        PaymentTransactionResponse response = new PaymentTransactionResponse();
+        response.setPaymentId(id.toHexString());
+        response.setStatus(paymentStatus);
+        response.setCreated(new Date(createdAt));
+        response.setAmount(amount);
+        return response;
+    }
 
-  public boolean createdOneDayPeriod(){
-    return createdAt < (System.currentTimeMillis() - 24 * 60 * 60 * 1000);
-  }
+    public boolean createdOneDayPeriod() {
+        return createdAt < (System.currentTimeMillis() - 24 * 60 * 60 * 1000);
+    }
 }

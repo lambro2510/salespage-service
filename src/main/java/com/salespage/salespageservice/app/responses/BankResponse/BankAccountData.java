@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class BankAccountData {
-  String accountName;
+    String accountName;
 }

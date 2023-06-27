@@ -11,16 +11,16 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Data
 @CompoundIndex(name = "username_voucher_store_id_idx", def = "{'username': 1, 'voucherStoreId': 1}", unique = true)
 public class VoucherCodeLimit {
-  @Id
-  private ObjectId id;
+    @Id
+    private ObjectId id;
 
-  @Field("username")
-  private String username;
+    @Field("username")
+    private String username;
 
-  @Field("voucher_store_id")
-  private String voucherStoreId;
+    @Field("voucher_store_id")
+    private String voucherStoreId;
 
-  @Field("number_receive_voucher")
-  private Long numberReceiveVoucher;
+    @Field("number_receive_voucher")
+    private Long numberReceiveVoucher;
 }
 

@@ -10,27 +10,27 @@ import java.util.List;
 
 @Data
 public class ProductDetailResponse extends ProductResponse {
-  List<String> imageUrls = new ArrayList<>();
+    List<String> imageUrls = new ArrayList<>();
 
-  String description;
-  List<ProductResponse> similarProducts = new ArrayList<>();
+    String description;
+    List<ProductResponse> similarProducts = new ArrayList<>();
 
-  @JsonProperty("isLike")
-  Boolean isLike;
+    @JsonProperty("isLike")
+    Boolean isLike;
 
-  Float rate;
+    Float rate;
 
-  String storeImageUrl;
+    String storeImageUrl;
 
-  String storeId;
-  String storeName;
+    String storeId;
+    String storeName;
 
-  Rate storeRate;
+    Rate storeRate;
 
-  @Override
-  public void assignFromProduct(Product product) {
-    super.assignFromProduct(product);
-    imageUrls = product.getImageUrls();
-    description = product.getDescription();
-  }
+    @Override
+    public void assignFromProduct(Product product) {
+        super.assignFromProduct(product);
+        imageUrls = product.getImageUrls();
+        description = product.getDescription();
+    }
 }

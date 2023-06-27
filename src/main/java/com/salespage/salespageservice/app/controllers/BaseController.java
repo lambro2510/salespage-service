@@ -51,7 +51,7 @@ public class BaseController {
         return ResponseEntity.ok(new BaseResponse(true, message, data));
     }
 
-    protected  ResponseEntity<BaseResponse> errorApiStatus500(String message){
+    protected ResponseEntity<BaseResponse> errorApiStatus500(String message) {
         return ResponseEntity.status(500).body(new BaseResponse(true, message, null));
     }
 }

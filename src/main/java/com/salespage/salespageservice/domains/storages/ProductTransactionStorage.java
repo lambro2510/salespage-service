@@ -12,23 +12,23 @@ import java.util.List;
 @Component
 public class ProductTransactionStorage extends BaseStorage {
 
-  public void save(ProductTransaction productTransaction) {
-    productTransactionRepository.save(productTransaction);
-  }
+    public void save(ProductTransaction productTransaction) {
+        productTransactionRepository.save(productTransaction);
+    }
 
-  public ProductTransaction findProductTransactionByIdInCache(String id) {
-    return productTransactionRepository.findProductTransactionById(new ObjectId((id)));
-  }
+    public ProductTransaction findProductTransactionByIdInCache(String id) {
+        return productTransactionRepository.findProductTransactionById(new ObjectId((id)));
+    }
 
-  public void saveAll(List<ProductTransaction> productTransactions) {
-    productTransactionRepository.saveAll(productTransactions);
-  }
+    public void saveAll(List<ProductTransaction> productTransactions) {
+        productTransactionRepository.saveAll(productTransactions);
+    }
 
-  public Page<ProductTransaction> findAll(Query query, Pageable pageable) {
-    return productTransactionRepository.findAll(query, pageable);
-  }
+    public Page<ProductTransaction> findAll(Query query, Pageable pageable) {
+        return productTransactionRepository.findAll(query, pageable);
+    }
 
-  public List<ProductTransaction> findAllProductTransactionByProductId(String productId) {
-    return productTransactionRepository.findAllProductTransactionByProductId(new ObjectId(productId));
-  }
+    public List<ProductTransaction> findAllProductTransactionByProductId(String productId) {
+        return productTransactionRepository.findAllProductTransactionByProductId(new ObjectId(productId));
+    }
 }

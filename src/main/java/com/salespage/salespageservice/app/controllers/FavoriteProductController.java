@@ -1,9 +1,7 @@
 package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.UserFavoriteDtos.UserFavoriteDto;
-import com.salespage.salespageservice.app.dtos.productDtos.UpdateTypeDetailStatusDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
-import com.salespage.salespageservice.domains.entities.UserFavorite;
 import com.salespage.salespageservice.domains.services.UserFavoriteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/favorite")
-public class FavoriteProductController extends BaseController{
+public class FavoriteProductController extends BaseController {
 
     @Autowired
     UserFavoriteService userFavoriteService;

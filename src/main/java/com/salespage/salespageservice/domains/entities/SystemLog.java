@@ -12,21 +12,21 @@ import java.time.LocalDateTime;
 @Document("system_log")
 @Data
 public class SystemLog {
-  @Id
-  private ObjectId id;
+    @Id
+    private ObjectId id;
 
-  @Field("log_type")
-  private LogType logType;
+    @Field("log_type")
+    private LogType logType;
 
-  @Field("message")
-  private String message;
+    @Field("message")
+    private String message;
 
-  @Field("trace")
-  private String trace;
+    @Field("trace")
+    private String trace;
 
-  @Field("created_by")
-  private String createdBy;
+    @Field("created_by")
+    private String createdBy;
 
-  @Field("created_at")
-  private LocalDateTime createdAt;
+    @Field("created_at")
+    private LocalDateTime createdAt;
 }

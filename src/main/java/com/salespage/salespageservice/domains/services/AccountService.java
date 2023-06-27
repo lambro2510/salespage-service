@@ -27,82 +27,82 @@ import java.util.Objects;
 @Service
 @Log4j2
 public class AccountService extends BaseService {
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private UserService userService;
 
-  @Autowired
-  private Producer producer;
+    @Autowired
+    private Producer producer;
 
-  @Autowired
-  private GoogleDriver googleDriver;
+    @Autowired
+    private GoogleDriver googleDriver;
 
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public JwtResponse signUp(SignUpDto dto) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public JwtResponse signUp(SignUpDto dto) {
 
-    if (!dto.getConfirmPassword().equals(dto.getPassword())) throw new ResourceExitsException("Invalid password");
-    if (accountStorage.existByUsername(dto.getUsername())) throw new ResourceExitsException("User existed");
+        if (!dto.getConfirmPassword().equals(dto.getPassword())) throw new ResourceExitsException("Invalid password");
+        if (accountStorage.existByUsername(dto.getUsername())) throw new ResourceExitsException("User existed");
 
-    Account account = new Account();
-    account.createAccount(dto);
-    accountStorage.save(account);
+        Account account = new Account();
+        account.createAccount(dto);
+        accountStorage.save(account);
 
-    userService.createUser(dto);
+        userService.createUser(dto);
 
-    return new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
-  }
+        return new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
+    }
 
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public JwtResponse createdAdminRole() {
-    String username = "admin-he-thong";
-    String password = "admin-he-thong";
-    if (accountStorage.existByUsername(username)) throw new ResourceExitsException("User existed");
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public JwtResponse createdAdminRole() {
+        String username = "admin-he-thong";
+        String password = "admin-he-thong";
+        if (accountStorage.existByUsername(username)) throw new ResourceExitsException("User existed");
 
-    Account account = new Account();
-    account.setRole(UserRole.ADMIN);
-    account.setSalt(BCrypt.gensalt());
-    account.setUsername(username);
-    account.setPassword(BCrypt.hashpw(password, account.getSalt()));
-    account.setState(UserState.VERIFIED);
-    accountStorage.save(account);
+        Account account = new Account();
+        account.setRole(UserRole.ADMIN);
+        account.setSalt(BCrypt.gensalt());
+        account.setUsername(username);
+        account.setPassword(BCrypt.hashpw(password, account.getSalt()));
+        account.setState(UserState.VERIFIED);
+        accountStorage.save(account);
 
-    userService.createUserAdmin(account);
+        userService.createUserAdmin(account);
 
-    return new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
-  }
+        return new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
+    }
 
-  public JwtResponse signIn(LoginDto dto) throws IOException {
+    public JwtResponse signIn(LoginDto dto) throws IOException {
 
-    Account account = accountStorage.findByUsername(dto.getUsername());
-    if (account == null || !account.getUsername().equals(dto.getUsername()) || !BCrypt.checkpw(dto.getPassword(), account.getPassword()))
-      throw new AccountNotExistsException("Invalid username or password");
+        Account account = accountStorage.findByUsername(dto.getUsername());
+        if (account == null || !account.getUsername().equals(dto.getUsername()) || !BCrypt.checkpw(dto.getPassword(), account.getPassword()))
+            throw new AccountNotExistsException("Invalid username or password");
 
-    TokenInfo tokenInfo = new TokenInfo(account.getUsername(), account.getRole(), account.getState());
-    String token = jwtUtils.generateToken(tokenInfo);
-    accountStorage.saveTokenToRemoteCache(account.getUsername(), token);
-    return new JwtResponse(account.getUsername(), token, account.getRole());
+        TokenInfo tokenInfo = new TokenInfo(account.getUsername(), account.getRole(), account.getState());
+        String token = jwtUtils.generateToken(tokenInfo);
+        accountStorage.saveTokenToRemoteCache(account.getUsername(), token);
+        return new JwtResponse(account.getUsername(), token, account.getRole());
 
-  }
+    }
 
 
-  public void verifyCode(String username, int code) {
-    Integer verifyCode = Integer.valueOf(accountStorage.getVerifyCode(username));
-    if (!verifyCode.equals(code))
-      throw new ResourceNotFoundException("Invalid verify code");
+    public void verifyCode(String username, int code) {
+        Integer verifyCode = Integer.valueOf(accountStorage.getVerifyCode(username));
+        if (!verifyCode.equals(code))
+            throw new ResourceNotFoundException("Invalid verify code");
 
-    Account account = accountStorage.findByUsername(username);
-    account.setState(UserState.VERIFIED);
-    accountStorage.save(account);
-  }
+        Account account = accountStorage.findByUsername(username);
+        account.setState(UserState.VERIFIED);
+        accountStorage.save(account);
+    }
 
-  public void createVerifyCode(String username) {
-    User user = userStorage.findByUsername(username);
-    if (Objects.isNull(user)) throw new AccountNotExistsException("Account not exist");
-    int max = 99999;
-    int min = 10000;
-    String code = Math.random() * (max - min + 1) + min + " ";
-    accountStorage.saveVerifyCode(username, code);
-    EmailRequest.sendVerificationCode(user.getEmail(), code);
-  }
+    public void createVerifyCode(String username) {
+        User user = userStorage.findByUsername(username);
+        if (Objects.isNull(user)) throw new AccountNotExistsException("Account not exist");
+        int max = 99999;
+        int min = 10000;
+        String code = Math.random() * (max - min + 1) + min + " ";
+        accountStorage.saveVerifyCode(username, code);
+        EmailRequest.sendVerificationCode(user.getEmail(), code);
+    }
 
 
 }

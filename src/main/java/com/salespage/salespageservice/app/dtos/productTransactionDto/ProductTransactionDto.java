@@ -7,8 +7,8 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ProductTransactionDto extends ProductTransactionInfoDto {
 
-  @NotNull
-  private String productId;
+    @NotNull
+    private String productId;
 
-  private String voucherCode;
+    private String voucherCode;
 }

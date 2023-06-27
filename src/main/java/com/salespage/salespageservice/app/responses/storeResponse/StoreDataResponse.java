@@ -10,10 +10,10 @@ import java.util.List;
 @Data
 public class StoreDataResponse extends StoreInfoResponse {
 
-  private List<ProductDataResponse> productDataResponses = new ArrayList<>();
+    private List<ProductDataResponse> productDataResponses = new ArrayList<>();
 
-  @Override
-  public void assignFromSellerStore(SellerStore sellerStore) {
-    super.assignFromSellerStore(sellerStore);
-  }
+    @Override
+    public void assignFromSellerStore(SellerStore sellerStore) {
+        super.assignFromSellerStore(sellerStore);
+    }
 }

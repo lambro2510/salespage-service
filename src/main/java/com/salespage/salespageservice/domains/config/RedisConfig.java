@@ -17,24 +17,24 @@ import java.io.IOException;
 @Configuration
 public class RedisConfig {
 
-  @Bean
-  public RedissonConnectionFactory redissonConnectionFactory(RedissonClient redisson) {
-    return new RedissonConnectionFactory(redisson);
-  }
+    @Bean
+    public RedissonConnectionFactory redissonConnectionFactory(RedissonClient redisson) {
+        return new RedissonConnectionFactory(redisson);
+    }
 
-  @Bean(name = "redisson", destroyMethod = "shutdown")
-  public RedissonClient redisson(@Value("classpath:/redisson.yml") Resource configFile) throws IOException {
-    Config config = Config.fromYAML(configFile.getInputStream());
-    return Redisson.create(config);
-  }
+    @Bean(name = "redisson", destroyMethod = "shutdown")
+    public RedissonClient redisson(@Value("classpath:/redisson.yml") Resource configFile) throws IOException {
+        Config config = Config.fromYAML(configFile.getInputStream());
+        return Redisson.create(config);
+    }
 
-  @Bean
-  public RedisTemplate<String, String> redisTemplate(RedissonConnectionFactory redissonConnectionFactory) {
-    RedisTemplate<String, String> template = new RedisTemplate<>();
-    template.setConnectionFactory(redissonConnectionFactory);
-    template.setEnableTransactionSupport(true);
-    template.setKeySerializer(new StringRedisSerializer());
-    template.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
-    return template;
-  }
+    @Bean
+    public RedisTemplate<String, String> redisTemplate(RedissonConnectionFactory redissonConnectionFactory) {
+        RedisTemplate<String, String> template = new RedisTemplate<>();
+        template.setConnectionFactory(redissonConnectionFactory);
+        template.setEnableTransactionSupport(true);
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+        return template;
+    }
 }

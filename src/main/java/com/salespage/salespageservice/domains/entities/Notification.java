@@ -14,44 +14,44 @@ import java.util.Date;
 
 @Data
 @Document("notification")
-public class Notification extends BaseEntity{
-  @Id
-  private ObjectId id;
+public class Notification extends BaseEntity {
+    @Id
+    private ObjectId id;
 
-  @Field("username")
-  private String username;
+    @Field("username")
+    private String username;
 
-  @Field("tittle")
-  private String tittle;
+    @Field("tittle")
+    private String tittle;
 
-  @Field("content")
-  private String content;
+    @Field("content")
+    private String content;
 
-  @Field("notification_status")
-  private NotificationStatus notificationStatus;
+    @Field("notification_status")
+    private NotificationStatus notificationStatus;
 
-  @Field("notification_type")
-  private NotificationType notificationType;
+    @Field("notification_type")
+    private NotificationType notificationType;
 
-  @Field("ref_id")
-  private String refId;
+    @Field("ref_id")
+    private String refId;
 
-  public NotificationResponse partnerToNotificationResponse(){
-    NotificationResponse response = new NotificationDetailResponse();
-    response.setId(id.toHexString());
-    response.setTittle(tittle);
-    response.setCreated(new Date(createdAt));
-    response.setStatus(notificationStatus);
-    return response;
-  }
+    public NotificationResponse partnerToNotificationResponse() {
+        NotificationResponse response = new NotificationDetailResponse();
+        response.setId(id.toHexString());
+        response.setTittle(tittle);
+        response.setCreated(new Date(createdAt));
+        response.setStatus(notificationStatus);
+        return response;
+    }
 
-  public NotificationDetailResponse partnerToNotificationDetailResponse() {
-    NotificationDetailResponse response = new NotificationDetailResponse();
-    response.setId(id.toHexString());
-    response.setTittle(tittle);
-    response.setCreated(new Date(createdAt));
-    response.setStatus(notificationStatus);
-    response.setContent(content);
-    return response;
-  }
+    public NotificationDetailResponse partnerToNotificationDetailResponse() {
+        NotificationDetailResponse response = new NotificationDetailResponse();
+        response.setId(id.toHexString());
+        response.setTittle(tittle);
+        response.setCreated(new Date(createdAt));
+        response.setStatus(notificationStatus);
+        response.setContent(content);
+        return response;
+    }
 }

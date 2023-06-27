@@ -10,11 +10,11 @@ import java.util.List;
 
 @Repository
 public interface PaymentTransactionRepository extends MongoRepository<PaymentTransaction, ObjectId> {
-  PaymentTransaction findByIdAndUsername(ObjectId id, String username);
+    PaymentTransaction findByIdAndUsername(ObjectId id, String username);
 
-  PaymentTransaction findByIdAndUsernameAndPaymentStatus(ObjectId objectId, String username, PaymentStatus status);
+    PaymentTransaction findByIdAndUsernameAndPaymentStatus(ObjectId objectId, String username, PaymentStatus status);
 
-  List<PaymentTransaction> findByUsername(String username);
+    List<PaymentTransaction> findByUsername(String username);
 
-  List<PaymentTransaction> findByPaymentStatus(PaymentStatus paymentStatus);
+    List<PaymentTransaction> findByPaymentStatus(PaymentStatus paymentStatus);
 }

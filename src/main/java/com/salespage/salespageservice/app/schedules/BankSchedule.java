@@ -10,20 +10,20 @@ import org.springframework.stereotype.Component;
 @Log4j2
 public class BankSchedule {
 
-  @Autowired
-  private BankService bankService;
+    @Autowired
+    private BankService bankService;
 
-  @Scheduled(fixedDelay = 1000 * 60 * 60) //1 h 1 lần đồng bộ
-  public void getOath2TokenFromCasso(){
-    log.info("-----async transaction-----start");
-    bankService.asyncTransaction();
-    log.info("-----async transaction-----end");
-  }
+    @Scheduled(fixedDelay = 1000 * 60 * 60) //1 h 1 lần đồng bộ
+    public void getOath2TokenFromCasso() {
+        log.info("-----async transaction-----start");
+        bankService.asyncTransaction();
+        log.info("-----async transaction-----end");
+    }
 
-  @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
-  public void checkNotResolveTransaction() throws Exception {
-    log.info("-----checkNotResolveTransaction-----start");
-    bankService.checkNotResolveTransaction();
-    log.info("-----checkNotResolveTransaction-----end");
-  }
+    @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+    public void checkNotResolveTransaction() throws Exception {
+        log.info("-----checkNotResolveTransaction-----start");
+        bankService.checkNotResolveTransaction();
+        log.info("-----checkNotResolveTransaction-----end");
+    }
 }

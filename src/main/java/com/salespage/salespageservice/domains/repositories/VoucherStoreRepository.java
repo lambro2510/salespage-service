@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface VoucherStoreRepository extends MongoRepository<VoucherStore, ObjectId> {
-  VoucherStore findVoucherStoreById(String voucherStoreId);
+    VoucherStore findVoucherStoreById(String voucherStoreId);
 
-  void deleteVoucherStoreById(String voucherStoreId);
+    void deleteVoucherStoreById(String voucherStoreId);
 
-  List<VoucherStore> findVoucherStoreByCreatedBy(String username);
+    List<VoucherStore> findVoucherStoreByCreatedBy(String username);
 }

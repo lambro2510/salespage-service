@@ -13,47 +13,47 @@ import java.util.stream.Collectors;
 
 public class Helper {
 
-  public static String ZONE_UTC = "UTC";
-  public static String ZONE_DEFAULT = "Asia/Ho_Chi_Minh";
+    public static String ZONE_UTC = "UTC";
+    public static String ZONE_DEFAULT = "Asia/Ho_Chi_Minh";
 
-  public static List<String> convertObjectIdListToHexStringList(List<ObjectId> objectIdList) {
-    return objectIdList.stream()
-            .map(ObjectId::toHexString)
-            .collect(Collectors.toList());
-  }
-
-  public static List<ObjectId> convertListStringToListObjectId(List<String> stringList) {
-    return stringList.stream()
-            .map(ObjectId::new)
-            .collect(Collectors.toList());
-  }
-
-  public static java.io.File convertMultiPartToFile(MultipartFile file) throws IOException {
-    java.io.File convFile = new java.io.File(Objects.requireNonNull(file.getOriginalFilename()));
-    FileOutputStream fos = new FileOutputStream(convFile);
-    fos.write(file.getBytes());
-    fos.close();
-    return convFile;
-  }
-
-  public static String extractFileIdFromUrl(String imageUrl) {
-    String[] parts = imageUrl.split("=");
-    return parts[parts.length - 1];
-  }
-
-  public static String generateRandomString() {
-    final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    final int STRING_LENGTH = 10;
-
-    StringBuilder sb = new StringBuilder(STRING_LENGTH);
-    Random random = new SecureRandom();
-    for (int i = 0; i < STRING_LENGTH; i++) {
-      sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+    public static List<String> convertObjectIdListToHexStringList(List<ObjectId> objectIdList) {
+        return objectIdList.stream()
+                .map(ObjectId::toHexString)
+                .collect(Collectors.toList());
     }
-    return sb.toString();
-  }
 
-  public static String genDescription(String username, String paymentId){
-    return username + paymentId;
-  }
+    public static List<ObjectId> convertListStringToListObjectId(List<String> stringList) {
+        return stringList.stream()
+                .map(ObjectId::new)
+                .collect(Collectors.toList());
+    }
+
+    public static java.io.File convertMultiPartToFile(MultipartFile file) throws IOException {
+        java.io.File convFile = new java.io.File(Objects.requireNonNull(file.getOriginalFilename()));
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
+    }
+
+    public static String extractFileIdFromUrl(String imageUrl) {
+        String[] parts = imageUrl.split("=");
+        return parts[parts.length - 1];
+    }
+
+    public static String generateRandomString() {
+        final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        final int STRING_LENGTH = 10;
+
+        StringBuilder sb = new StringBuilder(STRING_LENGTH);
+        Random random = new SecureRandom();
+        for (int i = 0; i < STRING_LENGTH; i++) {
+            sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+        }
+        return sb.toString();
+    }
+
+    public static String genDescription(String username, String paymentId) {
+        return username + paymentId;
+    }
 }

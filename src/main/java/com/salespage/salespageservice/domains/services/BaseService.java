@@ -11,66 +11,66 @@ import org.springframework.context.annotation.Lazy;
 import java.util.List;
 
 public class BaseService {
-  @Autowired
-  protected AccountStorage accountStorage;
+    @Autowired
+    protected AccountStorage accountStorage;
 
-  @Autowired
-  protected UserStorage userStorage;
+    @Autowired
+    protected UserStorage userStorage;
 
-  @Autowired
-  protected ProductStorage productStorage;
+    @Autowired
+    protected ProductStorage productStorage;
 
-  @Autowired
-  protected ProductTransactionStorage productTransactionStorage;
+    @Autowired
+    protected ProductTransactionStorage productTransactionStorage;
 
-  @Autowired
-  protected VoucherStoreStorage voucherStoreStorage;
+    @Autowired
+    protected VoucherStoreStorage voucherStoreStorage;
 
-  @Autowired
-  protected VoucherCodeStorage voucherCodeStorage;
+    @Autowired
+    protected VoucherCodeStorage voucherCodeStorage;
 
-  @Autowired
-  protected VoucherCodeLimitStorage voucherCodeLimitStorage;
+    @Autowired
+    protected VoucherCodeLimitStorage voucherCodeLimitStorage;
 
-  @Autowired
-  protected SellerStoreStorage sellerStoreStorage;
+    @Autowired
+    protected SellerStoreStorage sellerStoreStorage;
 
-  @Autowired
-  protected ProductTypeStorage productTypeStorage;
+    @Autowired
+    protected ProductTypeStorage productTypeStorage;
 
-  @Autowired
-  protected UserFavoriteStorage userFavoriteStorage;
+    @Autowired
+    protected UserFavoriteStorage userFavoriteStorage;
 
-  @Autowired
-  protected SystemLogStorage systemLogStorage;
+    @Autowired
+    protected SystemLogStorage systemLogStorage;
 
-  @Autowired
-  protected JwtUtils jwtUtils;
+    @Autowired
+    protected JwtUtils jwtUtils;
 
-  @Autowired
-  protected GoogleDriver googleDriver;
+    @Autowired
+    protected GoogleDriver googleDriver;
 
-  @Autowired
-  protected BankTransactionStorage bankTransactionStorage;
+    @Autowired
+    protected BankTransactionStorage bankTransactionStorage;
 
-  @Autowired
-  protected PaymentTransactionStorage paymentTransactionStorage;
+    @Autowired
+    protected PaymentTransactionStorage paymentTransactionStorage;
 
-  @Autowired
-  protected NotificationStorage notificationStorage;
+    @Autowired
+    protected NotificationStorage notificationStorage;
 
-  @Autowired
-  protected BankAccountStorage bankAccountStorage;
+    @Autowired
+    protected BankAccountStorage bankAccountStorage;
 
-  @Autowired
-  @Lazy
-  private SystemLogService systemLogService;
+    @Autowired
+    @Lazy
+    private SystemLogService systemLogService;
 
-  protected void writeLog(String message, String trace, LogType logType, String username) {
-    systemLogService.createSystemLog(username, message, trace, logType);
-  }
+    protected void writeLog(String message, String trace, LogType logType, String username) {
+        systemLogService.createSystemLog(username, message, trace, logType);
+    }
 
-  protected boolean hasUserRole(List<UserRole> roles, UserRole role) {
-    return roles.contains(role);
-  }
+    protected boolean hasUserRole(List<UserRole> roles, UserRole role) {
+        return roles.contains(role);
+    }
 }

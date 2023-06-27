@@ -10,49 +10,49 @@ import java.util.Date;
 
 @Data
 public class ProductTransactionResponse {
-  private String transactionId;
+    private String transactionId;
 
-  private String productId;
+    private String productId;
 
-  private String productName;
+    private String productName;
 
-  private Long pricePerProduct;
+    private Long pricePerProduct;
 
-  private String sellerName;
+    private String sellerName;
 
-  private String buyerName;
+    private String buyerName;
 
-  private String storeName;
+    private String storeName;
 
-  private String address;
+    private String address;
 
-  private String note;
+    private String note;
 
-  private Long quantity;
+    private Long quantity;
 
-  private Boolean isUseVoucher;
+    private Boolean isUseVoucher;
 
-  private ProductTransactionState productTransactionState;
+    private ProductTransactionState productTransactionState;
 
-  private VoucherInfo voucherInfo;
+    private VoucherInfo voucherInfo;
 
-  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
-  private Date createdAt;
+    @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    private Date createdAt;
 
-  public void partnerFromProductTransaction(ProductTransaction productTransaction) {
-    transactionId = productTransaction.getId().toHexString();
-    productId = productTransaction.getProductId();
-    productName = productTransaction.getProductName();
-    pricePerProduct = productTransaction.getPricePerProduct().longValue();
-    sellerName = productTransaction.getSellerUsername();
-    buyerName = productTransaction.getBuyerUsername();
-    storeName = productTransaction.getStoreName();
-    quantity = productTransaction.getQuantity();
-    isUseVoucher = productTransaction.getIsUseVoucher();
-    productTransactionState = productTransaction.getState();
-    voucherInfo = productTransaction.getVoucherInfo();
-    note = productTransaction.getNote();
-    address = productTransaction.getAddressReceive();
-    createdAt = new Date(productTransaction.getCreatedAt());
-  }
+    public void partnerFromProductTransaction(ProductTransaction productTransaction) {
+        transactionId = productTransaction.getId().toHexString();
+        productId = productTransaction.getProductId();
+        productName = productTransaction.getProductName();
+        pricePerProduct = productTransaction.getPricePerProduct().longValue();
+        sellerName = productTransaction.getSellerUsername();
+        buyerName = productTransaction.getBuyerUsername();
+        storeName = productTransaction.getStoreName();
+        quantity = productTransaction.getQuantity();
+        isUseVoucher = productTransaction.getIsUseVoucher();
+        productTransactionState = productTransaction.getState();
+        voucherInfo = productTransaction.getVoucherInfo();
+        note = productTransaction.getNote();
+        address = productTransaction.getAddressReceive();
+        createdAt = new Date(productTransaction.getCreatedAt());
+    }
 }

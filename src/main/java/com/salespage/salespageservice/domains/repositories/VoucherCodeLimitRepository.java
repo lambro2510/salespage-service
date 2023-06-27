@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VoucherCodeLimitRepository extends MongoRepository<VoucherCodeLimit, ObjectId> {
-  VoucherCodeLimit findByUsernameAndVoucherStoreId(String username, String voucherStoreId);
+    VoucherCodeLimit findByUsernameAndVoucherStoreId(String username, String voucherStoreId);
 }

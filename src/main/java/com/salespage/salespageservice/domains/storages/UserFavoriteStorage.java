@@ -9,16 +9,16 @@ import java.util.Objects;
 
 @Component
 public class UserFavoriteStorage extends BaseStorage {
-  public UserFavorite findByUsernameAndRefIdAndFavoriteType(String username, String productId, FavoriteType type) throws Exception {
-    UserFavorite userFavorite = remoteCacheManager.get(CacheKey.getUserFavorite(username, productId,type), UserFavorite.class);
-    if (Objects.isNull(userFavorite)) {
-      userFavorite = userFavoriteRepository.findByUsernameAndRefIdAndFavoriteType(username, productId);
-      remoteCacheManager.set(CacheKey.getUserFavorite(username, productId,type), userFavorite, CacheKey.HOUR);
+    public UserFavorite findByUsernameAndRefIdAndFavoriteType(String username, String productId, FavoriteType type) throws Exception {
+        UserFavorite userFavorite = remoteCacheManager.get(CacheKey.getUserFavorite(username, productId, type), UserFavorite.class);
+        if (Objects.isNull(userFavorite)) {
+            userFavorite = userFavoriteRepository.findByUsernameAndRefIdAndFavoriteType(username, productId);
+            remoteCacheManager.set(CacheKey.getUserFavorite(username, productId, type), userFavorite, CacheKey.HOUR);
+        }
+        return userFavorite;
     }
-    return userFavorite;
-  }
 
-  public void save(UserFavorite userFavorite) {
-    userFavoriteRepository.save(userFavorite);
-  }
+    public void save(UserFavorite userFavorite) {
+        userFavoriteRepository.save(userFavorite);
+    }
 }

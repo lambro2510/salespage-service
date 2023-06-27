@@ -34,110 +34,111 @@ import java.util.stream.Collectors;
 @Service
 public class VoucherCodeService extends BaseService {
 
-  @Autowired
-  @Lazy
-  private VoucherStoreService voucherStoreService;
+    @Autowired
+    @Lazy
+    private VoucherStoreService voucherStoreService;
 
 
-  public void deleteAllVoucherCodeInStore() {
+    public void deleteAllVoucherCodeInStore() {
 
-  }
-
-  @Transactional
-  public void generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, Date expireTime) {
-    voucherStoreService.updateQuantityOfVoucherStore(voucherStoreId, 0L, numberVoucher, username);
-    List<VoucherCode> voucherCodes = new ArrayList<>();
-    for (int i = 0; i < numberVoucher; i++) {
-      VoucherCode voucherCode = new VoucherCode();
-      voucherCode.setVoucherStoreId(voucherStoreId);
-      voucherCode.setExpireTime(expireTime);
-      voucherCode.setCode(Helper.generateRandomString());
-      voucherCodes.add(voucherCode);
     }
-    voucherCodeStorage.saveAll(voucherCodes);
-  }
 
-  @Transactional
-  public String receiveVoucher(String username, String voucherStoreId) {
-    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
-
-    if (Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
-      throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
-
-    VoucherCodeLimit voucherCodeLimit = voucherCodeLimitStorage.findByUsernameAndVoucherStoreId(username, voucherStoreId);
-    if (Objects.isNull(voucherCodeLimit)) {
-      voucherCodeLimit = new VoucherCodeLimit();
-      voucherCodeLimit.setUsername(username);
-      voucherCodeLimit.setVoucherStoreId(voucherStoreId);
-      voucherCodeLimit.setNumberReceiveVoucher(0L);
+    @Transactional
+    public void generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, Date expireTime) {
+        voucherStoreService.updateQuantityOfVoucherStore(voucherStoreId, 0L, numberVoucher, username);
+        List<VoucherCode> voucherCodes = new ArrayList<>();
+        for (int i = 0; i < numberVoucher; i++) {
+            VoucherCode voucherCode = new VoucherCode();
+            voucherCode.setVoucherStoreId(voucherStoreId);
+            voucherCode.setExpireTime(expireTime);
+            voucherCode.setCode(Helper.generateRandomString());
+            voucherCodes.add(voucherCode);
+        }
+        voucherCodeStorage.saveAll(voucherCodes);
     }
-    voucherCodeLimit.setNumberReceiveVoucher(voucherCodeLimit.getNumberReceiveVoucher() + 1);
-    if (voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser())
-      throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Bạn đã nhận tối đa số lượng mã giảm giá");
-    VoucherCode voucherCode = voucherCodeStorage.findFirstVoucherCanUseByVoucherStoreId(voucherStoreId, new Date());
-    voucherCode.setOwnerId(username);
-    voucherCode.setVoucherCodeStatus(VoucherCodeStatus.OWNER);
-    voucherStore.getVoucherStoreDetail().setQuantityUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed() + 1);
-    voucherCodeStorage.save(voucherCode);
-    voucherCodeLimitStorage.save(voucherCodeLimit);
-    voucherStoreStorage.save(voucherStore);
-    return voucherCode.getCode();
-  }
 
-  public VoucherInfo useVoucher(String username, String code, String productId, Long productPrice) {
-    VoucherInfo voucherInfo = new VoucherInfo();
-    voucherInfo.setPriceBefore(new BigDecimal(productPrice));
+    @Transactional
+    public String receiveVoucher(String username, String voucherStoreId) {
+        VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
 
-    VoucherCode voucherCode = voucherCodeStorage.findCodeCanUse(username, code);
-    if (Objects.isNull(voucherCode)) throw new ResourceNotFoundException("Mã giảm giá không hợp lệ");
-    if (voucherCode.getExpireTime().before(new Date()))
-      throw new TransactionException(ErrorCode.EXPIRE_VOUCHER, "Mã giảm giá đã hết hạn");
+        if (Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
+            throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
 
-    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
+        VoucherCodeLimit voucherCodeLimit = voucherCodeLimitStorage.findByUsernameAndVoucherStoreId(username, voucherStoreId);
+        if (Objects.isNull(voucherCodeLimit)) {
+            voucherCodeLimit = new VoucherCodeLimit();
+            voucherCodeLimit.setUsername(username);
+            voucherCodeLimit.setVoucherStoreId(voucherStoreId);
+            voucherCodeLimit.setNumberReceiveVoucher(0L);
+        }
+        voucherCodeLimit.setNumberReceiveVoucher(voucherCodeLimit.getNumberReceiveVoucher() + 1);
+        if (voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser())
+            throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Bạn đã nhận tối đa số lượng mã giảm giá");
+        VoucherCode voucherCode = voucherCodeStorage.findFirstVoucherCanUseByVoucherStoreId(voucherStoreId, new Date());
+        voucherCode.setOwnerId(username);
+        voucherCode.setVoucherCodeStatus(VoucherCodeStatus.OWNER);
+        voucherStore.getVoucherStoreDetail().setQuantityUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed() + 1);
+        voucherCodeStorage.save(voucherCode);
+        voucherCodeLimitStorage.save(voucherCodeLimit);
+        voucherStoreStorage.save(voucherStore);
+        return voucherCode.getCode();
+    }
 
-    if (Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
-      throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
+    public VoucherInfo useVoucher(String username, String code, String productId, Long productPrice) {
+        VoucherInfo voucherInfo = new VoucherInfo();
+        voucherInfo.setPriceBefore(new BigDecimal(productPrice));
 
-    if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < productPrice || voucherStore.getVoucherStoreDetail().getMinAblePrice() > productPrice)
-      throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Mã không thể sử dụng cho sản phẩm này, không nằm trong giá trị mã có thể sử dụng");
+        VoucherCode voucherCode = voucherCodeStorage.findCodeCanUse(username, code);
+        if (Objects.isNull(voucherCode)) throw new ResourceNotFoundException("Mã giảm giá không hợp lệ");
+        if (voucherCode.getExpireTime().before(new Date()))
+            throw new TransactionException(ErrorCode.EXPIRE_VOUCHER, "Mã giảm giá đã hết hạn");
 
-    if (voucherStore.getVoucherStoreType() == VoucherStoreType.PRODUCT) {
-      if (!voucherStore.getProductId().equals(productId))
-        throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Mã giảm giá không áp dụng cho sản phẩm này");
-      voucherInfo.setPriceAfter(BigDecimal.ZERO);
-    } else if (voucherStore.getVoucherStoreType() == VoucherStoreType.DISCOUNT) {
-      long price = (productPrice - voucherStore.getValue());
-      voucherInfo.setPriceAfter(new BigDecimal(price));
-    } else if (voucherStore.getVoucherStoreType() == VoucherStoreType.DISCOUNT_PERCENT) {
-      long price = productPrice - (productPrice * voucherStore.getValue()) / 100;
-      if (price < 0) price = 0L;
-      voucherInfo.setPriceAfter(new BigDecimal(price));
-    } else throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Mã không thể sử dụng cho sản phẩm này");
-    voucherCode.setUserAt(new Date());
-    voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
-    voucherCodeStorage.save(voucherCode);
-    voucherInfo.setVoucherCode(code);
-    voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
-    voucherInfo.setValue(voucherStore.getValue());
-    return voucherInfo;
-  }
+        VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
 
-  public PageResponse getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
-    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
-    if (Objects.isNull(voucherStore)) throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Cửa hàng này đã bị xóa");
-    if (!voucherStore.getCreatedBy().equals(username))
-      throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Không có quyền truy cập");
-    Query query = new Query();
-    query.addCriteria(Criteria.where("voucher_store_id").is(voucherStoreId));
-    if (Objects.nonNull(voucherCodeStatus))
-      query.addCriteria(Criteria.where("voucher_code_status").is(voucherCodeStatus));
-    Page<VoucherCode> voucherCodes = voucherCodeStorage.findAll(query, pageable);
-    List<VoucherCodeResponse> voucherCodeResponses = voucherCodes.getContent()
-            .stream()
-            .map(VoucherCode::convertTovoucherCodeResponse)
-            .collect(Collectors.toList());
+        if (Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
+            throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
 
-    Page<VoucherCodeResponse> codeResponses = new PageImpl<>(voucherCodeResponses, pageable, voucherCodes.getTotalElements());
-    return PageResponse.createFrom(codeResponses);
-  }
+        if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < productPrice || voucherStore.getVoucherStoreDetail().getMinAblePrice() > productPrice)
+            throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Mã không thể sử dụng cho sản phẩm này, không nằm trong giá trị mã có thể sử dụng");
+
+        if (voucherStore.getVoucherStoreType() == VoucherStoreType.PRODUCT) {
+            if (!voucherStore.getProductId().equals(productId))
+                throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Mã giảm giá không áp dụng cho sản phẩm này");
+            voucherInfo.setPriceAfter(BigDecimal.ZERO);
+        } else if (voucherStore.getVoucherStoreType() == VoucherStoreType.DISCOUNT) {
+            long price = (productPrice - voucherStore.getValue());
+            voucherInfo.setPriceAfter(new BigDecimal(price));
+        } else if (voucherStore.getVoucherStoreType() == VoucherStoreType.DISCOUNT_PERCENT) {
+            long price = productPrice - (productPrice * voucherStore.getValue()) / 100;
+            if (price < 0) price = 0L;
+            voucherInfo.setPriceAfter(new BigDecimal(price));
+        } else throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Mã không thể sử dụng cho sản phẩm này");
+        voucherCode.setUserAt(new Date());
+        voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
+        voucherCodeStorage.save(voucherCode);
+        voucherInfo.setVoucherCode(code);
+        voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
+        voucherInfo.setValue(voucherStore.getValue());
+        return voucherInfo;
+    }
+
+    public PageResponse getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
+        VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
+        if (Objects.isNull(voucherStore))
+            throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Cửa hàng này đã bị xóa");
+        if (!voucherStore.getCreatedBy().equals(username))
+            throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Không có quyền truy cập");
+        Query query = new Query();
+        query.addCriteria(Criteria.where("voucher_store_id").is(voucherStoreId));
+        if (Objects.nonNull(voucherCodeStatus))
+            query.addCriteria(Criteria.where("voucher_code_status").is(voucherCodeStatus));
+        Page<VoucherCode> voucherCodes = voucherCodeStorage.findAll(query, pageable);
+        List<VoucherCodeResponse> voucherCodeResponses = voucherCodes.getContent()
+                .stream()
+                .map(VoucherCode::convertTovoucherCodeResponse)
+                .collect(Collectors.toList());
+
+        Page<VoucherCodeResponse> codeResponses = new PageImpl<>(voucherCodeResponses, pageable, voucherCodes.getTotalElements());
+        return PageResponse.createFrom(codeResponses);
+    }
 }

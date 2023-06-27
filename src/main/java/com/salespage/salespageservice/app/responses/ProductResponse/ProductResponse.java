@@ -6,13 +6,13 @@ import lombok.Data;
 @Data
 public class ProductResponse extends ProductDataResponse {
 
-  private String imageUrl;
+    private String imageUrl;
 
-  Boolean isHot = false;
+    Boolean isHot = false;
 
-  @Override
-  public void assignFromProduct(Product product) {
-    super.assignFromProduct(product);
-    imageUrl = product.getDefaultImageUrl();
-  }
+    @Override
+    public void assignFromProduct(Product product) {
+        super.assignFromProduct(product);
+        imageUrl = product.getDefaultImageUrl();
+    }
 }

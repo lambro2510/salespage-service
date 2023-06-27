@@ -70,15 +70,15 @@ jwt:
   privateKey: ${JWT_PRIVATE_KEY}
 
 casso:
-  url : ${CASSO_URL:https://oauth.casso.vn}
-  apikey : ${CASSO_APIKEY:AK_CS.98fc80800a6a11ee8283e1e814dacc44.8q0lezp6f8bcEdLzdztIwXjvTW22vRe6ljavqquvlupWG0O4ELGONx0NpH3UhtDtuJT4tgta}
-  token : ${CASSO_TOKEN:lam12345}
-  client-id : ${CASSO_CLIENT_ID:82d12a60-0900-11ee-9f74-0fa8491e0bd2}
-  bank-acc-id : ${CASSO_BANK_ACC_ID:8400134433008}
+  url: ${CASSO_URL:https://oauth.casso.vn}
+  apikey: ${CASSO_APIKEY:AK_CS.98fc80800a6a11ee8283e1e814dacc44.8q0lezp6f8bcEdLzdztIwXjvTW22vRe6ljavqquvlupWG0O4ELGONx0NpH3UhtDtuJT4tgta}
+  token: ${CASSO_TOKEN:lam12345}
+  client-id: ${CASSO_CLIENT_ID:82d12a60-0900-11ee-9f74-0fa8491e0bd2}
+  bank-acc-id: ${CASSO_BANK_ACC_ID:8400134433008}
 
 vietqr:
   api:
-    client-id : ${VIETQR_CLIENTID:7a18d4ca-e369-44ea-9095-a1f8c2e5b006}
-    apikey : ${VIETQR_APIKEY:50ca1634-2c29-4386-8047-3593008466b2}
-    url : ${VIETQR_URL:https://api.vietqr.io}
+    client-id: ${VIETQR_CLIENTID:7a18d4ca-e369-44ea-9095-a1f8c2e5b006}
+    apikey: ${VIETQR_APIKEY:50ca1634-2c29-4386-8047-3593008466b2}
+    url: ${VIETQR_URL:https://api.vietqr.io}
 

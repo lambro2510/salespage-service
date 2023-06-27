@@ -8,15 +8,15 @@ import java.util.Date;
 
 @Data
 public class VoucherCodeResponse {
-  private String voucherCode;
+    private String voucherCode;
 
-  private VoucherCodeStatus voucherCodeStatus;
+    private VoucherCodeStatus voucherCodeStatus;
 
-  private String usedBy;
+    private String usedBy;
 
-  @JsonFormat(pattern = "dd-MM-yyyy")
-  private Date usedAt;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date usedAt;
 
-  @JsonFormat(pattern = "dd-MM-yyyy")
-  private Date expireTime;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date expireTime;
 }

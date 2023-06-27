@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class TopicConfig {
-  public static final String SALE_PAGE_PAYMENT_TRANSACTION = "bizfly-7-453-PaymentTransaction";
+    public static final String SALE_PAGE_PAYMENT_TRANSACTION = "bizfly-7-453-PaymentTransaction";
 
 
 //  @Value("${spring.kafka.topic.replication-factor}")

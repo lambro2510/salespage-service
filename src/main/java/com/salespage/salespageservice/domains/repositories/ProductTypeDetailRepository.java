@@ -9,11 +9,11 @@ import java.util.List;
 
 @Repository
 public interface ProductTypeDetailRepository extends MongoRepository<ProductTypeDetail, ObjectId> {
-  ProductTypeDetail findProductTypeDetailByTypeNameAndTypeDetailName(String typeName, String typeDetailName);
+    ProductTypeDetail findProductTypeDetailByTypeNameAndTypeDetailName(String typeName, String typeDetailName);
 
-  ProductTypeDetail findProductTypeDetailById(ObjectId objectId);
+    ProductTypeDetail findProductTypeDetailById(ObjectId objectId);
 
-  List<ProductTypeDetail> findByProductId(String productId);
+    List<ProductTypeDetail> findByProductId(String productId);
 
-  List<ProductTypeDetail> findTop10ByTypeDetailNameInOrderByCreatedAtDesc(List<String> listType);
+    List<ProductTypeDetail> findTop10ByTypeDetailNameInOrderByCreatedAtDesc(List<String> listType);
 }

@@ -20,32 +20,32 @@ import java.util.Collection;
 @Configuration
 public class GoogleApiConfig {
 
-  @Autowired
-  @Lazy
-  private GoogleCredential googleCredential;
+    @Autowired
+    @Lazy
+    private GoogleCredential googleCredential;
 
-  @Bean
-  public Drive getService() throws GeneralSecurityException, IOException {
-    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    return new Drive.Builder(HTTP_TRANSPORT,
-            JacksonFactory.getDefaultInstance(), googleCredential)
-            .build();
-  }
+    @Bean
+    public Drive getService() throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        return new Drive.Builder(HTTP_TRANSPORT,
+                JacksonFactory.getDefaultInstance(), googleCredential)
+                .build();
+    }
 
-  @Bean
-  public GoogleCredential googleCredential() throws GeneralSecurityException, IOException {
-    Collection<String> elenco = new ArrayList<String>();
-    elenco.add("https://www.googleapis.com/auth/gmail.send");
-    elenco.add("https://www.googleapis.com/auth/drive");
-    HttpTransport httpTransport = new NetHttpTransport();
-    JacksonFactory jsonFactory = new JacksonFactory();
-    InputStream inputStream = GoogleApiConfig.class.getClassLoader().getResourceAsStream("oath2.json");
-    assert inputStream != null;
-    return GoogleCredential.fromStream(inputStream)
-            .createScoped(elenco);
+    @Bean
+    public GoogleCredential googleCredential() throws GeneralSecurityException, IOException {
+        Collection<String> elenco = new ArrayList<String>();
+        elenco.add("https://www.googleapis.com/auth/gmail.send");
+        elenco.add("https://www.googleapis.com/auth/drive");
+        HttpTransport httpTransport = new NetHttpTransport();
+        JacksonFactory jsonFactory = new JacksonFactory();
+        InputStream inputStream = GoogleApiConfig.class.getClassLoader().getResourceAsStream("oath2.json");
+        assert inputStream != null;
+        return GoogleCredential.fromStream(inputStream)
+                .createScoped(elenco);
 //    return GoogleCredential.fromStream(new FileInputStream("oath2.json"))
 //        .createScoped(elenco);
-  }
+    }
 
 
 }

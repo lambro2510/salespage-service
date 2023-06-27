@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class BankDto {
-  Integer error;
+    Integer error;
 
-  List<TransactionData> data;
+    List<TransactionData> data;
 }

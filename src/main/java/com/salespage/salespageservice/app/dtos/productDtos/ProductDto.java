@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ProductDto extends ProductInfoDto {
 
-  @NotBlank(message = "Id của sản phẩm không được để trống")
-  @Schema(description = "Id của sản phẩm", example = "P0001")
-  private String productId;
+    @NotBlank(message = "Id của sản phẩm không được để trống")
+    @Schema(description = "Id của sản phẩm", example = "P0001")
+    private String productId;
 }

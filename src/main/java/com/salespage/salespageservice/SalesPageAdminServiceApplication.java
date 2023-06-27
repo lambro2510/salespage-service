@@ -11,8 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableMongoRepositories(repositoryBaseClass = MongoResourceRepositoryImpl.class)
 public class SalesPageAdminServiceApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(SalesPageAdminServiceApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(SalesPageAdminServiceApplication.class, args);
+    }
 
 }

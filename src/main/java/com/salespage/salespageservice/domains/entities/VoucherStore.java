@@ -12,65 +12,65 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document("voucher_store")
 @Data
 public class VoucherStore extends BaseEntity {
-  @Id
-  private ObjectId id;
+    @Id
+    private ObjectId id;
 
-  @Field("voucher_store_name")
-  private String voucherStoreName;
+    @Field("voucher_store_name")
+    private String voucherStoreName;
 
-  @Field("voucher_store_type")
-  private VoucherStoreType voucherStoreType;
+    @Field("voucher_store_type")
+    private VoucherStoreType voucherStoreType;
 
-  @Field("product_id")
-  private String productId; //Sản phẩm áp dụng cho voucher, nếu type là product thì cho phép nhưới dùng mua sản
-  //phẩm miễn phí, nếu type = sale thì giảm giá sản phẩm đó
+    @Field("product_id")
+    private String productId; //Sản phẩm áp dụng cho voucher, nếu type là product thì cho phép nhưới dùng mua sản
+    //phẩm miễn phí, nếu type = sale thì giảm giá sản phẩm đó
 
-  @Field("value")
-  private Long value;
+    @Field("value")
+    private Long value;
 
-  @Field("voucher_store_detail")
-  private VoucherStoreDetail voucherStoreDetail;
+    @Field("voucher_store_detail")
+    private VoucherStoreDetail voucherStoreDetail;
 
-  @Field("voucher_store_status")
-  private VoucherStoreStatus voucherStoreStatus = VoucherStoreStatus.INACTIVE;
+    @Field("voucher_store_status")
+    private VoucherStoreStatus voucherStoreStatus = VoucherStoreStatus.INACTIVE;
 
-  @Field("created_by")
-  private String createdBy;
+    @Field("created_by")
+    private String createdBy;
 
-  public void updatedVoucherStore(UpdateVoucherStoreDto updateVoucherStoreDto) {
-    setVoucherStoreName(updateVoucherStoreDto.getVoucherStoreName());
-    setVoucherStoreType(updateVoucherStoreDto.getVoucherStoreType());
-    setVoucherStoreStatus(updateVoucherStoreDto.getVoucherStoreStatus());
-    if (voucherStoreType == VoucherStoreType.DISCOUNT_PERCENT) {
-      setValue(updateVoucherStoreDto.getValuePercent());
-    } else if (voucherStoreType == VoucherStoreType.MONEY || voucherStoreType == VoucherStoreType.DISCOUNT) {
-      setValue(updateVoucherStoreDto.getValue());
+    public void updatedVoucherStore(UpdateVoucherStoreDto updateVoucherStoreDto) {
+        setVoucherStoreName(updateVoucherStoreDto.getVoucherStoreName());
+        setVoucherStoreType(updateVoucherStoreDto.getVoucherStoreType());
+        setVoucherStoreStatus(updateVoucherStoreDto.getVoucherStoreStatus());
+        if (voucherStoreType == VoucherStoreType.DISCOUNT_PERCENT) {
+            setValue(updateVoucherStoreDto.getValuePercent());
+        } else if (voucherStoreType == VoucherStoreType.MONEY || voucherStoreType == VoucherStoreType.DISCOUNT) {
+            setValue(updateVoucherStoreDto.getValue());
+        }
+
+        VoucherStoreDetail voucherStoreDetail = new VoucherStoreDetail();
+
+        voucherStoreDetail.setMaxVoucherPerUser(updateVoucherStoreDto.getMaxVoucherPerUser());
+        voucherStoreDetail.setMaxAblePrice(updateVoucherStoreDto.getMaxAblePrice());
+        voucherStoreDetail.setMinAblePrice(updateVoucherStoreDto.getMinAblePrice());
+        setVoucherStoreDetail(voucherStoreDetail);
     }
 
-    VoucherStoreDetail voucherStoreDetail = new VoucherStoreDetail();
+    @Data
+    public static class VoucherStoreDetail {
 
-    voucherStoreDetail.setMaxVoucherPerUser(updateVoucherStoreDto.getMaxVoucherPerUser());
-    voucherStoreDetail.setMaxAblePrice(updateVoucherStoreDto.getMaxAblePrice());
-    voucherStoreDetail.setMinAblePrice(updateVoucherStoreDto.getMinAblePrice());
-    setVoucherStoreDetail(voucherStoreDetail);
-  }
+        @Field("quantity")
+        private Long quantity = 0L;
 
-  @Data
-  public static class VoucherStoreDetail {
+        @Field("quantity_used")
+        private Long quantityUsed = 0L;
 
-    @Field("quantity")
-    private Long quantity = 0L;
+        @Field("max_able_price")
+        private Long maxAblePrice; //Giá trị sản phẩm tối đa voucher dạng sale có thể sử dụng
 
-    @Field("quantity_used")
-    private Long quantityUsed = 0L;
+        @Field("min_able_price")
+        private Long minAblePrice; //Giá trị sản phẩm tối thiểu voucher dạng sale có thể sử dụng
 
-    @Field("max_able_price")
-    private Long maxAblePrice; //Giá trị sản phẩm tối đa voucher dạng sale có thể sử dụng
-
-    @Field("min_able_price")
-    private Long minAblePrice; //Giá trị sản phẩm tối thiểu voucher dạng sale có thể sử dụng
-
-    @Field("max_voucher_per_user")
-    private Long maxVoucherPerUser;
-  }
+        @Field("max_voucher_per_user")
+        private Long maxVoucherPerUser;
+    }
 }

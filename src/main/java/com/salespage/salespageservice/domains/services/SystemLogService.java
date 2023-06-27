@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 
 @Service
 public class SystemLogService {
-  public void createSystemLog(String createdBy, String message, String trace, LogType logType) {
-    SystemLog systemLog = new SystemLog();
-    systemLog.setLogType(logType);
-    systemLog.setMessage(message);
-    systemLog.setTrace(trace);
-    systemLog.setCreatedBy(createdBy);
-    systemLog.setCreatedAt(LocalDateTime.now());
-  }
+    public void createSystemLog(String createdBy, String message, String trace, LogType logType) {
+        SystemLog systemLog = new SystemLog();
+        systemLog.setLogType(logType);
+        systemLog.setMessage(message);
+        systemLog.setTrace(trace);
+        systemLog.setCreatedBy(createdBy);
+        systemLog.setCreatedAt(LocalDateTime.now());
+    }
 }

@@ -11,12 +11,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VoucherInfo {
-  private String voucherCode;
+    private String voucherCode;
 
-  private VoucherStoreType voucherStoreType;
+    private VoucherStoreType voucherStoreType;
 
-  private Long value;
+    private Long value;
 
-  private BigDecimal priceBefore;
-  private BigDecimal priceAfter;
+    private BigDecimal priceBefore;
+    private BigDecimal priceAfter;
 }
