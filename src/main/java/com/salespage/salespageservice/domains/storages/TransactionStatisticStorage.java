@@ -12,4 +12,8 @@ public class TransactionStatisticStorage extends BaseStorage{
     public void save(TransactionStatistic transactionStatistic) {
     transactionStatisticRepository.save(transactionStatistic);
     }
+
+  public TransactionStatistic findByDateAndProductId(String date, String productId) {
+    return transactionStatisticRepository.findByDateAndProductId(date, productId);
+  }
 }

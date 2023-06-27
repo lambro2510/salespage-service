@@ -20,7 +20,7 @@ public class TransactionStatisticService extends BaseService{
     String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
     List<ProductTransaction> listProductTransactions = productTransactionStorage.findByCreatedAtBetween(Helper.getStartTimeOfDay(today), Helper.getEndTimeOfDay(today));
     for(ProductTransaction transaction : listProductTransactions){
-      TransactionStatistic transactionStatistic = transactionStatisticStorage.findByDate(date);
+      TransactionStatistic transactionStatistic = transactionStatisticStorage.findByDateAndProductId(date, transaction.getProductId());
       if(Objects.isNull(transactionStatistic)) transactionStatistic = new TransactionStatistic();
 
       TotalStatisticResponse total = productTransactionStorage.countByProductId(transaction.getProductId(), today);

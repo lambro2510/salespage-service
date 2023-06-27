@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionStatisticRepository extends MongoRepository<TransactionStatistic, ObjectId> {
   TransactionStatistic findByDate(String date);
+
+  TransactionStatistic findByDateAndProductId(String date, String productId);
 }
