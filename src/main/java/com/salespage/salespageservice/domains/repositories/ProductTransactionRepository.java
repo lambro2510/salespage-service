@@ -22,4 +22,6 @@ public interface ProductTransactionRepository extends MongoRepository<ProductTra
     long countByProductId(ObjectId productId);
 
   List<ProductTransaction> findByCreatedAtBetween(Long startTimeOfDay, Long endTimeOfDay);
+
+    Integer countByBuyerUsername(String username);
 }
