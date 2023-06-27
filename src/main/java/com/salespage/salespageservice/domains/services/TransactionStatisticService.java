@@ -30,6 +30,7 @@ public class TransactionStatisticService extends BaseService{
       transactionStatistic.setProductId(transaction.getProductId());
       transactionStatistic.setTotalPrice(total.getTotalPrice());
       transactionStatistic.setTotalProduct(total.getQuantity());
+      transactionStatistic.setTotalUser(productTransactionStorage.countUserBuy(transaction.getBuyerUsername(), transaction.getProductId()));
       transactionStatisticStorage.save(transactionStatistic);
     }
 

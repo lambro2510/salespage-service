@@ -56,8 +56,8 @@ public class ProductTransactionStorage extends BaseStorage {
         return response;
     }
 
-    public Integer countUserBuy(String username){
-        return productTransactionRepository.countByBuyerUsername(username);
+    public Integer countUserBuy(String username, String productId){
+        return productTransactionRepository.countByBuyerUsernameAndProductId(username, productId);
     }
     public List<ProductTransaction> findByCreatedAtBetween(Long startTimeOfDay, Long endTimeOfDay) {
         return productTransactionRepository.findByCreatedAtBetween(startTimeOfDay, endTimeOfDay);
