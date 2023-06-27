@@ -40,12 +40,13 @@ public class ProductTransactionStorage extends BaseStorage {
         return productTransactionRepository.findAllProductTransactionByProductId(new ObjectId(productId));
     }
 
-    public TotalStatisticResponse countByProductId(ObjectId id, LocalDate today) {
+    public TotalStatisticResponse countByProductId(String id, LocalDate today) {
         Criteria criteria = Criteria.where("product_id").is(id)
                 .andOperator(Criteria.where("created_at").gte(Helper.getStartTimeOfDay(today)), Criteria.where("created_at").lte(Helper.getEndTimeOfDay(today)));
         AggregationOperation match = Aggregation.match(criteria);
         GroupOperation groupOperation = Aggregation.group()
-                .sum("price_per_product").as("totalPrice");
+                .sum("price_per_product").as("totalPrice")
+                .sum("quantity").as("quantity");
         Aggregation aggregation = Aggregation.newAggregation(match, groupOperation);
         AggregationResults<TotalStatisticResponse> result = mongoTemplate.aggregate(aggregation, "product_transaction", TotalStatisticResponse.class);
         TotalStatisticResponse response = new TotalStatisticResponse();
@@ -53,5 +54,9 @@ public class ProductTransactionStorage extends BaseStorage {
             response = result.getUniqueMappedResult();
         }
         return response;
+    }
+
+    public List<ProductTransaction> findByCreatedAtBetween(Long startTimeOfDay, Long endTimeOfDay) {
+        return productTransactionRepository.findByCreatedAtBetween(startTimeOfDay, endTimeOfDay);
     }
 }

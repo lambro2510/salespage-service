@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class TotalStatisticResponse {
-    Long totalPrice;
+    Integer totalPrice = 0;
+    Integer quantity = 0;
 }

@@ -27,12 +27,12 @@ public class TransactionStatistic {
   private StatisticType statisticType;
 
   @Field("total_product")
-  private Long totalProduct;
+  private Integer totalProduct;
 
   @Field("total_price")
-  private Long totalPrice;
+  private Integer totalPrice;
 
   @Field("total_user")
-  private Long totalUser;
+  private Integer totalUser;
 
 }

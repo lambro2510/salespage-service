@@ -6,9 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
@@ -61,12 +60,15 @@ public class Helper {
         return username + paymentId;
     }
 
-    public static Long getStartTimeOfDay(LocalDate date){
-        return date.toEpochDay();
+    public static long getStartTimeOfDay(LocalDate date) {
+        LocalTime startTime = LocalTime.of(0, 0, 0, 0);
+        LocalDateTime dateTime = LocalDateTime.of(date, startTime);
+        return dateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli();
     }
 
     public static Long getEndTimeOfDay(LocalDate date){
-        return date.plus(1, ChronoUnit.DAYS).toEpochDay() - 1;
-    }
+        LocalTime startTime = LocalTime.of(0, 0, 0, 0);
+        LocalDateTime dateTime = LocalDateTime.of(date.plusDays(1), startTime);
+        return dateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli() - 1;    }
 
 }

@@ -20,4 +20,6 @@ public interface ProductTransactionRepository extends MongoRepository<ProductTra
 
     @org.springframework.data.mongodb.repository.Query(value = "")
     long countByProductId(ObjectId productId);
+
+  List<ProductTransaction> findByCreatedAtBetween(Long startTimeOfDay, Long endTimeOfDay);
 }
