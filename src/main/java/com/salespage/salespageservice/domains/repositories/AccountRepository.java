@@ -11,5 +11,6 @@ public interface AccountRepository extends MongoRepository<Account, String> {
 
     boolean existsByUsername(String username);
 
-    boolean existByUsernameAndRole(String username, UserRole role);
+    boolean existsByUsernameAndRole(String username, UserRole role);
 }
+

@@ -53,7 +53,6 @@ public class ProductTransaction extends BaseEntity {
     private Long quantity;
 
     @Field("price_per_product")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Double pricePerProduct;
 
     @Field("address_receive")
@@ -67,6 +66,7 @@ public class ProductTransaction extends BaseEntity {
 
     @Field("voucher_info")
     private VoucherInfo voucherInfo;
+
     @Field("message")
     private List<Message> messages = new ArrayList<>();
 

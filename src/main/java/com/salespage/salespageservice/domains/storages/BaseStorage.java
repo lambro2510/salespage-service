@@ -2,8 +2,11 @@ package com.salespage.salespageservice.domains.storages;
 
 
 import com.salespage.salespageservice.domains.repositories.*;
+import com.salespage.salespageservice.domains.repositories.TransactionStatisticRepository;
 import com.salespage.salespageservice.domains.utils.RemoteCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 public class BaseStorage {
 
@@ -54,6 +57,12 @@ public class BaseStorage {
 
     @Autowired
     protected NotificationRepository notificationRepository;
+
+    @Autowired
+    protected TransactionStatisticRepository transactionStatisticRepository;
+
+    @Autowired
+    protected MongoTemplate mongoTemplate;
 
     @Autowired
     protected RemoteCacheManager remoteCacheManager;

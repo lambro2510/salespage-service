@@ -1,12 +1,20 @@
 package com.salespage.salespageservice.domains.storages;
 
+import com.salespage.salespageservice.app.responses.transactionResponse.TotalStatisticResponse;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -30,5 +38,20 @@ public class ProductTransactionStorage extends BaseStorage {
 
     public List<ProductTransaction> findAllProductTransactionByProductId(String productId) {
         return productTransactionRepository.findAllProductTransactionByProductId(new ObjectId(productId));
+    }
+
+    public TotalStatisticResponse countByProductId(ObjectId id, LocalDate today) {
+        Criteria criteria = Criteria.where("product_id").is(id)
+                .andOperator(Criteria.where("created_at").gte(Helper.getStartTimeOfDay(today)), Criteria.where("created_at").lte(Helper.getEndTimeOfDay(today)));
+        AggregationOperation match = Aggregation.match(criteria);
+        GroupOperation groupOperation = Aggregation.group()
+                .sum("price_per_product").as("totalPrice");
+        Aggregation aggregation = Aggregation.newAggregation(match, groupOperation);
+        AggregationResults<TotalStatisticResponse> result = mongoTemplate.aggregate(aggregation, "product_transaction", TotalStatisticResponse.class);
+        TotalStatisticResponse response = new TotalStatisticResponse();
+        if(result.getUniqueMappedResult() != null){
+            response = result.getUniqueMappedResult();
+        }
+        return response;
     }
 }

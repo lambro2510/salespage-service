@@ -17,4 +17,7 @@ public interface ProductTransactionRepository extends MongoRepository<ProductTra
     Page<ProductTransaction> findAll(Query query, Pageable pageable);
 
     List<ProductTransaction> findAllProductTransactionByProductId(ObjectId productId);
+
+    @org.springframework.data.mongodb.repository.Query(value = "")
+    long countByProductId(ObjectId productId);
 }

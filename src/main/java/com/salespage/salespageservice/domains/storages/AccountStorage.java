@@ -32,6 +32,6 @@ public class AccountStorage extends BaseStorage {
     }
 
     public boolean existByUsernameAndRole(String username, UserRole role) {
-        return accountRepository.existByUsernameAndRole(username, role);
+        return accountRepository.existsByUsernameAndRole(username, role);
     }
 }

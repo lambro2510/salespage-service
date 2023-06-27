@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 public class Account {
 
     @Id
+    @Field("username")
     private String username;
 
     @Field("password")

@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.domains.entities.types.LogType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.storages.*;
+import com.salespage.salespageservice.domains.storages.TransactionStatisticStorage;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import com.salespage.salespageservice.domains.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,9 @@ public class BaseService {
 
     @Autowired
     protected BankAccountStorage bankAccountStorage;
+
+    @Autowired
+    protected TransactionStatisticStorage transactionStatisticStorage;
 
     @Autowired
     @Lazy
