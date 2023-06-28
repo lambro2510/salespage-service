@@ -43,4 +43,9 @@ public class StatisticSchedule {
         transactionStatisticService.statisticPeriodMonth();
     }
 
+    @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+    public void asyncTransactionStatisticYear(){
+        transactionStatisticService.statisticYear();
+    }
+
 }

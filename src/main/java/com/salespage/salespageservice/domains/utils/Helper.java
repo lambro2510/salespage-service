@@ -97,4 +97,15 @@ public class Helper {
         return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
     }
 
+    public static Long getStartTimeOfYear(LocalDate date) {
+        LocalDate startOfWeek = date.with(TemporalAdjusters.firstDayOfYear());
+        LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
+        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+    }
+
+    public static Long getEndTimeOfYear(LocalDate date) {
+        LocalDate startOfWeek = date.with(TemporalAdjusters.lastDayOfYear());
+        LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
+        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+    }
 }

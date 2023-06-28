@@ -55,6 +55,11 @@ public class TransactionStatisticService extends BaseService{
     statisticUpdate(date, Helper.getStartTimeOfMonth(periodDay), Helper.getEndTimeOfMonth(periodDay), StatisticType.MONTH);
   }
 
+  public void statisticYear() {
+    LocalDate today = LocalDate.now();
+    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    statisticUpdate(date, Helper.getStartTimeOfYear(today), Helper.getEndTimeOfYear(today), StatisticType.YEAR);
+  }
 
   public void statisticUpdate(String date, Long startAt, Long endAt, StatisticType statisticType){
     List<ProductTransaction> listProductTransactions = productTransactionStorage.findByCreatedAtBetween(startAt, endAt);
@@ -73,4 +78,6 @@ public class TransactionStatisticService extends BaseService{
       transactionStatisticStorage.save(transactionStatistic);
     }
   }
+
+
 }
