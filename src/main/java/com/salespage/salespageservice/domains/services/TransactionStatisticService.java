@@ -18,13 +18,52 @@ public class TransactionStatisticService extends BaseService{
   public void statisticToday(){
     LocalDate today = LocalDate.now();
     String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
-    List<ProductTransaction> listProductTransactions = productTransactionStorage.findByCreatedAtBetween(Helper.getStartTimeOfDay(today), Helper.getEndTimeOfDay(today));
+    statisticUpdate(date, Helper.getStartTimeOfDay(today), Helper.getEndTimeOfDay(today), StatisticType.DAY);
+  }
+
+  public void statisticPeriodDate(){
+    LocalDate today = LocalDate.now();
+    LocalDate periodDay = today.minusDays(1);
+    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    statisticUpdate(date, Helper.getStartTimeOfDay(periodDay), Helper.getEndTimeOfDay(periodDay), StatisticType.DAY);
+  }
+
+  public void statisticWeek(){
+    LocalDate today = LocalDate.now();
+    LocalDate periodDay = today.minusDays(1);
+    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    statisticUpdate(date, Helper.getStartTimeOfWeek(periodDay), Helper.getEndTimeOfWeek(periodDay), StatisticType.WEEK);
+  }
+
+  public void statisticPeriodWeek(){
+    LocalDate today = LocalDate.now();
+    LocalDate periodDay = today.minusDays(7);
+    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    statisticUpdate(date, Helper.getStartTimeOfWeek(periodDay), Helper.getEndTimeOfWeek(periodDay), StatisticType.WEEK);
+  }
+
+  public void statisticMonth(){
+    LocalDate today = LocalDate.now();
+    LocalDate periodDay = today.minusDays(1);
+    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    statisticUpdate(date, Helper.getStartTimeOfMonth(periodDay), Helper.getEndTimeOfMonth(periodDay), StatisticType.MONTH);
+  }
+  public void statisticPeriodMonth(){
+    LocalDate today = LocalDate.now();
+    LocalDate periodDay = today.minusDays(today.getMonthValue());
+    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    statisticUpdate(date, Helper.getStartTimeOfMonth(periodDay), Helper.getEndTimeOfMonth(periodDay), StatisticType.MONTH);
+  }
+
+
+  public void statisticUpdate(String date, Long startAt, Long endAt, StatisticType statisticType){
+    List<ProductTransaction> listProductTransactions = productTransactionStorage.findByCreatedAtBetween(startAt, endAt);
     for(ProductTransaction transaction : listProductTransactions){
       TransactionStatistic transactionStatistic = transactionStatisticStorage.findByDateAndProductId(date, transaction.getProductId());
       if(Objects.isNull(transactionStatistic)) transactionStatistic = new TransactionStatistic();
 
-      TotalStatisticResponse total = productTransactionStorage.countByProductId(transaction.getProductId(), today);
-      transactionStatistic.setStatisticType(StatisticType.DAY);
+      TotalStatisticResponse total = productTransactionStorage.countByProductId(transaction.getProductId(), startAt, endAt);
+      transactionStatistic.setStatisticType(statisticType);
       transactionStatistic.setDate(date);
       transactionStatistic.setUsername(transaction.getSellerUsername());
       transactionStatistic.setProductId(transaction.getProductId());
@@ -33,6 +72,5 @@ public class TransactionStatisticService extends BaseService{
       transactionStatistic.setTotalUser(productTransactionStorage.countUserBuy(transaction.getBuyerUsername(), transaction.getProductId()));
       transactionStatisticStorage.save(transactionStatistic);
     }
-
   }
 }

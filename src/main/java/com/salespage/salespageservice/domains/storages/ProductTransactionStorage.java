@@ -40,9 +40,9 @@ public class ProductTransactionStorage extends BaseStorage {
         return productTransactionRepository.findAllProductTransactionByProductId(new ObjectId(productId));
     }
 
-    public TotalStatisticResponse countByProductId(String id, LocalDate today) {
+    public TotalStatisticResponse countByProductId(String id, Long startAt, Long endAt) {
         Criteria criteria = Criteria.where("product_id").is(id)
-                .andOperator(Criteria.where("created_at").gte(Helper.getStartTimeOfDay(today)), Criteria.where("created_at").lte(Helper.getEndTimeOfDay(today)));
+                .andOperator(Criteria.where("created_at").gte(startAt), Criteria.where("created_at").lte(endAt));
         AggregationOperation match = Aggregation.match(criteria);
         GroupOperation groupOperation = Aggregation.group()
                 .sum("price_per_product").as("totalPrice")

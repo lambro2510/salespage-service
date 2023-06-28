@@ -9,6 +9,7 @@ import java.security.SecureRandom;
 import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -69,6 +70,31 @@ public class Helper {
     public static Long getEndTimeOfDay(LocalDate date){
         LocalTime startTime = LocalTime.of(0, 0, 0, 0);
         LocalDateTime dateTime = LocalDateTime.of(date.plusDays(1), startTime);
-        return dateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli() - 1;    }
+        return dateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli() - 1;
+    }
+
+    public static Long getStartTimeOfWeek(LocalDate date){
+        LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
+        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+    }
+
+    public static Long getEndTimeOfWeek(LocalDate date){
+        LocalDate startOfWeek = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
+        LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
+        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT)) - 1;
+    }
+
+    public static Long getStartTimeOfMonth(LocalDate date){
+        LocalDate startOfWeek = date.with(TemporalAdjusters.firstDayOfMonth());
+        LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
+        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+    }
+
+    public static Long getEndTimeOfMonth(LocalDate date){
+        LocalDate startOfWeek = date.with(TemporalAdjusters.lastDayOfMonth());
+        LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
+        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+    }
 
 }

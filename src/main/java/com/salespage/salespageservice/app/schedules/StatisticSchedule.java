@@ -17,4 +17,30 @@ public class StatisticSchedule {
     public void asyncTransactionStatisticToday(){
         transactionStatisticService.statisticToday();
     }
+
+    @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+    public void asyncTransactionStatisticPeriodDay(){
+        transactionStatisticService.statisticPeriodDate();
+    }
+
+    @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+    public void asyncTransactionStatisticWeek(){
+        transactionStatisticService.statisticWeek();
+    }
+
+    @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+    public void asyncTransactionStatisticPeriodWeek(){
+        transactionStatisticService.statisticPeriodWeek();
+    }
+
+    @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+    public void asyncTransactionStatisticMonth(){
+        transactionStatisticService.statisticMonth();
+    }
+
+    @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+    public void asyncTransactionStatisticPeriodMonth(){
+        transactionStatisticService.statisticPeriodMonth();
+    }
+
 }
