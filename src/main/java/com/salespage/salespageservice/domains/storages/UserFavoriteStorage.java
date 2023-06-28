@@ -5,6 +5,7 @@ import com.salespage.salespageservice.domains.entities.types.FavoriteType;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -20,5 +21,9 @@ public class UserFavoriteStorage extends BaseStorage {
 
     public void save(UserFavorite userFavorite) {
         userFavoriteRepository.save(userFavorite);
+    }
+
+    public List<UserFavorite> findByUsernameAndFavoriteType(String username, FavoriteType favoriteType) {
+        return userFavoriteRepository.findByUsernameAndFavoriteType(username, favoriteType);
     }
 }

@@ -7,6 +7,7 @@ import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -46,5 +47,9 @@ public class UserFavoriteService extends BaseService {
         userFavorite.setFavoriteType(type);
         userFavorite.setRateStar(star);
         userFavoriteStorage.save(userFavorite);
+    }
+
+    public List<UserFavorite> getListFavorite(String username, FavoriteType favoriteType) {
+        return userFavoriteStorage.findByUsernameAndFavoriteType(username, favoriteType);
     }
 }
