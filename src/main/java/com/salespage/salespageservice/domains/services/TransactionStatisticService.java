@@ -45,19 +45,19 @@ public class TransactionStatisticService extends BaseService{
   public void statisticMonth(){
     LocalDate today = LocalDate.now();
     LocalDate periodDay = today.minusDays(1);
-    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    String date = today.getYear() + "-" + today.getMonthValue();
     statisticUpdate(date, Helper.getStartTimeOfMonth(periodDay), Helper.getEndTimeOfMonth(periodDay), StatisticType.MONTH);
   }
   public void statisticPeriodMonth(){
     LocalDate today = LocalDate.now();
     LocalDate periodDay = today.minusDays(today.getMonthValue());
-    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    String date = today.getYear() + "-" + today.getMonthValue();
     statisticUpdate(date, Helper.getStartTimeOfMonth(periodDay), Helper.getEndTimeOfMonth(periodDay), StatisticType.MONTH);
   }
 
   public void statisticYear() {
     LocalDate today = LocalDate.now();
-    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    String date = String.valueOf(today.getYear());
     statisticUpdate(date, Helper.getStartTimeOfYear(today), Helper.getEndTimeOfYear(today), StatisticType.YEAR);
   }
 
