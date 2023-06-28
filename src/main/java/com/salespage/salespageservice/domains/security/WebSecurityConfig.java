@@ -73,6 +73,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/configuration/security",
                         "/swagger-ui.html",
                         "/swagger-ui/**",
+                        "/chat.sendMessage/**",
+                        "/ws/**",
                         "/webjars/**")
                 .permitAll();
 
