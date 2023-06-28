@@ -24,35 +24,33 @@ public class TransactionStatisticService extends BaseService{
   public void statisticPeriodDate(){
     LocalDate today = LocalDate.now();
     LocalDate periodDay = today.minusDays(1);
-    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    String date = periodDay.getYear() + "-" + periodDay.getMonthValue() + "-" + periodDay.getDayOfMonth();
     statisticUpdate(date, Helper.getStartTimeOfDay(periodDay), Helper.getEndTimeOfDay(periodDay), StatisticType.DAY);
   }
 
   public void statisticWeek(){
     LocalDate today = LocalDate.now();
-    LocalDate periodDay = today.minusDays(1);
     String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
-    statisticUpdate(date, Helper.getStartTimeOfWeek(periodDay), Helper.getEndTimeOfWeek(periodDay), StatisticType.WEEK);
+    statisticUpdate(date, Helper.getStartTimeOfWeek(today), Helper.getEndTimeOfWeek(today), StatisticType.WEEK);
   }
 
   public void statisticPeriodWeek(){
     LocalDate today = LocalDate.now();
-    LocalDate periodDay = today.minusDays(7);
+    LocalDate periodWeek = today.minusDays(7);
     String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
-    statisticUpdate(date, Helper.getStartTimeOfWeek(periodDay), Helper.getEndTimeOfWeek(periodDay), StatisticType.WEEK);
+    statisticUpdate(date, Helper.getStartTimeOfWeek(periodWeek), Helper.getEndTimeOfWeek(periodWeek), StatisticType.WEEK);
   }
 
   public void statisticMonth(){
     LocalDate today = LocalDate.now();
-    LocalDate periodDay = today.minusDays(1);
     String date = today.getYear() + "-" + today.getMonthValue();
-    statisticUpdate(date, Helper.getStartTimeOfMonth(periodDay), Helper.getEndTimeOfMonth(periodDay), StatisticType.MONTH);
+    statisticUpdate(date, Helper.getStartTimeOfMonth(today), Helper.getEndTimeOfMonth(today), StatisticType.MONTH);
   }
   public void statisticPeriodMonth(){
     LocalDate today = LocalDate.now();
-    LocalDate periodDay = today.minusDays(today.getMonthValue());
+    LocalDate periodMonth = today.minusDays(today.getMonthValue());
     String date = today.getYear() + "-" + today.getMonthValue();
-    statisticUpdate(date, Helper.getStartTimeOfMonth(periodDay), Helper.getEndTimeOfMonth(periodDay), StatisticType.MONTH);
+    statisticUpdate(date, Helper.getStartTimeOfMonth(periodMonth), Helper.getEndTimeOfMonth(periodMonth), StatisticType.MONTH);
   }
 
   public void statisticYear() {
