@@ -64,7 +64,7 @@ public class TransactionStatisticService extends BaseService{
   public void statisticUpdate(String date, Long startAt, Long endAt, StatisticType statisticType){
     List<ProductTransaction> listProductTransactions = productTransactionStorage.findByCreatedAtBetween(startAt, endAt);
     for(ProductTransaction transaction : listProductTransactions){
-      TransactionStatistic transactionStatistic = transactionStatisticStorage.findByDateAndProductId(date, transaction.getProductId());
+      TransactionStatistic transactionStatistic = transactionStatisticStorage.findByDateAndProductIdAndStatisticType(date, transaction.getProductId(),statisticType);
       if(Objects.isNull(transactionStatistic)) transactionStatistic = new TransactionStatistic();
 
       TotalStatisticResponse total = productTransactionStorage.countByProductId(transaction.getProductId(), startAt, endAt);

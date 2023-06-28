@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.TransactionStatistic;
+import com.salespage.salespageservice.domains.entities.types.StatisticType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,7 +14,7 @@ public class TransactionStatisticStorage extends BaseStorage{
     transactionStatisticRepository.save(transactionStatistic);
     }
 
-  public TransactionStatistic findByDateAndProductId(String date, String productId) {
-    return transactionStatisticRepository.findByDateAndProductId(date, productId);
-  }
+    public TransactionStatistic findByDateAndProductIdAndStatisticType(String date, String productId, StatisticType statisticType) {
+    return transactionStatisticRepository.findByDateAndProductIdAndStatisticType(date, productId, statisticType);
+    }
 }
