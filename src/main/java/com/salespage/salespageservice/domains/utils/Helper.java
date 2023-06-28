@@ -76,36 +76,36 @@ public class Helper {
     public static Long getStartTimeOfWeek(LocalDate date){
         LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
-        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+        return mondayStartDateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli();
     }
 
     public static Long getEndTimeOfWeek(LocalDate date){
         LocalDate startOfWeek = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
         LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
-        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT)) - 1;
+        return mondayStartDateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli() - 1;
     }
 
     public static Long getStartTimeOfMonth(LocalDate date){
         LocalDate startOfWeek = date.with(TemporalAdjusters.firstDayOfMonth());
         LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
-        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+        return mondayStartDateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli();
     }
 
     public static Long getEndTimeOfMonth(LocalDate date){
         LocalDate startOfWeek = date.with(TemporalAdjusters.lastDayOfMonth());
         LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
-        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+        return mondayStartDateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli();
     }
 
     public static Long getStartTimeOfYear(LocalDate date) {
         LocalDate startOfWeek = date.with(TemporalAdjusters.firstDayOfYear());
         LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
-        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+        return mondayStartDateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli();
     }
 
     public static Long getEndTimeOfYear(LocalDate date) {
         LocalDate startOfWeek = date.with(TemporalAdjusters.lastDayOfYear());
         LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
-        return mondayStartDateTime.toEpochSecond(ZoneOffset.of(ZONE_DEFAULT));
+        return mondayStartDateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli();
     }
 }

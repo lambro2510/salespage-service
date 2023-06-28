@@ -37,7 +37,7 @@ public class TransactionStatisticService extends BaseService{
   public void statisticPeriodWeek(){
     LocalDate today = LocalDate.now();
     LocalDate periodWeek = today.minusDays(7);
-    String date = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+    String date = periodWeek.getYear() + "-" + periodWeek.getMonthValue() + "-" + periodWeek.getDayOfMonth();
     statisticUpdate(date, Helper.getStartTimeOfWeek(periodWeek), Helper.getEndTimeOfWeek(periodWeek), StatisticType.WEEK);
   }
 
@@ -49,7 +49,7 @@ public class TransactionStatisticService extends BaseService{
   public void statisticPeriodMonth(){
     LocalDate today = LocalDate.now();
     LocalDate periodMonth = today.minusDays(today.getMonthValue());
-    String date = today.getYear() + "-" + today.getMonthValue();
+    String date = periodMonth.getYear() + "-" + periodMonth.getMonthValue();
     statisticUpdate(date, Helper.getStartTimeOfMonth(periodMonth), Helper.getEndTimeOfMonth(periodMonth), StatisticType.MONTH);
   }
 
