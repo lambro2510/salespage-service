@@ -12,7 +12,7 @@ public class CheckInDailyStorage extends BaseStorage{
         checkInDailyRepository.save(checkInDaily);
     }
 
-    public CheckInDaily findByUsernameAndDate(String username, Date today) {
+    public CheckInDaily findByUsernameAndDate(String username, String today) {
         return checkInDailyRepository.findByUsernameAndDate(username, today);
     }
 

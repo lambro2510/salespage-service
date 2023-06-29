@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface CheckInDailyRepository extends MongoRepository<CheckInDaily, ObjectId> {
-    CheckInDaily findByUsernameAndDate(String username, Date today);
+    CheckInDaily findByUsernameAndDate(String username, String today);
 
     List<CheckInDaily> findByDateAndCheckInToday(Date date, boolean b);
 }

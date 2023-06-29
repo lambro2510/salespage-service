@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public void checkInDaily(String username){
         Date today = new Date();
-        CheckInDaily checkInDaily = checkInDailyStorage.findByUsernameAndDate(username, today);
+        CheckInDaily checkInDaily = checkInDailyStorage.findByUsernameAndDate(username, Helper.getDay(today));
         if(Objects.isNull(checkInDaily)){
             checkInDaily = new CheckInDaily();
             checkInDaily.setDate(Helper.getDay(today));
