@@ -62,6 +62,10 @@ public class BaseStorage {
     protected TransactionStatisticRepository transactionStatisticRepository;
 
     @Autowired
+    protected CheckInDailyRepository checkInDailyRepository;
+
+
+    @Autowired
     protected MongoTemplate mongoTemplate;
 
     @Autowired

@@ -67,6 +67,9 @@ public class BaseService {
     protected TransactionStatisticStorage transactionStatisticStorage;
 
     @Autowired
+    protected CheckInDailyStorage checkInDailyStorage;
+
+    @Autowired
     @Lazy
     private SystemLogService systemLogService;
 

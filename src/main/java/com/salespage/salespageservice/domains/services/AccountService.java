@@ -104,5 +104,4 @@ public class AccountService extends BaseService {
         EmailRequest.sendVerificationCode(user.getEmail(), code);
     }
 
-
 }

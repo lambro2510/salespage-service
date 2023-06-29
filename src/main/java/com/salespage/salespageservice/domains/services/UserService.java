@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
 import com.salespage.salespageservice.domains.entities.Account;
+import com.salespage.salespageservice.domains.entities.CheckInDaily;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Objects;
 
 @Service
@@ -59,11 +61,11 @@ public class UserService extends BaseService {
 
     }
 
-
     public void uploadImage(String username, MultipartFile image) throws IOException {
         String imageUrl = googleDriver.uploadPublicImage("user-image", username, Helper.convertMultiPartToFile(image));
         User user = userStorage.findByUsername(username);
         user.setImageUrl(imageUrl);
         userStorage.save(user);
     }
+
 }

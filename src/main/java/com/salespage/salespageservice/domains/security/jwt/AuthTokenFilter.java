@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.security.jwt;
 
 
 import com.salespage.salespageservice.domains.security.services.UserDetailsServiceImpl;
+import com.salespage.salespageservice.domains.storages.CheckInDailyStorage;
 import com.salespage.salespageservice.domains.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain)
@@ -55,7 +55,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken
                             authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
+                    userDetailsService.checkInDaily(username);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } else if (StringUtils.hasText(bankToken) && cassoToken.equals(bankToken)) {
@@ -76,7 +76,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        // Kiểm tra xem header Authorization có chứa thông tin jwt không
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
