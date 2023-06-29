@@ -55,8 +55,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken
                             authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    userDetailsService.checkInDaily(username);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                    userDetailsService.checkInDaily(username);
                 }
             } else if (StringUtils.hasText(bankToken) && cassoToken.equals(bankToken)) {
                 UserDetails userDetails = new User("casso", "lam12345", new ArrayList<>());
