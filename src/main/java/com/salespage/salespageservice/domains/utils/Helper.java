@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
@@ -111,10 +112,12 @@ public class Helper {
     }
 
     public static String getMonth(Date date){
-        return date.getYear() + "-" + date.getMonth();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        return dateFormat.format(date);
     }
 
     public static String getDay(Date date) {
-        return date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
     }
 }
