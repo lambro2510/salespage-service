@@ -12,5 +12,5 @@ import java.util.List;
 public interface CheckInDailyRepository extends MongoRepository<CheckInDaily, ObjectId> {
     CheckInDaily findByUsernameAndDate(String username, Date today);
 
-    List<CheckInDaily> findByDateAndCheckIn(Date date, boolean b);
+    List<CheckInDaily> findByDateAndCheckInToday(Date date, boolean b);
 }

@@ -21,5 +21,5 @@ public class CheckInDaily extends BaseEntity{
     private String username;
 
     @Field("check_in")
-    private Boolean checkIn = false;
+    private Boolean checkInToday = false;
 }

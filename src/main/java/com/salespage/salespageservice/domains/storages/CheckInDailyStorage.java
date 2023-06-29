@@ -17,6 +17,6 @@ public class CheckInDailyStorage extends BaseStorage{
     }
 
     public List<CheckInDaily> findByDateAndCheckIn(Date date, boolean b) {
-        return checkInDailyRepository.findByDateAndCheckIn(date, b);
+        return checkInDailyRepository.findByDateAndCheckInToday(date, b);
     }
 }
