@@ -10,6 +10,7 @@ import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -107,5 +108,9 @@ public class Helper {
         LocalDate startOfWeek = date.with(TemporalAdjusters.lastDayOfYear());
         LocalDateTime mondayStartDateTime = startOfWeek.atStartOfDay();
         return mondayStartDateTime.atZone(ZoneId.of(ZONE_DEFAULT)).toInstant().toEpochMilli();
+    }
+
+    public static String getMonth(Date date){
+        return date.getYear() + "-" + date.getMonth();
     }
 }

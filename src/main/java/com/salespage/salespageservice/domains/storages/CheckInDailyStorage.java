@@ -4,6 +4,7 @@ import com.salespage.salespageservice.domains.entities.CheckInDaily;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class CheckInDailyStorage extends BaseStorage{
@@ -13,5 +14,9 @@ public class CheckInDailyStorage extends BaseStorage{
 
     public CheckInDaily findByUsernameAndDate(String username, Date today) {
         return checkInDailyRepository.findByUsernameAndDate(username, today);
+    }
+
+    public List<CheckInDaily> findByDateAndCheckIn(Date date, boolean b) {
+        return checkInDailyRepository.findByDateAndCheckIn(date, b);
     }
 }

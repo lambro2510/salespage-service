@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.schedules;
 
+import com.salespage.salespageservice.domains.services.CheckInDailyStatisticService;
 import com.salespage.salespageservice.domains.services.TransactionStatisticService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class StatisticSchedule {
 
     @Autowired
     private TransactionStatisticService transactionStatisticService;
+
+    @Autowired
+    private CheckInDailyStatisticService checkInDailyStatisticService;
 
     @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
     public void asyncTransactionStatisticToday(){
@@ -56,6 +60,12 @@ public class StatisticSchedule {
     public void asyncTransactionStatisticYear(){
         log.info("asyncTransactionStatisticYear -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
         transactionStatisticService.statisticYear();
+    }
+
+    @Scheduled(fixedDelay = 1000 * 60 * 60 * 4) //4h 1 lần
+    public void checkInStatistic(){
+        log.info("checkInStatistic -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
+        checkInDailyStatisticService.statisticUserCheckIn();
     }
 
 }

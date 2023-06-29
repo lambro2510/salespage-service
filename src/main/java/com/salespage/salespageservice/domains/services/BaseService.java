@@ -70,6 +70,9 @@ public class BaseService {
     protected CheckInDailyStorage checkInDailyStorage;
 
     @Autowired
+    protected CheckInDailyStatisticStorage checkInDailyStatisticStorage;
+
+    @Autowired
     @Lazy
     private SystemLogService systemLogService;
 

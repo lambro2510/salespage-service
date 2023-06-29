@@ -6,8 +6,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface CheckInDailyRepository extends MongoRepository<CheckInDaily, ObjectId> {
     CheckInDaily findByUsernameAndDate(String username, Date today);
+
+    List<CheckInDaily> findByDateAndCheckIn(Date date, boolean b);
 }

@@ -64,6 +64,9 @@ public class BaseStorage {
     @Autowired
     protected CheckInDailyRepository checkInDailyRepository;
 
+    @Autowired
+    protected CheckInDailyStatisticRepository checkInDailyStatisticRepository;
+
 
     @Autowired
     protected MongoTemplate mongoTemplate;

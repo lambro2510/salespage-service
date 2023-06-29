@@ -4,6 +4,8 @@ import com.salespage.salespageservice.domains.entities.User;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class UserStorage extends BaseStorage {
     public void save(User user) {
@@ -20,5 +22,9 @@ public class UserStorage extends BaseStorage {
 
     public boolean isExistByUsernameAndRole(String refId) {
         return userRepository.existsById(new ObjectId(refId));
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }
