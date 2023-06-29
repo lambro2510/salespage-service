@@ -5,11 +5,13 @@ import com.salespage.salespageservice.domains.entities.CheckInDaily;
 import com.salespage.salespageservice.domains.exceptions.WrongAccountOrPasswordException;
 import com.salespage.salespageservice.domains.storages.AccountStorage;
 import com.salespage.salespageservice.domains.storages.CheckInDailyStorage;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -35,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         CheckInDaily checkInDaily = checkInDailyStorage.findByUsernameAndDate(username, today);
         if(Objects.isNull(checkInDaily))
             checkInDaily = new CheckInDaily();
-        checkInDaily.setDate(today);
+        checkInDaily.setDate(Helper.getDay(today));
         checkInDaily.setUsername(username);
         checkInDailyStorage.save(checkInDaily);
     }

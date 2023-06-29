@@ -113,4 +113,8 @@ public class Helper {
     public static String getMonth(Date date){
         return date.getYear() + "-" + date.getMonth();
     }
+
+    public static String getDay(Date date) {
+        return date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
+    }
 }

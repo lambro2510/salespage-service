@@ -15,7 +15,7 @@ public class CheckInDaily extends BaseEntity{
     private ObjectId id;
 
     @Field("date")
-    private Date date;
+    private String date;
 
     @Field("username")
     private String username;
