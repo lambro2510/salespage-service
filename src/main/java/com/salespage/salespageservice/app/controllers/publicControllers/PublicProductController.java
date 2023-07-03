@@ -16,7 +16,7 @@ import java.util.Objects;
 @CrossOrigin
 @RestController
 @RequestMapping("v1/api/public/product")
-@Tag(name = "Thông tin của sản phẩm", description = "Thông tin sản phẩm được bán")
+@Tag(name = "Product", description = "Thông tin sản phẩm được bán")
 public class PublicProductController extends BaseController {
     @Autowired
     private ProductService productService;

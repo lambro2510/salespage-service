@@ -22,7 +22,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("v1/api/seller-store")
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name = "Quản lý cửa hàng của người dùng", description = "Quản lý cửa hàng của người dùng")
+@Tag(name = "Store", description = "Quản lý cửa hàng của người dùng")
 public class SellerStoreController extends BaseController {
 
     @Autowired

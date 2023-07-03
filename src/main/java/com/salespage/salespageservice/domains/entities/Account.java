@@ -33,6 +33,9 @@ public class Account {
     @Field("user_state")
     private UserState state;
 
+    @Field("last_login")
+    private String lastLogin;
+
     public void createAccount(SignUpDto dto) {
         username = dto.getUsername();
         salt = BCrypt.gensalt();

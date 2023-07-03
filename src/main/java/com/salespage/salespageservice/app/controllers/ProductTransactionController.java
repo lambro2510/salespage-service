@@ -24,7 +24,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("v1/api/product-transaction")
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name = "Quản lý giao dịch của người dùng", description = "Quản lý các giao dịch mua bán của người dùng")
+@Tag(name = "Product transaction", description = "Quản lý các giao dịch mua bán của người dùng")
 public class ProductTransactionController extends BaseController {
 
     @Autowired

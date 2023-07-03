@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@Tag(name = "Quản lý sản phẩm", description = "Quản lý sản phẩm người dùng bán")
+@Tag(name = "Product", description = "Thông tin sản phẩm được bán")
 @CrossOrigin
 @RestController
 @RequestMapping("v1/api/product")

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("v1/api/public/seller-store")
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name = "Thông tin của cửa hàng", description = "Thông tin của cửa hàng được hiển thị")
+@Tag(name = "Store", description = "Thông tin của cửa hàng được hiển thị")
 public class PublicSellerStoreController extends BaseController {
 
     @Autowired

@@ -22,6 +22,12 @@ public class DateUtils {
         return dateTime.format(formatter);
     }
 
+    public static String nowString(String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        LocalDateTime dateTime = LocalDateTime.now(DEFAULT_ZONE_ID);
+        return dateTime.format(formatter);
+    }
+
     public static LocalDateTime convertMMToUtc(LocalDateTime utcTime) {
         return utcTime.atZone(ZoneId.of(ZONE_MYANMAR))
                 .withZoneSameInstant(DEFAULT_ZONE_ID)

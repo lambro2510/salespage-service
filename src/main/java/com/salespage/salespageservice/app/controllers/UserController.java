@@ -22,7 +22,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("v1/api/user")
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name = "Quản lý thông tin của người dùng", description = "API quản lý thông tin và hồ sơ người dùng")
+@Tag(name = "User", description = "API quản lý thông tin và hồ sơ người dùng")
 public class UserController extends BaseController {
 
     @Autowired
