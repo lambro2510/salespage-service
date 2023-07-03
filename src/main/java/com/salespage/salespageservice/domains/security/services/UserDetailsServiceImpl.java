@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new WrongAccountOrPasswordException();
         }else{
             String today = DateUtils.nowString("dd/MM/yyyy");
-            if(!account.getLastLogin().equals(today)){
+            if(!today.equals(account.getLastLogin())){
                 account.setLastLogin(today);
                 accountStorage.save(account);
                 checkInDaily(account.getUsername());
@@ -43,11 +43,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public void checkInDaily(String username){
-        Date today = new Date();
-        CheckInDaily checkInDaily = checkInDailyStorage.findByUsernameAndDate(username, Helper.getDay(today));
+        String today = DateUtils.nowString("dd/MM/yyyy");
+        CheckInDaily checkInDaily = checkInDailyStorage.findByUsernameAndDate(username, today);
         if(Objects.isNull(checkInDaily)){
             checkInDaily = new CheckInDaily();
-            checkInDaily.setDate(Helper.getDay(today));
+            checkInDaily.setDate(today);
             checkInDaily.setUsername(username);
             checkInDailyStorage.save(checkInDaily);
         }
