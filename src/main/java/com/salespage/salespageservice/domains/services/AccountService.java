@@ -108,7 +108,7 @@ public class AccountService extends BaseService {
 
     public void changeShipMode(String username, List<UserRole> userRoles, ShipperStatusDto dto) {
         Account account = accountStorage.findByUsername(username);
-        if(Objects.nonNull(account) && hasUserRole(userRoles, UserRole.SELLER)){
+        if(Objects.nonNull(account) && hasUserRole(userRoles, UserRole.SHIPPER)){
             account.setShipMode(dto.getStatus());
             account.setLatitude(dto.getLatitude());
             account.setLongitude(dto.getLongitude());
