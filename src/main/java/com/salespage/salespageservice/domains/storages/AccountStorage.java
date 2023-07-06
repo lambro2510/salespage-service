@@ -34,4 +34,8 @@ public class AccountStorage extends BaseStorage {
     public boolean existByUsernameAndRole(String username, UserRole role) {
         return accountRepository.existsByUsernameAndRole(username, role);
     }
+
+    public Account findShiperNearTransaction() {
+        return accountRepository.findByRoleAndShipMode(UserRole.SHIPPER, true);
+    }
 }

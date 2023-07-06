@@ -52,7 +52,6 @@ public class SignUpDto {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date dateOfBirth;
 
-    @NotBlank
     @Schema(description = "Quyền của người dùng", example = "USER")
     private UserRole userRole;
 

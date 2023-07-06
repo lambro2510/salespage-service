@@ -12,5 +12,7 @@ public interface AccountRepository extends MongoRepository<Account, String> {
     boolean existsByUsername(String username);
 
     boolean existsByUsernameAndRole(String username, UserRole role);
+
+    Account findByRoleAndShipMode(UserRole userRole, Boolean shipMode);
 }
 

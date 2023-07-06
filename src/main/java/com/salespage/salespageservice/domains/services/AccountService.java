@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.LoginDto;
+import com.salespage.salespageservice.app.dtos.accountDtos.ShipperStatusDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.Account;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -104,4 +106,15 @@ public class AccountService extends BaseService {
         EmailRequest.sendVerificationCode(user.getEmail(), code);
     }
 
+    public void changeShipMode(String username, List<UserRole> userRoles, ShipperStatusDto dto) {
+        Account account = accountStorage.findByUsername(username);
+        if(Objects.nonNull(account) && hasUserRole(userRoles, UserRole.SELLER)){
+            account.setShipMode(dto.getStatus());
+            account.setLatitude(dto.getLatitude());
+            account.setLongitude(dto.getLongitude());
+            accountStorage.save(account);
+        }else{
+            throw new ResourceNotFoundException("Tài khoản không tồn tại hoặc quyền không hợp lê");
+        }
+    }
 }

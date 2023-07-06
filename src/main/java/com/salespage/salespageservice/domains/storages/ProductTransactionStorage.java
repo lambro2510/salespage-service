@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.app.responses.transactionResponse.TotalStatisticResponse;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
+import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -61,5 +62,9 @@ public class ProductTransactionStorage extends BaseStorage {
     }
     public List<ProductTransaction> findByCreatedAtBetween(Long startTimeOfDay, Long endTimeOfDay) {
         return productTransactionRepository.findByCreatedAtBetween(startTimeOfDay, endTimeOfDay);
+    }
+
+    public List<ProductTransaction> findProductTransactionByState(ProductTransactionState productTransactionState) {
+        return productTransactionRepository.findProductTransactionByState(productTransactionState);
     }
 }

@@ -67,6 +67,9 @@ public class ProductTransaction extends BaseEntity {
     @Field("voucher_info")
     private VoucherInfo voucherInfo;
 
+    @Field("shipper_username")
+    private String shipperUsername;
+
     @Field("message")
     private List<Message> messages = new ArrayList<>();
 

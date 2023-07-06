@@ -36,6 +36,15 @@ public class Account {
     @Field("last_login")
     private String lastLogin;
 
+    @Field("ship_mode")
+    private Boolean shipMode;
+
+    @Field("longitude")
+    private String longitude;
+
+    @Field("latitude")
+    private String latitude;
+
     public void createAccount(SignUpDto dto) {
         username = dto.getUsername();
         salt = BCrypt.gensalt();

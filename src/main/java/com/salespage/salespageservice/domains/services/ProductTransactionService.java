@@ -4,10 +4,7 @@ import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTran
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
-import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.ProductTransaction;
-import com.salespage.salespageservice.domains.entities.SellerStore;
-import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
@@ -150,4 +147,13 @@ public class ProductTransactionService extends BaseService {
 
     }
 
+    public void findShipperForProduct() {
+        List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByState(ProductTransactionState.WAITING);
+        for(ProductTransaction productTransaction : productTransactions){
+            Account account = accountStorage.findShiperNearTransaction();
+            productTransaction.setShipperUsername(account.getUsername());
+            productTransaction.setState(ProductTransactionState.PROGRESS);
+            productTransactionStorage.save(productTransaction);
+        }
+    }
 }
