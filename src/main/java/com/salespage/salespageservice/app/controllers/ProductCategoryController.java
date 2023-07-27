@@ -28,7 +28,7 @@ public class ProductCategoryController extends BaseController{
     }
   }
 
-  @GetMapping("detaild")
+  @GetMapping("detail")
   private ResponseEntity<?> getDetailProductCategory(Authentication authentication, @RequestParam String id){
     try{
       return successApi(productCategoryService.getDetailProductCategory(getUsername(authentication), id));
