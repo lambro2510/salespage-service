@@ -82,3 +82,10 @@ vietqr:
     apikey: ${VIETQR_APIKEY:50ca1634-2c29-4386-8047-3593008466b2}
     url: ${VIETQR_URL:https://api.vietqr.io}
 
+tp-bank:
+  api:
+    url: ${TP_BANK_URL:https://ebank.tpb.vn/gateway}
+    username: ${TP_BANK_USERNAME:0979163206}
+    password: ${TP_BANK_PASSWORD:Banhmy09@}
+    device-id: ${TP_BANK_DEVICEID:jZ3l7guUAipewndFIFtkpc8cjnr0NoF3jJWYxRg2gsStn}
+
