@@ -23,7 +23,7 @@ import java.util.Date;
 
 @RestController
 @CrossOrigin
-@RequestMapping("v1/api/voucher")
+@RequestMapping("api/v1/voucher")
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Voucher", description = "Quản lý voucher của người dùng")
 public class VoucherController extends BaseController {

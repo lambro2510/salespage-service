@@ -20,7 +20,7 @@ import java.io.IOException;
 
 @CrossOrigin
 @RestController
-@RequestMapping("v1/api/seller-store")
+@RequestMapping("api/v1/seller-store")
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Store", description = "Quản lý cửa hàng của người dùng")
 public class SellerStoreController extends BaseController {

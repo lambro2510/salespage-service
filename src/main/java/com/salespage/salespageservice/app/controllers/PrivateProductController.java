@@ -20,7 +20,7 @@ import java.util.List;
 @Tag(name = "Product", description = "Thông tin sản phẩm được bán")
 @CrossOrigin
 @RestController
-@RequestMapping("v1/api/product")
+@RequestMapping("api/v1/product")
 @SecurityRequirement(name = "bearerAuth")
 public class PrivateProductController extends BaseController {
 

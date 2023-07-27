@@ -1505,7 +1505,7 @@ org.apache.kafka.common.errors.GroupAuthorizationException: Not authorized to ac
 2023-05-14 14:59:08,474 DEBUG o.s.c.l.LogFormatUtils [qtp353201839-249] Writing [{123, 34, 111, 112, 101, 110, 97, 112, 105, 34, 58, 34, 51, 46, 48, 46, 49, 34, 44, 34, 105, 110, 10 (truncated)...]
 2023-05-14 14:59:08,478 DEBUG o.s.w.s.FrameworkServlet [qtp353201839-249] Completed 200 OK
 2023-05-14 14:59:24,873 DEBUG o.s.w.s.h.AbstractHandlerMapping [qtp353201839-23] Mapped to com.salespage.salespageservice.app.controllers.AccountController#login(LoginDto)
-2023-05-14 14:59:24,876 DEBUG o.s.c.l.LogFormatUtils [qtp353201839-23] POST "/v1/api/account/sign-in", parameters={}
+2023-05-14 14:59:24,876 DEBUG o.s.c.l.LogFormatUtils [qtp353201839-23] POST "/api/v1/account/sign-in", parameters={}
 2023-05-14 14:59:24,878 DEBUG o.s.w.s.h.AbstractHandlerMapping [qtp353201839-23] Mapped to com.salespage.salespageservice.app.controllers.AccountController#login(LoginDto)
 2023-05-14 14:59:24,915 DEBUG o.s.c.l.LogFormatUtils [qtp353201839-23] Read "application/json;charset=UTF-8" to [LoginDto(username=taikhoanbanhang, password=banhmy09@)]
 2023-05-14 14:59:25,105 WARN j.p.s.PersistenceProviderResolverHolder$DefaultPersistenceProviderResolver [qtp353201839-23] javax.persistence.spi::No valid providers found.
@@ -1517,7 +1517,7 @@ org.apache.kafka.common.errors.GroupAuthorizationException: Not authorized to ac
 2023-05-14 14:59:38,471 DEBUG o.s.w.s.h.AbstractHandlerMapping [qtp353201839-27] Mapped to com.salespage.salespageservice.app.controllers.PrivateProductController#updateProduct(Authentication, ProductDto)
 2023-05-14 14:59:38,493 DEBUG o.s.d.m.c.MongoTemplate [qtp353201839-27] find using query: { "_id" : "taikhoanbanhang"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.Account in collection: account
 2023-05-14 14:59:38,571 DEBUG o.s.d.m.c.MongoTemplate [qtp353201839-27] find using query: { "_id" : "taikhoanbanhang"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.Account in collection: account
-2023-05-14 14:59:38,637 DEBUG o.s.c.l.LogFormatUtils [qtp353201839-27] PUT "/v1/api/product", parameters={}
+2023-05-14 14:59:38,637 DEBUG o.s.c.l.LogFormatUtils [qtp353201839-27] PUT "/api/v1/product", parameters={}
 2023-05-14 14:59:38,638 DEBUG o.s.w.s.h.AbstractHandlerMapping [qtp353201839-27] Mapped to com.salespage.salespageservice.app.controllers.PrivateProductController#updateProduct(Authentication, ProductDto)
 2023-05-14 14:59:38,646 DEBUG o.s.c.l.LogFormatUtils [qtp353201839-27] Read "application/json;charset=UTF-8" to [ProductDto(productId=645c8b6e5ccca035f58f7915)]
 2023-05-14 14:59:38,677 DEBUG o.s.d.m.c.MongoTemplate [qtp353201839-27] find using query: { "_id" : { "$oid" : "645c8b6e5ccca035f58f7915"}} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.Product in collection: product

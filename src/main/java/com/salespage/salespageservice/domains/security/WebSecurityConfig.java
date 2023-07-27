@@ -64,8 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(
-                        "/v1/api/public/**",
-                        "/v1/api/account/**",
+                        "/api/v1/public/**",
+                        "/api/v1/account/**",
                         "/v3/**",
                         "/configuration/ui",
                         "/context-path/**",
@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
         // http.authorizeRequests()
-        //     .antMatchers("/v1/api/account/**", "/v1/api/public/**")
+        //     .antMatchers("/api/v1/account/**", "/api/v1/public/**")
         //     .permitAll();
 
         http.authorizeRequests().anyRequest().authenticated();

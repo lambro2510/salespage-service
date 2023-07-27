@@ -22,7 +22,7 @@ import java.util.Date;
 
 @CrossOrigin
 @RestController
-@RequestMapping("v1/api/product-transaction")
+@RequestMapping("api/v1/product-transaction")
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Product transaction", description = "Quản lý các giao dịch mua bán của người dùng")
 public class ProductTransactionController extends BaseController {

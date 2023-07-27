@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @CrossOrigin
 @RestController
-@RequestMapping("v1/api/account")
+@RequestMapping("api/v1/account")
 @Tag(name = "Account", description = "Quản lý tài khoản của người dùng")
 public class AccountController extends BaseController {
 

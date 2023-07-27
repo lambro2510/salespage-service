@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("v1/api/public/user")
+@RequestMapping("api/v1/public/user")
 @Tag(name = "User", description = "Thông tin của người dùng tài khoản")
 public class PublicUserController extends BaseController {
 

@@ -1474,7 +1474,7 @@ org.apache.kafka.common.errors.GroupAuthorizationException: Not authorized to ac
 2023-06-15 21:27:46,495 ERROR c.s.s.d.u.JwtUtils [qtp1177067563-248] Expired JWT token
 2023-06-15 21:27:46,499 ERROR c.s.s.d.s.j.AuthEntryPointJwt [qtp1177067563-248] Unauthorized error: Full authentication is required to access this resource
 2023-06-15 21:27:53,255 DEBUG o.s.w.s.h.AbstractHandlerMapping [qtp1177067563-21] Mapped to com.salespage.salespageservice.app.controllers.AccountController#login(LoginDto)
-2023-06-15 21:27:53,259 DEBUG o.s.c.l.LogFormatUtils [qtp1177067563-21] POST "/v1/api/account/sign-in", parameters={}
+2023-06-15 21:27:53,259 DEBUG o.s.c.l.LogFormatUtils [qtp1177067563-21] POST "/api/v1/account/sign-in", parameters={}
 2023-06-15 21:27:53,261 DEBUG o.s.w.s.h.AbstractHandlerMapping [qtp1177067563-21] Mapped to com.salespage.salespageservice.app.controllers.AccountController#login(LoginDto)
 2023-06-15 21:27:53,283 DEBUG o.s.c.l.LogFormatUtils [qtp1177067563-21] Read "application/json;charset=UTF-8" to [LoginDto(username=lambro25102001, password=banhmy09@)]
 2023-06-15 21:27:53,343 WARN j.p.s.PersistenceProviderResolverHolder$DefaultPersistenceProviderResolver [qtp1177067563-21] javax.persistence.spi::No valid providers found.

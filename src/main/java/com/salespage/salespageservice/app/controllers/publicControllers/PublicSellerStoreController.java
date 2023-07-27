@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("v1/api/public/seller-store")
+@RequestMapping("api/v1/public/seller-store")
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Store", description = "Thông tin của cửa hàng được hiển thị")
 public class PublicSellerStoreController extends BaseController {

@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 
+import com.salespage.salespageservice.domains.entities.ProductCategory;
 import com.salespage.salespageservice.domains.repositories.*;
 import com.salespage.salespageservice.domains.repositories.TransactionStatisticRepository;
 import com.salespage.salespageservice.domains.utils.RemoteCacheManager;
@@ -67,6 +68,8 @@ public class BaseStorage {
     @Autowired
     protected CheckInDailyStatisticRepository checkInDailyStatisticRepository;
 
+    @Autowired
+    protected ProductCategoryRepository productCategoryRepository;
 
     @Autowired
     protected MongoTemplate mongoTemplate;

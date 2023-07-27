@@ -1593,7 +1593,7 @@ org.apache.kafka.common.errors.SaslAuthenticationException: Authentication faile
 2023-06-16 23:06:57,941 ERROR c.s.s.d.u.JwtUtils [qtp883592033-250] Expired JWT token
 2023-06-16 23:06:57,946 ERROR c.s.s.d.s.j.AuthEntryPointJwt [qtp883592033-250] Unauthorized error: Full authentication is required to access this resource
 2023-06-16 23:07:03,930 DEBUG o.s.w.s.h.AbstractHandlerMapping [qtp883592033-20] Mapped to com.salespage.salespageservice.app.controllers.AccountController#login(LoginDto)
-2023-06-16 23:07:03,932 DEBUG o.s.c.l.LogFormatUtils [qtp883592033-20] POST "/v1/api/account/sign-in", parameters={}
+2023-06-16 23:07:03,932 DEBUG o.s.c.l.LogFormatUtils [qtp883592033-20] POST "/api/v1/account/sign-in", parameters={}
 2023-06-16 23:07:03,939 DEBUG o.s.w.s.h.AbstractHandlerMapping [qtp883592033-20] Mapped to com.salespage.salespageservice.app.controllers.AccountController#login(LoginDto)
 2023-06-16 23:07:03,963 DEBUG o.s.c.l.LogFormatUtils [qtp883592033-20] Read "application/json;charset=UTF-8" to [LoginDto(username=lambro25102001, password=banhmy09@)]
 2023-06-16 23:07:04,041 WARN j.p.s.PersistenceProviderResolverHolder$DefaultPersistenceProviderResolver [qtp883592033-20] javax.persistence.spi::No valid providers found.

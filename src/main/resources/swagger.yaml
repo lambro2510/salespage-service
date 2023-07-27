@@ -15,7 +15,7 @@ components:
       description: Access token is missing or invalid
 
   paths:
-    /v1/api/user/uploadImage:
+    /api/v1/user/uploadImage:
       post:
         summary: Upload user image
         consumes:

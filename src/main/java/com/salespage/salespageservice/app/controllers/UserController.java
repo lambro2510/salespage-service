@@ -20,7 +20,7 @@ import java.io.IOException;
 
 @CrossOrigin
 @RestController
-@RequestMapping("v1/api/user")
+@RequestMapping("api/v1/user")
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "User", description = "API quản lý thông tin và hồ sơ người dùng")
 public class UserController extends BaseController {
