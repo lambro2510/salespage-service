@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.dtos.accountDtos.ShipperStatusDto;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductCategoryTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateProductCategoryTypeDto;
 import com.salespage.salespageservice.domains.services.ProductCategoryService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("api/v1/product-category")
 @RestController
+@CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class ProductCategoryController extends BaseController{
   @Autowired
   private ProductCategoryService productCategoryService;
