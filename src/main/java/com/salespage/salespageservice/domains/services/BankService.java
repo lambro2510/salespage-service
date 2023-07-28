@@ -267,9 +267,9 @@ public class BankService extends BaseService {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("accountNo", TPBANKACCOUNTNO);
         jsonObject.put("currency", "VND");
-        jsonObject.put("fromDate", "20230428");
+        jsonObject.put("fromDate", fromDate);
         jsonObject.put("keyword", "");
-        jsonObject.put("toDate", "20230728");
+        jsonObject.put("toDate", toDate);
         return RequestUtil.request(HttpMethod.POST,
             TPBANKURL + "/api/smart-search-presentation-service/v1/account-transactions/find",
             TpBankTransactionData.class,
