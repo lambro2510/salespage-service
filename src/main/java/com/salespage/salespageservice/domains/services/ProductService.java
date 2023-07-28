@@ -67,9 +67,16 @@ public class ProductService extends BaseService {
 
   public Product updateProduct(String username, ProductDto dto) {
     Product product = productStorage.findProductById(dto.getProductId());
-    if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
+    if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này hoặc đã bị xóa");
     if (!Objects.equals(product.getSellerUsername(), username))
       throw new AuthorizationException("Bạn không có quyền cập nhật sản phẩm này");
+
+    ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, dto.getCategoryId());
+    if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
+
+    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
+    if(Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
+
     product.updateProductInfo(dto);
     productStorage.save(product);
     return product;
@@ -122,6 +129,7 @@ public class ProductService extends BaseService {
     Map<ObjectId, SellerStore> sellerStoreMap = sellerStores.stream().collect(Collectors.toMap(SellerStore::getId, Function.identity()));
     for (ProductItemResponse response : products) {
       ProductCategory productCategory = productCategoryStorage.findById(response.getCategoryId());
+      if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
       response.setCategoryName(productCategory.getCategoryName());
 
       SellerStore store = sellerStoreMap.get(new ObjectId(response.getStoreId()));

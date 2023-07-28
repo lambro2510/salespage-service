@@ -33,14 +33,19 @@ public class PublicProductController extends BaseController {
             @RequestParam(required = false) Long gte,
             Authentication authentication,
             Pageable pageable) {
-        String sellerUsername = null;
-        if (Objects.nonNull(authentication)) {
-            if (getUserRoles(authentication).contains(UserRole.SELLER)) {
-                sellerUsername = getUsername(authentication);
+        try{
+            String sellerUsername = null;
+            if (Objects.nonNull(authentication)) {
+                if (getUserRoles(authentication).contains(UserRole.SELLER)) {
+                    sellerUsername = getUsername(authentication);
+                }
             }
+            return successApi(productService.getAllProduct(sellerUsername, productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
+
+        }catch (Exception ex){
+            return errorApi(ex.getMessage());
         }
-        return successApi(productService.getAllProduct(sellerUsername, productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
-    }
+        }
 
     @GetMapping("detail")
     public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId) throws Exception {

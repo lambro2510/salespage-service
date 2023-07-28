@@ -22,7 +22,7 @@ public class ProductCategoryStorage extends BaseStorage{
   }
 
   public ProductCategory findById(String id) {
-    return productCategoryRepository.findById(new ObjectId(id)).orElseThrow(ResourceNotFoundException::new);
+    return productCategoryRepository.findById(new ObjectId(id)).get();
   }
 
   public void delete(ProductCategory productCategory) {
