@@ -36,7 +36,7 @@ public class ProductCategoryService extends BaseService {
     if(Objects.isNull(type)) throw new ResourceNotFoundException("Không tìm thấy loại sản phẩm này");
 
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, dto.getId());
-    if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không timd thấy danh mục sản phẩm");
+    if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
     productCategory.setCategoryName(dto.getCategoryName());
     productCategory.setProductType(dto.getProductType());
     productCategory.setCategoryType(dto.getCategoryType());

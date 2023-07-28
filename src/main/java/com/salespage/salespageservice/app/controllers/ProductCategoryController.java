@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("api/v1/product-category")
 @RestController
 @CrossOrigin
@@ -47,7 +49,7 @@ public class ProductCategoryController extends BaseController{
   }
 
   @PutMapping("")
-  private ResponseEntity<?> updateProductCategory(Authentication authentication, @RequestBody UpdateProductCategoryTypeDto dto){
+  private ResponseEntity<?> updateProductCategory(Authentication authentication, @RequestBody @Valid UpdateProductCategoryTypeDto dto){
     try{
       productCategoryService.updateProductCategory(getUsername(authentication), dto);
       return successApi("Cập nhật danh mục sản phẩm thành công");
