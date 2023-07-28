@@ -75,7 +75,7 @@ public class ProductService extends BaseService {
     return product;
   }
 
-  public PageResponse<ProductItemResponse> getAllProduct(String sellerUsername, String productId, String productType, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
+  public PageResponse<ProductItemResponse> getAllProduct(String sellerUsername, String productId,  String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
 
     Query query = new Query();
     if (StringUtil.isNotBlank(sellerUsername)) {
@@ -88,9 +88,6 @@ public class ProductService extends BaseService {
       Pattern pattern = Pattern.compile(".*" + productName + ".*", Pattern.CASE_INSENSITIVE);
       query.addCriteria(Criteria.where("product_name").regex(pattern));
     }
-
-    if (StringUtil.isNotBlank(productType))
-      query.addCriteria(Criteria.where("product_type").is(productType));
     if (minPrice != null)
       query.addCriteria(Criteria.where("price").gte(minPrice));
     if (maxPrice != null)
@@ -118,14 +115,13 @@ public class ProductService extends BaseService {
     List<ProductItemResponse> products = productPage.getContent().stream().map(Product::assignToProductItemResponse).collect(Collectors.toList());
 
 
-
     Map<String, List<Product>> productsByStoreId = productPage.getContent().stream()
         .collect(Collectors.groupingBy(Product::getSellerStoreId));
     List<String> listStoreId = new ArrayList<>(productsByStoreId.keySet());
     List<SellerStore> sellerStores = sellerStoreStorage.findByIdIn(Helper.convertListStringToListObjectId(listStoreId));
     Map<ObjectId, SellerStore> sellerStoreMap = sellerStores.stream().collect(Collectors.toMap(SellerStore::getId, Function.identity()));
     for (ProductItemResponse response : products) {
-      ProductCategory productCategory = productCategoryStorage.findById(response.getProductId());
+      ProductCategory productCategory = productCategoryStorage.findById(response.getCategoryId());
       response.setCategoryName(productCategory.getCategoryName());
 
       SellerStore store = sellerStoreMap.get(new ObjectId(response.getStoreId()));

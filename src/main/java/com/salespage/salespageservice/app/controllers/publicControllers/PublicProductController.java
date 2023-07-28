@@ -24,7 +24,6 @@ public class PublicProductController extends BaseController {
     @GetMapping("")
     public ResponseEntity<BaseResponse> getAllProduct(
             @RequestParam(required = false) String productId,
-            @RequestParam(required = false) String productType,
             @RequestParam(required = false) String productName,
             @RequestParam(required = false) Long minPrice,
             @RequestParam(required = false) Long maxPrice,
@@ -40,7 +39,7 @@ public class PublicProductController extends BaseController {
                 sellerUsername = getUsername(authentication);
             }
         }
-        return successApi(productService.getAllProduct(sellerUsername, productId, productType, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
+        return successApi(productService.getAllProduct(sellerUsername, productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
     }
 
     @GetMapping("detail")
