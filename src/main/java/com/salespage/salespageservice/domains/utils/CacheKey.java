@@ -43,4 +43,8 @@ public class CacheKey {
     public static String getOath2Key(String clientId) {
         return prefix + "key:casso:" + clientId;
     }
+
+  public static String getTpBankToken() {
+      return prefix + "tp-bank:token";
+  }
 }

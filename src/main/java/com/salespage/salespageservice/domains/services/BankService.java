@@ -20,6 +20,7 @@ import com.salespage.salespageservice.domains.entities.types.NotificationMessage
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.info.TpBankTransaction;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.JsonParser;
@@ -59,6 +60,11 @@ public class BankService extends BaseService {
     @Value("${vietqr.api.url}")
     private String VIETQRURL;
 
+    @Value("${tp-bank.account-no}")
+    private String TPBANKACCOUNTNO;
+
+    @Value("${tp-bank.api.url}")
+    private String TPBANKURL;
     @Autowired
     Producer producer;
 
@@ -253,5 +259,24 @@ public class BankService extends BaseService {
             responses.add(paymentTransactionResponse);
         }
         return responses;
+    }
+
+    public TpBankTransaction getBankTransaction(String username) throws Exception {
+        String token = bankAccountStorage.getTokenFromRemoteCache();
+        Map<String, String> header = new HashMap<>();
+        header.put("Authorization", "Bearer " + token);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("accountNo", TPBANKACCOUNTNO);
+        jsonObject.put("currency", "VND");
+        jsonObject.put("fromDate", "20230428");
+        jsonObject.put("keyword", "*");
+        jsonObject.put("toDate", "20230728");
+        return RequestUtil.request(HttpMethod.POST,
+            TPBANKURL + "/api/smart-search-presentation-service/v1/account-transactions/find",
+            TpBankTransaction.class,
+            jsonObject,
+            header
+            );
+
     }
 }

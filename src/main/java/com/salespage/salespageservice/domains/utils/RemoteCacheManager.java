@@ -48,8 +48,12 @@ public class RemoteCacheManager {
     }
 
     public <T> T get(String key, Class<T> tClass) throws Exception {
-        String value = redisTemplate.opsForValue().get(key);
-        return JsonParser.entity(value, tClass);
+        try{
+            String value = redisTemplate.opsForValue().get(key);
+            return JsonParser.entity(value, tClass);
+        }catch (Exception ex){
+            return null;
+        }
     }
 
     public <T> ArrayList<T> getList(String key, Class<T> tClass) {
