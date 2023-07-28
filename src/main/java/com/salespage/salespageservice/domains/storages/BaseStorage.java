@@ -72,6 +72,9 @@ public class BaseStorage {
     protected ProductCategoryRepository productCategoryRepository;
 
     @Autowired
+    protected TpBankTransactionRepository tpBankTransactionRepository;
+
+    @Autowired
     protected MongoTemplate mongoTemplate;
 
     @Autowired

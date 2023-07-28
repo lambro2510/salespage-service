@@ -131,8 +131,8 @@ public class DateUtils {
         return datetime.format(formatter);
     }
 
-    public static String convertLocalDateToString(LocalDate date) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-LL-yyyy");
+    public static String convertLocalDateToString(LocalDate date, String pattern) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
         return date.format(dateTimeFormatter);
     }
 

@@ -2,11 +2,10 @@ package com.salespage.salespageservice.domains.info;
 
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
-public class TpBankTransaction {
+public class TpBankTransactionData {
 
   private List<TpBankTransactionInfo> transactionInfos;
   @Data

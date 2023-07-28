@@ -100,13 +100,4 @@ public class BankController extends BaseController {
         }
     }
 
-    @GetMapping("tp-bank-tranansaction")
-    public ResponseEntity<?> tpBankTransaction(Authentication authentication) {
-        try {
-            return successApi(bankService.getBankTransaction(getUsername(authentication)));
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
-    }
-
 }

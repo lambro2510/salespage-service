@@ -76,6 +76,9 @@ public class BaseService {
     protected ProductCategoryStorage productCategoryStorage;
 
     @Autowired
+    protected TpBankTransactionStorage tpBankTransactionStorage;
+
+    @Autowired
     @Lazy
     private SystemLogService systemLogService;
 

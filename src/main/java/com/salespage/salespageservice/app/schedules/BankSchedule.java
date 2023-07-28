@@ -26,4 +26,18 @@ public class BankSchedule {
         bankService.checkNotResolveTransaction();
         log.info("-----checkNotResolveTransaction-----end");
     }
+
+    @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+    public void asyncTransactionToday() throws Exception {
+        log.info("-----checkNotResolveTransaction-----start");
+        bankService.saveTpBankTransactionToday();
+        log.info("-----checkNotResolveTransaction-----end");
+    }
+
+    @Scheduled(fixedDelay = 1000 * 60 * 30) // 30p 1 lần
+    public void asyncTransactionPreDay() throws Exception {
+        log.info("-----checkNotResolveTransaction-----start");
+        bankService.saveTpBankTransactionPeriodDay();
+        log.info("-----checkNotResolveTransaction-----end");
+    }
 }
