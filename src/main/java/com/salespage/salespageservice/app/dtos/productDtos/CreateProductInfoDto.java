@@ -21,8 +21,8 @@ public class CreateProductInfoDto {
     private String description;
 
     @NotNull(message = "Loại sản phẩm không được để trống")
-    @Schema(description = "Loại sản phẩm", example = "ELECTRONICS")
-    private String type;
+    @Schema(description = "Loại danh mục", example = "")
+    private String categoryId;
 
     @NotNull(message = "Giá sản phẩm không được để trống")
     @DecimalMin(value = "0.0", inclusive = false, message = "Giá sản phẩm phải lớn hơn 0")

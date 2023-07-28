@@ -1,5 +1,7 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.domains.entities.types.CategoryType;
 import com.salespage.salespageservice.domains.entities.types.TimeType;
 import lombok.*;
@@ -17,6 +19,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class ProductCategory extends BaseEntity{
   @Id
+  @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
   @Field("category_name")

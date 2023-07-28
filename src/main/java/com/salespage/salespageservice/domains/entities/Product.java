@@ -39,8 +39,8 @@ public class Product extends BaseEntity {
     @Field("default_image_url")
     private String defaultImageUrl;
 
-    @Field("product_type")
-    private String type;
+    @Field("category_id")
+    private String categoryId;
 
     @Field(value = "price")
     private Double price;
@@ -60,7 +60,7 @@ public class Product extends BaseEntity {
     public void updateProduct(CreateProductInfoDto dto) {
         productName = dto.getProductName();
         description = dto.getDescription();
-        type = dto.getType();
+        categoryId = dto.getCategoryId();
         price = dto.getProductPrice();
         sellingAddress = dto.getSellingAddress();
         sellerStoreId = dto.getStoreId();
