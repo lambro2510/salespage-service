@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductCategoryTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateProductCategoryTypeDto;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductCategoryResponse;
 import com.salespage.salespageservice.domains.entities.ProductCategory;
 import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductCategoryService extends BaseService {
@@ -47,15 +49,21 @@ public class ProductCategoryService extends BaseService {
   }
 
   public void deleteProductCategory(String username, String id) {
+    ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, id);
+    if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không timd thấy danh mục sản phẩm");
+    productCategoryStorage.delete(productCategory);
+
   }
 
-  public List<ProductCategory> getProductCategory(String username) {
-    return productCategoryStorage.findByCreatedBy(username);
+  public List<ProductCategoryResponse> getProductCategory(String username) {
+    return productCategoryStorage.findByCreatedBy(username).stream().map(ProductCategory::partnerToResponse).collect(Collectors.toList());
   }
 
-  public ProductCategory getDetailProductCategory(String username, String id) {
+  public ProductCategoryResponse getDetailProductCategory(String username, String id) {
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, id);
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
-    return productCategory;
+    ProductCategoryResponse response = new ProductCategoryResponse();
+    response.partnerFromCategory(productCategory);
+    return response;
   }
 }

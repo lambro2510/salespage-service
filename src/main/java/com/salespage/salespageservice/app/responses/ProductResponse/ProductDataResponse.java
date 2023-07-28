@@ -15,7 +15,7 @@ public class ProductDataResponse {
 
     private Double productPrice;
 
-    private String type;
+    private String categoryName;
 
     private String description;
 
@@ -35,7 +35,6 @@ public class ProductDataResponse {
         productPrice = product.getPrice();
         sellerUsername = product.getSellerUsername();
         productRate = product.getRate();
-        type = product.getType();
         description = product.getDescription();
         sellingAddress = product.getSellingAddress();
     }

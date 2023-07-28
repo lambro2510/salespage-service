@@ -63,6 +63,7 @@ public class TpBankTransaction extends BaseEntity {
   private boolean isProcess = false;
 
   public void fromTpBankTransactionInfo(TpBankTransactionData.TpBankTransactionInfo info) {
+    setTransId(info.getId());
     setArrangementId(info.getArrangementId());
     setReference(info.getReference());
     setDescription(info.getDescription());

@@ -59,8 +59,8 @@ public class ProductStorage extends BaseStorage {
         return productRepository.findByIdIn(productIds);
     }
 
-    public List<Product> findTop10ByTypeOrderByCreatedAtDesc(String typeName) {
-        return productRepository.findTop10ByTypeOrderByCreatedAtDesc(typeName);
+    public List<Product> findTop10ByCategoryIdOrderByCreatedAtDesc(String typeName) {
+        return productRepository.findTop10ByCategoryIdOrderByCreatedAtDesc(typeName);
     }
 
     public List<Product> findAll() {

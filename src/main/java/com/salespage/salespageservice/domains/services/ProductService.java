@@ -117,12 +117,17 @@ public class ProductService extends BaseService {
     Page<Product> productPage = productStorage.findAll(query, pageable);
     List<ProductItemResponse> products = productPage.getContent().stream().map(Product::assignToProductItemResponse).collect(Collectors.toList());
 
+
+
     Map<String, List<Product>> productsByStoreId = productPage.getContent().stream()
         .collect(Collectors.groupingBy(Product::getSellerStoreId));
     List<String> listStoreId = new ArrayList<>(productsByStoreId.keySet());
     List<SellerStore> sellerStores = sellerStoreStorage.findByIdIn(Helper.convertListStringToListObjectId(listStoreId));
     Map<ObjectId, SellerStore> sellerStoreMap = sellerStores.stream().collect(Collectors.toMap(SellerStore::getId, Function.identity()));
     for (ProductItemResponse response : products) {
+      ProductCategory productCategory = productCategoryStorage.findById(response.getProductId());
+      response.setCategoryName(productCategory.getCategoryName());
+
       SellerStore store = sellerStoreMap.get(new ObjectId(response.getStoreId()));
       if (Objects.nonNull(store)) {
         response.setStoreName(store.getStoreName());
@@ -290,7 +295,7 @@ public class ProductService extends BaseService {
       List<ProductTypeDetail> similarType = productTypeStorage.getTop10SimilarProduct(listType);
       products = productStorage.findByIdIn(similarType.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
     } else {
-      products = productStorage.findTop10ByTypeOrderByCreatedAtDesc(product.getCategoryId());
+      products = productStorage.findTop10ByCategoryIdOrderByCreatedAtDesc(product.getCategoryId());
     }
     return products;
   }

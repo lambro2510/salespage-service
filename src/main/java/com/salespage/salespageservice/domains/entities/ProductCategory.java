@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductCategoryResponse;
 import com.salespage.salespageservice.domains.entities.types.CategoryType;
 import com.salespage.salespageservice.domains.entities.types.TimeType;
 import lombok.*;
@@ -45,4 +46,10 @@ public class ProductCategory extends BaseEntity{
 
   @Field("updated_by")
   private String updatedBy;
+
+  public ProductCategoryResponse partnerToResponse(){
+    ProductCategoryResponse response = new ProductCategoryResponse();
+    response.partnerFromCategory(this);
+    return response;
+  }
 }
