@@ -59,7 +59,7 @@ public class BankAccountStorage extends BaseStorage {
           jsonObject.put("step_2FA", "VERIFY");
           tokenInfo = RequestUtil.request(HttpMethod.POST, tpBankUrl + "/api/auth/login",TpBankTokenInfo.class, jsonObject,new HashMap<>());
           if(Objects.isNull(tokenInfo)) return null;
-          remoteCacheManager.set(CacheKey.getTpBankToken(), JsonParser.toJson(tokenInfo), Integer.parseInt(tokenInfo.getExpires_in()) - 100);
+          remoteCacheManager.set(CacheKey.getTpBankToken(), JsonParser.toJson(tokenInfo), 60);
       }
       return tokenInfo.getAccess_token();
   }
