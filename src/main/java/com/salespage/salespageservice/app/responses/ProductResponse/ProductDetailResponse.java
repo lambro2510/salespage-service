@@ -35,7 +35,7 @@ public class ProductDetailResponse extends ProductResponse {
     public void assignFromProduct(Product product) {
         super.assignFromProduct(product);
         imageUrls = product.getImageUrls().stream()
-            .map(image -> new UploadImageData(Helper.generateRandomString(), UUID.randomUUID().toString(), "done", image, image))
+            .map(image -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", image, image))
             .collect(Collectors.toList());
         description = product.getDescription();
     }
