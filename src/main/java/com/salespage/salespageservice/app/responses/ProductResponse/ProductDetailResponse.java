@@ -21,22 +21,19 @@ public class ProductDetailResponse extends ProductResponse {
 
     @JsonProperty("isLike")
     Boolean isLike;
-
     Float rate;
-
     String storeImageUrl;
-
     String storeId;
     String storeName;
-
     Rate storeRate;
-
+    String categoryId;
     @Override
     public void assignFromProduct(Product product) {
         super.assignFromProduct(product);
         imageUrls = product.getImageUrls().stream()
             .map(image -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", image, image))
             .collect(Collectors.toList());
+        categoryId = product.getCategoryId();
         description = product.getDescription();
     }
 }
