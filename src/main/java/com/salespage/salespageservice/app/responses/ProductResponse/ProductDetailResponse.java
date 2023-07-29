@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
+import com.salespage.salespageservice.domains.utils.Helper;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class ProductDetailResponse extends ProductResponse {
     public void assignFromProduct(Product product) {
         super.assignFromProduct(product);
         imageUrls = product.getImageUrls().stream()
-            .map(image -> new UploadImageData(UUID.randomUUID().toString(), "done", image, image))
+            .map(image -> new UploadImageData(Helper.generateRandomString(), UUID.randomUUID().toString(), "done", image, image))
             .collect(Collectors.toList());
         description = product.getDescription();
     }

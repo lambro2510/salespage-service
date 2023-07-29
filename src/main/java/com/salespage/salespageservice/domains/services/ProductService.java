@@ -190,7 +190,7 @@ public class ProductService extends BaseService {
 
       String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, file.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(file));
       product.getImageUrls().add(imageUrl);
-      imageUrls.add(new UploadImageData(UUID.randomUUID().toString(), "done", imageUrl, imageUrl));
+      imageUrls.add(new UploadImageData(Helper.generateRandomString(), UUID.randomUUID().toString(), "done", imageUrl, imageUrl));
 
     product.setDefaultImageUrl(imageUrl);
     productStorage.save(product);
