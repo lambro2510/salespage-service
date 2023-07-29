@@ -56,7 +56,7 @@ public class PrivateProductController extends BaseController {
     })
     public ResponseEntity<BaseResponse> uploadImages(Authentication authentication, @RequestParam String productId, @RequestBody @NotNull List<MultipartFile> file) throws IOException {
         try {
-            return successApi("Tải ảnh lên thành công", productService.uploadProductImage(getUsername(authentication), productId, files));
+            return successApi("Tải ảnh lên thành công", productService.uploadProductImage(getUsername(authentication), productId, file));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }
