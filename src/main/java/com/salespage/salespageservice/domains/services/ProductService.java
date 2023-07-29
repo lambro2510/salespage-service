@@ -6,6 +6,7 @@ import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetai
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
+import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import com.salespage.salespageservice.domains.entities.types.FavoriteType;
@@ -183,8 +184,8 @@ public class ProductService extends BaseService {
     return true;
   }
 
-  public List<String> uploadProductImage(String username, String productId, List<MultipartFile> multipartFiles) throws IOException {
-    List<String> imageUrls = new ArrayList<>();
+  public List<UploadImageData> uploadProductImage(String username, String productId, List<MultipartFile> multipartFiles) throws IOException {
+    List<UploadImageData> imageUrls = new ArrayList<>();
     Product product = productStorage.findProductById(productId);
     if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
     if (!product.getSellerUsername().equals(username))
@@ -193,12 +194,12 @@ public class ProductService extends BaseService {
     for (MultipartFile multipartFile : multipartFiles) {
       String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, multipartFile.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(multipartFile));
       product.getImageUrls().add(imageUrl);
-      imageUrls.add(imageUrl);
+      imageUrls.add(new UploadImageData(multipartFile.getName(), "done", imageUrl, imageUrl));
     }
     if (imageUrls.isEmpty()) {
       throw new BadRequestException("Tải ảnh lên không thành công");
     }
-    product.setDefaultImageUrl(imageUrls.get(imageUrls.size() - 1));
+    product.setDefaultImageUrl(imageUrls.get(imageUrls.size() - 1).getUrl());
     productStorage.save(product);
     return (imageUrls);
   }
