@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class PrivateProductController extends BaseController {
             @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
     })
-    public ResponseEntity<BaseResponse> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam List<MultipartFile> files) throws IOException {
+    public ResponseEntity<BaseResponse> uploadImages(Authentication authentication, @RequestParam String productId, @RequestParam @NotNull List<MultipartFile> file) throws IOException {
         try {
             return successApi("Tải ảnh lên thành công", productService.uploadProductImage(getUsername(authentication), productId, files));
         } catch (Exception ex) {
