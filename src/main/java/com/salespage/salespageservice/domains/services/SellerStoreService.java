@@ -109,4 +109,12 @@ public class SellerStoreService extends BaseService {
         sellerStore.setImageStoreUrl(imageUrl);
         return imageUrl;
     }
+
+  public StoreDataResponse getStoreDetail(String storeId) {
+        StoreDataResponse storeDataResponse = new StoreDataResponse();
+        SellerStore sellerStore = sellerStoreStorage.findById(storeId);
+        if(Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
+        storeDataResponse.assignFromSellerStore(sellerStore);
+        return storeDataResponse;
+  }
 }

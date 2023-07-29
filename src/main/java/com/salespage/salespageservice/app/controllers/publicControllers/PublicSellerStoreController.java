@@ -39,4 +39,18 @@ public class PublicSellerStoreController extends BaseController {
         }
     }
 
+    @GetMapping("detail")
+    @Operation(summary = "Lấy thông tin chi tiết", description = "Lấy thông tin chi tiết")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Thành công"),
+        @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+    })
+    public ResponseEntity<BaseResponse> getStoreDetail(@RequestParam String storeId) {
+        try {
+            return successApi(sellerStoreService.getStoreDetail(storeId));
+        } catch (Exception ex) {
+            return errorApi(ex.getMessage());
+        }
+    }
+
 }
