@@ -23,7 +23,7 @@ public class UploadController extends BaseController{
 
   @Autowired private ProductService productService;
 
-  @PostMapping("prodct")
+  @PostMapping("product")
   @Operation(summary = "Tải lên hình ảnh cho sản phẩm", description = "Tải lên một hoặc nhiều hình ảnh cho sản phẩm với ID đã cho")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Hình ảnh tải lên thành công"),
@@ -34,10 +34,10 @@ public class UploadController extends BaseController{
   })
   public ResponseEntity<BaseResponse> uploadImages(@RequestParam @Valid @NotNull String productId,
                                                    @RequestParam @Valid @NotNull String token,
-                                                   @RequestBody @Valid @NotNull List<MultipartFile> files){
+                                                   @RequestBody @Valid @NotNull MultipartFile file){
     try {
       String username = getUserInfoFromToken(token);
-      return successApi("Tải ảnh lên thành công", productService.uploadProductImage(username, productId, files));
+      return successApi("Tải ảnh lên thành công", productService.uploadProductImage(username, productId, file));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

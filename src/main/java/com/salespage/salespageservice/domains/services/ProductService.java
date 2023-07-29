@@ -184,22 +184,18 @@ public class ProductService extends BaseService {
     return true;
   }
 
-  public List<UploadImageData> uploadProductImage(String username, String productId, List<MultipartFile> multipartFiles) throws IOException {
+  public List<UploadImageData> uploadProductImage(String username, String productId, MultipartFile file) throws IOException {
     List<UploadImageData> imageUrls = new ArrayList<>();
     Product product = productStorage.findProductById(productId);
     if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
     if (!product.getSellerUsername().equals(username))
       throw new AuthorizationException("Không được phép");
 
-    for (MultipartFile multipartFile : multipartFiles) {
-      String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, multipartFile.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(multipartFile));
+      String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, file.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(file));
       product.getImageUrls().add(imageUrl);
-      imageUrls.add(new UploadImageData(multipartFile.getName(), "done", imageUrl, imageUrl));
-    }
-    if (imageUrls.isEmpty()) {
-      throw new BadRequestException("Tải ảnh lên không thành công");
-    }
-    product.setDefaultImageUrl(imageUrls.get(imageUrls.size() - 1).getUrl());
+      imageUrls.add(new UploadImageData(file.getName(), "done", imageUrl, imageUrl));
+
+    product.setDefaultImageUrl(imageUrl);
     productStorage.save(product);
     return (imageUrls);
   }
