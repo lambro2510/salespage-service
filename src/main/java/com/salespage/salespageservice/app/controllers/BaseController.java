@@ -2,7 +2,10 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
+import com.salespage.salespageservice.domains.exceptions.UnauthorizedException;
+import com.salespage.salespageservice.domains.info.TokenInfo;
 import com.salespage.salespageservice.domains.security.services.UserDetailsImpl;
+import com.salespage.salespageservice.domains.utils.JwtUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,10 +17,21 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class BaseController {
+
+    JwtUtils jwtUtils;
     protected String getUsername(Authentication authentication) {
         if (Objects.isNull(authentication)) return null;
         UserDetails userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return userDetails.getUsername();
+    }
+
+    protected String getUserInfoFromToken(String token){
+        if(jwtUtils.validateToken(token)){
+            return jwtUtils.getUsernameFromJWT(token);
+        }else{
+            throw new UnauthorizedException();
+        }
+
     }
 
     protected List<UserRole> getUserRoles(Authentication authentication) {
