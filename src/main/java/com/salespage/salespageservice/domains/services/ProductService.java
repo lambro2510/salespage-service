@@ -30,10 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -193,7 +190,7 @@ public class ProductService extends BaseService {
 
       String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, file.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(file));
       product.getImageUrls().add(imageUrl);
-      imageUrls.add(new UploadImageData(file.getName(), "done", imageUrl, imageUrl));
+      imageUrls.add(new UploadImageData(UUID.randomUUID().toString(), "done", imageUrl, imageUrl));
 
     product.setDefaultImageUrl(imageUrl);
     productStorage.save(product);
