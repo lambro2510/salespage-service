@@ -54,11 +54,11 @@ public class PrivateProductController extends BaseController {
         @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
         @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
     })
-    public ResponseEntity<BaseResponse> uploadImages(Authentication authentication,
+    public ResponseEntity<?> uploadImages(Authentication authentication,
                                                      @RequestParam @Valid @NotNull String productId,
                                                      @RequestBody @Valid @NotNull MultipartFile file){
         try {
-            return successApi("Tải ảnh lên thành công", productService.uploadProductImage(getUsername(authentication), productId, file));
+            return ResponseEntity.ok(productService.uploadProductImage(getUsername(authentication), productId, file));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }

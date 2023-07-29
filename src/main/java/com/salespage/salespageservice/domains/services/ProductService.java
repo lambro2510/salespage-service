@@ -181,7 +181,7 @@ public class ProductService extends BaseService {
     return true;
   }
 
-  public List<UploadImageData> uploadProductImage(String username, String productId, MultipartFile file) throws IOException {
+  public UploadImageData uploadProductImage(String username, String productId, MultipartFile file) throws IOException {
     List<UploadImageData> imageUrls = new ArrayList<>();
     Product product = productStorage.findProductById(productId);
     if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
@@ -194,7 +194,7 @@ public class ProductService extends BaseService {
 
     product.setDefaultImageUrl(imageUrl);
     productStorage.save(product);
-    return (imageUrls);
+    return imageUrls.get(0);
   }
 
   public List<String> deleteProductImages(String username, String productId, String images) {
