@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
@@ -39,6 +40,25 @@ public class PrivateProductController extends BaseController {
     public ResponseEntity<BaseResponse> createProduct(Authentication authentication, @RequestBody CreateProductInfoDto dto) {
         try {
             return successApi("Tạo sản phẩm thành công", productService.createProduct(getUsername(authentication), dto));
+        } catch (Exception ex) {
+            return errorApi(ex.getMessage());
+        }
+    }
+
+    @PostMapping("upload")
+    @Operation(summary = "Tải lên hình ảnh cho sản phẩm", description = "Tải lên một hoặc nhiều hình ảnh cho sản phẩm với ID đã cho")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Hình ảnh tải lên thành công"),
+        @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+        @ApiResponse(responseCode = "401", description = "Không được phép"),
+        @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
+        @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+    })
+    public ResponseEntity<BaseResponse> uploadImages(Authentication authentication,
+                                                     @RequestParam @Valid @NotNull String productId,
+                                                     @RequestBody @Valid @NotNull MultipartFile file){
+        try {
+            return successApi("Tải ảnh lên thành công", productService.uploadProductImage(getUsername(authentication), productId, file));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }
