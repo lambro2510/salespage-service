@@ -37,9 +37,6 @@ public class ProductTransaction extends BaseEntity {
     @Field("seller_username")
     private String sellerUsername;
 
-    @Field("store_name")
-    private String storeName;
-
     @Field("store_id")
     private String storeId;
 
@@ -52,8 +49,8 @@ public class ProductTransaction extends BaseEntity {
     @Field("quantity")
     private Long quantity;
 
-    @Field("price_per_product")
-    private Double pricePerProduct;
+    @Field("total_price")
+    private Double totalPrice;
 
     @Field("address_receive")
     private String addressReceive;

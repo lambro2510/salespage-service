@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.dtos.voucherDtos;
 
 import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
+import com.salespage.salespageservice.domains.entities.types.DiscountType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -15,8 +16,12 @@ public class UpdateVoucherStoreDto {
     private String voucherStoreName;
 
     @NotNull(message = "Loại voucher store không được để trống")
-    @Schema(description = "Loại voucher store", example = "DISCOUNT")
+    @Schema(description = "Loại voucher store", example = "PRODUCT")
     private VoucherStoreType voucherStoreType;
+
+    @NotNull(message = "Loại mã giảm giákhông được để trống")
+    @Schema(description = "Loại mã giảm giá", example = "PERCENT")
+    private DiscountType discountType;
 
     @Schema(description = "Trạng thái của kho voucher", example = "INACTIVE")
     private VoucherStoreStatus voucherStoreStatus;

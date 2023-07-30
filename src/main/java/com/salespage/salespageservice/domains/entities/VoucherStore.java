@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.entities;
 
 import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto;
 import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
+import com.salespage.salespageservice.domains.entities.types.DiscountType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -21,9 +22,11 @@ public class VoucherStore extends BaseEntity {
     @Field("voucher_store_type")
     private VoucherStoreType voucherStoreType;
 
-    @Field("product_id")
-    private String productId; //Sản phẩm áp dụng cho voucher, nếu type là product thì cho phép nhưới dùng mua sản
-    //phẩm miễn phí, nếu type = sale thì giảm giá sản phẩm đó
+    @Field("ref_id")
+    private String refId;
+
+    @Field("discount_type")
+    private DiscountType discountType;
 
     @Field("value")
     private Long value;
@@ -41,14 +44,13 @@ public class VoucherStore extends BaseEntity {
         setVoucherStoreName(updateVoucherStoreDto.getVoucherStoreName());
         setVoucherStoreType(updateVoucherStoreDto.getVoucherStoreType());
         setVoucherStoreStatus(updateVoucherStoreDto.getVoucherStoreStatus());
-        if (voucherStoreType == VoucherStoreType.DISCOUNT_PERCENT) {
+        if (discountType == DiscountType.PERCENT) {
             setValue(updateVoucherStoreDto.getValuePercent());
-        } else if (voucherStoreType == VoucherStoreType.MONEY || voucherStoreType == VoucherStoreType.DISCOUNT) {
+        } else {
             setValue(updateVoucherStoreDto.getValue());
         }
-
+        setDiscountType(updateVoucherStoreDto.getDiscountType());
         VoucherStoreDetail voucherStoreDetail = new VoucherStoreDetail();
-
         voucherStoreDetail.setMaxVoucherPerUser(updateVoucherStoreDto.getMaxVoucherPerUser());
         voucherStoreDetail.setMaxAblePrice(updateVoucherStoreDto.getMaxAblePrice());
         voucherStoreDetail.setMinAblePrice(updateVoucherStoreDto.getMinAblePrice());

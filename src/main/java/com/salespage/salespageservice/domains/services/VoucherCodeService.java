@@ -1,13 +1,13 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.responses.PageResponse;
+import com.salespage.salespageservice.app.responses.voucherResponse.UserVoucherResponse;
 import com.salespage.salespageservice.app.responses.voucherResponse.VoucherCodeResponse;
-import com.salespage.salespageservice.domains.entities.VoucherCode;
-import com.salespage.salespageservice.domains.entities.VoucherCodeLimit;
-import com.salespage.salespageservice.domains.entities.VoucherStore;
+import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
+import com.salespage.salespageservice.domains.entities.types.DiscountType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
@@ -85,10 +85,9 @@ public class VoucherCodeService extends BaseService {
         return voucherCode.getCode();
     }
 
-    public VoucherInfo useVoucher(String username, String code, String productId, Long productPrice) {
+    public VoucherInfo useVoucher(String username, String code, ProductTransaction productTransaction, String storeId, Double price) {
         VoucherInfo voucherInfo = new VoucherInfo();
-        voucherInfo.setPriceBefore(new BigDecimal(productPrice));
-
+        voucherInfo.setPriceBefore(productTransaction.getTotalPrice());
         VoucherCode voucherCode = voucherCodeStorage.findCodeCanUse(username, code);
         if (Objects.isNull(voucherCode)) throw new ResourceNotFoundException("Mã giảm giá không hợp lệ");
         if (voucherCode.getExpireTime().before(new Date()))
@@ -99,27 +98,28 @@ public class VoucherCodeService extends BaseService {
         if (Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
             throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
 
-        if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < productPrice || voucherStore.getVoucherStoreDetail().getMinAblePrice() > productPrice)
+        if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < price || voucherStore.getVoucherStoreDetail().getMinAblePrice() > price)
             throw new BadRequestException("Mã không thể sử dụng cho sản phẩm này, không nằm trong giá trị mã có thể sử dụng");
 
         if (voucherStore.getVoucherStoreType() == VoucherStoreType.PRODUCT) {
-            if (!voucherStore.getProductId().equals(productId))
-                throw new  BadRequestException("Mã giảm giá không áp dụng cho sản phẩm này");
-            voucherInfo.setPriceAfter(BigDecimal.ZERO);
-        } else if (voucherStore.getVoucherStoreType() == VoucherStoreType.DISCOUNT) {
-            long price = (productPrice - voucherStore.getValue());
-            voucherInfo.setPriceAfter(new BigDecimal(price));
-        } else if (voucherStore.getVoucherStoreType() == VoucherStoreType.DISCOUNT_PERCENT) {
-            long price = productPrice - (productPrice * voucherStore.getValue()) / 100;
-            if (price < 0) price = 0L;
-            voucherInfo.setPriceAfter(new BigDecimal(price));
-        } else throw new  BadRequestException( "Mã không thể sử dụng cho sản phẩm này");
+            if (!voucherStore.getRefId().equals(productTransaction.getProductId())) throw new  BadRequestException("Mã giảm giá không áp dụng cho sản phẩm này");
+        } else{
+            if (!voucherStore.getRefId().equals(storeId)) throw new  BadRequestException("Mã giảm giá không áp dụng cho cửa hàng này");
+        }
+
+        if(voucherStore.getDiscountType().equals(DiscountType.PERCENT)){
+            productTransaction.setTotalPrice(productTransaction.getTotalPrice() * (voucherStore.getValue()/100));
+        }else{
+            productTransaction.setTotalPrice(productTransaction.getTotalPrice() - voucherStore.getValue());
+        }
+
         voucherCode.setUserAt(new Date());
         voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
         voucherCodeStorage.save(voucherCode);
         voucherInfo.setVoucherCode(code);
         voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
-        voucherInfo.setValue(voucherStore.getValue());
+        voucherInfo.setPriceAfter(productTransaction.getTotalPrice());
+        voucherInfo.setTotalDiscount(voucherInfo.getPriceAfter() - voucherInfo.getPriceBefore());
         return voucherInfo;
     }
 
@@ -142,4 +142,18 @@ public class VoucherCodeService extends BaseService {
         Page<VoucherCodeResponse> codeResponses = new PageImpl<>(voucherCodeResponses, pageable, voucherCodes.getTotalElements());
         return PageResponse.createFrom(codeResponses);
     }
+
+    public List<UserVoucherResponse> getUserVoucher(String username, String productId) {
+        List<UserVoucherResponse> responses = new ArrayList<>();
+        Product product = productStorage.findProductById(productId);
+        if(Objects.isNull(product)) throw new ResourceNotFoundException("Không tìm thấy sản phâm");
+        List<VoucherStore> voucherStores = voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.PRODUCT, productId);
+        voucherStores.addAll(voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.STORE, product.getSellerStoreId()));
+        for(VoucherStore voucherStore : voucherStores){
+            VoucherCode voucherCode = voucherCodeStorage.findFirstCodeCanUse(username, voucherStore.getId().toHexString());
+            responses.add(new UserVoucherResponse(voucherStore.getVoucherStoreName(), voucherCode.getCode()));
+        }
+        return responses;
+    }
+
 }

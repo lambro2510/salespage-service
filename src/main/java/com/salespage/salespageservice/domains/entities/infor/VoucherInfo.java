@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.entities.infor;
 
+import com.salespage.salespageservice.domains.entities.types.DiscountType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +13,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class VoucherInfo {
     private String voucherCode;
-
     private VoucherStoreType voucherStoreType;
-
-    private Long value;
-
-    private BigDecimal priceBefore;
-    private BigDecimal priceAfter;
+    private DiscountType discountType;
+    private Double totalDiscount;
+    private Double priceBefore;
+    private Double priceAfter;
 }

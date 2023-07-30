@@ -16,7 +16,7 @@ public class ProductTransactionResponse {
 
     private String productName;
 
-    private Long pricePerProduct;
+    private Long totalPrice;
 
     private String sellerName;
 
@@ -43,10 +43,9 @@ public class ProductTransactionResponse {
         transactionId = productTransaction.getId().toHexString();
         productId = productTransaction.getProductId();
         productName = productTransaction.getProductName();
-        pricePerProduct = productTransaction.getPricePerProduct().longValue();
+        totalPrice = productTransaction.getTotalPrice().longValue();
         sellerName = productTransaction.getSellerUsername();
         buyerName = productTransaction.getBuyerUsername();
-        storeName = productTransaction.getStoreName();
         quantity = productTransaction.getQuantity();
         isUseVoucher = productTransaction.getIsUseVoucher();
         productTransactionState = productTransaction.getState();

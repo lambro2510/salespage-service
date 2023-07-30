@@ -17,7 +17,11 @@ public class VoucherCodeStorage extends BaseStorage {
     }
 
     public VoucherCode findCodeCanUse(String username, String code) {
-        return voucherCodeRepository.findByOwnerIdAndCodeAndVoucherCodeStatus(username, code, VoucherCodeStatus.OWNER);
+        return voucherCodeRepository.findByOwnerIdAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(username, code, VoucherCodeStatus.OWNER, new Date());
+    }
+
+    public VoucherCode findFirstCodeCanUse(String username, String storeId) {
+        return voucherCodeRepository.findFirstByOwnerIdAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(username,storeId, VoucherCodeStatus.OWNER, new Date());
     }
 
     public VoucherCode findFirstVoucherCanUseByVoucherStoreId(String voucherStoreId, Date expireTime) {

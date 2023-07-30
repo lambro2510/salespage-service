@@ -18,5 +18,9 @@ public interface VoucherCodeRepository extends MongoRepository<VoucherCode, Obje
 
     Page<VoucherCode> findAll(Query query, Pageable pageable);
 
-    VoucherCode findByOwnerIdAndCodeAndVoucherCodeStatus(String username, String code, VoucherCodeStatus voucherCodeStatus);
+    VoucherCode findByOwnerIdAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, Date now);
+
+    VoucherCode findFirstByOwnerIdAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, Date now);
+
+    VoucherCode findFirstByOwnerIdAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String storeId, VoucherCodeStatus voucherCodeStatus, Date date);
 }

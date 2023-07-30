@@ -23,7 +23,8 @@ public class VoucherStoreService extends BaseService {
     public void createVoucherStore(String username, CreateVoucherStoreDto createVoucherStoreDto) {
         VoucherStore voucherStore = new VoucherStore();
         voucherStore.updatedVoucherStore(createVoucherStoreDto);
-        voucherStore.setProductId(createVoucherStoreDto.getProductId());
+        voucherStore.setRefId(createVoucherStoreDto.getProductId());
+        voucherStore.setDiscountType(createVoucherStoreDto.getDiscountType());
         voucherStore.setCreatedAt(System.currentTimeMillis());
         voucherStore.setCreatedBy(username);
         voucherStoreStorage.save(voucherStore);
@@ -74,10 +75,12 @@ public class VoucherStoreService extends BaseService {
             response.setVoucherStoreType(voucherStore.getVoucherStoreType());
             response.setTotalQuantity(voucherStore.getVoucherStoreDetail().getQuantity());
             response.setTotalUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed());
-            response.setProductId(voucherStore.getProductId());
-            response.setProductName(productMap.get(voucherStore.getProductId()));
+            response.setRefId(voucherStore.getRefId());
+            response.setDiscountType(voucherStore.getDiscountType());
             response.setVoucherStoreId(voucherStore.getId().toHexString());
             response.setValue(voucherStore.getValue());
+
+
             voucherStoreResponses.add(response);
         }
         return voucherStoreResponses;
