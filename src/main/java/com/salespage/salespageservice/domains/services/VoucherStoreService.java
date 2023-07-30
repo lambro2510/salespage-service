@@ -23,7 +23,7 @@ public class VoucherStoreService extends BaseService {
     public void createVoucherStore(String username, CreateVoucherStoreDto createVoucherStoreDto) {
         VoucherStore voucherStore = new VoucherStore();
         voucherStore.updatedVoucherStore(createVoucherStoreDto);
-        voucherStore.setRefId(createVoucherStoreDto.getProductId());
+        voucherStore.setRefId(createVoucherStoreDto.getRefId());
         voucherStore.setDiscountType(createVoucherStoreDto.getDiscountType());
         voucherStore.setCreatedAt(System.currentTimeMillis());
         voucherStore.setCreatedBy(username);

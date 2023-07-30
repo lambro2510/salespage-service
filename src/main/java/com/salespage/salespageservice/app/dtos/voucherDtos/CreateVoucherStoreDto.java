@@ -10,5 +10,5 @@ public class CreateVoucherStoreDto extends UpdateVoucherStoreDto {
 
     @NotBlank(message = "ID sản phẩm không được để trống")
     @Schema(description = "ID sản phẩm", example = "123456")
-    private String productId;
+    private String refId;
 }
