@@ -39,7 +39,24 @@ public class SellerStoreController extends BaseController {
     })
     public ResponseEntity<BaseResponse> getStore(Authentication authentication, Pageable pageable) {
         try {
-            return successApi(sellerStoreService.getAllStore(getUsername(authentication), pageable));
+            return successApi(sellerStoreService.getAllSellerStore(getUsername(authentication), pageable));
+        } catch (Exception ex) {
+            return errorApi(ex.getMessage());
+        }
+    }
+
+    @GetMapping("detail")
+    @Operation(summary = "Lấy thông tin cửa hàng", description = "Lấy thông tin cửa hàng của người bán")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Thành công"),
+        @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+        @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+        @ApiResponse(responseCode = "404", description = "Không tìm thấy cửa hàng"),
+        @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+    })
+    public ResponseEntity<BaseResponse> getStoreDetail(Authentication authentication, @RequestParam String storeId) {
+        try {
+            return successApi(sellerStoreService.getStoreDetail(getUsername(authentication), storeId));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }
@@ -87,9 +104,9 @@ public class SellerStoreController extends BaseController {
             @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
             @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
     })
-    public ResponseEntity<BaseResponse> uploadImage(Authentication authentication, @RequestParam String storeId, @RequestParam MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<BaseResponse> uploadImage(Authentication authentication, @RequestParam String storeId, @RequestBody MultipartFile file) throws IOException {
         try {
-            return successApi("Tải ảnh lên thành công", sellerStoreService.uploadImage(getUsername(authentication), storeId, multipartFile));
+            return successApi("Tải ảnh lên thành công", sellerStoreService.uploadImage(getUsername(authentication), storeId, file));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }

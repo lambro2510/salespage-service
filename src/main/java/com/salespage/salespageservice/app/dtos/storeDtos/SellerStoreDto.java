@@ -22,14 +22,10 @@ public class SellerStoreDto {
     @Schema(description = "Trạng thái cửa hàng", example = "ACTIVE")
     private StoreStatus status;
 
-    @Schema(description = "Danh sách sản phẩm đang bán", example = "[\"LAPTOP\",\"PHONE\"]")
-    private List<String> sellProducts;
-
     public void assignFromSellerStoreDto(SellerStore sellerStore) {
         storeName = sellerStore.getStoreName();
         address = sellerStore.getAddress();
         description = sellerStore.getDescription();
         status = sellerStore.getStatus();
-        sellProducts = sellerStore.getSellProducts();
     }
 }

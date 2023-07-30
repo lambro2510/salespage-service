@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
 import com.salespage.salespageservice.app.dtos.storeDtos.UpdateSellerStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
+import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
@@ -29,21 +30,22 @@ import java.util.stream.Collectors;
 @Service
 public class SellerStoreService extends BaseService {
 
-    public PageResponse<StoreDataResponse> getAllStore(String username, Pageable pageable) {
+    public PageResponse<SellerStoreResponse> getAllSellerStore(String username, Pageable pageable) {
         Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<SellerStore> sellerStores = sellerStoreStorage.findByOwnerStoreName(username, newPageable);
         List<SellerStore> sellerStoreList = sellerStores.getContent();
 
-        List<StoreDataResponse> storeDataResponses = new ArrayList<>();
+        List<SellerStoreResponse> storeDataResponses = new ArrayList<>();
         for (SellerStore sellerStore : sellerStoreList) {
-            StoreDataResponse storeDataResponse = new StoreDataResponse();
+            SellerStoreResponse storeDataResponse = new SellerStoreResponse();
             storeDataResponse.assignFromSellerStore(sellerStore);
             storeDataResponses.add(storeDataResponse);
         }
 
-        Page<StoreDataResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, newPageable, sellerStores.getTotalElements());
+        Page<SellerStoreResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, newPageable, sellerStores.getTotalElements());
         return PageResponse.createFrom(pageStoreDataResponse);
     }
+
 
     public PageResponse<StoreDataResponse> getAllStore(String storeId, String storeName, Pageable pageable) {
         Query query = new Query();
@@ -106,7 +108,7 @@ public class SellerStoreService extends BaseService {
         if (Objects.isNull(sellerStore) || !sellerStore.getOwnerStoreName().equals(username))
             throw new AuthorizationException("Không có quyền truy cập");
         String imageUrl = googleDriver.uploadPublicImage(username + "-" + storeId, multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
-        sellerStore.setImageStoreUrl(imageUrl);
+        sellerStore.setImageUrl(imageUrl);
         return imageUrl;
     }
 
@@ -117,4 +119,13 @@ public class SellerStoreService extends BaseService {
         storeDataResponse.assignFromSellerStore(sellerStore);
         return storeDataResponse;
   }
+
+    public SellerStoreResponse getStoreDetail(String username, String storeId) {
+        SellerStoreResponse sellerStoreResponse = new SellerStoreResponse();
+        SellerStore sellerStore = sellerStoreStorage.findById(storeId);
+        if(Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
+        if(!sellerStore.getStoreName().equals(username)) throw new AuthorizationException("Không có quyền xem thông tin cửa hàng này");
+        sellerStoreResponse.assignFromSellerStore(sellerStore);
+        return sellerStoreResponse;
+    }
 }

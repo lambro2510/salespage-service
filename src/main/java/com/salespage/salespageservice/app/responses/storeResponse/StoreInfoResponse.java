@@ -19,7 +19,7 @@ public class StoreInfoResponse {
 
     public void assignFromSellerStore(SellerStore sellerStore) {
         storeId = sellerStore.getId().toHexString();
-        imageUrl = sellerStore.getImageStoreUrl();
+        imageUrl = sellerStore.getImageUrl();
         storeName = sellerStore.getStoreName();
         rate = sellerStore.getRate();
         address = sellerStore.getAddress();
