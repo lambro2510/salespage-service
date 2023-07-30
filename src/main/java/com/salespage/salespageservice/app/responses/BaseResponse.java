@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BaseResponse<T> {
+    int errorCode;
+
     boolean error;
 
     String message;

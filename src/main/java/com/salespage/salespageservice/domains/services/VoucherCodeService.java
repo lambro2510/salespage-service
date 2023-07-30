@@ -9,6 +9,7 @@ import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
+import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.VoucherCodeException;
@@ -73,7 +74,7 @@ public class VoucherCodeService extends BaseService {
         }
         voucherCodeLimit.setNumberReceiveVoucher(voucherCodeLimit.getNumberReceiveVoucher() + 1);
         if (voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser())
-            throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Bạn đã nhận tối đa số lượng mã giảm giá");
+            throw new VoucherCodeException(ErrorCode.LIMIT_RECEIVE_VOUCHER, "Bạn đã nhận tối đa số lượng mã giảm giá");
         VoucherCode voucherCode = voucherCodeStorage.findFirstVoucherCanUseByVoucherStoreId(voucherStoreId, new Date());
         voucherCode.setOwnerId(username);
         voucherCode.setVoucherCodeStatus(VoucherCodeStatus.OWNER);
@@ -99,11 +100,11 @@ public class VoucherCodeService extends BaseService {
             throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
 
         if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < productPrice || voucherStore.getVoucherStoreDetail().getMinAblePrice() > productPrice)
-            throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Mã không thể sử dụng cho sản phẩm này, không nằm trong giá trị mã có thể sử dụng");
+            throw new BadRequestException("Mã không thể sử dụng cho sản phẩm này, không nằm trong giá trị mã có thể sử dụng");
 
         if (voucherStore.getVoucherStoreType() == VoucherStoreType.PRODUCT) {
             if (!voucherStore.getProductId().equals(productId))
-                throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Mã giảm giá không áp dụng cho sản phẩm này");
+                throw new  BadRequestException("Mã giảm giá không áp dụng cho sản phẩm này");
             voucherInfo.setPriceAfter(BigDecimal.ZERO);
         } else if (voucherStore.getVoucherStoreType() == VoucherStoreType.DISCOUNT) {
             long price = (productPrice - voucherStore.getValue());
@@ -112,7 +113,7 @@ public class VoucherCodeService extends BaseService {
             long price = productPrice - (productPrice * voucherStore.getValue()) / 100;
             if (price < 0) price = 0L;
             voucherInfo.setPriceAfter(new BigDecimal(price));
-        } else throw new TransactionException(ErrorCode.TRANSACTION_EXCEPTION, "Mã không thể sử dụng cho sản phẩm này");
+        } else throw new  BadRequestException( "Mã không thể sử dụng cho sản phẩm này");
         voucherCode.setUserAt(new Date());
         voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
         voucherCodeStorage.save(voucherCode);
@@ -125,9 +126,9 @@ public class VoucherCodeService extends BaseService {
     public PageResponse getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
         VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
         if (Objects.isNull(voucherStore))
-            throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Cửa hàng này đã bị xóa");
+            throw new  BadRequestException( "Cửa hàng này đã bị xóa");
         if (!voucherStore.getCreatedBy().equals(username))
-            throw new VoucherCodeException(ErrorCode.VOUCHER_CODE, "Không có quyền truy cập");
+            throw new  BadRequestException( "Không có quyền truy cập");
         Query query = new Query();
         query.addCriteria(Criteria.where("voucher_store_id").is(voucherStoreId));
         if (Objects.nonNull(voucherCodeStatus))

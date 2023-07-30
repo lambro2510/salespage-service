@@ -5,7 +5,7 @@ import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 
 public class TransactionException extends BaseException {
     public TransactionException(String message) {
-        super(ErrorCode.INVALID_STATE, message);
+        super(ErrorCode.BAD_REQUEST, message);
     }
 
     public TransactionException(int code, String message) {

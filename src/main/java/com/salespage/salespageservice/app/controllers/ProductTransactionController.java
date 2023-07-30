@@ -3,6 +3,8 @@ package com.salespage.salespageservice.app.controllers;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
+import com.salespage.salespageservice.domains.exceptions.TransactionException;
+import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import com.salespage.salespageservice.domains.services.ProductTransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -44,6 +46,8 @@ public class ProductTransactionController extends BaseController {
         try {
             productTransactionService.createProductTransaction(getUsername(authentication), dto);
             return successApi("Tạo mới giao dịch thành công");
+        } catch (TransactionException ex) {
+            return errorApi(ErrorCode.NOT_ENOUGH_MONEY);
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }
