@@ -15,9 +15,15 @@ public class Rate {
     @Field("avg_point")
     private float avgPoint = 0;
 
-    public void processRatePoint(Long point) {
+    public void processAddRatePoint(Float point) {
         totalRate += 1;
         totalPoint += point;
         avgPoint = totalPoint / totalRate;
+    }
+
+    public void processUpdateRatePoint(Float point) {
+        totalPoint = totalPoint - 5 + point;
+        avgPoint = totalPoint / totalRate;
+
     }
 }

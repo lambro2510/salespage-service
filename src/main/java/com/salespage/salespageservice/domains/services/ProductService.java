@@ -12,6 +12,7 @@ import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import com.salespage.salespageservice.domains.entities.types.FavoriteType;
+import com.salespage.salespageservice.domains.entities.types.RatingType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
@@ -303,21 +304,25 @@ public class ProductService extends BaseService {
   }
 
   @Transactional
-  public RatingResponse updateRating(String username, String productId, Long point) {
+  public RatingResponse updateRating(String username, String productId, Float point) {
     User user = userStorage.findByUsername(username);
     if(Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
 
     Product product = productStorage.findProductById(productId);
     if(Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
 
-    Rating rating = ratingStorage.findByUsernameAndProductId(username, productId);
+    Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productId, RatingType.PRODUCT);
+    Rate rate = user.getRate();
     if(Objects.isNull(rating)){
-      rating = new Rating(new ObjectId(), username, productId, point);
-      Rate rate = user.getRate();
-      rate.processRatePoint(point);
-      product.setRate(rate);
-      productStorage.save(product);
+      rating = new Rating(new ObjectId(), username, productId, RatingType.PRODUCT, point);
+
+      rate.processAddRatePoint(point);
+    }else{
+      rate.processUpdateRatePoint(point);
     }
+
+    product.setRate(rate);
+    productStorage.save(product);
     ratingStorage.save(rating);
     return new RatingResponse(point, product.getRate().getTotalRate(), product.getRate().getAvgPoint());
   }

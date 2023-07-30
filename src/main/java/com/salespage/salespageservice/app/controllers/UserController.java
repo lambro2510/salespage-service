@@ -86,10 +86,10 @@ public class UserController extends BaseController {
             @ApiResponse(responseCode = "401", description = "Unauthorized access"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<BaseResponse> voting(Authentication authentication, @Parameter(description = "ID of the user to vote for") @RequestParam String userId, @Parameter(description = "Number of points to give") @RequestParam Long point) {
+    public ResponseEntity<BaseResponse> voting(Authentication authentication, @Parameter(description = "ID of the user to vote for") @RequestParam String userId, @Parameter(description = "Number of points to give") @RequestParam Float point) {
         try {
-            userService.voting(getUsername(authentication), userId, point);
-            return successApi("Đánh giá người dùng thành công");
+
+            return successApi("Đánh giá người dùng thành công", userService.voting(getUsername(authentication), userId, point));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }

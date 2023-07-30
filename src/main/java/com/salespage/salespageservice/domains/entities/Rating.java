@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.salespage.salespageservice.domains.entities.types.RatingType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,9 +22,13 @@ public class Rating extends BaseEntity{
   @Field("username")
   private String username;
 
-  @Field("product_id")
-  private String productId;
+  @Field("ref_id")
+  private String refId;
+
+  @Field("rating_type")
+  private RatingType ratingType;
 
   @Field("point")
-  private Long point;
+  private Float point;
+
 }

@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RatingResponse {
-  private Long ratingPoint;
+  private Float ratingPoint;
 
   private Float totalRate;
 
-  private Float abgPoint;
+  private Float avgPoint;
 
 }

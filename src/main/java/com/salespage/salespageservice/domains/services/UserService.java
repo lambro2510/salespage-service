@@ -2,13 +2,18 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
+import com.salespage.salespageservice.app.responses.RatingResponse;
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.entities.CheckInDaily;
+import com.salespage.salespageservice.domains.entities.Rating;
 import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.entities.infor.Rate;
+import com.salespage.salespageservice.domains.entities.types.RatingType;
 import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.Helper;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,16 +53,28 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public void voting(String username, String votingUsername, Long point) {
+    public RatingResponse voting(String username, String votingUsername, Float point) {
         if (Objects.equals(username, votingUsername))
             throw new ResourceExitsException("Không thể tự đánh giá bản thân");
         User user = userStorage.findByUsername(votingUsername);
 
         if (user == null) throw new ResourceNotFoundException("Không tìm thấy người dùng này");
 
-        user.getRate().processRatePoint(point);
+        Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, user.getId().toHexString(), RatingType.USER);
 
+        Rate rate = user.getRate();
+        if(Objects.isNull(rating)){
+            rating = new Rating(new ObjectId(), username, user.getId().toHexString(), RatingType.USER, point);
+
+            rate.processAddRatePoint(point);
+        }else{
+            rate.processUpdateRatePoint(point);
+        }
+
+        user.setRate(rate);
         userStorage.save(user);
+        ratingStorage.save(rating);
+        return new RatingResponse(point, user.getRate().getTotalRate(), user.getRate().getAvgPoint());
 
     }
 
