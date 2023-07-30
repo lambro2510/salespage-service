@@ -78,6 +78,8 @@ public class BaseService {
     @Autowired
     protected TpBankTransactionStorage tpBankTransactionStorage;
 
+    @Autowired protected RatingStorage ratingStorage;
+
     @Autowired
     @Lazy
     private SystemLogService systemLogService;

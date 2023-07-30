@@ -300,4 +300,15 @@ public class ProductService extends BaseService {
     return products;
   }
 
+  public void updateRating(String username, String productId, Long point) {
+    User user = userStorage.findByUsername(username);
+    if(Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
+
+    Product product = productStorage.findProductById(productId);
+    if(Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
+
+    Rating rating = ratingStorage.findByUsernameAndProductId(username, productId);
+    if(Objects.isNull(rating)) rating = new Rating(new ObjectId(), username, productId, point);
+    ratingStorage.save(rating);
+  }
 }
