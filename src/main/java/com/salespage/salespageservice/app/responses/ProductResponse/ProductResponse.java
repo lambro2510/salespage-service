@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class ProductResponse extends ProductDataResponse {
 
-    private String imageUrl;
+    protected String imageUrl;
 
-    Boolean isHot = false;
+    protected Boolean isHot = false;
 
     @Override
     public void assignFromProduct(Product product) {

@@ -28,4 +28,8 @@ public class ProductCategoryStorage extends BaseStorage{
   public void delete(ProductCategory productCategory) {
     productCategoryRepository.delete(productCategory);
   }
+
+  public List<ProductCategory> findByCategoryName(String categoryName) {
+    return productCategoryRepository.findByCategoryName(categoryName);
+  }
 }

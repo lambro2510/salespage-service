@@ -158,14 +158,17 @@ public class ProductService extends BaseService {
     }
 
     //assign from store
-    response.setStoreName(sellerStore.getStoreName());
-    response.setStoreId(sellerStore.getId().toHexString());
-    response.setStoreImageUrl(sellerStore.getStoreName());
-    response.setStoreRate(sellerStore.getRate());
+    response.assignFromStore(sellerStore);
 
     //assign from favorite
     response.setIsLike(userFavorite.getIsLike());
     response.setRate(userFavorite.getRateStar());
+
+    //assign from category
+    ProductCategory productCategory = productCategoryStorage.findById(productId);
+    if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
+    response.assignFromCategory(productCategory);
+
     List<Product> similarProducts = findSimilarProducts(product);
     List<ProductResponse> listSimilarProduct = similarProducts.stream().map(Product::assignToProductResponse).collect(Collectors.toList());
     response.setSimilarProducts(listSimilarProduct);
@@ -287,18 +290,18 @@ public class ProductService extends BaseService {
     return productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList());
   }
 
-  private List<Product> findSimilarProducts(Product product) throws Exception {
-    List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(product.getId().toHexString());
-    List<Product> products;
-    if (Objects.nonNull(typeDetails) && !typeDetails.isEmpty()) {
-      List<String> listType = typeDetails.stream()
-          .map(ProductTypeDetail::getTypeDetailName)
-          .collect(Collectors.toList());
+  private List<Product> findSimilarProducts(Product product, String categoryName) throws Exception {
+    List<ProductCategory> productCategories = productCategoryStorage.findByCategoryName(categoryName);
 
-      List<ProductTypeDetail> similarType = productTypeStorage.getTop10SimilarProduct(listType);
-      products = productStorage.findByIdIn(similarType.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
-    } else {
-      products = productStorage.findTop10ByCategoryIdOrderByCreatedAtDesc(product.getCategoryId());
+    List<ObjectId> categoriesId = productCategories.stream().map(ProductCategory::getId).collect(Collectors.toList());
+
+    List<Product> products = productStorage.findByIdIn(categoriesId);
+    if(products.isEmpty()){
+      List<Product> otherProduct = productStorage.findTop10OrderByCreatedAtDesc();
+      products.addAll(otherProduct);
+    }if(products.size() <= 5) {
+      List<Product> otherProduct = productStorage.findTop5OrderByCreatedAtDesc();
+      products.addAll(otherProduct);
     }
     return products;
   }

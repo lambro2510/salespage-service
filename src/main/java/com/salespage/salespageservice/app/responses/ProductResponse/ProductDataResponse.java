@@ -9,25 +9,25 @@ import java.util.List;
 
 @Data
 public class ProductDataResponse {
-    private String productId;
+    protected String productId;
 
-    private String productName;
+    protected String productName;
 
-    private Double productPrice;
+    protected Double productPrice;
 
-    private String categoryName;
+    protected String categoryName;
 
-    private String description;
+    protected String description;
 
-    private List<String> productTypes = new ArrayList<>();
+    protected List<String> productTypes = new ArrayList<>();
 
-    private Rate productRate;
+    protected Rate productRate;
 
-    private String sellerUsername;
+    protected String sellerUsername;
 
-    private String storeName;
+    protected String storeName;
 
-    private String sellingAddress;
+    protected String sellingAddress;
 
     public void assignFromProduct(Product product) {
         productId = product.getId().toHexString();

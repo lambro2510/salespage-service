@@ -55,7 +55,7 @@ public class ProductStorage extends BaseStorage {
     }
 
 
-    public List<Product> findByIdIn(List<String> productIds) {
+    public List<Product> findByIdIn(List<ObjectId> productIds) {
         return productRepository.findByIdIn(productIds);
     }
 
@@ -69,5 +69,13 @@ public class ProductStorage extends BaseStorage {
 
     public boolean isExistByProductId(String refId) {
         return productRepository.existsById(new ObjectId(refId));
+    }
+
+    public List<Product> findTop10OrderByCreatedAtDesc() {
+        return productRepository.findTop10OrderByCreatedAtDesc();
+    }
+
+    public List<Product> findTop5OrderByCreatedAtDesc() {
+        return productRepository.findTop5OrderByCreatedAtDesc();
     }
 }
