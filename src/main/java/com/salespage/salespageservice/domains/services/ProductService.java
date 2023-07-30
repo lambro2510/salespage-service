@@ -165,7 +165,7 @@ public class ProductService extends BaseService {
     response.setRate(userFavorite.getRateStar());
 
     //assign from category
-    ProductCategory productCategory = productCategoryStorage.findById(productId);
+    ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
     if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
     response.assignFromCategory(productCategory);
 
