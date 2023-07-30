@@ -68,7 +68,7 @@ public class UserService extends BaseService {
 
             rate.processAddRatePoint(point);
         }else{
-            rate.processUpdateRatePoint(point);
+            rate.processUpdateRatePoint(rating.getPoint(), point);
         }
 
         user.setRate(rate);

@@ -315,7 +315,7 @@ public class ProductService extends BaseService {
 
       rate.processAddRatePoint(point);
     }else{
-      rate.processUpdateRatePoint(point);
+      rate.processUpdateRatePoint(rating.getPoint(), point);
     }
 
     product.setRate(rate);

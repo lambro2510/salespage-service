@@ -7,13 +7,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Rate {
 
     @Field("total_point")
-    private float totalPoint = 0;
+    private Float totalPoint = 0F;
 
     @Field("total_rate")
-    private float totalRate = 0;
+    private Float totalRate = 0F;
 
     @Field("avg_point")
-    private float avgPoint = 0;
+    private Float avgPoint = 0F;
 
     public void processAddRatePoint(Float point) {
         totalRate += 1;
@@ -21,8 +21,8 @@ public class Rate {
         avgPoint = totalPoint / totalRate;
     }
 
-    public void processUpdateRatePoint(Float point) {
-        totalPoint = totalPoint - 5 + point;
+    public void processUpdateRatePoint(Float oldPoint ,Float point) {
+        totalPoint = totalPoint - oldPoint + point;
         avgPoint = totalPoint / totalRate;
 
     }
