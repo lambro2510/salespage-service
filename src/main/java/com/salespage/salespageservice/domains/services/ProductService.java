@@ -295,14 +295,8 @@ public class ProductService extends BaseService {
 
     List<ObjectId> categoriesId = productCategories.stream().map(ProductCategory::getId).collect(Collectors.toList());
 
-    List<Product> products = productStorage.findByIdIn(categoriesId);
-    if(products.isEmpty()){
-      List<Product> otherProduct = productStorage.findTop10OrderByCreatedAtDesc();
-      products.addAll(otherProduct);
-    }if(products.size() <= 5) {
-      List<Product> otherProduct = productStorage.findTop5OrderByCreatedAtDesc();
-      products.addAll(otherProduct);
-    }
+    List<Product> products = productStorage.findTop11ByIdIn(categoriesId);
+    products = products.stream().filter(item -> !item.getId().equals(product.getId())).collect(Collectors.toList());
     return products;
   }
 

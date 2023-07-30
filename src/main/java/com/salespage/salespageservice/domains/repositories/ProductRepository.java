@@ -19,11 +19,10 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
 
     List<Product> findBySellerStoreId(String storeId);
 
-    List<Product> findByIdIn(List<ObjectId> productIds);
+    List<Product> findTop11ByIdIn(List<ObjectId> productIds);
 
     List<Product> findTop10ByCategoryIdOrderByCreatedAtDesc(String typeName);
 
     List<Product> findTop10OrderByCreatedAtDesc();
-
     List<Product> findTop5OrderByCreatedAtDesc();
 }
