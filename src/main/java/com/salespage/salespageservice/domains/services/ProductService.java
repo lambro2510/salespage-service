@@ -169,7 +169,7 @@ public class ProductService extends BaseService {
     if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
     response.assignFromCategory(productCategory);
 
-    List<Product> similarProducts = findSimilarProducts(product);
+    List<Product> similarProducts = findSimilarProducts(product, productCategory.getCategoryName());
     List<ProductResponse> listSimilarProduct = similarProducts.stream().map(Product::assignToProductResponse).collect(Collectors.toList());
     response.setSimilarProducts(listSimilarProduct);
     return response;

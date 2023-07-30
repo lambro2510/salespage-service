@@ -71,11 +71,4 @@ public class ProductStorage extends BaseStorage {
         return productRepository.existsById(new ObjectId(refId));
     }
 
-    public List<Product> findTop10OrderByCreatedAtDesc() {
-        return productRepository.findTop10OrderByCreatedAtDesc();
-    }
-
-    public List<Product> findTop5OrderByCreatedAtDesc() {
-        return productRepository.findTop5OrderByCreatedAtDesc();
-    }
 }
