@@ -2,9 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
-import com.salespage.salespageservice.app.responses.RatingResponse;
 import com.salespage.salespageservice.domains.entities.Account;
-import com.salespage.salespageservice.domains.entities.CheckInDaily;
 import com.salespage.salespageservice.domains.entities.Rating;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Objects;
 
 @Service
@@ -53,7 +50,7 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public RatingResponse voting(String username, String votingUsername, Float point) {
+    public Rate voting(String username, String votingUsername, Float point) {
         if (Objects.equals(username, votingUsername))
             throw new ResourceExitsException("Không thể tự đánh giá bản thân");
         User user = userStorage.findByUsername(votingUsername);
@@ -74,7 +71,7 @@ public class UserService extends BaseService {
         user.setRate(rate);
         userStorage.save(user);
         ratingStorage.save(rating);
-        return new RatingResponse(point, user.getRate().getTotalRate(), user.getRate().getAvgPoint());
+        return rate;
 
     }
 

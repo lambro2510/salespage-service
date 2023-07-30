@@ -6,7 +6,6 @@ import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetai
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
-import com.salespage.salespageservice.app.responses.RatingResponse;
 import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
@@ -301,7 +300,7 @@ public class ProductService extends BaseService {
   }
 
   @Transactional
-  public RatingResponse updateRating(String username, String productId, Float point) {
+  public Rate updateRating(String username, String productId, Float point) {
     User user = userStorage.findByUsername(username);
     if(Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
 
@@ -322,6 +321,6 @@ public class ProductService extends BaseService {
     product.setRate(rate);
     productStorage.save(product);
     ratingStorage.save(rating);
-    return new RatingResponse(point, product.getRate().getTotalRate(), product.getRate().getAvgPoint());
+    return rate;
   }
 }
