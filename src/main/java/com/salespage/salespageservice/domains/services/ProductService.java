@@ -309,7 +309,7 @@ public class ProductService extends BaseService {
     if(Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
 
     Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productId, RatingType.PRODUCT);
-    Rate rate = user.getRate();
+    Rate rate = product.getRate();
     if(Objects.isNull(rating)){
       rating = new Rating(new ObjectId(), username, productId, RatingType.PRODUCT, point);
 
