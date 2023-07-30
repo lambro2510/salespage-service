@@ -12,7 +12,6 @@ import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import com.salespage.salespageservice.domains.entities.types.FavoriteType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
-import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.Helper;
 import jodd.util.StringUtil;
@@ -30,7 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -70,17 +72,17 @@ public class ProductService extends BaseService {
       throw new AuthorizationException("Bạn không có quyền cập nhật sản phẩm này");
 
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, dto.getCategoryId());
-    if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
+    if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
 
     SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
-    if(Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
+    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
 
     product.updateProductInfo(dto);
     productStorage.save(product);
     return product;
   }
 
-  public PageResponse<ProductItemResponse> getAllProduct(String sellerUsername, String productId,  String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
+  public PageResponse<ProductItemResponse> getAllProduct(String sellerUsername, String productId, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
 
     Query query = new Query();
     if (StringUtil.isNotBlank(sellerUsername)) {
@@ -127,7 +129,7 @@ public class ProductService extends BaseService {
     Map<ObjectId, SellerStore> sellerStoreMap = sellerStores.stream().collect(Collectors.toMap(SellerStore::getId, Function.identity()));
     for (ProductItemResponse response : products) {
       ProductCategory productCategory = productCategoryStorage.findById(response.getCategoryId());
-      if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
+      if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
       response.setCategoryName(productCategory.getCategoryName());
 
       SellerStore store = sellerStoreMap.get(new ObjectId(response.getStoreId()));
@@ -188,9 +190,9 @@ public class ProductService extends BaseService {
     if (!product.getSellerUsername().equals(username))
       throw new AuthorizationException("Không được phép");
 
-      String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, file.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(file));
-      product.getImageUrls().add(imageUrl);
-      imageUrls.add(new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", imageUrl, imageUrl));
+    String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, file.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(file));
+    product.getImageUrls().add(imageUrl);
+    imageUrls.add(new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", imageUrl, imageUrl));
 
     product.setDefaultImageUrl(imageUrl);
     productStorage.save(product);
