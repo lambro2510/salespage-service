@@ -293,9 +293,9 @@ public class ProductService extends BaseService {
   private List<Product> findSimilarProducts(Product product, String categoryName) throws Exception {
     List<ProductCategory> productCategories = productCategoryStorage.findByCategoryName(categoryName);
 
-    List<ObjectId> categoriesId = productCategories.stream().map(ProductCategory::getId).collect(Collectors.toList());
+    List<String> categoriesId = productCategories.stream().map(item -> item.getId().toHexString()).collect(Collectors.toList());
+    List<Product> products = productStorage.findTop11ByCategoryIdIn(categoriesId);
 
-    List<Product> products = productStorage.findTop11ByIdIn(categoriesId);
     products = products.stream().filter(item -> !item.getId().equals(product.getId())).collect(Collectors.toList());
     return products;
   }
