@@ -8,6 +8,7 @@ import com.salespage.salespageservice.app.responses.ProductResponse.ProductRespo
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.domains.entities.*;
+import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import com.salespage.salespageservice.domains.entities.types.FavoriteType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
@@ -300,6 +301,7 @@ public class ProductService extends BaseService {
     return products;
   }
 
+  @Transactional
   public void updateRating(String username, String productId, Long point) {
     User user = userStorage.findByUsername(username);
     if(Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
@@ -308,7 +310,13 @@ public class ProductService extends BaseService {
     if(Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
 
     Rating rating = ratingStorage.findByUsernameAndProductId(username, productId);
-    if(Objects.isNull(rating)) rating = new Rating(new ObjectId(), username, productId, point);
+    if(Objects.isNull(rating)){
+      rating = new Rating(new ObjectId(), username, productId, point);
+      Rate rate = user.getRate();
+      rate.processRatePoint(point);
+      product.setRate(rate);
+      productStorage.save(product);
+    }
     ratingStorage.save(rating);
   }
 }
