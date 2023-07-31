@@ -33,9 +33,6 @@ public class VoucherStoreResponse {
     @Schema(description = "ID của sản phẩm được áp dụng voucher", example = "123")
     private String refId;
 
-    @Schema(description = "Tên của sản phẩm được áp dụng voucher", example = "Product A")
-    private String productName;
-
     @Schema(description = "Giá trị của voucher", example = "10000")
     private Long value;
 }

@@ -4,12 +4,15 @@ import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto
 import com.salespage.salespageservice.domains.entities.status.VoucherStoreStatus;
 import com.salespage.salespageservice.domains.entities.types.DiscountType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
+import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+@EqualsAndHashCode(callSuper = true)
 @Document("voucher_store")
 @Data
 public class VoucherStore extends BaseEntity {
@@ -45,6 +48,7 @@ public class VoucherStore extends BaseEntity {
         setVoucherStoreType(updateVoucherStoreDto.getVoucherStoreType());
         setVoucherStoreStatus(updateVoucherStoreDto.getVoucherStoreStatus());
         if (discountType == DiscountType.PERCENT) {
+            if(updateVoucherStoreDto.getValuePercent() <= 0 || updateVoucherStoreDto.getValuePercent() >= 100) throw new BadRequestException("Giá trị giảm giá không hợp lệ");
             setValue(updateVoucherStoreDto.getValuePercent());
         } else {
             setValue(updateVoucherStoreDto.getValue());

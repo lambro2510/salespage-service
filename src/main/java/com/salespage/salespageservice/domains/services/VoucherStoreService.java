@@ -80,7 +80,6 @@ public class VoucherStoreService extends BaseService {
             response.setVoucherStoreId(voucherStore.getId().toHexString());
             response.setValue(voucherStore.getValue());
 
-
             voucherStoreResponses.add(response);
         }
         return voucherStoreResponses;
