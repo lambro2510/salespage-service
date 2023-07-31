@@ -51,7 +51,11 @@ public class VoucherCodeService extends BaseService {
         for (int i = 0; i < numberVoucher; i++) {
             VoucherCode voucherCode = new VoucherCode();
             voucherCode.setVoucherStoreId(voucherStoreId);
-            voucherCode.setExpireTime(expireTime);
+            if(Objects.isNull(expireTime)){
+                voucherCode.setExpireTime(new Date(2050,12,31));
+            }else {
+                voucherCode.setExpireTime(expireTime);
+            }
             voucherCode.setCode(Helper.generateRandomString());
             voucherCodes.add(voucherCode);
         }
