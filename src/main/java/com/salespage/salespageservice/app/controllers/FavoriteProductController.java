@@ -29,7 +29,7 @@ public class FavoriteProductController extends BaseController {
     })
     public ResponseEntity<BaseResponse> createUpdateUserFavorite(Authentication authentication, @RequestBody UserFavoriteDto dto) {
         try {
-            userFavoriteService.createAndUpdateUserFavorite(getUsername(authentication), dto.getRefId(), dto.getFavoriteType(), dto.getStar(), dto.getIsLike());
+            userFavoriteService.createAndUpdateUserFavorite(getUsername(authentication), dto.getRefId(), dto.getFavoriteType(), dto.getIsLike());
             return successApi("Thêm vào danh sách yêu thích thành công");
         } catch (Exception ex) {
             return errorApi(ex.getMessage());

@@ -151,17 +151,19 @@ public class ProductService extends BaseService {
     Product product = productStorage.findProductById(productId);
     response = product.assignToProductDetailResponse();
     SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
-    UserFavorite userFavorite = new UserFavorite();
+
     if (Objects.nonNull(username)) {
-      userFavorite = userFavoriteStorage.findByUsernameAndRefIdAndFavoriteType(username, productId, FavoriteType.PRODUCT);
+      UserFavorite userFavorite = userFavoriteStorage.findByUsernameAndRefIdAndFavoriteType(username, productId, FavoriteType.PRODUCT);
+      Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productId, RatingType.PRODUCT);
+      response.setIsLike(userFavorite.getLike());
+      response.setRate(rating.getPoint());
     }
 
     //assign from store
     response.assignFromStore(sellerStore);
 
     //assign from favorite
-    response.setIsLike(userFavorite.getIsLike());
-    response.setRate(userFavorite.getRateStar());
+
 
     //assign from category
     ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());

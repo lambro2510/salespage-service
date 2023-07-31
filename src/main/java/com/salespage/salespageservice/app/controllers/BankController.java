@@ -25,6 +25,11 @@ public class BankController extends BaseController {
     BankService bankService;
 
     @PostMapping("")
+    @Operation(summary = "Receive Bank Transaction", description = "Receive and save bank transaction information")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public ResponseEntity<?> receiveBankTransaction(@RequestBody BankDto bankDto) throws Exception {
         try {
             bankService.receiveBankTransaction(bankDto);
@@ -35,6 +40,11 @@ public class BankController extends BaseController {
     }
 
     @GetMapping("")
+    @Operation(summary = "Get All Transactions", description = "Retrieve a list of all bank transactions")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public ResponseEntity<?> getAllTransaction() throws Exception {
         try {
             return successApi(bankService.getAllTransaction());
@@ -44,6 +54,11 @@ public class BankController extends BaseController {
     }
 
     @PostMapping("gen-qr")
+    @Operation(summary = "Generate QR Code", description = "Generate a QR code for a specific payment")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public ResponseEntity<?> genQrCode(@RequestParam String paymentId, Authentication authentication) {
         try {
             return successApi(null, bankService.genTransactionQr(getUsername(authentication), paymentId));
@@ -55,8 +70,8 @@ public class BankController extends BaseController {
     @GetMapping("list-bank")
     @Operation(summary = "Get List of Banks", description = "Retrieve a list of banks")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BankListDataRes.class)))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BankListDataRes.class)))),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public ResponseEntity<?> getListBank() {
         try {
@@ -67,10 +82,10 @@ public class BankController extends BaseController {
     }
 
     @GetMapping("account-info")
-    @Operation(summary = "Thông tin tài khoản ngân hang", description = "Thông tin tài khoản ngân hàng")
+    @Operation(summary = "Thông tin tài khoản ngân hàng", description = "Thông tin tài khoản ngân hàng")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success", content = @Content(schema = @Schema(implementation = BankAccountData.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content(schema = @Schema(implementation = BankAccountData.class))),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public ResponseEntity<?> getBankAccountData(@RequestParam String bin, @RequestParam String accountNo) {
         try {
@@ -81,6 +96,11 @@ public class BankController extends BaseController {
     }
 
     @PostMapping("async-data")
+    @Operation(summary = "Asynchronous Data Synchronization", description = "Synchronize bank transaction data asynchronously")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public ResponseEntity<?> asyncData() {
         try {
             bankService.asyncTransaction();
@@ -91,6 +111,11 @@ public class BankController extends BaseController {
     }
 
     @PostMapping("link-bank-account")
+    @Operation(summary = "Link Bank Account", description = "Link a bank account with the user's account")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     public ResponseEntity<?> linkBankAccount(Authentication authentication, @RequestBody BankAccountInfoRequest request) {
         try {
             bankService.linkBankAccount(getUsername(authentication), request);
@@ -99,5 +124,4 @@ public class BankController extends BaseController {
             return errorApi(ex.getMessage());
         }
     }
-
 }

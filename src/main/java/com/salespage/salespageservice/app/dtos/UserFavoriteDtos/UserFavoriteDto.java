@@ -10,8 +10,6 @@ public class UserFavoriteDto {
 
     FavoriteType favoriteType;
 
-    Float star;
-
     @JsonProperty("isLike")
     Boolean isLike;
 }

@@ -22,8 +22,8 @@ public class ProductDetailResponse extends ProductResponse {
     List<ProductResponse> similarProducts = new ArrayList<>();
 
     @JsonProperty("isLike")
-    Boolean isLike;
-    Float rate;
+    Boolean isLike = false;
+    Float rate = 0F;
     String storeImageUrl;
     String storeId;
     String storeName;

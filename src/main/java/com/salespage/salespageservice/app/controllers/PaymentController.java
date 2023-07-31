@@ -20,11 +20,11 @@ public class PaymentController extends BaseController {
     private BankService bankService;
 
     @GetMapping("payment-transaction")
-    @Operation(summary = "Lịch sử nạp và rút tiền", description = "Lịch sử nạp và rút tiền")
+    @Operation(summary = "Lịch sử nạp và rút tiền", description = "Truy vấn lịch sử các giao dịch nạp và rút tiền")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Thành công"),
-            @ApiResponse(responseCode = "401", description = "Không được ủy quyền, vui lòng kiểm tra thông tin xác thực của bạn"),
-            @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+        @ApiResponse(responseCode = "200", description = "Thành công"),
+        @ApiResponse(responseCode = "401", description = "Không được ủy quyền, vui lòng kiểm tra thông tin xác thực của bạn"),
+        @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
     })
     public ResponseEntity<BaseResponse> getPaymentTransaction(Authentication authentication) {
         try {
@@ -35,6 +35,11 @@ public class PaymentController extends BaseController {
     }
 
     @PostMapping("create-payment")
+    @Operation(summary = "Tạo giao dịch", description = "Tạo một giao dịch nạp hoặc rút tiền mới")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Thành công"),
+        @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+    })
     public ResponseEntity<?> createPayment(Authentication authentication, @RequestBody CreatePaymentDto dto) {
         try {
             return successApi("Tạo giao dịch thành công.", bankService.createPayment(getUsername(authentication), dto));
@@ -44,6 +49,11 @@ public class PaymentController extends BaseController {
     }
 
     @PostMapping("confirm-payment")
+    @Operation(summary = "Xác nhận giao dịch", description = "Xác nhận một giao dịch nạp hoặc rút tiền")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Thành công"),
+        @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+    })
     public ResponseEntity<?> confirmPayment(Authentication authentication, @RequestParam String paymentId) {
         try {
             return successApi(null, bankService.confirmPayment(getUsername(authentication), paymentId));
@@ -53,6 +63,11 @@ public class PaymentController extends BaseController {
     }
 
     @PutMapping("cancel-payment")
+    @Operation(summary = "Hủy giao dịch", description = "Hủy bỏ một giao dịch nạp hoặc rút tiền")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Thành công"),
+        @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+    })
     public ResponseEntity<?> cancelPayment(Authentication authentication, @RequestParam String paymentId) {
         try {
             bankService.cancelPayment(getUsername(authentication), paymentId);
@@ -61,6 +76,4 @@ public class PaymentController extends BaseController {
             return errorApi(ex.getMessage());
         }
     }
-
-
 }

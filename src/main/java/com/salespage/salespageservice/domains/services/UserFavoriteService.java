@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Service
 public class UserFavoriteService extends BaseService {
-    public void createAndUpdateUserFavorite(String username, String refId, FavoriteType type, Float star, Boolean isLike) throws Exception {
+    public void createAndUpdateUserFavorite(String username, String refId, FavoriteType type, Boolean isLike) throws Exception {
         User user = userStorage.findByUsername(username);
         if (Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
         UserFavorite userFavorite = userFavoriteStorage.findByUsernameAndRefIdAndFavoriteType(username, refId, type);
@@ -43,9 +43,8 @@ public class UserFavoriteService extends BaseService {
         }
         userFavorite.setUsername(username);
         userFavorite.setRefId(refId);
-        userFavorite.setIsLike(isLike);
+        userFavorite.setLike(isLike);
         userFavorite.setFavoriteType(type);
-        userFavorite.setRateStar(star);
         userFavoriteStorage.save(userFavorite);
     }
 

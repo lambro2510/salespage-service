@@ -13,5 +13,5 @@ public interface UserFavoriteRepository extends MongoRepository<UserFavorite, Ob
 
     UserFavorite findByUsernameAndRefIdAndFavoriteType(String username, String productId);
 
-    List<UserFavorite> findByUsernameAndFavoriteType(String username, FavoriteType favoriteType);
+    List<UserFavorite> findByUsernameAndFavoriteTypeAndLike(String username, FavoriteType favoriteType, Boolean isLike);
 }

@@ -24,6 +24,6 @@ public class UserFavoriteStorage extends BaseStorage {
     }
 
     public List<UserFavorite> findByUsernameAndFavoriteType(String username, FavoriteType favoriteType) {
-        return userFavoriteRepository.findByUsernameAndFavoriteType(username, favoriteType);
+        return userFavoriteRepository.findByUsernameAndFavoriteTypeAndLike(username, favoriteType, true);
     }
 }

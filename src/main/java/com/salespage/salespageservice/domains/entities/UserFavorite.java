@@ -27,8 +27,5 @@ public class UserFavorite extends BaseEntity {
     private FavoriteType favoriteType;
 
     @Field("is_like")
-    private Boolean isLike = false;
-
-    @Field("rate_star")
-    private Float rateStar = 0F;
+    private Boolean like = false;
 }
