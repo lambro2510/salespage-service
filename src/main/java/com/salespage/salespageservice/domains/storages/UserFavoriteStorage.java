@@ -13,7 +13,7 @@ public class UserFavoriteStorage extends BaseStorage {
     public UserFavorite findByUsernameAndRefIdAndFavoriteType(String username, String productId, FavoriteType type) throws Exception {
         UserFavorite userFavorite = remoteCacheManager.get(CacheKey.getUserFavorite(username, productId, type), UserFavorite.class);
         if (Objects.isNull(userFavorite)) {
-            userFavorite = userFavoriteRepository.findByUsernameAndRefIdAndFavoriteType(username, productId);
+            userFavorite = userFavoriteRepository.findByUsernameAndRefIdAndFavoriteType(username, productId, type);
             remoteCacheManager.set(CacheKey.getUserFavorite(username, productId, type), userFavorite, CacheKey.HOUR);
         }
         return userFavorite;

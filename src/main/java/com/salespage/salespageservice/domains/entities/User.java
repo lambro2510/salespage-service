@@ -38,6 +38,7 @@ public class User {
 
     @Field("date_of_born")
     private Date dateOfBirth;
+
     @Field("first_name")
     private String firstName;
 

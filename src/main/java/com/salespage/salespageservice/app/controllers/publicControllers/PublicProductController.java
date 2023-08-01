@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("api/v1/public/product")
 @Tag(name = "Product", description = "Thông tin sản phẩm được bán")
+@Log4j2
 public class PublicProductController extends BaseController {
     @Autowired
     private ProductService productService;
@@ -48,12 +50,17 @@ public class PublicProductController extends BaseController {
         }
 
     @GetMapping("detail")
-    public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId) throws Exception {
-        String username = null;
-        if (Objects.nonNull(authentication)) {
-            username = getUsername(authentication);
+    public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId){
+        try{
+            String username = null;
+            if (Objects.nonNull(authentication)) {
+                username = getUsername(authentication);
+                log.info("getProductDetail with username: {{}}", username);
+            }
+            return successApi(productService.getProductDetail(username, productId));
+        }catch (Exception ex){
+            return errorApi(ex.getMessage());
         }
-        return successApi(productService.getProductDetail(username, productId));
     }
 
     @GetMapping("type")
