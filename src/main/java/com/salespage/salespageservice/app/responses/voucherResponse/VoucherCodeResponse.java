@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -18,5 +19,5 @@ public class VoucherCodeResponse {
     private Date usedAt;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private Date expireTime;
+    private LocalDate expireTime;
 }

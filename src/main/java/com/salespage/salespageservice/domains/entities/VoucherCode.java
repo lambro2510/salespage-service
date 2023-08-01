@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Document("voucher_code")
@@ -32,7 +33,7 @@ public class VoucherCode extends BaseEntity {
     private String code;
 
     @Field("expire_time")
-    private Date expireTime;
+    private LocalDate expireTime;
 
     @Field("voucher_code_status")
     private VoucherCodeStatus voucherCodeStatus = VoucherCodeStatus.NEW;

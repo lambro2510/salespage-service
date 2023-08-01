@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @RestController
@@ -111,7 +112,7 @@ public class VoucherController extends BaseController {
     public ResponseEntity<BaseResponse> createVoucherCode(Authentication authentication,
                                                           @RequestParam String voucherStoreId,
                                                           @RequestParam Long numberVoucher,
-                                                          @RequestParam(required = false) @Schema(type = "string", format = "date") @DateTimeFormat(pattern = "dd-MM-yyyy") Date expireTime) {
+                                                          @RequestParam(required = false) @Schema(type = "string", format = "date") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate expireTime) {
         try {
             voucherCodeService.generateVoucherCode(getUsername(authentication), voucherStoreId, numberVoucher, expireTime);
             return successApi("Tạo mã voucher mới thành công");
