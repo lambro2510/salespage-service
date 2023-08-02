@@ -27,8 +27,8 @@ public class ProductTransactionConsumer extends BankService {
     private NotificationService notificationService;
 
     @KafkaListener(topics = TopicConfig.SALE_PAGE_PAYMENT_TRANSACTION)
-    public void processReturnReward(String message) {
-        log.debug("====> processReturnReward: {} " + message);
+    public void createPayment(String message) {
+        log.debug("====> createPayment: {} " + message);
         PaymentTransaction paymentTransaction = new PaymentTransaction();
         try {
             paymentTransaction = JsonParser.entity(message, PaymentTransaction.class);
@@ -39,7 +39,7 @@ public class ProductTransactionConsumer extends BankService {
                 notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_OUT_SUCCESS.getTittle(), NotificationMessage.PAYMENT_OUT_SUCCESS.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
             }
         } catch (Exception e) {
-            log.error("====> processReturnReward error: {} " + paymentTransaction);
+            log.error("====> createPayment error: {} " + paymentTransaction);
 //      producer.createPaymentTransaction(paymentTransaction);
         }
     }

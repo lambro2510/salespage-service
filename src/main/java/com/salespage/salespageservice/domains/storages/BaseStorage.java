@@ -76,6 +76,8 @@ public class BaseStorage {
 
     @Autowired protected RatingRepository ratingRepository;
 
+    @Autowired protected StatisticCheckpointRepository statisticCheckpointRepository;
+
     @Autowired
     protected MongoTemplate mongoTemplate;
 

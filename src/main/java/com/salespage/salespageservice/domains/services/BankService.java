@@ -115,6 +115,7 @@ public class BankService extends BaseService {
         paymentTransaction.setPaymentStatus(PaymentStatus.WAITING);
         paymentTransaction.setBankAccountId(dto.getBankAccountId());
         paymentTransaction.setAmount(dto.getAmount());
+        paymentTransaction.setDescription(Helper.genDescription(username, id.toHexString()));
         producer.createPaymentTransaction(paymentTransaction);
 //    paymentTransactionStorage.save(paymentTransaction);
         return id.toHexString();

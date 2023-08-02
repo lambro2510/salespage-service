@@ -78,6 +78,9 @@ public class BaseService {
     @Autowired
     protected TpBankTransactionStorage tpBankTransactionStorage;
 
+    @Autowired StatisticCheckpointStorage statisticCheckpointStorage;
+
+
     @Autowired protected RatingStorage ratingStorage;
 
     @Autowired

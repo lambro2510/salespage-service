@@ -1,8 +1,11 @@
 package com.salespage.salespageservice.domains.services;
 
+import com.salespage.salespageservice.domains.Constants;
+import com.salespage.salespageservice.domains.entities.StatisticCheckpoint;
 import com.salespage.salespageservice.domains.entities.TpBankTransaction;
 import com.salespage.salespageservice.domains.info.TpBankTransactionData;
 import com.salespage.salespageservice.domains.utils.DateUtils;
+import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,17 +60,27 @@ public class TpBankService extends BaseService{
   }
 
   public void saveTpBankTransactionPeriodDay() throws Exception {
-    LocalDate now = LocalDate.now();
-    String fromDate = DateUtils.convertLocalDateToString(now.minusDays(2), "yyyyMMdd");
-    String toDate = DateUtils.convertLocalDateToString(now.minusDays(1), "yyyyMMdd");
-    TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
-    for(TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()){
-      TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByTransId(info.getId());
-      if(Objects.isNull(tpBankTransaction)){
-        tpBankTransaction = new TpBankTransaction();
-        tpBankTransaction.fromTpBankTransactionInfo(info);
+    StatisticCheckpoint statisticCheckpoint = statisticCheckpointStorage.findById(Constants.TRANSACTION_CHECKPOINT_ID);
+    if(Objects.isNull(statisticCheckpoint)){
+      statisticCheckpoint = new StatisticCheckpoint();
+      statisticCheckpoint.setId(Constants.TRANSACTION_CHECKPOINT_ID);
+      statisticCheckpoint.setCheckPoint(LocalDate.now().minusDays(64));
+    }
+    LocalDate currentDate = statisticCheckpoint.getCheckPoint();
+    while (currentDate.isBefore(LocalDate.now()) ){
+      String fromDate = DateUtils.convertLocalDateToString(currentDate, "yyyyMMdd");
+      String toDate = DateUtils.convertLocalDateToString(currentDate.plusDays(1), "yyyyMMdd");
+      TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
+      for(TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()){
+        TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByTransId(info.getId());
+        if(Objects.isNull(tpBankTransaction)){
+          tpBankTransaction = new TpBankTransaction();
+          tpBankTransaction.fromTpBankTransactionInfo(info);
+        }
+        tpBankTransactionStorage.save(tpBankTransaction);
       }
-      tpBankTransactionStorage.save(tpBankTransaction);
+      currentDate = currentDate.plusDays(1);
+      statisticCheckpointStorage.save(statisticCheckpoint);
     }
   }
 
