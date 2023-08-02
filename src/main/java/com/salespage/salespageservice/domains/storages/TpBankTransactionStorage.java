@@ -10,6 +10,8 @@ public class TpBankTransactionStorage extends BaseStorage {
     return tpBankTransactionRepository.findByTransId(id);
   }
 
+  public TpBankTransaction findByDescription(String description){return tpBankTransactionRepository.findByDescription(description);}
+
   public void save(TpBankTransaction tpBankTransaction) {
     tpBankTransactionRepository.save(tpBankTransaction);
   }

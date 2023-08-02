@@ -58,12 +58,6 @@ public class BankService extends BaseService {
 
     @Value("${vietqr.api.url}")
     private String VIETQRURL;
-
-    @Value("${tp-bank.account-no}")
-    private String TPBANKACCOUNTNO;
-
-    @Value("${tp-bank.api.url}")
-    private String TPBANKURL;
     @Autowired
     Producer producer;
 
@@ -135,17 +129,18 @@ public class BankService extends BaseService {
             if (Objects.isNull(paymentTransaction))
                 throw new ResourceNotFoundException("Giao dịch không tồn tại hoặc đã được thanh toán");
             else {
-                BankTransaction bankTransaction = bankTransactionStorage.findByDescription(Helper.genDescription(username, paymentId));
-                if (Objects.isNull(bankTransaction)) return "Giao dịch đang được xử lý";
-                if (user.updateBalance(true, bankTransaction.getAmount())) {
+                TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByDescription(Helper.genDescription(username, paymentId));
+                if (Objects.isNull(tpBankTransaction)) return "Giao dịch đang được xử lý";
+                Integer amount = Integer.parseInt(tpBankTransaction.getAmount());
+                if (user.updateBalance(true, amount)) {
 
                     paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
                     String message;
-                    if (bankTransaction.getAmount() >= 0) {
-                        message = "Tài khoản của bạn được cộng " + bankTransaction.getAmount();
+                    if (Objects.equals(tpBankTransaction.getCreditDebitIndicator(), "CRDT")) {
+                        message = "Tài khoản của bạn được cộng " + amount;
                         notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
                     } else {
-                        message = "Tài khoản của bạn bị trừ " + Math.abs(bankTransaction.getAmount());
+                        message = "Tài khoản của bạn bị trừ " + amount;
                         notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
                     }
                     paymentTransaction.setDescription(message);
@@ -260,51 +255,4 @@ public class BankService extends BaseService {
         return responses;
     }
 
-    public TpBankTransactionData getBankTransaction(String fromDate, String toDate) throws Exception {
-        String token = bankAccountStorage.getTokenFromRemoteCache();
-        Map<String, String> header = new HashMap<>();
-        header.put("Authorization", "Bearer " + token);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("accountNo", TPBANKACCOUNTNO);
-        jsonObject.put("currency", "VND");
-        jsonObject.put("fromDate", fromDate);
-        jsonObject.put("keyword", "");
-        jsonObject.put("toDate", toDate);
-        return RequestUtil.request(HttpMethod.POST,
-            TPBANKURL + "/api/smart-search-presentation-service/v1/account-transactions/find",
-            TpBankTransactionData.class,
-            jsonObject,
-            header
-            );
-    }
-
-    public void saveTpBankTransactionToday() throws Exception {
-        LocalDate now = LocalDate.now();
-        String fromDate = DateUtils.convertLocalDateToString(now.minusDays(1), "yyyyMMdd");
-        String toDate = DateUtils.convertLocalDateToString(now, "yyyyMMdd");
-        TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
-        for(TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()){
-            TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByTransId(info.getId());
-            if(Objects.isNull(tpBankTransaction)){
-                tpBankTransaction = new TpBankTransaction();
-                tpBankTransaction.fromTpBankTransactionInfo(info);
-            }
-            tpBankTransactionStorage.save(tpBankTransaction);
-        }
-    }
-
-    public void saveTpBankTransactionPeriodDay() throws Exception {
-        LocalDate now = LocalDate.now();
-        String fromDate = DateUtils.convertLocalDateToString(now.minusDays(2), "yyyyMMdd");
-        String toDate = DateUtils.convertLocalDateToString(now.minusDays(1), "yyyyMMdd");
-        TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
-        for(TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()){
-            TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByTransId(info.getId());
-            if(Objects.isNull(tpBankTransaction)){
-                tpBankTransaction = new TpBankTransaction();
-                tpBankTransaction.fromTpBankTransactionInfo(info);
-            }
-            tpBankTransactionStorage.save(tpBankTransaction);
-        }
-    }
 }
