@@ -9,11 +9,11 @@ import java.util.Objects;
 
 @Component
 public class ConfigStorage extends BaseStorage {
-  public Config findById(String id) {
-    Config config = remoteCacheManager.get(CacheKey.getConfigKey(id), Config.class);
+  public Config findById(String key) {
+    Config config = remoteCacheManager.get(CacheKey.getConfigKey(key), Config.class);
     if(Objects.isNull(config)){
-      config = configRepository.findById(id).get();
-      remoteCacheManager.set(CacheKey.getConfigKey(id), config, RemoteCacheManager.DAY);
+      config = configRepository.findByKey(key);
+      remoteCacheManager.set(CacheKey.getConfigKey(key), config, RemoteCacheManager.DAY);
     }
     return config;
   }

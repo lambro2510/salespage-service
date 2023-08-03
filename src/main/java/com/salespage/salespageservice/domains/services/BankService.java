@@ -169,8 +169,8 @@ public class BankService extends BaseService {
     return bankAccounts.stream().map(BankAccount::assignToBankAccountResponse).collect(Collectors.toList());
   }
 
-  public BankPaymentResponse getPaymentBankAccount() throws IOException {
+  public List<BankPaymentResponse> getPaymentBankAccount() throws IOException {
     Config config = configStorage.findById(Constants.PAYMENT_BANK_ACCOUNT);
-    return JsonParser.entity(config.getValue(), BankPaymentResponse.class);
+    return JsonParser.arrayList(config.getValue(), BankPaymentResponse.class);
   }
 }
