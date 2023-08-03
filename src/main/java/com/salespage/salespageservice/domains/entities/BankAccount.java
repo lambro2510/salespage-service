@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.salespage.salespageservice.app.responses.BankResponse.BankAccountResponse;
 import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -45,5 +46,11 @@ public class BankAccount extends BaseEntity {
 
     public String getIdStr() {
         return id.toHexString();
+    }
+
+    public BankAccountResponse assignToBankAccountResponse (){
+        BankAccountResponse bankAccountResponse = new BankAccountResponse();
+        bankAccountResponse.assignFromBankAccount(this);
+        return bankAccountResponse;
     }
 }

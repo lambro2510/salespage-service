@@ -63,4 +63,8 @@ public class BankAccountStorage extends BaseStorage {
       }
       return tokenInfo.getAccess_token();
   }
+
+    public List<BankAccount> findByUsername(String username) {
+        return bankAccountRepository.findByUsername(username);
+    }
 }

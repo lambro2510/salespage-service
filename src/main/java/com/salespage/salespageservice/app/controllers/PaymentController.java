@@ -3,6 +3,7 @@ package com.salespage.salespageservice.app.controllers;
 import com.salespage.salespageservice.app.dtos.PaymentDtos.CreatePaymentDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.BankService;
+import com.salespage.salespageservice.domains.services.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController extends BaseController {
 
     @Autowired
-    private BankService bankService;
+    private PaymentService paymentService;
 
     @GetMapping("payment-transaction")
     @Operation(summary = "Lịch sử nạp và rút tiền", description = "Truy vấn lịch sử các giao dịch nạp và rút tiền")
@@ -28,7 +29,7 @@ public class PaymentController extends BaseController {
     })
     public ResponseEntity<BaseResponse> getPaymentTransaction(Authentication authentication) {
         try {
-            return successApi(bankService.getPayment(getUsername(authentication)));
+            return successApi(paymentService.getPayment(getUsername(authentication)));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }
@@ -42,7 +43,7 @@ public class PaymentController extends BaseController {
     })
     public ResponseEntity<?> createPayment(Authentication authentication, @RequestBody CreatePaymentDto dto) {
         try {
-            return successApi("Tạo giao dịch thành công.", bankService.createPayment(getUsername(authentication), dto));
+            return successApi("Tạo giao dịch thành công.", paymentService.createPayment(getUsername(authentication), dto));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }
@@ -56,7 +57,7 @@ public class PaymentController extends BaseController {
     })
     public ResponseEntity<?> confirmPayment(Authentication authentication, @RequestParam String paymentId) {
         try {
-            return successApi(null, bankService.confirmPayment(getUsername(authentication), paymentId));
+            return successApi(null, paymentService.confirmPayment(getUsername(authentication), paymentId));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }
@@ -70,7 +71,7 @@ public class PaymentController extends BaseController {
     })
     public ResponseEntity<?> cancelPayment(Authentication authentication, @RequestParam String paymentId) {
         try {
-            bankService.cancelPayment(getUsername(authentication), paymentId);
+            paymentService.cancelPayment(getUsername(authentication), paymentId);
             return successApi("Hủy bỏ giao dịch thành công");
         } catch (Exception ex) {
             return errorApi(ex.getMessage());

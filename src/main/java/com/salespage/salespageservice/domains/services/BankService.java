@@ -5,10 +5,7 @@ import com.salespage.salespageservice.app.dtos.bankDtos.BankAccountInfoRequest;
 import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.GenQrCodeDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
-import com.salespage.salespageservice.app.responses.BankResponse.BankAccountData;
-import com.salespage.salespageservice.app.responses.BankResponse.BankListData;
-import com.salespage.salespageservice.app.responses.BankResponse.QrData;
-import com.salespage.salespageservice.app.responses.BankResponse.VietQrResponse;
+import com.salespage.salespageservice.app.responses.BankResponse.*;
 import com.salespage.salespageservice.app.responses.transactionResponse.PaymentTransactionResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.status.BankStatus;
@@ -64,6 +61,9 @@ public class BankService extends BaseService {
     @Autowired
     NotificationService notificationService;
 
+    @Autowired
+    PaymentService paymentService;
+
     public void receiveBankTransaction(BankDto bankDto) {
         List<BankTransaction> bankTransactions = new ArrayList<>();
         for (TransactionData data : bankDto.getData()) {
@@ -105,61 +105,7 @@ public class BankService extends BaseService {
         log.info(response);
     }
 
-    public String createPayment(String username, CreatePaymentDto dto) {
-        BankAccount bankAccount = bankAccountStorage.findBankAccountById(dto.getBankAccountId());
-        if (Objects.isNull(bankAccount)) throw new ResourceNotFoundException("Không tìm thấy ngân hàng liên kết này");
-        PaymentTransaction paymentTransaction = new PaymentTransaction();
-        ObjectId id = new ObjectId();
-        paymentTransaction.setId(id);
-        paymentTransaction.setUsername(username);
-        paymentTransaction.setPaymentStatus(PaymentStatus.WAITING);
-        paymentTransaction.setBankAccountId(dto.getBankAccountId());
-        paymentTransaction.setAmount(dto.getAmount());
-        paymentTransaction.setDescription(Helper.genDescription(username, id.toHexString()));
-        producer.createPaymentTransaction(paymentTransaction);
-//    paymentTransactionStorage.save(paymentTransaction);
-        return id.toHexString();
-    }
 
-    @Transactional(noRollbackFor = {ResourceNotFoundException.class})
-    public String confirmPayment(String username, String paymentId) throws Exception {
-        try {
-            User user = userStorage.findByUsername(username);
-            if (Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
-            PaymentTransaction paymentTransaction = paymentTransactionStorage.findByIdAndUsernameAndPaymentStatus(paymentId, username, PaymentStatus.WAITING);
-            if (Objects.isNull(paymentTransaction))
-                throw new ResourceNotFoundException("Giao dịch không tồn tại hoặc đã được thanh toán");
-            else {
-                TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByDescription(Helper.genDescription(username, paymentId));
-                if (Objects.isNull(tpBankTransaction)) return "Giao dịch đang được xử lý";
-                Integer amount = Integer.parseInt(tpBankTransaction.getAmount());
-                if (user.updateBalance(true, amount)) {
-
-                    paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
-                    String message;
-                    if (Objects.equals(tpBankTransaction.getCreditDebitIndicator(), "CRDT")) {
-                        message = "Tài khoản của bạn được cộng " + amount;
-                        notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
-                    } else {
-                        message = "Tài khoản của bạn bị trừ " + amount;
-                        notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
-                    }
-                    paymentTransaction.setDescription(message);
-                    paymentTransactionStorage.save(paymentTransaction);
-                    userStorage.save(user);
-                } else {
-                    paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
-                    paymentTransaction.setDescription("Giao dịch đã bị hủy bỏ do tài khoản của bạn không đủ tiền");
-                    notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
-                    paymentTransactionStorage.save(paymentTransaction);
-                }
-            }
-        } catch (ResourceNotFoundException ex) {
-            return ex.getMessage();
-        }
-
-        return "Xử lý giao dịch thành công";
-    }
 
     public List<BankListData> getListBank() throws IOException {
         VietQrResponse response = RequestUtil.request(HttpMethod.GET, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>());
@@ -185,17 +131,6 @@ public class BankService extends BaseService {
         return JsonParser.entity(JsonParser.toJson(response.getData()), BankAccountData.class);
     }
 
-    @Transactional
-    public void cancelPayment(String username, String paymentId) {
-        PaymentTransaction paymentTransaction = paymentTransactionStorage.findByIdAndUsername(paymentId, username);
-        if (Objects.isNull(paymentTransaction)) throw new ResourceNotFoundException("Không tìm thấy giao dịch");
-        if (paymentTransaction.getPaymentStatus().equals(PaymentStatus.RESOLVE))
-            throw new ResourceExitsException("Giao dịch đã hoàn thành không thể hủy bỏ");
-        paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
-        notificationService.createNotification(username, "Hủy bỏ giao dịch", "Bạn đã hủy bỏ giao dịch với số giao dịch là: " + paymentId + ". Thông tin giao dịch: " + paymentTransaction.getDescription(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
-        paymentTransactionStorage.save(paymentTransaction);
-    }
-
     @Transactional(noRollbackFor = {ResourceNotFoundException.class})
     public void checkNotResolveTransaction() throws Exception {
         List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByPaymentStatus(PaymentStatus.WAITING);
@@ -207,7 +142,7 @@ public class BankService extends BaseService {
                 notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
                 paymentTransactionStorage.save(paymentTransaction);
             }
-            confirmPayment(paymentTransaction.getUsername(), paymentTransaction.getId().toHexString());
+            paymentService.confirmPayment(paymentTransaction.getUsername(), paymentTransaction.getId().toHexString());
         }
     }
 
@@ -239,21 +174,9 @@ public class BankService extends BaseService {
         bankAccountStorage.save(bankAccount);
     }
 
-    public List<PaymentTransactionResponse> getPayment(String username) {
-        List<PaymentTransactionResponse> responses = new ArrayList<>();
-        List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByUsername(username);
-        List<String> bankAccountIds = paymentTransactions.stream().map(PaymentTransaction::getBankAccountId).collect(Collectors.toList());
-        Map<String, BankAccount> bankAccountMap = bankAccountStorage.findBankAccountByIdIn(bankAccountIds).stream().collect(Collectors.toMap(BankAccount::getIdStr, Function.identity()));
-        for (PaymentTransaction paymentTransaction : paymentTransactions) {
-            PaymentTransactionResponse paymentTransactionResponse = paymentTransaction.partnerToPaymentTransactionResponse();
-            BankAccount bankAccount = bankAccountMap.get(paymentTransaction.getBankAccountId());
-            if (Objects.isNull(bankAccount)) continue;
-            paymentTransactionResponse.setBankAccountName(bankAccount.getBankAccountName());
-            paymentTransactionResponse.setBankName(bankAccount.getBankName());
-            paymentTransactionResponse.setBankAccountNo(bankAccount.getAccountNo());
-            responses.add(paymentTransactionResponse);
-        }
-        return responses;
+    public List<BankAccountResponse> getBankAccount(String username){
+        List<BankAccount> bankAccounts = bankAccountStorage.findByUsername(username);
+        return bankAccounts.stream().map(BankAccount::assignToBankAccountResponse).collect(Collectors.toList());
     }
 
 }

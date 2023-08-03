@@ -68,7 +68,7 @@ public class BankController extends BaseController {
     }
 
     @GetMapping("list-bank")
-    @Operation(summary = "Get List of Banks", description = "Retrieve a list of banks")
+    @Operation(summary = "Danh sách ngân hàng", description = "Lấy danh sách ngân hàng")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BankListDataRes.class)))),
         @ApiResponse(responseCode = "500", description = "Internal Server Error")
@@ -120,6 +120,20 @@ public class BankController extends BaseController {
         try {
             bankService.linkBankAccount(getUsername(authentication), request);
             return successApi("Liên kết với tài khoản thành công");
+        } catch (Exception ex) {
+            return errorApi(ex.getMessage());
+        }
+    }
+
+    @GetMapping("link-bank-account")
+    @Operation(summary = "Danh sách tài khoản liên kêt", description = "Lấy danh sách ngân hàng liên kết")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    public ResponseEntity<?> getLinkBankAccount(Authentication authentication) {
+        try {
+            return successApi(bankService.getBankAccount(getUsername(authentication)));
         } catch (Exception ex) {
             return errorApi(ex.getMessage());
         }
