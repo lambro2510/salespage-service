@@ -9,4 +9,6 @@ public class BankPaymentResponse {
   String bankName;
 
   String bankShortName;
+
+  String bankAccount;
 }
