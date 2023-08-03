@@ -161,6 +161,7 @@ public class BankService extends BaseService {
         BankAccountData bankAccountData = getBankAccountData(request.getBin(), request.getAccountNumber());
         if (Objects.isNull(bankAccountData)) throw new Exception("Tài khoản ngân hàng không hợp lệ");
 
+        bankAccount.setBin(request.getBin());
         bankAccount.setAccountNo(request.getAccountNumber());
         bankAccount.setBankName(bankData.getShortName());
         bankAccount.setBankFullName(bankData.getName());

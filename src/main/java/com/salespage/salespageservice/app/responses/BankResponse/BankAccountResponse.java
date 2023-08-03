@@ -8,11 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Data
 public class BankAccountResponse {
 
+  private String bankAccountId;
+
   private String username;
 
   private String accountNo;
 
   private Long bankId;
+
+  private String bin;
 
   private String bankName;
 
@@ -29,9 +33,11 @@ public class BankAccountResponse {
   private Double moneyOut;
 
   public void assignFromBankAccount(BankAccount bankAccount){
+    bankAccountId = bankAccount.getId().toHexString();
     username = bankAccount.getUsername();
     accountNo = bankAccount.getAccountNo();
     bankId = bankAccount.getBankId();
+    bin = bankAccount.getBin();
     bankName = bankAccount.getBankName();
     bankLogoUrl = bankAccount.getBankLogoUrl();
     bankFullName = bankAccount.getBankFullName();

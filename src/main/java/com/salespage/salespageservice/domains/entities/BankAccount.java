@@ -24,6 +24,9 @@ public class BankAccount extends BaseEntity {
     @Field("bank_id")
     private Long bankId;
 
+    @Field("bank_id_bin")
+    private String bin;
+
     @Field("bank_name")
     private String bankName;
 
