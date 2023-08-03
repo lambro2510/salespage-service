@@ -24,7 +24,7 @@ public class ConfigStorage extends BaseStorage {
     remoteCacheManager.del(CacheKey.getConfigKey(config.getKey()));
   }
 
-  public void deleteById(String id) {
-    configRepository.deleteById(new ObjectId(id));
+  public void deleteByKey(String key) {
+    configRepository.deleteByKey(key);
   }
 }

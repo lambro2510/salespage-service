@@ -15,8 +15,8 @@ public class ConfigController extends BaseController{
   @Autowired
   private ConfigService configService;
 
-  @PutMapping("/{key}")
-  public ResponseEntity<?> updateConfig(@PathVariable String key, @RequestParam String value) {
+  @PutMapping("")
+  public ResponseEntity<?> updateConfig(@RequestParam String key, @RequestParam String value) {
     try{
       configService.updateConfig(key, value);
       return successApi("Cập nhật  thiết lập thành công");
@@ -35,20 +35,19 @@ public class ConfigController extends BaseController{
     }
   }
 
-  @GetMapping(value = "/{id}")
-  public ResponseEntity<?> getConfigDetail(@PathVariable String id) {
+  @GetMapping(value = "")
+  public ResponseEntity<?> getConfigDetail(@RequestParam String key) {
     try{
-      return successApi(configService.getConfigDetail(id));
+      return successApi(configService.getConfigDetail(key));
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteConfig(@PathVariable String id) {
-    configService.deleteConfig(id);
+  @DeleteMapping("")
+  public ResponseEntity<?> deleteConfig(@RequestParam String key) {
     try{
-      configService.deleteConfig(id);
+      configService.deleteConfig(key);
       return successApi("Xóa thiết lập thành công");
     }catch (Exception ex){
       return errorApi(ex.getMessage());

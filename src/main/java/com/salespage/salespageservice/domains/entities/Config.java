@@ -1,5 +1,7 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,9 +12,6 @@ import javax.persistence.Id;
 @Document("config")
 @Data
 public class Config {
-
-  @Id
-  private ObjectId id;
 
   @Field("key")
   private String key;

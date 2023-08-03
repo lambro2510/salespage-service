@@ -17,8 +17,8 @@ public class ConfigService extends BaseService {
     configStorage.save(config);
   }
 
-  public Config getConfigDetail(String id) {
-    return configStorage.findByKey(id);
+  public Config getConfigDetail(String key) {
+    return configStorage.findByKey(key);
   }
 
   public void updateConfig(String key, String value) {
@@ -28,7 +28,7 @@ public class ConfigService extends BaseService {
     configStorage.save(config);
   }
 
-  public void deleteConfig(String id) {
-    configStorage.deleteById(id);
+  public void deleteConfig(String key) {
+    configStorage.deleteByKey(key);
   }
 }
