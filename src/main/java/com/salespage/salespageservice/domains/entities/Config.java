@@ -13,6 +13,9 @@ import javax.persistence.Id;
 @Data
 public class Config {
 
+  @Id
+  private ObjectId id;
+
   @Field("key")
   private String key;
 
