@@ -7,35 +7,35 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AccountStorage extends BaseStorage {
-    public Account findByUsername(String username) {
-        return accountRepository.findByUsername(username);
-    }
+  public Account findByUsername(String username) {
+    return accountRepository.findByUsername(username);
+  }
 
-    public boolean existByUsername(String username) {
-        return accountRepository.existsByUsername(username);
-    }
+  public boolean existByUsername(String username) {
+    return accountRepository.existsByUsername(username);
+  }
 
-    public void save(Account account) {
-        accountRepository.save(account);
-    }
+  public void save(Account account) {
+    accountRepository.save(account);
+  }
 
-    public void saveTokenToRemoteCache(String username, String token) {
-        remoteCacheManager.set(CacheKey.getUserToken(username), token, 24 * 60 * 60);  //1 ngày
-    }
+  public void saveTokenToRemoteCache(String username, String token) {
+    remoteCacheManager.set(CacheKey.getUserToken(username), token, 24 * 60 * 60);  //1 ngày
+  }
 
-    public void saveVerifyCode(String username, String code) {
-        remoteCacheManager.set(CacheKey.getVerifyUser(username), code);
-    }
+  public void saveVerifyCode(String username, String code) {
+    remoteCacheManager.set(CacheKey.getVerifyUser(username), code);
+  }
 
-    public String getVerifyCode(String username) {
-        return remoteCacheManager.get(CacheKey.getVerifyUser(username));
-    }
+  public String getVerifyCode(String username) {
+    return remoteCacheManager.get(CacheKey.getVerifyUser(username));
+  }
 
-    public boolean existByUsernameAndRole(String username, UserRole role) {
-        return accountRepository.existsByUsernameAndRole(username, role);
-    }
+  public boolean existByUsernameAndRole(String username, UserRole role) {
+    return accountRepository.existsByUsernameAndRole(username, role);
+  }
 
-    public Account findShiperNearTransaction() {
-        return accountRepository.findByRoleAndShipMode(UserRole.SHIPPER, true);
-    }
+  public Account findShiperNearTransaction() {
+    return accountRepository.findByRoleAndShipMode(UserRole.SHIPPER, true);
+  }
 }

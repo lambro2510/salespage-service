@@ -14,13 +14,13 @@ import java.util.Date;
 @Repository
 public interface VoucherCodeRepository extends MongoRepository<VoucherCode, ObjectId> {
 
-    VoucherCode findFirstByVoucherStoreIdAndExpireTimeGreaterThanAndVoucherCodeStatus(String voucherStoreId, Date expireTime, VoucherCodeStatus voucherCodeStatus);
+  VoucherCode findFirstByVoucherStoreIdAndExpireTimeGreaterThanAndVoucherCodeStatus(String voucherStoreId, Date expireTime, VoucherCodeStatus voucherCodeStatus);
 
-    Page<VoucherCode> findAll(Query query, Pageable pageable);
+  Page<VoucherCode> findAll(Query query, Pageable pageable);
 
-    VoucherCode findByOwnerIdAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, Date now);
+  VoucherCode findByOwnerIdAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, Date now);
 
-    VoucherCode findFirstByOwnerIdAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, Date now);
+  VoucherCode findFirstByOwnerIdAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, Date now);
 
-    VoucherCode findFirstByOwnerIdAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String storeId, VoucherCodeStatus voucherCodeStatus, Date date);
+  VoucherCode findFirstByOwnerIdAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String storeId, VoucherCodeStatus voucherCodeStatus, Date date);
 }

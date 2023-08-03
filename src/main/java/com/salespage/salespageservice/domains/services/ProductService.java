@@ -167,7 +167,7 @@ public class ProductService extends BaseService {
 
     //assign from category
     ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
-    if(Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
+    if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
     response.assignFromCategory(productCategory);
 
     List<Product> similarProducts = findSimilarProducts(product, productCategory.getCategoryName());
@@ -304,18 +304,18 @@ public class ProductService extends BaseService {
   @Transactional
   public Rate updateRating(String username, String productId, Float point) {
     User user = userStorage.findByUsername(username);
-    if(Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
+    if (Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
 
     Product product = productStorage.findProductById(productId);
-    if(Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
+    if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
 
     Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productId, RatingType.PRODUCT);
     Rate rate = product.getRate();
-    if(Objects.isNull(rating)){
+    if (Objects.isNull(rating)) {
       rating = new Rating(new ObjectId(), username, productId, RatingType.PRODUCT, point);
 
       rate.processAddRatePoint(point);
-    }else{
+    } else {
       rate.processUpdateRatePoint(rating.getPoint(), point);
       rating.setPoint(point);
     }

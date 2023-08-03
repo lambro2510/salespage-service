@@ -9,8 +9,8 @@ import java.util.List;
 
 @Repository
 public interface ProductTypeRepository extends MongoRepository<ProductType, String> {
-    ProductType findByProductType(String productType);
+  ProductType findByProductType(String productType);
 
-    List<ProductType> findByStatus(ProductTypeStatus status);
+  List<ProductType> findByStatus(ProductTypeStatus status);
 
 }

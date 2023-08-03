@@ -7,12 +7,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountRepository extends MongoRepository<Account, String> {
-    Account findByUsername(String username);
+  Account findByUsername(String username);
 
-    boolean existsByUsername(String username);
+  boolean existsByUsername(String username);
 
-    boolean existsByUsernameAndRole(String username, UserRole role);
+  boolean existsByUsernameAndRole(String username, UserRole role);
 
-    Account findByRoleAndShipMode(UserRole userRole, Boolean shipMode);
+  Account findByRoleAndShipMode(UserRole userRole, Boolean shipMode);
 }
 

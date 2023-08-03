@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ProductTypeResponse {
 
-    String productType;
+  String productType;
 
-    String typeName;
+  String typeName;
 }

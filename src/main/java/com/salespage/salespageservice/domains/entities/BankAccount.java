@@ -13,47 +13,47 @@ import javax.persistence.Id;
 @Document("bank_account")
 public class BankAccount extends BaseEntity {
 
-    @Id
-    private ObjectId id;
+  @Id
+  private ObjectId id;
 
-    private String username;
+  private String username;
 
-    @Field("account_no")
-    private String accountNo;
+  @Field("account_no")
+  private String accountNo;
 
-    @Field("bank_id")
-    private Long bankId;
+  @Field("bank_id")
+  private Long bankId;
 
-    @Field("bank_id_bin")
-    private String bin;
+  @Field("bank_id_bin")
+  private String bin;
 
-    @Field("bank_name")
-    private String bankName;
+  @Field("bank_name")
+  private String bankName;
 
-    @Field("bank_logo_url")
-    private String bankLogoUrl;
+  @Field("bank_logo_url")
+  private String bankLogoUrl;
 
-    @Field("bank_full_name")
-    private String bankFullName;
+  @Field("bank_full_name")
+  private String bankFullName;
 
-    @Field("bank_account_name")
-    private String bankAccountName;
+  @Field("bank_account_name")
+  private String bankAccountName;
 
-    private BankStatus status;
+  private BankStatus status;
 
-    @Field("money_in")
-    private Double moneyIn = 0D;
+  @Field("money_in")
+  private Double moneyIn = 0D;
 
-    @Field("money_out")
-    private Double moneyOut = 0D;
+  @Field("money_out")
+  private Double moneyOut = 0D;
 
-    public String getIdStr() {
-        return id.toHexString();
-    }
+  public String getIdStr() {
+    return id.toHexString();
+  }
 
-    public BankAccountResponse assignToBankAccountResponse (){
-        BankAccountResponse bankAccountResponse = new BankAccountResponse();
-        bankAccountResponse.assignFromBankAccount(this);
-        return bankAccountResponse;
-    }
+  public BankAccountResponse assignToBankAccountResponse() {
+    BankAccountResponse bankAccountResponse = new BankAccountResponse();
+    bankAccountResponse.assignFromBankAccount(this);
+    return bankAccountResponse;
+  }
 }

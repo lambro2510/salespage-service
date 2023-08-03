@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCategory extends BaseEntity{
+public class ProductCategory extends BaseEntity {
   @Id
   @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
@@ -47,7 +47,7 @@ public class ProductCategory extends BaseEntity{
   @Field("updated_by")
   private String updatedBy;
 
-  public ProductCategoryResponse partnerToResponse(){
+  public ProductCategoryResponse partnerToResponse() {
     ProductCategoryResponse response = new ProductCategoryResponse();
     response.partnerFromCategory(this);
     return response;

@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Rating extends BaseEntity{
+public class Rating extends BaseEntity {
 
   @Id
   private ObjectId id;

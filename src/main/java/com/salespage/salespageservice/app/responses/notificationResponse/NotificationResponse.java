@@ -9,12 +9,12 @@ import java.util.Date;
 @Data
 public class NotificationResponse {
 
-    private String id;
+  private String id;
 
-    private String tittle;
+  private String tittle;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
-    private Date created;
+  @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+  private Date created;
 
-    private NotificationStatus status;
+  private NotificationStatus status;
 }

@@ -5,7 +5,7 @@ import com.salespage.salespageservice.domains.entities.types.RatingType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RatingStorage extends BaseStorage{
+public class RatingStorage extends BaseStorage {
   public Rating findByUsernameAndRefIdAndAndRatingType(String username, String productId, RatingType ratingType) {
     return ratingRepository.findByUsernameAndRefIdAndAndRatingType(username, productId, ratingType);
   }

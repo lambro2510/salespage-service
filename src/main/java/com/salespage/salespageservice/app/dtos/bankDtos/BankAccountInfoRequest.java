@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class BankAccountInfoRequest {
-    String bin;
-    String accountNumber;
+  String bin;
+  String accountNumber;
 }

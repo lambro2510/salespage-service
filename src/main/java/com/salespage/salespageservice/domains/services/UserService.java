@@ -22,64 +22,64 @@ import java.util.Objects;
 public class UserService extends BaseService {
 
 
-    public void createUser(SignUpDto dto) {
-        User user = new User();
-        user.createUser(dto);
-        userStorage.save(user);
+  public void createUser(SignUpDto dto) {
+    User user = new User();
+    user.createUser(dto);
+    userStorage.save(user);
+  }
+
+  public void createUserAdmin(Account account) {
+    User user = new User();
+    user.createUserAdmin(account);
+    userStorage.save(user);
+  }
+
+  public User updateUser(String username, UserInfoDto dto) {
+    User user = userStorage.findByUsername(username);
+    if (Objects.isNull(user)) throw new AccountNotExistsException("User not exist");
+
+    user.updateUser(dto);
+    userStorage.save(user);
+    return user;
+  }
+
+  public User getUserDetail(String username) {
+    User user = userStorage.findByUsername(username);
+    if (Objects.isNull(user)) throw new AccountNotExistsException("User not exist");
+
+    return user;
+  }
+
+  public Rate voting(String username, String votingUsername, Float point) {
+    if (Objects.equals(username, votingUsername))
+      throw new ResourceExitsException("Không thể tự đánh giá bản thân");
+    User user = userStorage.findByUsername(votingUsername);
+
+    if (user == null) throw new ResourceNotFoundException("Không tìm thấy người dùng này");
+
+    Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, user.getId().toHexString(), RatingType.USER);
+
+    Rate rate = user.getRate();
+    if (Objects.isNull(rating)) {
+      rating = new Rating(new ObjectId(), username, user.getId().toHexString(), RatingType.USER, point);
+
+      rate.processAddRatePoint(point);
+    } else {
+      rate.processUpdateRatePoint(rating.getPoint(), point);
     }
 
-    public void createUserAdmin(Account account) {
-        User user = new User();
-        user.createUserAdmin(account);
-        userStorage.save(user);
-    }
+    user.setRate(rate);
+    userStorage.save(user);
+    ratingStorage.save(rating);
+    return rate;
 
-    public User updateUser(String username, UserInfoDto dto) {
-        User user = userStorage.findByUsername(username);
-        if (Objects.isNull(user)) throw new AccountNotExistsException("User not exist");
+  }
 
-        user.updateUser(dto);
-        userStorage.save(user);
-        return user;
-    }
-
-    public User getUserDetail(String username) {
-        User user = userStorage.findByUsername(username);
-        if (Objects.isNull(user)) throw new AccountNotExistsException("User not exist");
-
-        return user;
-    }
-
-    public Rate voting(String username, String votingUsername, Float point) {
-        if (Objects.equals(username, votingUsername))
-            throw new ResourceExitsException("Không thể tự đánh giá bản thân");
-        User user = userStorage.findByUsername(votingUsername);
-
-        if (user == null) throw new ResourceNotFoundException("Không tìm thấy người dùng này");
-
-        Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, user.getId().toHexString(), RatingType.USER);
-
-        Rate rate = user.getRate();
-        if(Objects.isNull(rating)){
-            rating = new Rating(new ObjectId(), username, user.getId().toHexString(), RatingType.USER, point);
-
-            rate.processAddRatePoint(point);
-        }else{
-            rate.processUpdateRatePoint(rating.getPoint(), point);
-        }
-
-        user.setRate(rate);
-        userStorage.save(user);
-        ratingStorage.save(rating);
-        return rate;
-
-    }
-
-    public void uploadImage(String username, MultipartFile image) throws IOException {
-        String imageUrl = googleDriver.uploadPublicImage("user-image", username, Helper.convertMultiPartToFile(image));
-        User user = userStorage.findByUsername(username);
-        user.setImageUrl(imageUrl);
-        userStorage.save(user);
-    }
+  public void uploadImage(String username, MultipartFile image) throws IOException {
+    String imageUrl = googleDriver.uploadPublicImage("user-image", username, Helper.convertMultiPartToFile(image));
+    User user = userStorage.findByUsername(username);
+    user.setImageUrl(imageUrl);
+    userStorage.save(user);
+  }
 
 }

@@ -32,127 +32,127 @@ import java.util.Objects;
 @Service
 public class ProductTransactionService extends BaseService {
 
-    @Autowired
-    private Producer producer;
+  @Autowired
+  private Producer producer;
 
-    @Autowired
-    private VoucherCodeService voucherCodeService;
+  @Autowired
+  private VoucherCodeService voucherCodeService;
 
-    public PageResponse<ProductTransactionResponse> getAllTransaction(String username, String sellerUsername, String storeName, Date startDate, Date endDate, Pageable pageable) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("buyer_username").is(username));
-        if (StringUtils.isNotBlank(sellerUsername)) {
-            query.addCriteria(Criteria.where("seller_username").is(sellerUsername));
-        }
-        if (StringUtils.isNotBlank(storeName)) {
-            query.addCriteria(Criteria.where("store_name").is(storeName));
-        }
-        if (startDate != null) {
-            query.addCriteria(Criteria.where("created_at").gte(startDate));
-        }
-        if (endDate != null) {
-            query.addCriteria(Criteria.where("created_at").lte(endDate));
-        }
-
-        Page<ProductTransaction> productTransactions = productTransactionStorage.findAll(query, pageable);
-        List<ProductTransactionResponse> productTransactionResponses = new ArrayList<>();
-        for (ProductTransaction productTransaction : productTransactions.getContent()) {
-            ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
-            productTransactionResponse.partnerFromProductTransaction(productTransaction);
-            productTransactionResponses.add(productTransactionResponse);
-        }
-        Page<ProductTransactionResponse> pageResponse = new PageImpl<>(productTransactionResponses, pageable, productTransactions.getTotalElements());
-        return PageResponse.createFrom(pageResponse);
+  public PageResponse<ProductTransactionResponse> getAllTransaction(String username, String sellerUsername, String storeName, Date startDate, Date endDate, Pageable pageable) {
+    Query query = new Query();
+    query.addCriteria(Criteria.where("buyer_username").is(username));
+    if (StringUtils.isNotBlank(sellerUsername)) {
+      query.addCriteria(Criteria.where("seller_username").is(sellerUsername));
+    }
+    if (StringUtils.isNotBlank(storeName)) {
+      query.addCriteria(Criteria.where("store_name").is(storeName));
+    }
+    if (startDate != null) {
+      query.addCriteria(Criteria.where("created_at").gte(startDate));
+    }
+    if (endDate != null) {
+      query.addCriteria(Criteria.where("created_at").lte(endDate));
     }
 
-    /*
-     * Người dùng tạo 1 đơn hàng
-     */
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public ProductTransactionResponse createProductTransaction(String username, ProductTransactionDto dto) {
-        ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
-        Product product = productStorage.findProductById(dto.getProductId());
-        if (username.equals(product.getSellerUsername()))
-            throw new TransactionException(ErrorCode.NOT_ENOUGH_MONEY, "Bạn không thể mua mặt hàng này");
-
-        SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
-        if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Cửa hàng không tồn tại");
-
-        User user = userStorage.findByUsername(username);
-        if (Objects.isNull(user)) throw new ResourceNotFoundException("Người dùng không tồn tại");
-        if (!user.updateBalance(false, product.getPrice().longValue()))
-            throw new TransactionException("Tài khoản của bạn không đủ tiền để thành toán mặt hàng này");
-
-        ProductTransaction productTransaction = new ProductTransaction();
-        productTransaction.setId(new ObjectId());
-        productTransaction.createNewTransaction(username, dto);
-        productTransaction.setSellerUsername(product.getSellerUsername());
-        productTransaction.setStoreId(sellerStore.getId().toHexString());
-        productTransaction.setProductName(product.getProductName());
-        productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
-        if (Objects.nonNull(dto.getVoucherCode())) {
-            VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction, sellerStore.getId().toHexString(), product.getPrice());
-            productTransaction.setVoucherInfo(voucherInfo);
-            productTransaction.setIsUseVoucher(true);
-        }
-        productTransactionResponse.partnerFromProductTransaction(productTransaction);
-        productTransactionStorage.save(productTransaction);
-        userStorage.save(user);
-        return productTransactionResponse;
+    Page<ProductTransaction> productTransactions = productTransactionStorage.findAll(query, pageable);
+    List<ProductTransactionResponse> productTransactionResponses = new ArrayList<>();
+    for (ProductTransaction productTransaction : productTransactions.getContent()) {
+      ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
+      productTransactionResponse.partnerFromProductTransaction(productTransaction);
+      productTransactionResponses.add(productTransactionResponse);
     }
+    Page<ProductTransactionResponse> pageResponse = new PageImpl<>(productTransactionResponses, pageable, productTransactions.getTotalElements());
+    return PageResponse.createFrom(pageResponse);
+  }
 
-    /*
-     *Người dùng chỉnh sửa đơn hàng
-     */
-    public ProductTransactionResponse updateProductTransaction(String username, ProductTransactionInfoDto dto, String transactionId) {
-        ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
-        ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
+  /*
+   * Người dùng tạo 1 đơn hàng
+   */
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public ProductTransactionResponse createProductTransaction(String username, ProductTransactionDto dto) {
+    ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
+    Product product = productStorage.findProductById(dto.getProductId());
+    if (username.equals(product.getSellerUsername()))
+      throw new TransactionException(ErrorCode.NOT_ENOUGH_MONEY, "Bạn không thể mua mặt hàng này");
 
-        if (Objects.isNull(productTransaction)) throw new ResourceNotFoundException("Không tìm thấy đơn hàng");
+    SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
+    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Cửa hàng không tồn tại");
 
-        if (!productTransaction.getState().equals(ProductTransactionState.WAITING) && !productTransaction.getState().equals(ProductTransactionState.CANCEL))
-            throw new TransactionException("Trạng thái hiện tại không thể cập nhật đơn hàng");
+    User user = userStorage.findByUsername(username);
+    if (Objects.isNull(user)) throw new ResourceNotFoundException("Người dùng không tồn tại");
+    if (!user.updateBalance(false, product.getPrice().longValue()))
+      throw new TransactionException("Tài khoản của bạn không đủ tiền để thành toán mặt hàng này");
 
-        productTransaction.updateTransaction(dto);
-        productTransactionStorage.save(productTransaction);
-        productTransactionResponse.partnerFromProductTransaction(productTransaction);
-
-        //TODO Thêm vào kafka xử lý bất đồng bộ
-        return productTransactionResponse;
+    ProductTransaction productTransaction = new ProductTransaction();
+    productTransaction.setId(new ObjectId());
+    productTransaction.createNewTransaction(username, dto);
+    productTransaction.setSellerUsername(product.getSellerUsername());
+    productTransaction.setStoreId(sellerStore.getId().toHexString());
+    productTransaction.setProductName(product.getProductName());
+    productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
+    if (Objects.nonNull(dto.getVoucherCode())) {
+      VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction, sellerStore.getId().toHexString(), product.getPrice());
+      productTransaction.setVoucherInfo(voucherInfo);
+      productTransaction.setIsUseVoucher(true);
     }
+    productTransactionResponse.partnerFromProductTransaction(productTransaction);
+    productTransactionStorage.save(productTransaction);
+    userStorage.save(user);
+    return productTransactionResponse;
+  }
+
+  /*
+   *Người dùng chỉnh sửa đơn hàng
+   */
+  public ProductTransactionResponse updateProductTransaction(String username, ProductTransactionInfoDto dto, String transactionId) {
+    ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
+    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
+
+    if (Objects.isNull(productTransaction)) throw new ResourceNotFoundException("Không tìm thấy đơn hàng");
+
+    if (!productTransaction.getState().equals(ProductTransactionState.WAITING) && !productTransaction.getState().equals(ProductTransactionState.CANCEL))
+      throw new TransactionException("Trạng thái hiện tại không thể cập nhật đơn hàng");
+
+    productTransaction.updateTransaction(dto);
+    productTransactionStorage.save(productTransaction);
+    productTransactionResponse.partnerFromProductTransaction(productTransaction);
+
+    //TODO Thêm vào kafka xử lý bất đồng bộ
+    return productTransactionResponse;
+  }
 
 
-    public ProductTransaction cancelProductTransaction(String username, String transactionId) {
-        ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
-        if (!username.equals(productTransaction.getBuyerUsername()))
-            throw new TransactionException("Bạn không có quyền hủy đơn hàng này");
+  public ProductTransaction cancelProductTransaction(String username, String transactionId) {
+    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
+    if (!username.equals(productTransaction.getBuyerUsername()))
+      throw new TransactionException("Bạn không có quyền hủy đơn hàng này");
 
-        productTransaction.setState(ProductTransactionState.CANCEL);
+    productTransaction.setState(ProductTransactionState.CANCEL);
 
-        productTransactionStorage.save(productTransaction);
+    productTransactionStorage.save(productTransaction);
 
-        return productTransaction;
+    return productTransaction;
+  }
+
+  /*
+   *Chuyển các đơn hàng có product bị xóa về trạng thái hủy bỏ
+   */
+  public void productTransactionCancel(String productId) {
+    List<ProductTransaction> productTransactions = productTransactionStorage.findAllProductTransactionByProductId(productId);
+    if (productTransactions.size() == 0) return;
+
+    productTransactions.forEach(transaction -> transaction.updateState(ProductTransactionState.CANCEL, "Sản phẩm đã ngừng bán hoặc không tồn tại"));
+    productTransactionStorage.saveAll(productTransactions);
+
+  }
+
+  public void findShipperForProduct() {
+    List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByState(ProductTransactionState.WAITING);
+    for (ProductTransaction productTransaction : productTransactions) {
+      Account account = accountStorage.findShiperNearTransaction();
+      productTransaction.setShipperUsername(account.getUsername());
+      productTransaction.setState(ProductTransactionState.PROGRESS);
+      productTransactionStorage.save(productTransaction);
     }
-
-    /*
-     *Chuyển các đơn hàng có product bị xóa về trạng thái hủy bỏ
-     */
-    public void productTransactionCancel(String productId) {
-        List<ProductTransaction> productTransactions = productTransactionStorage.findAllProductTransactionByProductId(productId);
-        if (productTransactions.size() == 0) return;
-
-        productTransactions.forEach(transaction -> transaction.updateState(ProductTransactionState.CANCEL, "Sản phẩm đã ngừng bán hoặc không tồn tại"));
-        productTransactionStorage.saveAll(productTransactions);
-
-    }
-
-    public void findShipperForProduct() {
-        List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByState(ProductTransactionState.WAITING);
-        for(ProductTransaction productTransaction : productTransactions){
-            Account account = accountStorage.findShiperNearTransaction();
-            productTransaction.setShipperUsername(account.getUsername());
-            productTransaction.setState(ProductTransactionState.PROGRESS);
-            productTransactionStorage.save(productTransaction);
-        }
-    }
+  }
 }

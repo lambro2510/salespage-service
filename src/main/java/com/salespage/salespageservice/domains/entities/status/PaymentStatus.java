@@ -1,8 +1,8 @@
 package com.salespage.salespageservice.domains.entities.status;
 
 public enum PaymentStatus {
-    WAITING,
-    RESOLVE,
-    PENDING,
-    CANCEL
+  WAITING,
+  RESOLVE,
+  PENDING,
+  CANCEL
 }

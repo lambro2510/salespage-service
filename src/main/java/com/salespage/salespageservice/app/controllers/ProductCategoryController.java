@@ -1,6 +1,5 @@
 package com.salespage.salespageservice.app.controllers;
 
-import com.salespage.salespageservice.app.dtos.accountDtos.ShipperStatusDto;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductCategoryTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateProductCategoryTypeDto;
 import com.salespage.salespageservice.domains.services.ProductCategoryService;

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CreatePaymentDto {
-    String bankAccountId;
+  String bankAccountId;
 
-    Long amount;
+  Long amount;
 }

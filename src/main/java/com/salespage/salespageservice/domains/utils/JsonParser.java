@@ -26,93 +26,93 @@ import java.util.stream.IntStream;
 @Log4j2
 public class JsonParser {
 
-    private static ObjectMapper mObjectMapper;
+  private static ObjectMapper mObjectMapper;
 
-    /**
-     * Creates an {@link ObjectMapper} for mapping json objects. Mapper can be configured here
-     *
-     * @return created {@link ObjectMapper}
-     */
-    private static ObjectMapper getMapper() {
-        if (mObjectMapper == null) {
-            mObjectMapper = new ObjectMapper();
-        }
-        return mObjectMapper;
+  /**
+   * Creates an {@link ObjectMapper} for mapping json objects. Mapper can be configured here
+   *
+   * @return created {@link ObjectMapper}
+   */
+  private static ObjectMapper getMapper() {
+    if (mObjectMapper == null) {
+      mObjectMapper = new ObjectMapper();
     }
+    return mObjectMapper;
+  }
 
-    /**
-     * Maps json string to specified class
-     *
-     * @param json   string to parse
-     * @param tClass class of object in which json will be parsed
-     * @param <T>    generic parameter for tClass
-     * @return mapped T class instance
-     * @throws IOException
-     */
-    public static <T> T entity(String json, Class<T> tClass) throws IOException {
-        return getMapper().readValue(json, tClass);
+  /**
+   * Maps json string to specified class
+   *
+   * @param json   string to parse
+   * @param tClass class of object in which json will be parsed
+   * @param <T>    generic parameter for tClass
+   * @return mapped T class instance
+   * @throws IOException
+   */
+  public static <T> T entity(String json, Class<T> tClass) throws IOException {
+    return getMapper().readValue(json, tClass);
+  }
+
+  /**
+   * Maps json string to {@link ArrayList} of specified class object instances
+   *
+   * @param json   string to parse
+   * @param tClass class of object in which json will be parsed
+   * @param <T>    generic parameter for tClass
+   * @return mapped T class instance
+   * @throws IOException
+   */
+  public static <T> ArrayList<T> arrayList(String json, Class<T> tClass) throws IOException {
+    TypeFactory typeFactory = getMapper().getTypeFactory();
+    JavaType type = typeFactory.constructCollectionType(ArrayList.class, tClass);
+    return getMapper().readValue(json, type);
+  }
+
+  /**
+   * Writes specified object as string
+   *
+   * @param object object to write
+   * @return result json
+   * @throws IOException
+   */
+  public static String toJson(Object object) {
+    try {
+      return getMapper().writeValueAsString(object);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    /**
-     * Maps json string to {@link ArrayList} of specified class object instances
-     *
-     * @param json   string to parse
-     * @param tClass class of object in which json will be parsed
-     * @param <T>    generic parameter for tClass
-     * @return mapped T class instance
-     * @throws IOException
-     */
-    public static <T> ArrayList<T> arrayList(String json, Class<T> tClass) throws IOException {
-        TypeFactory typeFactory = getMapper().getTypeFactory();
-        JavaType type = typeFactory.constructCollectionType(ArrayList.class, tClass);
-        return getMapper().readValue(json, type);
+
+  /**
+   * Convert int[] to ArrayList<Integer></>
+   *
+   * @param ints
+   * @return
+   */
+  public static ArrayList<Integer> intArrayList(int[] ints) {
+    return IntStream.of(ints).boxed().collect(Collectors.toCollection(ArrayList::new));
+  }
+
+  /**
+   * @param object
+   * @return
+   */
+  public static MultiValueMap<String, String> objectToMap(Object object) {
+    MultiValueMap parameters = new LinkedMultiValueMap();
+    Map<String, String> maps =
+        getMapper().convertValue(object, new TypeReference<Map<String, String>>() {
+        });
+    parameters.setAll(maps);
+    return parameters;
+  }
+
+
+  public static void writeValue(OutputStream out, Object value) {
+    try {
+      getMapper().writeValue(out, value);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-
-    /**
-     * Writes specified object as string
-     *
-     * @param object object to write
-     * @return result json
-     * @throws IOException
-     */
-    public static String toJson(Object object) {
-        try {
-            return getMapper().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    /**
-     * Convert int[] to ArrayList<Integer></>
-     *
-     * @param ints
-     * @return
-     */
-    public static ArrayList<Integer> intArrayList(int[] ints) {
-        return IntStream.of(ints).boxed().collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    /**
-     * @param object
-     * @return
-     */
-    public static MultiValueMap<String, String> objectToMap(Object object) {
-        MultiValueMap parameters = new LinkedMultiValueMap();
-        Map<String, String> maps =
-                getMapper().convertValue(object, new TypeReference<Map<String, String>>() {
-                });
-        parameters.setAll(maps);
-        return parameters;
-    }
-
-
-    public static void writeValue(OutputStream out, Object value) {
-        try {
-            getMapper().writeValue(out, value);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+  }
 }

@@ -10,12 +10,12 @@ import java.io.IOException;
 
 @Component
 public class NotificationHandle extends TextWebSocketHandler {
-    @Override
-    public void handleTextMessage(WebSocketSession session, TextMessage message)
-            throws InterruptedException, IOException {
+  @Override
+  public void handleTextMessage(WebSocketSession session, TextMessage message)
+      throws InterruptedException, IOException {
 
-        String payload = message.getPayload();
-        JSONObject jsonObject = new JSONObject();
-        session.sendMessage(new TextMessage("Hi " + "Here" + " how may we help you?"));
-    }
+    String payload = message.getPayload();
+    JSONObject jsonObject = new JSONObject();
+    session.sendMessage(new TextMessage("Hi " + "Here" + " how may we help you?"));
+  }
 }

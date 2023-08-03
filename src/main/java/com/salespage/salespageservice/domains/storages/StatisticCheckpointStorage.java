@@ -4,7 +4,7 @@ import com.salespage.salespageservice.domains.entities.StatisticCheckpoint;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StatisticCheckpointStorage extends BaseStorage{
+public class StatisticCheckpointStorage extends BaseStorage {
   public StatisticCheckpoint findById(String transactionCheckpointId) {
     return statisticCheckpointRepository.findStatisticCheckpointById(transactionCheckpointId);
   }

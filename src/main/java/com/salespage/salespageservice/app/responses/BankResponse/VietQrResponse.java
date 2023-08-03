@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class VietQrResponse<T> {
-    private String code;
+  private String code;
 
-    private String desc;
+  private String desc;
 
-    private T data;
+  private T data;
 }

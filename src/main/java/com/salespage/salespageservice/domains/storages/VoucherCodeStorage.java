@@ -12,27 +12,27 @@ import java.util.List;
 
 @Component
 public class VoucherCodeStorage extends BaseStorage {
-    public void saveAll(List<VoucherCode> voucherCodes) {
-        voucherCodeRepository.saveAll(voucherCodes);
-    }
+  public void saveAll(List<VoucherCode> voucherCodes) {
+    voucherCodeRepository.saveAll(voucherCodes);
+  }
 
-    public VoucherCode findCodeCanUse(String username, String code) {
-        return voucherCodeRepository.findByOwnerIdAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(username, code, VoucherCodeStatus.OWNER, new Date());
-    }
+  public VoucherCode findCodeCanUse(String username, String code) {
+    return voucherCodeRepository.findByOwnerIdAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(username, code, VoucherCodeStatus.OWNER, new Date());
+  }
 
-    public VoucherCode findFirstCodeCanUse(String username, String storeId) {
-        return voucherCodeRepository.findFirstByOwnerIdAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(username,storeId, VoucherCodeStatus.OWNER, new Date());
-    }
+  public VoucherCode findFirstCodeCanUse(String username, String storeId) {
+    return voucherCodeRepository.findFirstByOwnerIdAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(username, storeId, VoucherCodeStatus.OWNER, new Date());
+  }
 
-    public VoucherCode findFirstVoucherCanUseByVoucherStoreId(String voucherStoreId, Date expireTime) {
-        return voucherCodeRepository.findFirstByVoucherStoreIdAndExpireTimeGreaterThanAndVoucherCodeStatus(voucherStoreId, expireTime, VoucherCodeStatus.NEW);
-    }
+  public VoucherCode findFirstVoucherCanUseByVoucherStoreId(String voucherStoreId, Date expireTime) {
+    return voucherCodeRepository.findFirstByVoucherStoreIdAndExpireTimeGreaterThanAndVoucherCodeStatus(voucherStoreId, expireTime, VoucherCodeStatus.NEW);
+  }
 
-    public void save(VoucherCode voucherCode) {
-        voucherCodeRepository.save(voucherCode);
-    }
+  public void save(VoucherCode voucherCode) {
+    voucherCodeRepository.save(voucherCode);
+  }
 
-    public Page<VoucherCode> findAll(Query query, Pageable pageable) {
-        return voucherCodeRepository.findAll(query, pageable);
-    }
+  public Page<VoucherCode> findAll(Query query, Pageable pageable) {
+    return voucherCodeRepository.findAll(query, pageable);
+  }
 }

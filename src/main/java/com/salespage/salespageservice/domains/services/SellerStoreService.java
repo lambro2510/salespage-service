@@ -30,102 +30,103 @@ import java.util.stream.Collectors;
 @Service
 public class SellerStoreService extends BaseService {
 
-    public PageResponse<SellerStoreResponse> getAllSellerStore(String username, Pageable pageable) {
-        Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-        Page<SellerStore> sellerStores = sellerStoreStorage.findByOwnerStoreName(username, newPageable);
-        List<SellerStore> sellerStoreList = sellerStores.getContent();
+  public PageResponse<SellerStoreResponse> getAllSellerStore(String username, Pageable pageable) {
+    Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+    Page<SellerStore> sellerStores = sellerStoreStorage.findByOwnerStoreName(username, newPageable);
+    List<SellerStore> sellerStoreList = sellerStores.getContent();
 
-        List<SellerStoreResponse> storeDataResponses = new ArrayList<>();
-        for (SellerStore sellerStore : sellerStoreList) {
-            SellerStoreResponse storeDataResponse = new SellerStoreResponse();
-            storeDataResponse.assignFromSellerStore(sellerStore);
-            storeDataResponses.add(storeDataResponse);
-        }
-
-        Page<SellerStoreResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, newPageable, sellerStores.getTotalElements());
-        return PageResponse.createFrom(pageStoreDataResponse);
+    List<SellerStoreResponse> storeDataResponses = new ArrayList<>();
+    for (SellerStore sellerStore : sellerStoreList) {
+      SellerStoreResponse storeDataResponse = new SellerStoreResponse();
+      storeDataResponse.assignFromSellerStore(sellerStore);
+      storeDataResponses.add(storeDataResponse);
     }
 
-
-    public PageResponse<StoreDataResponse> getAllStore(String storeId, String storeName, Pageable pageable) {
-        Query query = new Query();
-        if (storeId != null) {
-            query.addCriteria(Criteria.where("id").is(storeId));
-        }
-        if (storeName != null) {
-            query.addCriteria(Criteria.where("store_name").is(storeName));
-        }
-        Page<SellerStore> sellerStores = sellerStoreStorage.findAll(pageable);
-        List<SellerStore> sellerStoreList = sellerStores.getContent();
-
-        List<StoreDataResponse> storeDataResponses = new ArrayList<>();
-        for (SellerStore sellerStore : sellerStoreList) {
-            StoreDataResponse storeDataResponse = new StoreDataResponse();
-            storeDataResponse.assignFromSellerStore(sellerStore);
-            List<Product> products = productStorage.findBySellerStoreId(sellerStore.getId().toHexString());
-            List<ProductDataResponse> productDataResponses = new ArrayList<>();
-            for (Product product : products) {
-                ProductDataResponse productDataResponse = new ProductDataResponse();
-                productDataResponse.assignFromProduct(product);
-                productDataResponse.setStoreName(sellerStore.getStoreName());
-                productDataResponses.add(productDataResponse);
-                List<ProductTypeDetail> productTypeDetails = productTypeStorage.findByProductId(product.getId().toHexString());
-                productDataResponse.setProductTypes(productTypeDetails.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
-            }
-            storeDataResponse.setProductDataResponses(productDataResponses);
-            storeDataResponses.add(storeDataResponse);
-        }
-
-        Page<StoreDataResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, pageable, sellerStores.getTotalElements());
-        return PageResponse.createFrom(pageStoreDataResponse);
-    }
-
-    public void createStore(String username, SellerStoreDto sellerStoreDto) {
-        SellerStore sellerStore = new SellerStore();
-        sellerStore.assignFromSellerStoreDto(sellerStoreDto);
-        sellerStore.setOwnerStoreName(username);
-        sellerStoreStorage.save(sellerStore);
-    }
-
-    public void updateStore(String username, UpdateSellerStoreDto dto) {
-        SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
-        if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy cửa hàng này");
-        sellerStore.assignFromSellerStoreDto(dto);
-        sellerStore.setOwnerStoreName(username);
-        sellerStoreStorage.save(sellerStore);
-    }
-
-    public List<SellerStore> findIdsByStoreName(String storeName) {
-        return sellerStoreStorage.findIdsByStoreName(storeName);
-    }
-
-    public List<SellerStore> findIdsByOwnerStoreName(String username) {
-        return sellerStoreStorage.findIdsByOwnerStoreName(username);
-    }
-
-    public String uploadImage(String username, String storeId, MultipartFile multipartFile) throws IOException {
-        SellerStore sellerStore = sellerStoreStorage.findById(storeId);
-        if (Objects.isNull(sellerStore) || !sellerStore.getOwnerStoreName().equals(username))
-            throw new AuthorizationException("Không có quyền truy cập");
-        String imageUrl = googleDriver.uploadPublicImage(username + "-" + storeId, multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
-        sellerStore.setImageUrl(imageUrl);
-        return imageUrl;
-    }
-
-  public StoreDataResponse getStoreDetail(String storeId) {
-        StoreDataResponse storeDataResponse = new StoreDataResponse();
-        SellerStore sellerStore = sellerStoreStorage.findById(storeId);
-        if(Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
-        storeDataResponse.assignFromSellerStore(sellerStore);
-        return storeDataResponse;
+    Page<SellerStoreResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, newPageable, sellerStores.getTotalElements());
+    return PageResponse.createFrom(pageStoreDataResponse);
   }
 
-    public SellerStoreResponse getStoreDetail(String username, String storeId) {
-        SellerStoreResponse sellerStoreResponse = new SellerStoreResponse();
-        SellerStore sellerStore = sellerStoreStorage.findById(storeId);
-        if(Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
-        if(!sellerStore.getStoreName().equals(username)) throw new AuthorizationException("Không có quyền xem thông tin cửa hàng này");
-        sellerStoreResponse.assignFromSellerStore(sellerStore);
-        return sellerStoreResponse;
+
+  public PageResponse<StoreDataResponse> getAllStore(String storeId, String storeName, Pageable pageable) {
+    Query query = new Query();
+    if (storeId != null) {
+      query.addCriteria(Criteria.where("id").is(storeId));
     }
+    if (storeName != null) {
+      query.addCriteria(Criteria.where("store_name").is(storeName));
+    }
+    Page<SellerStore> sellerStores = sellerStoreStorage.findAll(pageable);
+    List<SellerStore> sellerStoreList = sellerStores.getContent();
+
+    List<StoreDataResponse> storeDataResponses = new ArrayList<>();
+    for (SellerStore sellerStore : sellerStoreList) {
+      StoreDataResponse storeDataResponse = new StoreDataResponse();
+      storeDataResponse.assignFromSellerStore(sellerStore);
+      List<Product> products = productStorage.findBySellerStoreId(sellerStore.getId().toHexString());
+      List<ProductDataResponse> productDataResponses = new ArrayList<>();
+      for (Product product : products) {
+        ProductDataResponse productDataResponse = new ProductDataResponse();
+        productDataResponse.assignFromProduct(product);
+        productDataResponse.setStoreName(sellerStore.getStoreName());
+        productDataResponses.add(productDataResponse);
+        List<ProductTypeDetail> productTypeDetails = productTypeStorage.findByProductId(product.getId().toHexString());
+        productDataResponse.setProductTypes(productTypeDetails.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
+      }
+      storeDataResponse.setProductDataResponses(productDataResponses);
+      storeDataResponses.add(storeDataResponse);
+    }
+
+    Page<StoreDataResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, pageable, sellerStores.getTotalElements());
+    return PageResponse.createFrom(pageStoreDataResponse);
+  }
+
+  public void createStore(String username, SellerStoreDto sellerStoreDto) {
+    SellerStore sellerStore = new SellerStore();
+    sellerStore.assignFromSellerStoreDto(sellerStoreDto);
+    sellerStore.setOwnerStoreName(username);
+    sellerStoreStorage.save(sellerStore);
+  }
+
+  public void updateStore(String username, UpdateSellerStoreDto dto) {
+    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
+    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy cửa hàng này");
+    sellerStore.assignFromSellerStoreDto(dto);
+    sellerStore.setOwnerStoreName(username);
+    sellerStoreStorage.save(sellerStore);
+  }
+
+  public List<SellerStore> findIdsByStoreName(String storeName) {
+    return sellerStoreStorage.findIdsByStoreName(storeName);
+  }
+
+  public List<SellerStore> findIdsByOwnerStoreName(String username) {
+    return sellerStoreStorage.findIdsByOwnerStoreName(username);
+  }
+
+  public String uploadImage(String username, String storeId, MultipartFile multipartFile) throws IOException {
+    SellerStore sellerStore = sellerStoreStorage.findById(storeId);
+    if (Objects.isNull(sellerStore) || !sellerStore.getOwnerStoreName().equals(username))
+      throw new AuthorizationException("Không có quyền truy cập");
+    String imageUrl = googleDriver.uploadPublicImage(username + "-" + storeId, multipartFile.getName(), Helper.convertMultiPartToFile(multipartFile));
+    sellerStore.setImageUrl(imageUrl);
+    return imageUrl;
+  }
+
+  public StoreDataResponse getStoreDetail(String storeId) {
+    StoreDataResponse storeDataResponse = new StoreDataResponse();
+    SellerStore sellerStore = sellerStoreStorage.findById(storeId);
+    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
+    storeDataResponse.assignFromSellerStore(sellerStore);
+    return storeDataResponse;
+  }
+
+  public SellerStoreResponse getStoreDetail(String username, String storeId) {
+    SellerStoreResponse sellerStoreResponse = new SellerStoreResponse();
+    SellerStore sellerStore = sellerStoreStorage.findById(storeId);
+    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
+    if (!sellerStore.getStoreName().equals(username))
+      throw new AuthorizationException("Không có quyền xem thông tin cửa hàng này");
+    sellerStoreResponse.assignFromSellerStore(sellerStore);
+    return sellerStoreResponse;
+  }
 }

@@ -17,39 +17,39 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 @Data
 public class Account {
 
-    @Id
-    @Field("username")
-    private String username;
+  @Id
+  @Field("username")
+  private String username;
 
-    @Field("password")
-    private String password;
+  @Field("password")
+  private String password;
 
-    @Field("salt")
-    private String salt;
+  @Field("salt")
+  private String salt;
 
-    @Field("role")
-    private UserRole role;
+  @Field("role")
+  private UserRole role;
 
-    @Field("user_state")
-    private UserState state;
+  @Field("user_state")
+  private UserState state;
 
-    @Field("last_login")
-    private String lastLogin;
+  @Field("last_login")
+  private String lastLogin;
 
-    @Field("ship_mode")
-    private Boolean shipMode;
+  @Field("ship_mode")
+  private Boolean shipMode;
 
-    @Field("longitude")
-    private String longitude;
+  @Field("longitude")
+  private String longitude;
 
-    @Field("latitude")
-    private String latitude;
+  @Field("latitude")
+  private String latitude;
 
-    public void createAccount(SignUpDto dto) {
-        username = dto.getUsername();
-        salt = BCrypt.gensalt();
-        password = BCrypt.hashpw(dto.getPassword(), salt);
-        role = UserRole.USER;
-        state = UserState.NOT_VERIFIED;
-    }
+  public void createAccount(SignUpDto dto) {
+    username = dto.getUsername();
+    salt = BCrypt.gensalt();
+    password = BCrypt.hashpw(dto.getPassword(), salt);
+    role = UserRole.USER;
+    state = UserState.NOT_VERIFIED;
+  }
 }

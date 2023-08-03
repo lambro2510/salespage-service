@@ -13,18 +13,18 @@ import java.util.List;
 
 @Repository
 public interface ProductTransactionRepository extends MongoRepository<ProductTransaction, ObjectId> {
-    ProductTransaction findProductTransactionById(ObjectId id);
+  ProductTransaction findProductTransactionById(ObjectId id);
 
-    Page<ProductTransaction> findAll(Query query, Pageable pageable);
+  Page<ProductTransaction> findAll(Query query, Pageable pageable);
 
-    List<ProductTransaction> findAllProductTransactionByProductId(ObjectId productId);
+  List<ProductTransaction> findAllProductTransactionByProductId(ObjectId productId);
 
-    @org.springframework.data.mongodb.repository.Query(value = "")
-    long countByProductId(ObjectId productId);
+  @org.springframework.data.mongodb.repository.Query(value = "")
+  long countByProductId(ObjectId productId);
 
   List<ProductTransaction> findByCreatedAtBetween(Long startTimeOfDay, Long endTimeOfDay);
 
-    Integer countByBuyerUsernameAndProductId(String username, String productId);
+  Integer countByBuyerUsernameAndProductId(String username, String productId);
 
-    List<ProductTransaction> findProductTransactionByState(ProductTransactionState productTransactionState);
+  List<ProductTransaction> findProductTransactionByState(ProductTransactionState productTransactionState);
 }

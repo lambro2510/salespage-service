@@ -3,7 +3,6 @@ package com.salespage.salespageservice.app.responses.BankResponse;
 import com.salespage.salespageservice.domains.entities.BankAccount;
 import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 public class BankAccountResponse {
@@ -32,7 +31,7 @@ public class BankAccountResponse {
 
   private Double moneyOut;
 
-  public void assignFromBankAccount(BankAccount bankAccount){
+  public void assignFromBankAccount(BankAccount bankAccount) {
     bankAccountId = bankAccount.getId().toHexString();
     username = bankAccount.getUsername();
     accountNo = bankAccount.getAccountNo();

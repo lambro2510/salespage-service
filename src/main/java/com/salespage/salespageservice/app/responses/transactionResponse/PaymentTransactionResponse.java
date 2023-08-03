@@ -8,18 +8,18 @@ import java.util.Date;
 
 @Data
 public class PaymentTransactionResponse {
-    String paymentId;
+  String paymentId;
 
-    PaymentStatus status;
+  PaymentStatus status;
 
-    String bankName;
+  String bankName;
 
-    String bankAccountNo;
+  String bankAccountNo;
 
-    String bankAccountName;
+  String bankAccountName;
 
-    Long amount;
+  Long amount;
 
-    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
-    Date created;
+  @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+  Date created;
 }

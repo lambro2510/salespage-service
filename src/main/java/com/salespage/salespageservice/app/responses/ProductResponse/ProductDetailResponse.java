@@ -11,43 +11,43 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
 public class ProductDetailResponse extends ProductResponse {
-    List<UploadImageData> imageUrls = new ArrayList<>();
+  List<UploadImageData> imageUrls = new ArrayList<>();
 
-    String description;
-    List<ProductResponse> similarProducts = new ArrayList<>();
+  String description;
+  List<ProductResponse> similarProducts = new ArrayList<>();
 
-    @JsonProperty("isLike")
-    Boolean isLike = false;
-    Float rate = 0F;
-    String storeImageUrl;
-    String storeId;
-    String storeName;
-    Rate storeRate;
-    String categoryId;
-    @Override
-    public void assignFromProduct(Product product) {
-        super.assignFromProduct(product);
-        imageUrls = product.getImageUrls().stream()
-            .map(image -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", image, image))
-            .collect(Collectors.toList());
-        categoryId = product.getCategoryId();
-        description = product.getDescription();
-    }
+  @JsonProperty("isLike")
+  Boolean isLike = false;
+  Float rate = 0F;
+  String storeImageUrl;
+  String storeId;
+  String storeName;
+  Rate storeRate;
+  String categoryId;
 
-    public void assignFromStore(SellerStore sellerStore){
-        storeId = sellerStore.getId().toHexString();
-        storeName = sellerStore.getStoreName();
-        storeImageUrl = sellerStore.getImageUrl();
-        storeRate = sellerStore.getRate();
-    }
+  @Override
+  public void assignFromProduct(Product product) {
+    super.assignFromProduct(product);
+    imageUrls = product.getImageUrls().stream()
+        .map(image -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", image, image))
+        .collect(Collectors.toList());
+    categoryId = product.getCategoryId();
+    description = product.getDescription();
+  }
 
-    public void assignFromCategory(ProductCategory productCategory){
-        categoryId = productCategory.getId().toHexString();
-        categoryName = productCategory.getCategoryName();
-    }
+  public void assignFromStore(SellerStore sellerStore) {
+    storeId = sellerStore.getId().toHexString();
+    storeName = sellerStore.getStoreName();
+    storeImageUrl = sellerStore.getImageUrl();
+    storeRate = sellerStore.getRate();
+  }
+
+  public void assignFromCategory(ProductCategory productCategory) {
+    categoryId = productCategory.getId().toHexString();
+    categoryName = productCategory.getCategoryName();
+  }
 }

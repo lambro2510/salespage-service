@@ -6,24 +6,24 @@ import lombok.Data;
 
 @Data
 public class StoreInfoResponse {
-    private String storeId;
-    private String storeName;
+  private String storeId;
+  private String storeName;
 
-    private String imageUrl;
+  private String imageUrl;
 
-    private Rate rate;
+  private Rate rate;
 
-    private String address;
+  private String address;
 
-    private String description;
+  private String description;
 
-    public void assignFromSellerStore(SellerStore sellerStore) {
-        storeId = sellerStore.getId().toHexString();
-        imageUrl = sellerStore.getImageUrl();
-        storeName = sellerStore.getStoreName();
-        rate = sellerStore.getRate();
-        address = sellerStore.getAddress();
-        description = sellerStore.getDescription();
-    }
+  public void assignFromSellerStore(SellerStore sellerStore) {
+    storeId = sellerStore.getId().toHexString();
+    imageUrl = sellerStore.getImageUrl();
+    storeName = sellerStore.getStoreName();
+    rate = sellerStore.getRate();
+    address = sellerStore.getAddress();
+    description = sellerStore.getDescription();
+  }
 
 }

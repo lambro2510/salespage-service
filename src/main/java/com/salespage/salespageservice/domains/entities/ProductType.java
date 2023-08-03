@@ -16,37 +16,37 @@ import javax.persistence.Id;
 @Data
 public class ProductType extends BaseEntity {
 
-    @Id
-    @Indexed(name = "product_type_idx", unique = true)
-    @Field(name = "product_type")
-    private String productType;
+  @Id
+  @Indexed(name = "product_type_idx", unique = true)
+  @Field(name = "product_type")
+  private String productType;
 
-    @Field(name = "product_type_name")
-    private String productTypeName;
+  @Field(name = "product_type_name")
+  private String productTypeName;
 
-    @Field(name = "status")
-    private ProductTypeStatus status;
+  @Field(name = "status")
+  private ProductTypeStatus status;
 
-    @Field(name = "description")
-    private String description;
+  @Field(name = "description")
+  private String description;
 
-    @Field(name = "created_by")
-    private String createdBy;
+  @Field(name = "created_by")
+  private String createdBy;
 
-    @Field(name = "udpated_by")
-    private String updatedBy;
+  @Field(name = "udpated_by")
+  private String updatedBy;
 
-    public void partnerFromDto(ProductTypeDto dto) {
-        productType = dto.getProductType();
-        productTypeName = dto.getTypeName();
-        status = dto.getStatus();
-        description = dto.getDescription();
-    }
+  public void partnerFromDto(ProductTypeDto dto) {
+    productType = dto.getProductType();
+    productTypeName = dto.getTypeName();
+    status = dto.getStatus();
+    description = dto.getDescription();
+  }
 
-    public ProductTypeResponse partnerToProductTypeResponse() {
-        ProductTypeResponse response = new ProductTypeResponse();
-        response.setProductType(productType);
-        response.setTypeName(productTypeName);
-        return response;
-    }
+  public ProductTypeResponse partnerToProductTypeResponse() {
+    ProductTypeResponse response = new ProductTypeResponse();
+    response.setProductType(productType);
+    response.setTypeName(productTypeName);
+    return response;
+  }
 }

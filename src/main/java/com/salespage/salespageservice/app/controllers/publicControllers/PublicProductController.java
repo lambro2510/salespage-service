@@ -20,51 +20,51 @@ import java.util.Objects;
 @Tag(name = "Product", description = "Thông tin sản phẩm được bán")
 @Log4j2
 public class PublicProductController extends BaseController {
-    @Autowired
-    private ProductService productService;
+  @Autowired
+  private ProductService productService;
 
-    @GetMapping("")
-    public ResponseEntity<BaseResponse> getAllProduct(
-            @RequestParam(required = false) String productId,
-            @RequestParam(required = false) String productName,
-            @RequestParam(required = false) Long minPrice,
-            @RequestParam(required = false) Long maxPrice,
-            @RequestParam(required = false) String storeName,
-            @RequestParam(required = false) String ownerStoreUsername,
-            @RequestParam(required = false) Long lte,
-            @RequestParam(required = false) Long gte,
-            Authentication authentication,
-            Pageable pageable) {
-        try{
-            String sellerUsername = null;
-            if (Objects.nonNull(authentication)) {
-                if (getUserRoles(authentication).contains(UserRole.SELLER)) {
-                    sellerUsername = getUsername(authentication);
-                }
-            }
-            return successApi(productService.getAllProduct(sellerUsername, productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
+  @GetMapping("")
+  public ResponseEntity<BaseResponse> getAllProduct(
+      @RequestParam(required = false) String productId,
+      @RequestParam(required = false) String productName,
+      @RequestParam(required = false) Long minPrice,
+      @RequestParam(required = false) Long maxPrice,
+      @RequestParam(required = false) String storeName,
+      @RequestParam(required = false) String ownerStoreUsername,
+      @RequestParam(required = false) Long lte,
+      @RequestParam(required = false) Long gte,
+      Authentication authentication,
+      Pageable pageable) {
+    try {
+      String sellerUsername = null;
+      if (Objects.nonNull(authentication)) {
+        if (getUserRoles(authentication).contains(UserRole.SELLER)) {
+          sellerUsername = getUsername(authentication);
+        }
+      }
+      return successApi(productService.getAllProduct(sellerUsername, productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
 
-        }catch (Exception ex){
-            return errorApi(ex.getMessage());
-        }
-        }
-
-    @GetMapping("detail")
-    public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId){
-        try{
-            String username = null;
-            if (Objects.nonNull(authentication)) {
-                username = getUsername(authentication);
-                log.info("getProductDetail with username: {{}}", username);
-            }
-            return successApi(productService.getProductDetail(username, productId));
-        }catch (Exception ex){
-            return errorApi(ex.getMessage());
-        }
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 
-    @GetMapping("type")
-    public ResponseEntity<BaseResponse> getAllActiveProductType() {
-        return successApi(productService.getAllActiveProductType());
+  @GetMapping("detail")
+  public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId) {
+    try {
+      String username = null;
+      if (Objects.nonNull(authentication)) {
+        username = getUsername(authentication);
+        log.info("getProductDetail with username: {{}}", username);
+      }
+      return successApi(productService.getProductDetail(username, productId));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
+
+  @GetMapping("type")
+  public ResponseEntity<BaseResponse> getAllActiveProductType() {
+    return successApi(productService.getAllActiveProductType());
+  }
 }

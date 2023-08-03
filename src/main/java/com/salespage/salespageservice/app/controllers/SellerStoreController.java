@@ -25,90 +25,90 @@ import java.io.IOException;
 @Tag(name = "Store", description = "Quản lý cửa hàng của người dùng")
 public class SellerStoreController extends BaseController {
 
-    @Autowired
-    private SellerStoreService sellerStoreService;
+  @Autowired
+  private SellerStoreService sellerStoreService;
 
-    @GetMapping("")
-    @Operation(summary = "Lấy thông tin các cửa hàng", description = "Lấy thông tin các cửa hàng của người bán")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Thành công"),
-            @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
-            @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
-            @ApiResponse(responseCode = "404", description = "Không tìm thấy cửa hàng"),
-            @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
-    })
-    public ResponseEntity<BaseResponse> getStore(Authentication authentication, Pageable pageable) {
-        try {
-            return successApi(sellerStoreService.getAllSellerStore(getUsername(authentication), pageable));
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
+  @GetMapping("")
+  @Operation(summary = "Lấy thông tin các cửa hàng", description = "Lấy thông tin các cửa hàng của người bán")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+      @ApiResponse(responseCode = "404", description = "Không tìm thấy cửa hàng"),
+      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+  })
+  public ResponseEntity<BaseResponse> getStore(Authentication authentication, Pageable pageable) {
+    try {
+      return successApi(sellerStoreService.getAllSellerStore(getUsername(authentication), pageable));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 
-    @GetMapping("detail")
-    @Operation(summary = "Lấy thông tin cửa hàng", description = "Lấy thông tin cửa hàng của người bán")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Thành công"),
-        @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
-        @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
-        @ApiResponse(responseCode = "404", description = "Không tìm thấy cửa hàng"),
-        @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
-    })
-    public ResponseEntity<BaseResponse> getStoreDetail(Authentication authentication, @RequestParam String storeId) {
-        try {
-            return successApi(sellerStoreService.getStoreDetail(getUsername(authentication), storeId));
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
+  @GetMapping("detail")
+  @Operation(summary = "Lấy thông tin cửa hàng", description = "Lấy thông tin cửa hàng của người bán")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+      @ApiResponse(responseCode = "404", description = "Không tìm thấy cửa hàng"),
+      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+  })
+  public ResponseEntity<BaseResponse> getStoreDetail(Authentication authentication, @RequestParam String storeId) {
+    try {
+      return successApi(sellerStoreService.getStoreDetail(getUsername(authentication), storeId));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 
-    @PostMapping("")
-    @Operation(summary = "Tạo cửa hàng", description = "Tạo cửa hàng của người bán")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Thành công"),
-            @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
-            @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
-            @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
-    })
-    public ResponseEntity<BaseResponse> createStore(Authentication authentication, @RequestBody SellerStoreDto dto) {
-        try {
-            sellerStoreService.createStore(getUsername(authentication), dto);
-            return successApi("Tạo cửa hàng thành công");
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
+  @PostMapping("")
+  @Operation(summary = "Tạo cửa hàng", description = "Tạo cửa hàng của người bán")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+  })
+  public ResponseEntity<BaseResponse> createStore(Authentication authentication, @RequestBody SellerStoreDto dto) {
+    try {
+      sellerStoreService.createStore(getUsername(authentication), dto);
+      return successApi("Tạo cửa hàng thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 
-    @PutMapping("")
-    @Operation(summary = "Cập nhật thông tin các cửa hàng", description = "Cập nhật thông tin các cửa hàng của người bán")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Thành công"),
-            @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
-            @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
-            @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
-    })
-    public ResponseEntity<BaseResponse> updateStore(Authentication authentication, @RequestBody UpdateSellerStoreDto dto) {
-        try {
-            sellerStoreService.updateStore(getUsername(authentication), dto);
-            return successApi("Cập nhật cửa hàng thành công");
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
+  @PutMapping("")
+  @Operation(summary = "Cập nhật thông tin các cửa hàng", description = "Cập nhật thông tin các cửa hàng của người bán")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+  })
+  public ResponseEntity<BaseResponse> updateStore(Authentication authentication, @RequestBody UpdateSellerStoreDto dto) {
+    try {
+      sellerStoreService.updateStore(getUsername(authentication), dto);
+      return successApi("Cập nhật cửa hàng thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 
-    @PostMapping("upload-image")
-    @Operation(summary = "Tải ảnh lên cho cửa hàng", description = "Tải ảnh lên cho cửa hàng")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Thành công"),
-            @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
-            @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
-            @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
-    })
-    public ResponseEntity<BaseResponse> uploadImage(Authentication authentication, @RequestParam String storeId, @RequestBody MultipartFile file) throws IOException {
-        try {
-            return successApi("Tải ảnh lên thành công", sellerStoreService.uploadImage(getUsername(authentication), storeId, file));
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
+  @PostMapping("upload-image")
+  @Operation(summary = "Tải ảnh lên cho cửa hàng", description = "Tải ảnh lên cho cửa hàng")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+  })
+  public ResponseEntity<BaseResponse> uploadImage(Authentication authentication, @RequestParam String storeId, @RequestBody MultipartFile file) throws IOException {
+    try {
+      return successApi("Tải ảnh lên thành công", sellerStoreService.uploadImage(getUsername(authentication), storeId, file));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 }

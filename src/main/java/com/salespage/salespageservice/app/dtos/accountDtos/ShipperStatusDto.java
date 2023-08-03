@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class ShipperStatusDto {
 
-    Boolean status;
+  Boolean status;
 
-    String longitude;
+  String longitude;
 
-    String latitude;
+  String latitude;
 }

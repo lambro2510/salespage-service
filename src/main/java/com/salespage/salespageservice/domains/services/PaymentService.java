@@ -28,7 +28,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class PaymentService extends BaseService{
+public class PaymentService extends BaseService {
 
   @Autowired
   NotificationService notificationService;
@@ -53,7 +53,7 @@ public class PaymentService extends BaseService{
   }
 
   @Transactional(noRollbackFor = {ResourceNotFoundException.class})
-  public String confirmPayment(String username, String paymentId){
+  public String confirmPayment(String username, String paymentId) {
     try {
       User user = userStorage.findByUsername(username);
       if (Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
@@ -62,8 +62,10 @@ public class PaymentService extends BaseService{
         throw new ResourceNotFoundException("Giao dịch không tồn tại hoặc đã được thanh toán");
       else {
         BankAccount bankAccount = bankAccountStorage.findBankAccountById(paymentTransaction.getBankAccountId());
-        if(Objects.isNull(bankAccount)) throw new ResourceNotFoundException("Tài khoản ngân hàng liên kết không tồn tại");
-        if(!bankAccount.getStatus().equals(BankStatus.ACTIVE)) throw new BadRequestException("Liên kết ngân hàng này đã chưa được kích hoạt");
+        if (Objects.isNull(bankAccount))
+          throw new ResourceNotFoundException("Tài khoản ngân hàng liên kết không tồn tại");
+        if (!bankAccount.getStatus().equals(BankStatus.ACTIVE))
+          throw new BadRequestException("Liên kết ngân hàng này đã chưa được kích hoạt");
 
         TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByDescription(Helper.genDescription(username, paymentId));
         if (Objects.isNull(tpBankTransaction)) return "Giao dịch đang được xử lý";
@@ -124,5 +126,5 @@ public class PaymentService extends BaseService{
     notificationService.createNotification(username, "Hủy bỏ giao dịch", "Bạn đã hủy bỏ giao dịch với số giao dịch là: " + paymentId + ". Thông tin giao dịch: " + paymentTransaction.getDescription(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
     paymentTransactionStorage.save(paymentTransaction);
   }
-  
+
 }

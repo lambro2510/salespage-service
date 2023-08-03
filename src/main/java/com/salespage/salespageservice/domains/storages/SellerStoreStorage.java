@@ -11,39 +11,39 @@ import java.util.List;
 @Component
 public class SellerStoreStorage extends BaseStorage {
 
-    public Page<SellerStore> findByOwnerStoreName(String username, Pageable pageable) {
-        return sellerStoreRepository.findByOwnerStoreName(username, pageable);
-    }
+  public Page<SellerStore> findByOwnerStoreName(String username, Pageable pageable) {
+    return sellerStoreRepository.findByOwnerStoreName(username, pageable);
+  }
 
-    public List<ObjectId> findByOwnerStoreName(String username) {
-        return sellerStoreRepository.findIdByOwnerStoreName(username);
-    }
+  public List<ObjectId> findByOwnerStoreName(String username) {
+    return sellerStoreRepository.findIdByOwnerStoreName(username);
+  }
 
-    public void save(SellerStore sellerStore) {
-        sellerStoreRepository.save(sellerStore);
-    }
+  public void save(SellerStore sellerStore) {
+    sellerStoreRepository.save(sellerStore);
+  }
 
-    public SellerStore findById(String storeId) {
-        return sellerStoreRepository.findById(new ObjectId(storeId)).get();
-    }
+  public SellerStore findById(String storeId) {
+    return sellerStoreRepository.findById(new ObjectId(storeId)).get();
+  }
 
-    public List<SellerStore> findIdsByStoreName(String storeName) {
-        return sellerStoreRepository.findIdsByStoreName(storeName);
-    }
+  public List<SellerStore> findIdsByStoreName(String storeName) {
+    return sellerStoreRepository.findIdsByStoreName(storeName);
+  }
 
-    public List<SellerStore> findIdsByOwnerStoreName(String username) {
-        return sellerStoreRepository.findIdsByOwnerStoreName(username);
-    }
+  public List<SellerStore> findIdsByOwnerStoreName(String username) {
+    return sellerStoreRepository.findIdsByOwnerStoreName(username);
+  }
 
-    public Page<SellerStore> findAll(Pageable newPageable) {
-        return sellerStoreRepository.findAll(newPageable);
-    }
+  public Page<SellerStore> findAll(Pageable newPageable) {
+    return sellerStoreRepository.findAll(newPageable);
+  }
 
-    public List<SellerStore> findByIdIn(List<ObjectId> ids) {
-        return sellerStoreRepository.findByIdIn(ids);
-    }
+  public List<SellerStore> findByIdIn(List<ObjectId> ids) {
+    return sellerStoreRepository.findByIdIn(ids);
+  }
 
-    public boolean isExistByStoreId(String refId) {
-        return sellerStoreRepository.existsById(new ObjectId(refId));
-    }
+  public boolean isExistByStoreId(String refId) {
+    return sellerStoreRepository.existsById(new ObjectId(refId));
+  }
 }

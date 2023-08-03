@@ -5,17 +5,17 @@ import lombok.Data;
 @Data
 public class GenQrCodeDto {
 
-    Long accountNo;
+  Long accountNo;
 
-    String accountName;
+  String accountName;
 
-    Long acqId;
+  Long acqId;
 
-    Long amount;
+  Long amount;
 
-    String addInfo;
+  String addInfo;
 
-    String format;
+  String format;
 
-    String template;
+  String template;
 }

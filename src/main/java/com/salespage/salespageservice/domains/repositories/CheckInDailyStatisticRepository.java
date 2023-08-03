@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CheckInDailyStatisticRepository extends MongoRepository<CheckInDailyStatistic, ObjectId> {
-    CheckInDailyStatistic findByUsernameAndMonth(String username, String month);
+  CheckInDailyStatistic findByUsernameAndMonth(String username, String month);
 }

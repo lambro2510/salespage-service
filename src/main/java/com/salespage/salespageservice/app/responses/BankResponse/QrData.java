@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class QrData {
 
-    String qrCode;
+  String qrCode;
 
-    String qrDataURL;
+  String qrDataURL;
 }

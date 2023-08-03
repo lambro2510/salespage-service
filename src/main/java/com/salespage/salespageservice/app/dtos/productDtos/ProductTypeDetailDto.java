@@ -5,11 +5,11 @@ import lombok.Data;
 @Data
 public class ProductTypeDetailDto {
 
-    String productId;
+  String productId;
 
-    String typeName;
+  String typeName;
 
-    String typeDetailName;
+  String typeDetailName;
 
-    String note;
+  String note;
 }

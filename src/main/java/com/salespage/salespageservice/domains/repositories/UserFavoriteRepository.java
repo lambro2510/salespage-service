@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface UserFavoriteRepository extends MongoRepository<UserFavorite, ObjectId> {
 
-    UserFavorite findByUsernameAndRefIdAndFavoriteType(String username, String productId, FavoriteType type);
+  UserFavorite findByUsernameAndRefIdAndFavoriteType(String username, String productId, FavoriteType type);
 
-    List<UserFavorite> findByUsernameAndFavoriteTypeAndLike(String username, FavoriteType favoriteType, Boolean isLike);
+  List<UserFavorite> findByUsernameAndFavoriteTypeAndLike(String username, FavoriteType favoriteType, Boolean isLike);
 }

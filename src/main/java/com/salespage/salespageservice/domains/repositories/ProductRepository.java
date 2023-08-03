@@ -13,15 +13,15 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends MongoRepository<Product, ObjectId> {
 
-    Product findProductById(ObjectId id);
+  Product findProductById(ObjectId id);
 
-    Page<Product> findAll(Query query, Pageable pageable);
+  Page<Product> findAll(Query query, Pageable pageable);
 
-    List<Product> findBySellerStoreId(String storeId);
+  List<Product> findBySellerStoreId(String storeId);
 
-    List<Product> findTop11ByCategoryIdIn(List<String> productIds);
+  List<Product> findTop11ByCategoryIdIn(List<String> productIds);
 
-    List<Product> findTop10ByCategoryIdOrderByCreatedAtDesc(String typeName);
+  List<Product> findTop10ByCategoryIdOrderByCreatedAtDesc(String typeName);
 
-    List<Product> findByCategoryId(String categoryId);
+  List<Product> findByCategoryId(String categoryId);
 }

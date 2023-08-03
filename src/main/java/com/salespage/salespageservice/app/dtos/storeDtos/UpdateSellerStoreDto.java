@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 public class UpdateSellerStoreDto extends SellerStoreDto {
-    @Schema(description = "Id cửa hàng", example = "645c82f65ccca035f58f790e")
-    private String storeId;
+  @Schema(description = "Id cửa hàng", example = "645c82f65ccca035f58f790e")
+  private String storeId;
 
 
 }

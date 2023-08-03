@@ -9,23 +9,23 @@ import java.util.List;
 
 @Component
 public class PaymentTransactionStorage extends BaseStorage {
-    public void save(PaymentTransaction paymentTransaction) {
-        paymentTransactionRepository.save(paymentTransaction);
-    }
+  public void save(PaymentTransaction paymentTransaction) {
+    paymentTransactionRepository.save(paymentTransaction);
+  }
 
-    public PaymentTransaction findByIdAndUsername(String paymentId, String username) {
-        return paymentTransactionRepository.findByIdAndUsername(new ObjectId(paymentId), username);
-    }
+  public PaymentTransaction findByIdAndUsername(String paymentId, String username) {
+    return paymentTransactionRepository.findByIdAndUsername(new ObjectId(paymentId), username);
+  }
 
-    public PaymentTransaction findByIdAndUsernameAndPaymentStatus(String paymentId, String username, PaymentStatus status) {
-        return paymentTransactionRepository.findByIdAndUsernameAndPaymentStatus(new ObjectId(paymentId), username, status);
-    }
+  public PaymentTransaction findByIdAndUsernameAndPaymentStatus(String paymentId, String username, PaymentStatus status) {
+    return paymentTransactionRepository.findByIdAndUsernameAndPaymentStatus(new ObjectId(paymentId), username, status);
+  }
 
-    public List<PaymentTransaction> findByUsername(String username) {
-        return paymentTransactionRepository.findByUsername(username);
-    }
+  public List<PaymentTransaction> findByUsername(String username) {
+    return paymentTransactionRepository.findByUsername(username);
+  }
 
-    public List<PaymentTransaction> findByPaymentStatus(PaymentStatus paymentStatus) {
-        return paymentTransactionRepository.findByPaymentStatus(paymentStatus);
-    }
+  public List<PaymentTransaction> findByPaymentStatus(PaymentStatus paymentStatus) {
+    return paymentTransactionRepository.findByPaymentStatus(paymentStatus);
+  }
 }

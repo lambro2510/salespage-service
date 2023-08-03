@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class NotificationDetailResponse extends NotificationResponse {
 
-    String content;
+  String content;
 }

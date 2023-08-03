@@ -22,7 +22,7 @@ public class ProductCategoryResponse {
 
   private String productType;
 
-  public void partnerFromCategory(ProductCategory productCategory){
+  public void partnerFromCategory(ProductCategory productCategory) {
     categoryId = productCategory.getId().toHexString();
     categoryName = productCategory.getCategoryName();
     categoryType = productCategory.getCategoryType();

@@ -83,7 +83,7 @@ vietqr:
     url: ${VIETQR_URL:https://api.vietqr.io}
 
 tp-bank:
-  account-no : ${TP_BANK_ACCOUNT_NO:00002432405}
+  account-no: ${TP_BANK_ACCOUNT_NO:00002432405}
   api:
     url: ${TP_BANK_URL:https://ebank.tpb.vn/gateway}
     username: ${TP_BANK_USERNAME:0979163206}

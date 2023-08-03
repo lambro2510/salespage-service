@@ -8,8 +8,9 @@ import java.util.List;
 public class TpBankTransactionData {
 
   private List<TpBankTransactionInfo> transactionInfos;
+
   @Data
-  public static class TpBankTransactionInfo{
+  public static class TpBankTransactionInfo {
     private String id;
     private String arrangementId;
     private String reference;

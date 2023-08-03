@@ -5,8 +5,8 @@ import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 
 public class AuthorizationException extends BaseException {
 
-    public AuthorizationException(String message) {
-        super(ErrorCode.AUTHORIZATION, message);
-    }
+  public AuthorizationException(String message) {
+    super(ErrorCode.AUTHORIZATION, message);
+  }
 
 }

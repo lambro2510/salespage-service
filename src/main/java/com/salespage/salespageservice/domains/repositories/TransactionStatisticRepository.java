@@ -12,5 +12,5 @@ public interface TransactionStatisticRepository extends MongoRepository<Transact
 
   TransactionStatistic findByDateAndProductId(String date, String productId);
 
-    TransactionStatistic findByDateAndProductIdAndStatisticType(String date, String productId, StatisticType statisticType);
+  TransactionStatistic findByDateAndProductIdAndStatisticType(String date, String productId, StatisticType statisticType);
 }

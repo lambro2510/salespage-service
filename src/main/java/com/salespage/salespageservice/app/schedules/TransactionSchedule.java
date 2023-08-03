@@ -13,12 +13,12 @@ import java.time.format.DateTimeFormatter;
 @Log4j2
 public class TransactionSchedule {
 
-    @Autowired
-    ProductTransactionService transactionService;
+  @Autowired
+  ProductTransactionService transactionService;
 
-    @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
-    private void findShipperForTransaction(){
-        log.info("findShipperForTransaction -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
-        transactionService.findShipperForProduct();
-    }
+  @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
+  private void findShipperForTransaction() {
+    log.info("findShipperForTransaction -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
+    transactionService.findShipperForProduct();
+  }
 }

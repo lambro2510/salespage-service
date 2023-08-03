@@ -20,85 +20,85 @@ import java.util.Date;
 @Data
 public class User {
 
-    @Id
-    @JsonSerialize(using = ToStringSerializer.class)
-    private ObjectId id;
+  @Id
+  @JsonSerialize(using = ToStringSerializer.class)
+  private ObjectId id;
 
-    @Indexed(unique = true)
-    private String username;
+  @Indexed(unique = true)
+  private String username;
 
-    @Field("email")
-    private String email;
+  @Field("email")
+  private String email;
 
-    @Field("phone_number")
-    private String phoneNumber;
+  @Field("phone_number")
+  private String phoneNumber;
 
-    @Field("display_name")
-    private String displayName;
+  @Field("display_name")
+  private String displayName;
 
-    @Field("date_of_born")
-    private Date dateOfBirth;
+  @Field("date_of_born")
+  private Date dateOfBirth;
 
-    @Field("first_name")
-    private String firstName;
+  @Field("first_name")
+  private String firstName;
 
-    @Field("last_name")
-    private String lastName;
+  @Field("last_name")
+  private String lastName;
 
-    @Field("image_url")
-    private String imageUrl;
+  @Field("image_url")
+  private String imageUrl;
 
-    @Field("rate")
-    private Rate rate = new Rate();
+  @Field("rate")
+  private Rate rate = new Rate();
 
-    @Field("balance")
-    private UserBalance balance;
+  @Field("balance")
+  private UserBalance balance;
 
-    public void createUser(SignUpDto dto) {
-        username = dto.getUsername();
-        firstName = dto.getFirstName();
-        lastName = dto.getLastName();
-        email = dto.getEmail();
-        imageUrl = "";
-        phoneNumber = dto.getPhoneNumber();
-        dateOfBirth = dto.getDateOfBirth();
-        rate = new Rate();
-        balance = new UserBalance();
-    }
+  public void createUser(SignUpDto dto) {
+    username = dto.getUsername();
+    firstName = dto.getFirstName();
+    lastName = dto.getLastName();
+    email = dto.getEmail();
+    imageUrl = "";
+    phoneNumber = dto.getPhoneNumber();
+    dateOfBirth = dto.getDateOfBirth();
+    rate = new Rate();
+    balance = new UserBalance();
+  }
 
-    public void createUserAdmin(Account account) {
-        username = account.getUsername();
-        firstName = "ADMIN";
-        lastName = "Hệ thống";
-        email = "admin@gmail.com";
-        imageUrl = "";
-        phoneNumber = "+84979163206";
-        dateOfBirth = new Date(2001, Calendar.NOVEMBER, 25);
-        rate = new Rate();
-        balance = new UserBalance();
-    }
+  public void createUserAdmin(Account account) {
+    username = account.getUsername();
+    firstName = "ADMIN";
+    lastName = "Hệ thống";
+    email = "admin@gmail.com";
+    imageUrl = "";
+    phoneNumber = "+84979163206";
+    dateOfBirth = new Date(2001, Calendar.NOVEMBER, 25);
+    rate = new Rate();
+    balance = new UserBalance();
+  }
 
-    public void updateUser(UserInfoDto dto) {
-        displayName = dto.getDisplayName();
-        imageUrl = dto.getImageUrl();
-        phoneNumber = dto.getPhoneNumber();
-    }
+  public void updateUser(UserInfoDto dto) {
+    displayName = dto.getDisplayName();
+    imageUrl = dto.getImageUrl();
+    phoneNumber = dto.getPhoneNumber();
+  }
 
-    public boolean updateBalance(boolean add, long balance) {
-        if (add)
-            getBalance().money = getBalance().money + balance;
-        else
-            getBalance().money = getBalance().money - balance;
-      return getBalance().money >= 0;
-    }
+  public boolean updateBalance(boolean add, long balance) {
+    if (add)
+      getBalance().money = getBalance().money + balance;
+    else
+      getBalance().money = getBalance().money - balance;
+    return getBalance().money >= 0;
+  }
 
-    @Data
-    public static class UserBalance {
-        @Field("currency_unit")
-        private CurrencyType type = CurrencyType.VND;
+  @Data
+  public static class UserBalance {
+    @Field("currency_unit")
+    private CurrencyType type = CurrencyType.VND;
 
-        @Field("money")
-        private long money;
-    }
+    @Field("money")
+    private long money;
+  }
 
 }

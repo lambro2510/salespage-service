@@ -2,7 +2,6 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.PaymentDtos.CreatePaymentDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
-import com.salespage.salespageservice.domains.services.BankService;
 import com.salespage.salespageservice.domains.services.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,64 +16,64 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/payment")
 public class PaymentController extends BaseController {
 
-    @Autowired
-    private PaymentService paymentService;
+  @Autowired
+  private PaymentService paymentService;
 
-    @GetMapping("payment-transaction")
-    @Operation(summary = "Lịch sử nạp và rút tiền", description = "Truy vấn lịch sử các giao dịch nạp và rút tiền")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Thành công"),
-        @ApiResponse(responseCode = "401", description = "Không được ủy quyền, vui lòng kiểm tra thông tin xác thực của bạn"),
-        @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
-    })
-    public ResponseEntity<BaseResponse> getPaymentTransaction(Authentication authentication) {
-        try {
-            return successApi(paymentService.getPayment(getUsername(authentication)));
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
+  @GetMapping("payment-transaction")
+  @Operation(summary = "Lịch sử nạp và rút tiền", description = "Truy vấn lịch sử các giao dịch nạp và rút tiền")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "401", description = "Không được ủy quyền, vui lòng kiểm tra thông tin xác thực của bạn"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<BaseResponse> getPaymentTransaction(Authentication authentication) {
+    try {
+      return successApi(paymentService.getPayment(getUsername(authentication)));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 
-    @PostMapping("create-payment")
-    @Operation(summary = "Tạo giao dịch", description = "Tạo một giao dịch nạp hoặc rút tiền mới")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Thành công"),
-        @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
-    })
-    public ResponseEntity<?> createPayment(Authentication authentication, @RequestBody CreatePaymentDto dto) {
-        try {
-            return successApi("Tạo giao dịch thành công.", paymentService.createPayment(getUsername(authentication), dto));
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
+  @PostMapping("create-payment")
+  @Operation(summary = "Tạo giao dịch", description = "Tạo một giao dịch nạp hoặc rút tiền mới")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> createPayment(Authentication authentication, @RequestBody CreatePaymentDto dto) {
+    try {
+      return successApi("Tạo giao dịch thành công.", paymentService.createPayment(getUsername(authentication), dto));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 
-    @PostMapping("confirm-payment")
-    @Operation(summary = "Xác nhận giao dịch", description = "Xác nhận một giao dịch nạp hoặc rút tiền")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Thành công"),
-        @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
-    })
-    public ResponseEntity<?> confirmPayment(Authentication authentication, @RequestParam String paymentId) {
-        try {
-            return successApi(null, paymentService.confirmPayment(getUsername(authentication), paymentId));
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
+  @PostMapping("confirm-payment")
+  @Operation(summary = "Xác nhận giao dịch", description = "Xác nhận một giao dịch nạp hoặc rút tiền")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> confirmPayment(Authentication authentication, @RequestParam String paymentId) {
+    try {
+      return successApi(null, paymentService.confirmPayment(getUsername(authentication), paymentId));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 
-    @PutMapping("cancel-payment")
-    @Operation(summary = "Hủy giao dịch", description = "Hủy bỏ một giao dịch nạp hoặc rút tiền")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Thành công"),
-        @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
-    })
-    public ResponseEntity<?> cancelPayment(Authentication authentication, @RequestParam String paymentId) {
-        try {
-            paymentService.cancelPayment(getUsername(authentication), paymentId);
-            return successApi("Hủy bỏ giao dịch thành công");
-        } catch (Exception ex) {
-            return errorApi(ex.getMessage());
-        }
+  @PutMapping("cancel-payment")
+  @Operation(summary = "Hủy giao dịch", description = "Hủy bỏ một giao dịch nạp hoặc rút tiền")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<?> cancelPayment(Authentication authentication, @RequestParam String paymentId) {
+    try {
+      paymentService.cancelPayment(getUsername(authentication), paymentId);
+      return successApi("Hủy bỏ giao dịch thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
     }
+  }
 }

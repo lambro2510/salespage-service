@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 public class UserFavoriteDto {
-    String refId;
+  String refId;
 
-    FavoriteType favoriteType;
+  FavoriteType favoriteType;
 
-    @JsonProperty("isLike")
-    Boolean isLike;
+  @JsonProperty("isLike")
+  Boolean isLike;
 }

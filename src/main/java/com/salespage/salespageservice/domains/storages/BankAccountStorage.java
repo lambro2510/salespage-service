@@ -17,54 +17,54 @@ import java.util.Objects;
 @Component
 public class BankAccountStorage extends BaseStorage {
 
-    @Value("${tp-bank.api.url}")
-    private String tpBankUrl;
+  @Value("${tp-bank.api.url}")
+  private String tpBankUrl;
 
-    @Value("${tp-bank.api.username}")
-    private String tpBankUsername;
+  @Value("${tp-bank.api.username}")
+  private String tpBankUsername;
 
-    @Value("${tp-bank.api.password}")
-    private String tpBankPassword;
+  @Value("${tp-bank.api.password}")
+  private String tpBankPassword;
 
-    @Value("${tp-bank.api.device-id}")
-    private String tpBankDeviceId;
+  @Value("${tp-bank.api.device-id}")
+  private String tpBankDeviceId;
 
-    public BankAccount findBankAccountById(String bankAccountId) {
-        return bankAccountRepository.findBankAccountById(bankAccountId);
-    }
-
-    public void save(BankAccount bankAccount) {
-        bankAccountRepository.save(bankAccount);
-    }
-
-    public BankAccount findByUsernameAndBankIdAndAccountNo(String username, Long bankId, String accountNumber) {
-        return bankAccountRepository.findByUsernameAndBankIdAndAccountNo(username, bankId, accountNumber);
-    }
-
-    public BankAccount findByBankIdAndAccountNo(Long bankId, String accountNumber) {
-        return bankAccountRepository.findByBankIdAndAccountNo(bankId, accountNumber);
-    }
-
-    public List<BankAccount> findBankAccountByIdIn(List<String> bankAccountIds) {
-        return bankAccountRepository.findBankAccountByIdIn(bankAccountIds);
-    }
-
-  public String getTokenFromRemoteCache() throws Exception {
-      TpBankTokenInfo tokenInfo = remoteCacheManager.get(CacheKey.getTpBankToken(), TpBankTokenInfo.class);
-      if(Objects.isNull(tokenInfo)){
-          JSONObject jsonObject = new JSONObject();
-          jsonObject.put("deviceId", tpBankDeviceId);
-          jsonObject.put("username", tpBankUsername);
-          jsonObject.put("password", tpBankPassword);
-          jsonObject.put("step_2FA", "VERIFY");
-          tokenInfo = RequestUtil.request(HttpMethod.POST, tpBankUrl + "/api/auth/login",TpBankTokenInfo.class, jsonObject,new HashMap<>());
-          if(Objects.isNull(tokenInfo)) return null;
-          remoteCacheManager.set(CacheKey.getTpBankToken(), JsonParser.toJson(tokenInfo), 60);
-      }
-      return tokenInfo.getAccess_token();
+  public BankAccount findBankAccountById(String bankAccountId) {
+    return bankAccountRepository.findBankAccountById(bankAccountId);
   }
 
-    public List<BankAccount> findByUsername(String username) {
-        return bankAccountRepository.findByUsername(username);
+  public void save(BankAccount bankAccount) {
+    bankAccountRepository.save(bankAccount);
+  }
+
+  public BankAccount findByUsernameAndBankIdAndAccountNo(String username, Long bankId, String accountNumber) {
+    return bankAccountRepository.findByUsernameAndBankIdAndAccountNo(username, bankId, accountNumber);
+  }
+
+  public BankAccount findByBankIdAndAccountNo(Long bankId, String accountNumber) {
+    return bankAccountRepository.findByBankIdAndAccountNo(bankId, accountNumber);
+  }
+
+  public List<BankAccount> findBankAccountByIdIn(List<String> bankAccountIds) {
+    return bankAccountRepository.findBankAccountByIdIn(bankAccountIds);
+  }
+
+  public String getTokenFromRemoteCache() throws Exception {
+    TpBankTokenInfo tokenInfo = remoteCacheManager.get(CacheKey.getTpBankToken(), TpBankTokenInfo.class);
+    if (Objects.isNull(tokenInfo)) {
+      JSONObject jsonObject = new JSONObject();
+      jsonObject.put("deviceId", tpBankDeviceId);
+      jsonObject.put("username", tpBankUsername);
+      jsonObject.put("password", tpBankPassword);
+      jsonObject.put("step_2FA", "VERIFY");
+      tokenInfo = RequestUtil.request(HttpMethod.POST, tpBankUrl + "/api/auth/login", TpBankTokenInfo.class, jsonObject, new HashMap<>());
+      if (Objects.isNull(tokenInfo)) return null;
+      remoteCacheManager.set(CacheKey.getTpBankToken(), JsonParser.toJson(tokenInfo), 60);
     }
+    return tokenInfo.getAccess_token();
+  }
+
+  public List<BankAccount> findByUsername(String username) {
+    return bankAccountRepository.findByUsername(username);
+  }
 }

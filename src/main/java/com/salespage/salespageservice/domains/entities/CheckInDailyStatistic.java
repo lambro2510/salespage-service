@@ -12,15 +12,15 @@ import java.util.List;
 @Document("check_in_daily_statistic")
 @Data
 public class CheckInDailyStatistic {
-    @Id
-    private ObjectId id;
+  @Id
+  private ObjectId id;
 
-    @Field("username")
-    private String username;
+  @Field("username")
+  private String username;
 
-    @Field("month")
-    private String month;
+  @Field("month")
+  private String month;
 
-    @Field("check_in_day")
-    private List<Integer> checkInDayInMonth = new ArrayList<>();
+  @Field("check_in_day")
+  private List<Integer> checkInDayInMonth = new ArrayList<>();
 }
