@@ -29,9 +29,9 @@ public class ConfigController extends BaseController{
   }
 
   @PostMapping("")
-  public ResponseEntity<?> createConfig(Authentication authentication,  @RequestBody @Valid ConfigDto config) {
+  public ResponseEntity<?> createConfig(Authentication authentication,  @RequestParam String key, @RequestParam String value) {
     try{
-      configService.createConfig(config);
+      configService.createConfig(new ConfigDto(key, value));
       return successApi("Tạo thiết lập thành công");
     }catch (Exception ex){
       return errorApi(ex.getMessage());
