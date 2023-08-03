@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StatisticCheckpointStorage extends BaseStorage{
   public StatisticCheckpoint findById(String transactionCheckpointId) {
-    return statisticCheckpointRepository.findById(transactionCheckpointId).get();
+    return statisticCheckpointRepository.findStatisticCheckpointById(transactionCheckpointId);
   }
 
   public void save(StatisticCheckpoint statisticCheckpoint) {

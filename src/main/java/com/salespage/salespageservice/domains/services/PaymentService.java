@@ -6,9 +6,11 @@ import com.salespage.salespageservice.domains.entities.BankAccount;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.TpBankTransaction;
 import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
+import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.producer.Producer;
@@ -51,7 +53,7 @@ public class PaymentService extends BaseService{
   }
 
   @Transactional(noRollbackFor = {ResourceNotFoundException.class})
-  public String confirmPayment(String username, String paymentId) throws Exception {
+  public String confirmPayment(String username, String paymentId){
     try {
       User user = userStorage.findByUsername(username);
       if (Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
@@ -59,11 +61,14 @@ public class PaymentService extends BaseService{
       if (Objects.isNull(paymentTransaction))
         throw new ResourceNotFoundException("Giao dịch không tồn tại hoặc đã được thanh toán");
       else {
+        BankAccount bankAccount = bankAccountStorage.findBankAccountById(paymentTransaction.getBankAccountId());
+        if(Objects.isNull(bankAccount)) throw new ResourceNotFoundException("Tài khoản ngân hàng liên kết không tồn tại");
+        if(!bankAccount.getStatus().equals(BankStatus.ACTIVE)) throw new BadRequestException("Liên kết ngân hàng này đã chưa được kích hoạt");
+
         TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByDescription(Helper.genDescription(username, paymentId));
         if (Objects.isNull(tpBankTransaction)) return "Giao dịch đang được xử lý";
         Integer amount = Integer.parseInt(tpBankTransaction.getAmount());
         if (user.updateBalance(true, amount)) {
-
           paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
           String message;
           if (Objects.equals(tpBankTransaction.getCreditDebitIndicator(), "CRDT")) {

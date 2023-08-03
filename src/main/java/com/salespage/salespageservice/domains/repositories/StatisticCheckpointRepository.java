@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StatisticCheckpointRepository extends MongoRepository<StatisticCheckpoint, String> {
+  StatisticCheckpoint findStatisticCheckpointById(String id);
 }
