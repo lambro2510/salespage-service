@@ -80,6 +80,7 @@ public class TpBankService extends BaseService{
         tpBankTransactionStorage.save(tpBankTransaction);
       }
       currentDate = currentDate.plusDays(1);
+      statisticCheckpoint.setCheckPoint(currentDate);
       statisticCheckpointStorage.save(statisticCheckpoint);
     }
   }
