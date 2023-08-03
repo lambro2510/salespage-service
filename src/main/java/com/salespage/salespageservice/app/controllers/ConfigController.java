@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.controllers;
 
+import com.salespage.salespageservice.app.dtos.ConfigDto;
 import com.salespage.salespageservice.domains.entities.Config;
 import com.salespage.salespageservice.domains.services.ConfigService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -14,10 +15,10 @@ public class ConfigController extends BaseController{
   @Autowired
   private ConfigService configService;
 
-  @PutMapping("/{id}")
-  public ResponseEntity<?> updateConfig(@PathVariable String id, @RequestParam String value) {
+  @PutMapping("/{key}")
+  public ResponseEntity<?> updateConfig(@PathVariable String key, @RequestParam String value) {
     try{
-      configService.updateConfig(id, value);
+      configService.updateConfig(key, value);
       return successApi("Cập nhật  thiết lập thành công");
     }catch (Exception ex){
       return errorApi(ex.getMessage());
@@ -25,7 +26,7 @@ public class ConfigController extends BaseController{
   }
 
   @PostMapping("")
-  public ResponseEntity<?> createConfig(@RequestBody Config config) {
+  public ResponseEntity<?> createConfig(@RequestBody ConfigDto config) {
     try{
       configService.createConfig(config);
       return successApi("Tạo thiết lập thành công");
