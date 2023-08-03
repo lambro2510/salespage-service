@@ -170,7 +170,7 @@ public class BankService extends BaseService {
   }
 
   public List<BankPaymentResponse> getPaymentBankAccount() throws IOException {
-    Config config = configStorage.findById(Constants.PAYMENT_BANK_ACCOUNT);
+    Config config = configStorage.findByKey(Constants.PAYMENT_BANK_ACCOUNT);
     return JsonParser.arrayList(config.getValue(), BankPaymentResponse.class);
   }
 }
