@@ -3,12 +3,15 @@ package com.salespage.salespageservice.app.controllers;
 import com.salespage.salespageservice.app.dtos.ConfigDto;
 import com.salespage.salespageservice.domains.entities.Config;
 import com.salespage.salespageservice.domains.services.ConfigService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
+@CrossOrigin
 @RequestMapping("api/v1/config")
 public class ConfigController extends BaseController{
 
@@ -16,7 +19,7 @@ public class ConfigController extends BaseController{
   private ConfigService configService;
 
   @PutMapping("")
-  public ResponseEntity<?> updateConfig(@RequestParam String key, @RequestParam String value) {
+  public ResponseEntity<?> updateConfig(Authentication authentication, @RequestParam String key, @RequestParam String value) {
     try{
       configService.updateConfig(key, value);
       return successApi("Cập nhật  thiết lập thành công");
@@ -26,7 +29,7 @@ public class ConfigController extends BaseController{
   }
 
   @PostMapping("")
-  public ResponseEntity<?> createConfig(@RequestBody ConfigDto config) {
+  public ResponseEntity<?> createConfig(Authentication authentication,  @RequestBody @Valid ConfigDto config) {
     try{
       configService.createConfig(config);
       return successApi("Tạo thiết lập thành công");
@@ -36,7 +39,7 @@ public class ConfigController extends BaseController{
   }
 
   @GetMapping(value = "")
-  public ResponseEntity<?> getConfigDetail(@RequestParam String key) {
+  public ResponseEntity<?> getConfigDetail( Authentication authentication, @RequestParam String key) {
     try{
       return successApi(configService.getConfigDetail(key));
     }catch (Exception ex){
@@ -45,7 +48,7 @@ public class ConfigController extends BaseController{
   }
 
   @DeleteMapping("")
-  public ResponseEntity<?> deleteConfig(@RequestParam String key) {
+  public ResponseEntity<?> deleteConfig(Authentication authentication, @RequestParam String key) {
     try{
       configService.deleteConfig(key);
       return successApi("Xóa thiết lập thành công");
