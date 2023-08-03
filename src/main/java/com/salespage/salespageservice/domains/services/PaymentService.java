@@ -72,9 +72,11 @@ public class PaymentService extends BaseService{
           paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
           String message;
           if (Objects.equals(tpBankTransaction.getCreditDebitIndicator(), "CRDT")) {
+            bankAccount.setMoneyIn(bankAccount.getMoneyIn() + amount);
             message = "Tài khoản của bạn được cộng " + amount;
             notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
           } else {
+            bankAccount.setMoneyIn(bankAccount.getMoneyOut() + amount);
             message = "Tài khoản của bạn bị trừ " + amount;
             notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
           }

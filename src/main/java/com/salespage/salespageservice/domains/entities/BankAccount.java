@@ -39,10 +39,10 @@ public class BankAccount extends BaseEntity {
     private BankStatus status;
 
     @Field("money_in")
-    private Double moneyIn;
+    private Double moneyIn = 0D;
 
     @Field("money_out")
-    private Double moneyOut;
+    private Double moneyOut = 0D;
 
     public String getIdStr() {
         return id.toHexString();
