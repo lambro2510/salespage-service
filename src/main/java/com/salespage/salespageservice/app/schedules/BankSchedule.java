@@ -31,14 +31,14 @@ public class BankSchedule {
     log.info("-----checkNotResolveTransaction-----end");
   }
 
-  @Scheduled(fixedDelay = 1000 * 5) //5s 1 lần
+  @Scheduled(cron = "*/30 * * * * *")
   public void asyncTransactionToday() throws Exception {
     log.info("-----checkNotResolveTransaction-----start");
     tpBankService.saveTpBankTransactionToday();
     log.info("-----checkNotResolveTransaction-----end");
   }
 
-  @Scheduled(fixedDelay = 1000 * 60 * 60 * 12) // 12h 1 lần
+  @Scheduled(cron = "0 */30 * * * *")
   public void asyncTransactionPreDay() throws Exception {
     log.info("-----checkNotResolveTransaction-----start");
     tpBankService.saveTpBankTransactionPeriodDay();
