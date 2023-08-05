@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface TpBankTransactionRepository extends MongoRepository<TpBankTransaction, ObjectId> {
   TpBankTransaction findByTransId(String id);
 
-  TpBankTransaction findByDescription(String description);
+  TpBankTransaction findByDescriptionLike(String description);
 }
