@@ -6,6 +6,7 @@ import com.salespage.salespageservice.domains.entities.TpBankTransaction;
 import com.salespage.salespageservice.domains.info.TpBankTransactionData;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
+import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
+@Log4j2
 public class TpBankService extends BaseService {
 
   @Value("${tp-bank.account-no}")
@@ -48,6 +50,7 @@ public class TpBankService extends BaseService {
     String fromDate = DateUtils.convertLocalDateToString(now.minusDays(1), "yyyyMMdd");
     String toDate = DateUtils.convertLocalDateToString(now, "yyyyMMdd");
     TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
+    log.info(tpBankTransactionData);
     for (TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()) {
       TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByTransId(info.getId());
       if (Objects.isNull(tpBankTransaction)) {

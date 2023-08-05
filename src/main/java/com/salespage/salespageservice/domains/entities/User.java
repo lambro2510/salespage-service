@@ -99,6 +99,16 @@ public class User {
 
     @Field("money")
     private long money;
+
+    public void addMoney(long amount){
+      money = money + amount;
+    }
+    public void minusMoney(long amount){
+      money = money - amount;
+      if(money < 0)
+        money = 0;
+    }
+
   }
 
 }
