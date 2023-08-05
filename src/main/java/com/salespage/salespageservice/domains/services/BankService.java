@@ -124,6 +124,7 @@ public class BankService extends BaseService {
   public void checkNotResolveTransaction() throws Exception {
     List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByPaymentStatus(PaymentStatus.WAITING);
     log.info("----checkNotResolveTransaction----: " + paymentTransactions.size() + " paymentTransactions chua duoc xu ly");
+    log.info("paymentTransaction: {{}}" , paymentTransactions);
     for (PaymentTransaction paymentTransaction : paymentTransactions) {
       if (paymentTransaction.createdOneDayPeriod()) {
         paymentTransaction.setPaymentStatus(PaymentStatus.PENDING);
