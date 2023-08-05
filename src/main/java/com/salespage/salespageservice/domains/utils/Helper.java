@@ -58,7 +58,7 @@ public class Helper {
   }
 
   public static String genDescription(String username, String paymentId) {
-    return username + paymentId;
+    return paymentId.replace("-", "");
   }
 
   public static long getStartTimeOfDay(LocalDate date) {
