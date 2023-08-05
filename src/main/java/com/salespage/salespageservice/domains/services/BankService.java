@@ -80,7 +80,7 @@ public class BankService extends BaseService {
     genQrCodeDto.setTemplate("LDP0k8f");
     genQrCodeDto.setAcqId(bin);
     genQrCodeDto.setAccountName("Thanh toán mua hàng");
-    genQrCodeDto.setAddInfo(username + paymentTransaction.getAmount());
+    genQrCodeDto.setAddInfo(paymentId);
     Map<String, String> header = new HashMap<>();
     VietQrResponse response = RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/generate", VietQrResponse.class, genQrCodeDto, header);
     return JsonParser.entity(JsonParser.toJson(response.getData()), QrData.class);
