@@ -46,4 +46,11 @@ public class BankTransactionStorage extends BaseStorage {
     return bankTransactionRepository.findByDescriptionLike(description);
   }
 
+  public BankTransaction findByRefNo(String refNo) {
+    return bankTransactionRepository.findByRefNo(refNo);
+  }
+
+  public void save(BankTransaction bankTransaction) {
+    bankTransactionRepository.save(bankTransaction);
+  }
 }

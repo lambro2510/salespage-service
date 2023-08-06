@@ -24,21 +24,6 @@ public class BankController extends BaseController {
   @Autowired
   BankService bankService;
 
-  @PostMapping("")
-  @Operation(summary = "Receive Bank Transaction", description = "Receive and save bank transaction information")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Success", content = @Content),
-      @ApiResponse(responseCode = "500", description = "Internal Server Error")
-  })
-  public ResponseEntity<?> receiveBankTransaction(@RequestBody BankDto bankDto) throws Exception {
-    try {
-      bankService.receiveBankTransaction(bankDto);
-      return successApi("Lưu thông tin thành công");
-    } catch (Exception ex) {
-      return errorApiStatus500("Không lưu được thông tin giao dịch");
-    }
-  }
-
   @GetMapping("")
   @Operation(summary = "Get All Transactions", description = "Retrieve a list of all bank transactions")
   @ApiResponses(value = {

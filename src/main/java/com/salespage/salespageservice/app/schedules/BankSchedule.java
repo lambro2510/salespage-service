@@ -17,10 +17,10 @@ public class BankSchedule {
   @Autowired
   private TpBankService tpBankService;
 
-  @Scheduled(fixedDelay = 1000 * 60 * 60) //1 h 1 lần đồng bộ
-  public void getOath2TokenFromCasso() {
+  @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần đồng bộ
+  public void saveBankTransaction() {
     log.info("-----async transaction-----start");
-    bankService.asyncTransaction();
+    bankService.saveBankTransaction();
     log.info("-----async transaction-----end");
   }
 

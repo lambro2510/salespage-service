@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BankTransactionRepository extends MongoRepository<BankTransaction, ObjectId> {
   BankTransaction findByDescriptionLike(String description);
+
+  BankTransaction findByRefNo(String refNo);
 }

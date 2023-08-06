@@ -40,7 +40,6 @@ public class RequestUtil {
       }
 
       HttpEntity<Object> data = new HttpEntity<>(entity, headers);
-
       return restTemplate.exchange(requestUrl, method, data, tClass).getBody();
     } catch (Exception e) {
       log.info("request exception: {{}}", e);

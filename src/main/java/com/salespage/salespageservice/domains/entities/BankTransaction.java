@@ -1,8 +1,10 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
+import com.salespage.salespageservice.app.responses.BankResponse.MbBankTransaction;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,65 +18,66 @@ import java.time.LocalDateTime;
 public class BankTransaction {
 
   @Id
-  @Field("_id")
   @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
-  @Field("tid")
-  private String tid;
+  @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+  @Field("posting_date")
+  private LocalDateTime postingDate;
+
+  @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+  @Field("transaction_date")
+  private LocalDateTime transactionDate;
+
+  @Field("account_no")
+  private String accountNo;
+
+  @Field("credit_amount")
+  private Double creditAmount;
+
+  @Field("debit_amount")
+  private Double debitAmount;
+
+  @Field("currency")
+  private String currency;
 
   @Field("description")
   private String description;
 
-  @Field("amount")
-  private Long amount;
+  @Field("available_balance")
+  private Double availableBalance;
 
-  @Field("cusum_balance")
-  private Integer cusumBalance;
+  @Field("beneficiary_account")
+  private String beneficiaryAccount;
 
-  @Field("when")
-  private String when;
+  @Field("ref_no")
+  private String refNo;
 
-  @Field("bank_sub_acc_id")
-  private String bankSubAccId;
+  @Field("ben_account_name")
+  private String benAccountName;
 
-  @Field("sub_acc_id")
-  private String subAccId;
+  @Field("bank_name")
+  private String bankName;
 
-  @Field("virtual_account")
-  private String virtualAccount;
-
-  @Field("virtual_account_name")
-  private String virtualAccountName;
-
-  @Field("corresponsive_name")
-  private String corresponsiveName;
-
-  @Field("corresponsive_account")
-  private String corresponsiveAccount;
-
-  @Field("corresponsive_bank_id")
-  private String corresponsiveBankId;
-
-  @Field("corresponsive_bank_name")
-  private String corresponsiveBankName;
+  @Field("ben_account_no")
+  private String benAccountNo;
 
   @Field("created_at")
   private LocalDateTime createdAt = LocalDateTime.now();
 
-  public void partnerFromTransactionData(TransactionData transactionData) {
-    setTid(transactionData.getTid());
-    setDescription(transactionData.getDescription().replaceAll(" ", ""));
-    setAmount(transactionData.getAmount());
-    setCusumBalance(transactionData.getCusumBalance());
-    setWhen(transactionData.getWhen());
-    setBankSubAccId(transactionData.getBankSubAccId());
-    setSubAccId(transactionData.getSubAccId());
-    setVirtualAccount(transactionData.getVirtualAccount());
-    setVirtualAccountName(transactionData.getVirtualAccountName());
-    setCorresponsiveName(transactionData.getCorresponsiveName());
-    setCorresponsiveAccount(transactionData.getCorresponsiveAccount());
-    setCorresponsiveBankId(transactionData.getCorresponsiveBankId());
-    setCorresponsiveBankName(transactionData.getCorresponsiveBankName());
+  public void partnerFromTransactionData(MbBankTransaction.Transaction transaction) {
+    setPostingDate(transaction.getPostingDate());
+    setTransactionDate(transaction.getTransactionDate());
+    setAccountNo(transaction.getAccountNo());
+    setCreditAmount(transaction.getCreditAmount());
+    setDebitAmount(transaction.getDebitAmount());
+    setCurrency(transaction.getCurrency());
+    setDescription(transaction.getDescription());
+    setAvailableBalance(transaction.getAvailableBalance());
+    setBeneficiaryAccount(transaction.getBeneficiaryAccount());
+    setRefNo(transaction.getRefNo());
+    setBenAccountName(transaction.getBenAccountName());
+    setBankName(transaction.getBankName());
+    setBenAccountNo(transaction.getBenAccountNo());
   }
 }

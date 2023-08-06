@@ -66,18 +66,6 @@ public class BankService extends BaseService {
   @Value("${mb-bank.token}")
   private String MB_BANK_TOKEN;
 
-  public void receiveBankTransaction(BankDto bankDto) {
-    List<BankTransaction> bankTransactions = new ArrayList<>();
-    for (TransactionData data : bankDto.getData()) {
-      BankTransaction bankTransaction = new BankTransaction();
-      bankTransaction.partnerFromTransactionData(data);
-      bankTransactions.add(bankTransaction);
-    }
-    if (!bankTransactions.isEmpty()) {
-      bankTransactionStorage.saveAll(bankTransactions);
-    }
-  }
-
   public List<BankTransaction> getAllTransaction() {
     return bankTransactionStorage.findAll();
   }
@@ -191,5 +179,17 @@ public class BankService extends BaseService {
     String baseUrl = MB_URL + "/" + MB_PASSWORD + "/" + MB_ACCOUNT_NO + "/" + MB_BANK_TOKEN;
     MbBankTransaction mbBankTransaction = RequestUtil.request(HttpMethod.GET, baseUrl, MbBankTransaction.class, null, null);
     return mbBankTransaction.getData();
+  }
+
+  public void saveBankTransaction(){
+    List<MbBankTransaction.Transaction> transactions = getMbBankTransaction();
+    for(MbBankTransaction.Transaction transaction : transactions){
+      BankTransaction bankTransaction = bankTransactionStorage.findByRefNo(transaction.getRefNo());
+      if(Objects.isNull(bankTransaction)) {
+        bankTransaction = new BankTransaction();
+        bankTransaction.partnerFromTransactionData(transaction);
+        bankTransactionStorage.save(bankTransaction);
+      }
+    }
   }
 }

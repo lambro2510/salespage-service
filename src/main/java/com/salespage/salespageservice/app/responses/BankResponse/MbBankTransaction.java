@@ -17,9 +17,9 @@ public class MbBankTransaction {
 
   @Data
   public static class Transaction{
-    @JsonFormat(pattern = "dd/MM/yyyy hh/MM/ss")
+    @JsonFormat(pattern = "dd/MM/yyyy hh:MM:ss")
     private LocalDateTime postingDate;
-    @JsonFormat(pattern = "dd/MM/yyyy hh/MM/ss")
+    @JsonFormat(pattern = "dd/MM/yyyy hh:MM:ss")
     private LocalDateTime transactionDate;
     private String accountNo;
     private Double creditAmount;
