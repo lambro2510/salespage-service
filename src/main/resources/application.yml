@@ -90,3 +90,9 @@ tp-bank:
     password: ${TP_BANK_PASSWORD:Banhmy09@}
     device-id: ${TP_BANK_DEVICEID:jZ3l7guUAipewndFIFtkpc8cjnr0NoF3jJWYxRg2gsStn}
 
+mb-bank:
+  url: ${URL:https://api.web2m.com/historyapimb}
+  password: ${PASSWORD:Banhmy099@}
+  token: ${TOKEN:7C37EBA7-1CA6-835F-9301-301551D39130}
+  account-no : ${ACCOUNT_NO:8400134433008}
+

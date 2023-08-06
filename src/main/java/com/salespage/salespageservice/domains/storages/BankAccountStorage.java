@@ -53,9 +53,9 @@ public class BankAccountStorage extends BaseStorage {
   }
 
   public String getTokenFromRemoteCache() throws Exception {
-    TpBankTokenInfo tokenInfo = null;
-//        remoteCacheManager.get(CacheKey.getTpBankToken(), TpBankTokenInfo.class);
-//    if (Objects.isNull(tokenInfo)) {
+    TpBankTokenInfo tokenInfo =
+        remoteCacheManager.get(CacheKey.getTpBankToken(), TpBankTokenInfo.class);
+    if (Objects.isNull(tokenInfo)) {
       JSONObject jsonObject = new JSONObject();
       jsonObject.put("deviceId", tpBankDeviceId);
       jsonObject.put("username", tpBankUsername);
@@ -63,8 +63,8 @@ public class BankAccountStorage extends BaseStorage {
       jsonObject.put("step_2FA", "VERIFY");
       tokenInfo = RequestUtil.request(HttpMethod.POST, tpBankUrl + "/api/auth/login", TpBankTokenInfo.class, jsonObject, new HashMap<>());
       if (Objects.isNull(tokenInfo)) throw new BadRequestException("Lỗi khi xác nhận giao dịch");
-//      remoteCacheManager.set(CacheKey.getTpBankToken(), JsonParser.toJson(tokenInfo), 60);
-//    }
+      remoteCacheManager.set(CacheKey.getTpBankToken(), JsonParser.toJson(tokenInfo), 300);
+    }
     log.info("tokenInfo : {{}}", tokenInfo);
     return tokenInfo.getAccess_token();
   }

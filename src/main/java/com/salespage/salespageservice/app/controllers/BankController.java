@@ -53,6 +53,21 @@ public class BankController extends BaseController {
     }
   }
 
+  @GetMapping("mb-bank-transaction")
+  @Operation(summary = "Get All Transactions", description = "Retrieve a list of all bank transactions")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Success", content = @Content),
+      @ApiResponse(responseCode = "500", description = "Internal Server Error")
+  })
+  public ResponseEntity<?> getMbBankTransaction() throws Exception {
+    try {
+      return successApi(bankService.getMbBankTransaction());
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
+
+
   @PostMapping("gen-qr")
   @Operation(summary = "Generate QR Code", description = "Generate a QR code for a specific payment")
   @ApiResponses(value = {

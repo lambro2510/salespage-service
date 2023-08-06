@@ -54,6 +54,18 @@ public class BankService extends BaseService {
   @Value("${vietqr.api.url}")
   private String VIETQRURL;
 
+  @Value("${mb-bank.url}")
+  private String MB_URL;
+
+  @Value("${mb-bank.password}")
+  private String MB_PASSWORD;
+
+  @Value("${mb-bank.account-no}")
+  private String MB_ACCOUNT_NO;
+
+  @Value("${mb-bank.token}")
+  private String MB_BANK_TOKEN;
+
   public void receiveBankTransaction(BankDto bankDto) {
     List<BankTransaction> bankTransactions = new ArrayList<>();
     for (TransactionData data : bankDto.getData()) {
@@ -173,5 +185,11 @@ public class BankService extends BaseService {
   public List<BankPaymentResponse> getPaymentBankAccount() throws IOException {
     Config config = configStorage.findByKey(Constants.PAYMENT_BANK_ACCOUNT);
     return JsonParser.arrayList(config.getValue(), BankPaymentResponse.class);
+  }
+
+  public List<MbBankTransaction.Transaction> getMbBankTransaction() {
+    String baseUrl = MB_URL + "/" + MB_PASSWORD + "/" + MB_ACCOUNT_NO + "/" + MB_BANK_TOKEN;
+    MbBankTransaction mbBankTransaction = RequestUtil.request(HttpMethod.GET, baseUrl, MbBankTransaction.class, null, null);
+    return mbBankTransaction.getData();
   }
 }
