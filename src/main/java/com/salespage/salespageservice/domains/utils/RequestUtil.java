@@ -43,6 +43,7 @@ public class RequestUtil {
 
       return restTemplate.exchange(requestUrl, method, data, tClass).getBody();
     } catch (Exception e) {
+      log.info("request exception: {{}}", e);
       return null;
     }
   }
