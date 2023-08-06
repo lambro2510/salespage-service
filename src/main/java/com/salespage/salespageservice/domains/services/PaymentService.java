@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.PaymentDtos.CreatePaymentDto;
+import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.PaymentTransactionResponse;
 import com.salespage.salespageservice.domains.entities.BankAccount;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
@@ -17,6 +18,9 @@ import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,12 +107,12 @@ public class PaymentService extends BaseService {
     return "Xử lý giao dịch thành công";
   }
 
-  public List<PaymentTransactionResponse> getPayment(String username) {
+  public PageResponse<PaymentTransactionResponse> getPayment(String username, Pageable pageable) {
     List<PaymentTransactionResponse> responses = new ArrayList<>();
-    List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByUsername(username);
+    Page<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByUsernameOrderByCreatedAtDesc(username, pageable);
     List<String> bankAccountIds = paymentTransactions.stream().map(PaymentTransaction::getBankAccountId).collect(Collectors.toList());
     Map<String, BankAccount> bankAccountMap = bankAccountStorage.findBankAccountByIdIn(bankAccountIds).stream().collect(Collectors.toMap(BankAccount::getIdStr, Function.identity()));
-    for (PaymentTransaction paymentTransaction : paymentTransactions) {
+    for (PaymentTransaction paymentTransaction : paymentTransactions.getContent()) {
       PaymentTransactionResponse paymentTransactionResponse = paymentTransaction.partnerToPaymentTransactionResponse();
       BankAccount bankAccount = bankAccountMap.get(paymentTransaction.getBankAccountId());
       if (Objects.isNull(bankAccount)) continue;
@@ -117,7 +121,7 @@ public class PaymentService extends BaseService {
       paymentTransactionResponse.setBankAccountNo(bankAccount.getAccountNo());
       responses.add(paymentTransactionResponse);
     }
-    return responses;
+    return PageResponse.createFrom(new PageImpl<>(responses, pageable, paymentTransactions.getTotalElements()));
   }
 
   @Transactional

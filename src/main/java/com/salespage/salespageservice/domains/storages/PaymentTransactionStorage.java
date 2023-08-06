@@ -3,6 +3,8 @@ package com.salespage.salespageservice.domains.storages;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,8 +23,8 @@ public class PaymentTransactionStorage extends BaseStorage {
     return paymentTransactionRepository.findByIdAndUsernameAndPaymentStatus(new ObjectId(paymentId), username, status);
   }
 
-  public List<PaymentTransaction> findByUsername(String username) {
-    return paymentTransactionRepository.findByUsername(username);
+  public Page<PaymentTransaction> findByUsernameOrderByCreatedAtDesc(String username, Pageable pageable) {
+    return paymentTransactionRepository.findByUsernameOrderByCreatedAtDesc(username , pageable);
   }
 
   public List<PaymentTransaction> findByPaymentStatus(PaymentStatus paymentStatus) {

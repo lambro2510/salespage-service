@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,9 @@ public class PaymentController extends BaseController {
       @ApiResponse(responseCode = "401", description = "Không được ủy quyền, vui lòng kiểm tra thông tin xác thực của bạn"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> getPaymentTransaction(Authentication authentication) {
+  public ResponseEntity<BaseResponse> getPaymentTransaction(Authentication authentication, Pageable pageable) {
     try {
-      return successApi(paymentService.getPayment(getUsername(authentication)));
+      return successApi(paymentService.getPayment(getUsername(authentication), pageable));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

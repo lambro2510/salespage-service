@@ -5,6 +5,7 @@ import com.salespage.salespageservice.domains.info.TpBankTokenInfo;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
+import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
+@Log4j2
 public class BankAccountStorage extends BaseStorage {
 
   @Value("${tp-bank.api.url}")
@@ -61,6 +63,7 @@ public class BankAccountStorage extends BaseStorage {
       if (Objects.isNull(tokenInfo)) return null;
       remoteCacheManager.set(CacheKey.getTpBankToken(), JsonParser.toJson(tokenInfo), 60);
     }
+    log.info("tokenInfo : {{}}", tokenInfo);
     return tokenInfo.getAccess_token();
   }
 
