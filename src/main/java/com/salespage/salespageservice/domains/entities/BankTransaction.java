@@ -3,8 +3,8 @@ package com.salespage.salespageservice.domains.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
 import com.salespage.salespageservice.app.responses.BankResponse.MbBankTransaction;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Document("bank_transaction")
@@ -66,8 +67,8 @@ public class BankTransaction {
   private LocalDateTime createdAt = LocalDateTime.now();
 
   public void partnerFromTransactionData(MbBankTransaction.Transaction transaction) {
-    setPostingDate(transaction.getPostingDate());
-    setTransactionDate(transaction.getTransactionDate());
+    setPostingDate(DateUtils.convertToLocalDateTime(transaction.getPostingDate(), "dd/MM/yyyy HH:mm:ss"));
+    setTransactionDate(DateUtils.convertToLocalDateTime(transaction.getTransactionDate(), "dd/MM/yyyy HH:mm:ss"));
     setAccountNo(transaction.getAccountNo());
     setCreditAmount(transaction.getCreditAmount());
     setDebitAmount(transaction.getDebitAmount());

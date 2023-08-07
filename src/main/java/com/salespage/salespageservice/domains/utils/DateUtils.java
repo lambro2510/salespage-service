@@ -144,4 +144,9 @@ public class DateUtils {
   public static long nowInMillis() {
     return LocalDateTime.now(DEFAULT_ZONE_ID).toInstant(ZoneOffset.UTC).toEpochMilli();
   }
+
+  public static LocalDateTime convertToLocalDateTime(String dateString, String pattern) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+    return LocalDateTime.parse(dateString, formatter);
+  }
 }

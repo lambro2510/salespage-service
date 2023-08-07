@@ -175,13 +175,13 @@ public class BankService extends BaseService {
     return JsonParser.arrayList(config.getValue(), BankPaymentResponse.class);
   }
 
-  public List<MbBankTransaction.Transaction> getMbBankTransaction() {
+  public List<MbBankTransaction.Transaction> getMbBankTransaction() throws IOException {
     String baseUrl = MB_URL + "/" + MB_PASSWORD + "/" + MB_ACCOUNT_NO + "/" + MB_BANK_TOKEN;
-    MbBankTransaction mbBankTransaction = RequestUtil.request(HttpMethod.GET, baseUrl, MbBankTransaction.class, null, null);
+    MbBankTransaction mbBankTransaction = JsonParser.entity(RequestUtil.request(HttpMethod.GET, baseUrl, String.class, null, null), MbBankTransaction.class);
     return mbBankTransaction.getData();
   }
 
-  public void saveBankTransaction(){
+  public void saveBankTransaction() throws IOException {
     List<MbBankTransaction.Transaction> transactions = getMbBankTransaction();
     for(MbBankTransaction.Transaction transaction : transactions){
       BankTransaction bankTransaction = bankTransactionStorage.findByRefNo(transaction.getRefNo());

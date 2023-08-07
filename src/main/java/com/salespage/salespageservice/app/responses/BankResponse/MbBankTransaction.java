@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -16,11 +17,11 @@ public class MbBankTransaction {
   List<Transaction> data;
 
   @Data
-  public static class Transaction{
-    @JsonFormat(pattern = "dd/MM/yyyy hh:MM:ss")
-    private LocalDateTime postingDate;
-    @JsonFormat(pattern = "dd/MM/yyyy hh:MM:ss")
-    private LocalDateTime transactionDate;
+  public static class Transaction {
+
+    private String postingDate;
+    private String transactionDate;
+    private String dueDate;
     private String accountNo;
     private Double creditAmount;
     private Double debitAmount;
@@ -32,6 +33,8 @@ public class MbBankTransaction {
     private String benAccountName;
     private String bankName;
     private String benAccountNo;
+    private String transactionType;
+    private String docId;
   }
   
 }

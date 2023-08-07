@@ -23,7 +23,7 @@
         <zero-allocation-hashing.version>0.16</zero-allocation-hashing.version>
         <redisson.version>3.19.1</redisson.version>
         <jbcrypt.version>0.4</jbcrypt.version>
-        <jackson.version>2.14.0</jackson.version>
+        <jackson.version>2.13.0</jackson.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <log4j2.version>2.18.0</log4j2.version>
         <netty-socketio-protocol.version>1.7.19-20220808.075338-2</netty-socketio-protocol.version>

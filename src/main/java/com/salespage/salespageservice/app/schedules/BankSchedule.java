@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 @Log4j2
 public class BankSchedule {
@@ -18,7 +20,7 @@ public class BankSchedule {
   private TpBankService tpBankService;
 
   @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần đồng bộ
-  public void saveBankTransaction() {
+  public void saveBankTransaction() throws IOException {
     log.info("-----async transaction-----start");
     bankService.saveBankTransaction();
     log.info("-----async transaction-----end");
