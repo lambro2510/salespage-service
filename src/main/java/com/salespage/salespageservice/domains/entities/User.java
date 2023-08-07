@@ -101,7 +101,7 @@ public class User {
     private long money;
 
     public void addMoney(long amount){
-      money = money + amount;
+      this.money = this.money + amount;
     }
     public void minusMoney(long amount){
       money = money - amount;
