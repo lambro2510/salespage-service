@@ -64,6 +64,8 @@ public class PaymentController extends BaseController {
       }
       else if(response.getCode() == 1){
         return errorApi(response.getCode(), response.getMessage());
+      }else{
+        return errorApi(response.getCode(), response.getMessage());
       }
 
     } catch (Exception ex) {
