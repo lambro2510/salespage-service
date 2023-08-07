@@ -75,7 +75,7 @@ public class PaymentService extends BaseService {
         }
         userStorage.save(user);
         paymentTransactionStorage.save(paymentTransaction);
-
+        bankAccountStorage.save(bankAccount);
       }
     } catch (ResourceNotFoundException ex) {
       return new InfoResponse(1, ex.getMessage());
