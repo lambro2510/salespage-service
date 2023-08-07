@@ -100,12 +100,13 @@ public class User {
     @Field("money")
     private long money;
 
-    public void addMoney(long amount){
+    public void addMoney(long amount) {
       this.money = this.money + amount;
     }
-    public void minusMoney(long amount){
+
+    public void minusMoney(long amount) {
       money = money - amount;
-      if(money < 0)
+      if (money < 0)
         money = 0;
     }
 

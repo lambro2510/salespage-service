@@ -24,7 +24,7 @@ public class PaymentTransactionStorage extends BaseStorage {
   }
 
   public Page<PaymentTransaction> findByUsernameOrderByCreatedAtDesc(String username, Pageable pageable) {
-    return paymentTransactionRepository.findByUsernameOrderByCreatedAtDesc(username , pageable);
+    return paymentTransactionRepository.findByUsernameOrderByCreatedAtDesc(username, pageable);
   }
 
   public List<PaymentTransaction> findByPaymentStatus(PaymentStatus paymentStatus) {

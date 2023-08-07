@@ -7,6 +7,7 @@ import com.salespage.salespageservice.domains.entities.ProductCategory;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.utils.Helper;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,18 +16,36 @@ import java.util.stream.Collectors;
 
 @Data
 public class ProductDetailResponse extends ProductResponse {
+
+  @Schema(description = "Danh sách URL ảnh sản phẩm")
   List<UploadImageData> imageUrls = new ArrayList<>();
 
+  @Schema(description = "Mô tả sản phẩm")
   String description;
+
+  @Schema(description = "Danh sách sản phẩm tương tự")
   List<ProductResponse> similarProducts = new ArrayList<>();
 
+  @Schema(description = "Trạng thái thích sản phẩm")
   @JsonProperty("isLike")
   Boolean isLike = false;
+
+  @Schema(description = "Đánh giá sản phẩm")
   Float rate = 0F;
+
+  @Schema(description = "URL ảnh cửa hàng")
   String storeImageUrl;
+
+  @Schema(description = "ID cửa hàng")
   String storeId;
+
+  @Schema(description = "Tên cửa hàng")
   String storeName;
+
+  @Schema(description = "Đánh giá cửa hàng")
   Rate storeRate;
+
+  @Schema(description = "ID danh mục sản phẩm")
   String categoryId;
 
   @Override

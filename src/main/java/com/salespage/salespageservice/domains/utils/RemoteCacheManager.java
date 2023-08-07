@@ -47,7 +47,7 @@ public class RemoteCacheManager {
     return redisTemplate.opsForValue().get(key);
   }
 
-  public <T> T get(String key, Class<T> tClass){
+  public <T> T get(String key, Class<T> tClass) {
     try {
       String value = redisTemplate.opsForValue().get(key);
       return JsonParser.entity(value, tClass);

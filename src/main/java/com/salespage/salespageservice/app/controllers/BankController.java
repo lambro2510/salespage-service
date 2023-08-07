@@ -1,7 +1,6 @@
 package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.bankDtos.BankAccountInfoRequest;
-import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.responses.BankResponse.BankAccountData;
 import com.salespage.salespageservice.app.responses.swaggerResponse.BankListDataRes;
 import com.salespage.salespageservice.domains.services.BankService;
@@ -61,7 +60,7 @@ public class BankController extends BaseController {
   })
   public ResponseEntity<?> genQrCode(@RequestParam String paymentId, @RequestParam String bin, @RequestParam String bankAccountId, Authentication authentication) {
     try {
-      return successApi(null, bankService.genTransactionQr(getUsername(authentication),bin,bankAccountId, paymentId));
+      return successApi(null, bankService.genTransactionQr(getUsername(authentication), bin, bankAccountId, paymentId));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

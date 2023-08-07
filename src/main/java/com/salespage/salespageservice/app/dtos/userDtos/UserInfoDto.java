@@ -15,7 +15,7 @@ public class UserInfoDto {
   private String displayName;
 
   @NotBlank(message = "Số điện thoại là bắt buộc")
-  @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Số điện thoại phải là số điện thoại quốc tế hợp lệ")
+  @Pattern(regexp = "^(?:[0-9] ?){6,14}[0-9]$", message = "Số điện thoại phải là số điện thoại hợp lệ")
   @Schema(description = "Số điện thoại", example = "+84123456789")
   private String phoneNumber;
 

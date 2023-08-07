@@ -59,12 +59,11 @@ public class PaymentController extends BaseController {
   public ResponseEntity<?> confirmPayment(Authentication authentication, @RequestParam String paymentId) {
     try {
       InfoResponse response = paymentService.confirmPayment(getUsername(authentication), paymentId);
-      if(response.getCode() == 0){
+      if (response.getCode() == 0) {
         return successApi(null, response.getMessage());
-      }
-      else if(response.getCode() == 1){
+      } else if (response.getCode() == 1) {
         return errorApi(response.getCode(), response.getMessage());
-      }else{
+      } else {
         return errorApi(response.getCode(), response.getMessage());
       }
 

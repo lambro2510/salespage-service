@@ -22,8 +22,8 @@ public class ConfigService extends BaseService {
   }
 
   public void updateConfig(String key, String value) {
-    Config config =  configStorage.findByKey(key);
-    if(Objects.isNull(configStorage)) throw new ResourceNotFoundException("Không tồn tại config này");
+    Config config = configStorage.findByKey(key);
+    if (Objects.isNull(configStorage)) throw new ResourceNotFoundException("Không tồn tại config này");
     config.setValue(value);
     configStorage.save(config);
   }

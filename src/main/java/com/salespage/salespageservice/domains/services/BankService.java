@@ -1,9 +1,7 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.bankDtos.BankAccountInfoRequest;
-import com.salespage.salespageservice.app.dtos.bankDtos.BankDto;
 import com.salespage.salespageservice.app.dtos.bankDtos.GenQrCodeDto;
-import com.salespage.salespageservice.app.dtos.bankDtos.TransactionData;
 import com.salespage.salespageservice.app.responses.BankResponse.*;
 import com.salespage.salespageservice.domains.Constants;
 import com.salespage.salespageservice.domains.entities.BankAccount;
@@ -28,7 +26,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -124,7 +125,7 @@ public class BankService extends BaseService {
   public void checkNotResolveTransaction() throws Exception {
     List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByPaymentStatus(PaymentStatus.WAITING);
     log.info("----checkNotResolveTransaction----: " + paymentTransactions.size() + " paymentTransactions chua duoc xu ly");
-    log.info("paymentTransaction: {{}}" , paymentTransactions);
+    log.info("paymentTransaction: {{}}", paymentTransactions);
     for (PaymentTransaction paymentTransaction : paymentTransactions) {
       if (paymentTransaction.createdOneDayPeriod()) {
         paymentTransaction.setPaymentStatus(PaymentStatus.PENDING);
@@ -183,9 +184,9 @@ public class BankService extends BaseService {
 
   public void saveBankTransaction() throws IOException {
     List<MbBankTransaction.Transaction> transactions = getMbBankTransaction();
-    for(MbBankTransaction.Transaction transaction : transactions){
+    for (MbBankTransaction.Transaction transaction : transactions) {
       BankTransaction bankTransaction = bankTransactionStorage.findByRefNo(transaction.getRefNo());
-      if(Objects.isNull(bankTransaction)) {
+      if (Objects.isNull(bankTransaction)) {
         bankTransaction = new BankTransaction();
         bankTransaction.partnerFromTransactionData(transaction);
         bankTransactionStorage.save(bankTransaction);

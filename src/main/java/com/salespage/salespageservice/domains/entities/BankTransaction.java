@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Document("bank_transaction")

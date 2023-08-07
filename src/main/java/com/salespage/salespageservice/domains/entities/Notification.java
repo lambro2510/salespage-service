@@ -21,8 +21,8 @@ public class Notification extends BaseEntity {
   @Field("username")
   private String username;
 
-  @Field("tittle")
-  private String tittle;
+  @Field("title")
+  private String title;
 
   @Field("content")
   private String content;
@@ -39,7 +39,7 @@ public class Notification extends BaseEntity {
   public NotificationResponse partnerToNotificationResponse() {
     NotificationResponse response = new NotificationDetailResponse();
     response.setId(id.toHexString());
-    response.setTittle(tittle);
+    response.setTitle(title);
     response.setCreated(new Date(createdAt));
     response.setStatus(notificationStatus);
     return response;
@@ -48,7 +48,7 @@ public class Notification extends BaseEntity {
   public NotificationDetailResponse partnerToNotificationDetailResponse() {
     NotificationDetailResponse response = new NotificationDetailResponse();
     response.setId(id.toHexString());
-    response.setTittle(tittle);
+    response.setTitle(title);
     response.setCreated(new Date(createdAt));
     response.setStatus(notificationStatus);
     response.setContent(content);

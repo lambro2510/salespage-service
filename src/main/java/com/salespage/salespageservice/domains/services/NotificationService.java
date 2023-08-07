@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 @Service
 public class NotificationService extends BaseService {
 
-  public void createNotification(String username, String tittle, String content, NotificationType notificationType, String refId) {
+  public void createNotification(String username, String title, String content, NotificationType notificationType, String refId) {
     Notification notification = new Notification();
     notification.setUsername(username);
-    notification.setTittle(tittle);
+    notification.setTitle(title);
     notification.setContent(content);
     notification.setNotificationType(notificationType);
     notification.setRefId(refId);

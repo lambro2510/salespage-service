@@ -25,6 +25,7 @@ public class UserService extends BaseService {
   public void createUser(SignUpDto dto) {
     User user = new User();
     user.createUser(dto);
+    user.setDisplayName(user.getFirstName() + " " + user.getLastName());
     userStorage.save(user);
   }
 
