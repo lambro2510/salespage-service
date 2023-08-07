@@ -22,11 +22,11 @@ public class BankTransaction {
   @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
-  @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+  @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
   @Field("posting_date")
   private LocalDateTime postingDate;
 
-  @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+  @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
   @Field("transaction_date")
   private LocalDateTime transactionDate;
 
@@ -64,7 +64,7 @@ public class BankTransaction {
   private String benAccountNo;
 
   @Field("created_at")
-  private LocalDateTime createdAt = LocalDateTime.now();
+  private Long createdAt = System.currentTimeMillis();
 
   public void partnerFromTransactionData(MbBankTransaction.Transaction transaction) {
     setPostingDate(DateUtils.convertToLocalDateTime(transaction.getPostingDate(), "dd/MM/yyyy HH:mm:ss"));

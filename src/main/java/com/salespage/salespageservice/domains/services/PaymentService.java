@@ -1,12 +1,10 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.PaymentDtos.CreatePaymentDto;
+import com.salespage.salespageservice.app.responses.InfoResponse;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.PaymentTransactionResponse;
-import com.salespage.salespageservice.domains.entities.BankAccount;
-import com.salespage.salespageservice.domains.entities.PaymentTransaction;
-import com.salespage.salespageservice.domains.entities.TpBankTransaction;
-import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
@@ -50,14 +48,15 @@ public class PaymentService extends BaseService {
     paymentTransaction.setPaymentStatus(PaymentStatus.WAITING);
     paymentTransaction.setBankAccountId(dto.getBankAccountId());
     paymentTransaction.setAmount(dto.getAmount());
-    paymentTransaction.setDescription(Helper.genDescription(username, id.toHexString()));
+    paymentTransaction.setDescription(Helper.genDescription(id.toHexString()));
     producer.createPaymentTransaction(paymentTransaction);
 //    paymentTransactionStorage.save(paymentTransaction);
     return id.toHexString();
   }
 
   @Transactional(noRollbackFor = {ResourceNotFoundException.class})
-  public String confirmPayment(String username, String paymentId) {
+  public InfoResponse confirmPayment(String username, String paymentId) {
+    InfoResponse info;
     try {
       User user = userStorage.findByUsername(username);
       if (Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
@@ -70,41 +69,74 @@ public class PaymentService extends BaseService {
           throw new ResourceNotFoundException("Tài khoản ngân hàng liên kết không tồn tại");
         if (!bankAccount.getStatus().equals(BankStatus.ACTIVE))
           throw new BadRequestException("Liên kết ngân hàng này đã chưa được kích hoạt");
-
-        TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByDescription(Helper.genDescription(username, paymentId));
-        if (Objects.isNull(tpBankTransaction)) return "Giao dịch đang được xử lý";
-        Integer amount = Integer.parseInt(tpBankTransaction.getAmount());
-        String message = null;
-        if (Objects.equals(tpBankTransaction.getCreditDebitIndicator(), "CRDT")) {
-          paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
-          user.getBalance().addMoney(amount);
-          bankAccount.setMoneyIn(bankAccount.getMoneyIn() + amount);
-          message = "Tài khoản của bạn được cộng " + amount;
-          notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
-        } else {
-          if(user.getBalance().getMoney() > amount){
-            paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
-            user.getBalance().minusMoney(amount);
-            bankAccount.setMoneyIn(bankAccount.getMoneyOut() - amount);
-            message = "Tài khoản của bạn bị trừ " + amount;
-            notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
-          }else{
-            paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
-            paymentTransaction.setDescription("Giao dịch đã bị hủy bỏ do tài khoản của bạn không đủ tiền");
-            notificationService.createNotification(username, NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
-
-          }
+        info = findPaymentByTpBank(paymentTransaction, user, bankAccount);
+        if (info.getCode() == 1) {
+          info = findPaymentByMbBank(paymentTransaction, user, bankAccount);
         }
-        paymentTransaction.setDescription(message);
         userStorage.save(user);
         paymentTransactionStorage.save(paymentTransaction);
 
       }
     } catch (ResourceNotFoundException ex) {
-      return ex.getMessage();
+      return new InfoResponse(1, ex.getMessage());
     }
 
-    return "Xử lý giao dịch thành công";
+    return info;
+  }
+
+  public InfoResponse findPaymentByTpBank(PaymentTransaction paymentTransaction, User user, BankAccount bankAccount) {
+    TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByDescription(Helper.genDescription(paymentTransaction.getId().toHexString()));
+    if (Objects.isNull(tpBankTransaction)) return new InfoResponse(1, "Giao dịch đang được xử lý");
+    Integer amount = Integer.parseInt(tpBankTransaction.getAmount());
+    String message = null;
+    if (Objects.equals(tpBankTransaction.getCreditDebitIndicator(), "CRDT")) {
+      paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
+      user.getBalance().addMoney(amount);
+      bankAccount.setMoneyIn(bankAccount.getMoneyIn() + amount);
+      message = "Tài khoản của bạn được cộng " + amount;
+      notificationService.createNotification(user.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
+    } else {
+      if (user.getBalance().getMoney() > amount) {
+        paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
+        user.getBalance().minusMoney(amount);
+        bankAccount.setMoneyOut(bankAccount.getMoneyOut() + amount);
+        message = "Tài khoản của bạn bị trừ " + amount;
+        notificationService.createNotification(user.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
+      } else {
+        paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
+        paymentTransaction.setDescription("Giao dịch đã bị hủy bỏ do tài khoản của bạn không đủ tiền");
+        notificationService.createNotification(user.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
+      }
+    }
+    paymentTransaction.setDescription(message);
+    return new InfoResponse(0, "Xử lý giao dịch thành công");
+  }
+
+  public InfoResponse findPaymentByMbBank(PaymentTransaction paymentTransaction, User user, BankAccount bankAccount) {
+    BankTransaction bankTransaction = bankTransactionStorage.findByDescription(Helper.genDescription(paymentTransaction.getId().toHexString()));
+    String message;
+    if (Objects.isNull(bankTransaction)) return new InfoResponse(1, "Giao dịch đang được xử lý");
+    if (bankTransaction.getDebitAmount() > 0) {
+      if (user.getBalance().getMoney() < bankTransaction.getDebitAmount()) {
+        paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
+        paymentTransaction.setDescription("Giao dịch đã bị hủy bỏ do tài khoản của bạn không đủ tiền");
+        notificationService.createNotification(user.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
+      } else {
+        paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
+        user.getBalance().minusMoney(bankTransaction.getDebitAmount().longValue());
+        bankAccount.setMoneyOut(bankAccount.getMoneyOut() + bankTransaction.getDebitAmount().longValue());
+        message = "Tài khoản của bạn bị trừ " + bankTransaction.getDebitAmount().longValue();
+        notificationService.createNotification(user.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
+      }
+    }
+    if (bankTransaction.getCreditAmount() > 0) {
+      paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
+      user.getBalance().addMoney(bankTransaction.getCreditAmount().longValue());
+      bankAccount.setMoneyIn(bankAccount.getMoneyIn() + bankTransaction.getCreditAmount().longValue());
+      message = "Tài khoản của bạn được cộng " + bankTransaction.getCreditAmount().longValue();
+      notificationService.createNotification(user.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_IN.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
+    }
+    return new InfoResponse(0, "Xử lý giao dịch thành công");
   }
 
   public PageResponse<PaymentTransactionResponse> getPayment(String username, Pageable pageable) {

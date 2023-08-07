@@ -57,7 +57,7 @@ public class Helper {
     return sb.toString();
   }
 
-  public static String genDescription(String username, String paymentId) {
+  public static String genDescription(String paymentId) {
     return paymentId.replace("-", "");
   }
 

@@ -19,7 +19,7 @@ public class BankSchedule {
   @Autowired
   private TpBankService tpBankService;
 
-  @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần đồng bộ
+  @Scheduled(fixedDelay = 1000 * 15) //15s 1 lần đồng bộ
   public void saveBankTransaction() throws IOException {
     log.info("-----async transaction-----start");
     bankService.saveBankTransaction();
