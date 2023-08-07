@@ -73,6 +73,7 @@ public class PaymentService extends BaseService {
         if (info.getCode() == 1) {
           info = findPaymentByMbBank(paymentTransaction, user, bankAccount);
         }
+        paymentTransaction.setDescription(info.getMessage());
         userStorage.save(user);
         paymentTransactionStorage.save(paymentTransaction);
         bankAccountStorage.save(bankAccount);
@@ -121,6 +122,7 @@ public class PaymentService extends BaseService {
         paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
         paymentTransaction.setDescription("Giao dịch đã bị hủy bỏ do tài khoản của bạn không đủ tiền");
         notificationService.createNotification(user.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_RESOLVE_OUT_ERR.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
+        return new InfoResponse(1, "Giao dịch đã bị hủy bỏ do tài khoản của bạn không đủ tiền");
       } else {
         paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
         user.getBalance().minusMoney(bankTransaction.getDebitAmount().longValue());
