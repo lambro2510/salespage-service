@@ -158,6 +158,7 @@ public class VoucherCodeService extends BaseService {
     voucherStores.addAll(voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.STORE, product.getSellerStoreId()));
     for (VoucherStore voucherStore : voucherStores) {
       VoucherCode voucherCode = voucherCodeStorage.findFirstCodeCanUse(username, voucherStore.getId().toHexString());
+      if(Objects.isNull(voucherCode)) continue;
       responses.add(UserVoucherResponse
           .builder()
           .voucherStoreName(voucherStore.getVoucherStoreName())
