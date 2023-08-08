@@ -155,6 +155,7 @@ public class ProductService extends BaseService {
     if (Objects.nonNull(username)) {
       UserFavorite userFavorite = userFavoriteStorage.findByUsernameAndRefIdAndFavoriteType(username, productId, FavoriteType.PRODUCT);
       Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productId, RatingType.PRODUCT);
+      if(Objects.isNull(rating)) rating = new Rating();
       response.setIsLike(!Objects.isNull(userFavorite) && userFavorite.getLike());
       response.setRate(rating.getPoint());
     }

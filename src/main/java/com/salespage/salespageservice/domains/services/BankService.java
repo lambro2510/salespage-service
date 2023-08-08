@@ -96,7 +96,6 @@ public class BankService extends BaseService {
     log.info(response);
   }
 
-
   public List<BankListData> getListBank() throws IOException {
     VietQrResponse response = RequestUtil.request(HttpMethod.GET, VIETQRURL + "/v2/banks", VietQrResponse.class, null, new HashMap<>());
     if (Objects.isNull(response))
