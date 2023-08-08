@@ -116,6 +116,23 @@ public class PrivateProductController extends BaseController {
     }
   }
 
+  @PutMapping("image")
+  @Operation(summary = "Cập nhật sản phẩm", description = "Cập nhật sản phẩm với thông tin đã cho")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Sản phẩm được cập nhật thành công"),
+      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+      @ApiResponse(responseCode = "401", description = "Không được phép"),
+      @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<BaseResponse> updateProduct(Authentication authentication, @RequestParam String productId, @RequestParam String imageUrl) {
+    try {
+      productService.updateDefaultImage(getUsername(authentication), productId, imageUrl);
+      return successApi("Cập nhật ảnh đại diện sản phẩm thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
   @PostMapping("type")
   @Operation(summary = "Tạo loại sản phẩm", description = "Tạo mới một loại sản phẩm")
   @ApiResponses(value = {

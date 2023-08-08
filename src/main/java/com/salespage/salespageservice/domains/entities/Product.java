@@ -68,7 +68,6 @@ public class Product extends BaseEntity {
 
   public void updateProductInfo(ProductInfoDto dto) {
     updateProduct(dto);
-    defaultImageUrl = dto.getImageUrl();
   }
 
   public ProductDataResponse assignToProductDataResponse() {

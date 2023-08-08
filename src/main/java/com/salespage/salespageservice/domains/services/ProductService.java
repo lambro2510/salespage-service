@@ -207,6 +207,16 @@ public class ProductService extends BaseService {
     return imageUrls.get(0);
   }
 
+  public void updateDefaultImage(String username,String productId, String imageUrl ){
+    Product product = productStorage.findProductById(productId);
+    if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
+    if (!product.getSellerUsername().equals(username))
+      throw new AuthorizationException("Không được phép");
+
+    product.setDefaultImageUrl(imageUrl);
+    productStorage.save(product);
+  }
+
   public List<String> deleteProductImages(String username, String productId, String images) {
     Product product = productStorage.findProductById(productId);
     if (!product.getSellerUsername().equals(username))
