@@ -1,5 +1,6 @@
-package com.salespage.salespageservice.app.controllers;
+package com.salespage.salespageservice.app.controllers.SellerControllers;
 
+import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
 import com.salespage.salespageservice.app.dtos.storeDtos.UpdateSellerStoreDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
@@ -18,15 +19,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Tag(name = "Seller store", description = "Quản lý sản phẩm được bán")
 @CrossOrigin
 @RestController
-@RequestMapping("api/v1/seller-store")
+@RequestMapping("api/v1/seller/store")
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name = "Store", description = "Quản lý cửa hàng của người dùng")
 public class SellerStoreController extends BaseController {
 
-  @Autowired
-  private SellerStoreService sellerStoreService;
+  @Autowired private SellerStoreService sellerStoreService;
 
   @GetMapping("")
   @Operation(summary = "Lấy thông tin các cửa hàng", description = "Lấy thông tin các cửa hàng của người bán")
@@ -111,4 +111,5 @@ public class SellerStoreController extends BaseController {
       return errorApi(ex.getMessage());
     }
   }
+
 }

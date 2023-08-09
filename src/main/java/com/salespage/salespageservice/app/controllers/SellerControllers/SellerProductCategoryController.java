@@ -1,5 +1,6 @@
-package com.salespage.salespageservice.app.controllers;
+package com.salespage.salespageservice.app.controllers.SellerControllers;
 
+import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductCategoryTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateProductCategoryTypeDto;
 import com.salespage.salespageservice.domains.services.ProductCategoryService;
@@ -7,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,15 +16,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequestMapping("api/v1/product-category")
+@Tag(name = "Seller product category", description = "Quản lý danh mục sản phẩn")
+@RequestMapping("api/v1/seller/product-category")
 @RestController
 @CrossOrigin
 @SecurityRequirement(name = "bearerAuth")
-public class ProductCategoryController extends BaseController {
+public class SellerProductCategoryController extends BaseController {
 
-  @Autowired
-  private ProductCategoryService productCategoryService;
-
+  @Autowired private ProductCategoryService productCategoryService;
   @GetMapping("")
   @Operation(summary = "Lấy danh sách danh mục sản phẩm", description = "Lấy danh sách danh mục sản phẩm của người dùng hiện tại")
   @ApiResponses(value = {

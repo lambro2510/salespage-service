@@ -84,11 +84,10 @@ public class ProductService extends BaseService {
     return product;
   }
 
-  public PageResponse<ProductItemResponse> getAllProduct(String sellerUsername, String productId, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
-
+  public Page<Product> getAllProduct(String username, String productId, String productName, Long minPrice, Long maxPrice, String storeName, String sellerStoreUsername, Long lte, Long gte, Pageable pageable) {
     Query query = new Query();
-    if (StringUtil.isNotBlank(sellerUsername)) {
-      query.addCriteria(Criteria.where("seller_username").is(sellerUsername));
+    if (StringUtil.isNotBlank(username)) {
+      query.addCriteria(Criteria.where("seller_username").is(username));
     }
     if (StringUtil.isNotBlank(productId) && ObjectId.isValid(productId)) {
       query.addCriteria(Criteria.where("_id").is(new ObjectId(productId)));
@@ -112,18 +111,39 @@ public class ProductService extends BaseService {
       query.addCriteria(Criteria.where("store_name").in(storeNames));
     }
 
-    if (StringUtil.isNotBlank(username)) {
-      List<SellerStore> sellerStores = sellerStoreService.findIdsByOwnerStoreName(username);
+    if (StringUtil.isNotBlank(sellerStoreUsername)) {
+      List<SellerStore> sellerStores = sellerStoreService.findIdsByOwnerStoreName(sellerStoreUsername);
       List<String> ids = sellerStores.stream()
           .map(s -> s.getId().toHexString())
           .collect(Collectors.toList());
       query.addCriteria(Criteria.where("seller_store_id").in(ids));
     }
 
-    Page<Product> productPage = productStorage.findAll(query, pageable);
+    return productStorage.findAll(query, pageable);
+  }
+
+  public PageResponse<ProductItemResponse> getAllProduct(String productId, String storeName, Pageable pageable){
+    Query query = new Query();
+    if (StringUtil.isNotBlank(productId) && ObjectId.isValid(productId)) {
+      query.addCriteria(Criteria.where("_id").is(new ObjectId(productId)));
+    }
+    if (StringUtil.isNotBlank(storeName)) {
+      List<SellerStore> sellerStores = sellerStoreService.findIdsByStoreName(storeName);
+      List<String> storeNames = sellerStores.stream()
+          .map(SellerStore::getStoreName)
+          .collect(Collectors.toList());
+      query.addCriteria(Criteria.where("store_name").in(storeNames));
+    }
+    Page<Product> products = productStorage.findAll(query, pageable);
+    List<ProductItemResponse> responses = products.getContent().stream().map(Product::assignToProductItemResponse).collect(Collectors.toList());
+    Page<ProductItemResponse> itemResponses = new PageImpl<>(responses, pageable, products.getTotalElements());
+    return PageResponse.createFrom(itemResponses);
+  }
+
+  public PageResponse<ProductItemResponse> findProduct(String productId, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
+    Page<Product> productPage = getAllProduct(null, productId, productName, minPrice, maxPrice, storeName, username, lte, gte, pageable);
+
     List<ProductItemResponse> products = productPage.getContent().stream().map(Product::assignToProductItemResponse).collect(Collectors.toList());
-
-
     Map<String, List<Product>> productsByStoreId = productPage.getContent().stream()
         .collect(Collectors.groupingBy(Product::getSellerStoreId));
     List<String> listStoreId = new ArrayList<>(productsByStoreId.keySet());
@@ -155,7 +175,7 @@ public class ProductService extends BaseService {
     if (Objects.nonNull(username)) {
       UserFavorite userFavorite = userFavoriteStorage.findByUsernameAndRefIdAndFavoriteType(username, productId, FavoriteType.PRODUCT);
       Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productId, RatingType.PRODUCT);
-      if(Objects.isNull(rating)) rating = new Rating();
+      if (Objects.isNull(rating)) rating = new Rating();
       response.setIsLike(!Objects.isNull(userFavorite) && userFavorite.getLike());
       response.setRate(rating.getPoint());
     }
@@ -207,7 +227,7 @@ public class ProductService extends BaseService {
     return imageUrls.get(0);
   }
 
-  public void updateDefaultImage(String username,String productId, String imageUrl ){
+  public void updateDefaultImage(String username, String productId, String imageUrl) {
     Product product = productStorage.findProductById(productId);
     if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
     if (!product.getSellerUsername().equals(username))

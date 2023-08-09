@@ -130,7 +130,7 @@ public class VoucherCodeService extends BaseService {
     return voucherInfo;
   }
 
-  public PageResponse getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
+  public PageResponse<VoucherCodeResponse> getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
     if (Objects.isNull(voucherStore))
       throw new BadRequestException("Cửa hàng này đã bị xóa");
@@ -168,6 +168,7 @@ public class VoucherCodeService extends BaseService {
           .dayToExpireTime(ChronoUnit.DAYS.between(LocalDate.now(), voucherCode.getExpireTime()))
           .minPrice(voucherStore.getVoucherStoreDetail().getMinAblePrice())
           .maxPrice(voucherStore.getVoucherStoreDetail().getMaxAblePrice())
+          .value(voucherStore.getValue())
           .build());
     }
     return responses;

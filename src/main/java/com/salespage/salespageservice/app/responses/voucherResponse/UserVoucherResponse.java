@@ -26,6 +26,9 @@ public class UserVoucherResponse {
   @Schema(description = "Giá trị đơn hàng tối đa")
   Long maxPrice;
 
+  @Schema(description = "Giá trị giảm giá")
+  Long value;
+
   @Schema(description = "Loại giảm giá")
   DiscountType discountType;
 

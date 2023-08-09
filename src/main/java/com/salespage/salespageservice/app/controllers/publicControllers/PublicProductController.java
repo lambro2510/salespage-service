@@ -36,13 +36,7 @@ public class PublicProductController extends BaseController {
       Authentication authentication,
       Pageable pageable) {
     try {
-      String sellerUsername = null;
-      if (Objects.nonNull(authentication)) {
-        if (getUserRoles(authentication).contains(UserRole.SELLER)) {
-          sellerUsername = getUsername(authentication);
-        }
-      }
-      return successApi(productService.getAllProduct(sellerUsername, productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
+      return successApi(productService.findProduct(productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
 
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
