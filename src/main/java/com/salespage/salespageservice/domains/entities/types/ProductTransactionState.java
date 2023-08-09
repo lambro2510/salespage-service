@@ -1,8 +1,17 @@
 package com.salespage.salespageservice.domains.entities.types;
 
 public enum ProductTransactionState {
-  CANCEL,
-  WAITING,
-  PROGRESS,
-  COMPLETE
+  NEW,
+
+  WAITING_STORE,
+
+  WAITING_SHIPPER,
+
+  SHIPPER_PROCESSING,
+
+  SHIPPER_COMPLETE,
+
+  ALL_COMPLETE,
+
+  CANCEL
 }

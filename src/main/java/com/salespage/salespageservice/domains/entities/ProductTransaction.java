@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
+import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import lombok.Data;
@@ -70,13 +71,19 @@ public class ProductTransaction extends BaseEntity {
   @Field("message")
   private List<Message> messages = new ArrayList<>();
 
+  public ProductTransactionResponse partnerToProductTransactionResponse(){
+    ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
+    productTransactionResponse.partnerFromProductTransaction(this);
+    return productTransactionResponse;
+  }
+
   public void createNewTransaction(String username, ProductTransactionDto dto) {
     buyerUsername = username;
     productId = dto.getProductId();
     quantity = dto.getQuantity();
     note = dto.getNote();
     addressReceive = dto.getAddress();
-    state = ProductTransactionState.WAITING;
+    state = ProductTransactionState.NEW;
   }
 
   public void updateTransaction(ProductTransactionInfoDto dto) {

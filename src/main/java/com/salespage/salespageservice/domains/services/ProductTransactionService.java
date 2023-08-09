@@ -7,6 +7,7 @@ import com.salespage.salespageservice.app.responses.transactionResponse.ProductT
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
+import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -110,7 +112,7 @@ public class ProductTransactionService extends BaseService {
 
     if (Objects.isNull(productTransaction)) throw new ResourceNotFoundException("Không tìm thấy đơn hàng");
 
-    if (!productTransaction.getState().equals(ProductTransactionState.WAITING) && !productTransaction.getState().equals(ProductTransactionState.CANCEL))
+    if (!productTransaction.getState().equals(ProductTransactionState.NEW) && !productTransaction.getState().equals(ProductTransactionState.CANCEL))
       throw new TransactionException("Trạng thái hiện tại không thể cập nhật đơn hàng");
 
     productTransaction.updateTransaction(dto);
@@ -147,12 +149,40 @@ public class ProductTransactionService extends BaseService {
   }
 
   public void findShipperForProduct() {
-    List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByState(ProductTransactionState.WAITING);
+    List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByState(ProductTransactionState.WAITING_SHIPPER);
     for (ProductTransaction productTransaction : productTransactions) {
-      Account account = accountStorage.findShiperNearTransaction();
-      productTransaction.setShipperUsername(account.getUsername());
-      productTransaction.setState(ProductTransactionState.PROGRESS);
+      Shipper shipper = shipperStorage.findFirstByShipModeAndAcceptTransaction(true, false);
+      productTransaction.setShipperUsername(shipper.getUsername());
+      productTransaction.setState(ProductTransactionState.SHIPPER_PROCESSING);
       productTransactionStorage.save(productTransaction);
     }
+  }
+
+  public PageResponse<ProductTransactionResponse> getAllTransactionByUser(String username, String productId, ProductTransactionState state, Long lte, Long gte, Pageable pageable) {
+    Query query = new Query();
+    query.addCriteria(Criteria.where("seller_username").is(username));
+    if (StringUtils.isNotBlank(productId)) {
+      query.addCriteria(Criteria.where("_id").is(new ObjectId(productId)));
+    }
+    if (Objects.nonNull(state)) {
+      query.addCriteria(Criteria.where("state").is(state));
+    }
+    if (Objects.nonNull(gte)) {
+      query.addCriteria(Criteria.where("created_at").gte(gte));
+    }
+    if (Objects.nonNull(lte)) {
+      query.addCriteria(Criteria.where("created_at").lte(lte));
+    }
+
+    Page<ProductTransaction> transactions = productTransactionStorage.findAll(query, pageable);
+    Page<ProductTransactionResponse> responses = new PageImpl<>(transactions.getContent().stream().map(ProductTransaction::partnerToProductTransactionResponse).collect(Collectors.toList()), pageable, transactions.getTotalElements());
+    return PageResponse.createFrom(responses);
+  }
+
+  public void acceptTransactionByStore(String username, String transactionId) {
+    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
+    if(!productTransaction.getSellerUsername().equals(username)) throw new AuthorizationException();
+    productTransaction.setState(ProductTransactionState.WAITING_SHIPPER);
+    productTransactionStorage.save(productTransaction);
   }
 }

@@ -9,4 +9,7 @@ public class AuthorizationException extends BaseException {
     super(ErrorCode.AUTHORIZATION, message);
   }
 
+  public AuthorizationException() {
+    super(ErrorCode.AUTHORIZATION, "Bạn không có quyền để thực hiện chức năng này, vui lòng kiểm tra lại");
+  }
 }

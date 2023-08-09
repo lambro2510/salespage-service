@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.dtos.accountDtos.ShipperStatusDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.Account;
+import com.salespage.salespageservice.domains.entities.Shipper;
 import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.entities.types.UserState;
@@ -109,10 +110,12 @@ public class AccountService extends BaseService {
   public void changeShipMode(String username, List<UserRole> userRoles, ShipperStatusDto dto) {
     Account account = accountStorage.findByUsername(username);
     if (Objects.nonNull(account) && hasUserRole(userRoles, UserRole.SHIPPER)) {
-      account.setShipMode(dto.getStatus());
-      account.setLatitude(dto.getLatitude());
-      account.setLongitude(dto.getLongitude());
-      accountStorage.save(account);
+      Shipper shipper = shipperStorage.findByUsername(username);
+      if(Objects.isNull(shipper)) throw new ResourceNotFoundException("Tài khoản chưa được xác minh");
+      shipper.setShipMode(dto.getStatus());
+      shipper.setLongitude(dto.getLongitude());
+      shipper.setLatitude(dto.getLatitude());
+      shipperStorage.save(shipper);
     } else {
       throw new ResourceNotFoundException("Tài khoản không tồn tại hoặc quyền không hợp lê");
     }
