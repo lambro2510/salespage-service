@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.util.Objects;
 
 @Tag(name = "Seller product", description = "Quản lý sản phẩm được bán")
 @CrossOrigin
@@ -43,6 +44,15 @@ public class SellerProductController extends BaseController {
                                                     Pageable pageable) {
     try {
       return successApi(productService.getAllProduct(getUsername(authentication), storeName, pageable));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @GetMapping("detail")
+  public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId) {
+    try {
+      return successApi(productService.getSellerProductDetail(productId));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

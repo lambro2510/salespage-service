@@ -166,6 +166,20 @@ public class ProductService extends BaseService {
     return PageResponse.createFrom(new PageImpl<>(products, pageable, productPage.getTotalElements()));
   }
 
+  public ProductDetailResponse getSellerProductDetail(String productId) throws Exception {
+    ProductDetailResponse response;
+    Product product = productStorage.findProductById(productId);
+    response = product.assignToProductDetailResponse();
+    SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
+
+    response.assignFromStore(sellerStore);
+
+    ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
+    if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
+    response.assignFromCategory(productCategory);
+    return response;
+  }
+
   public ProductDetailResponse getProductDetail(String username, String productId) throws Exception {
     ProductDetailResponse response = new ProductDetailResponse();
     Product product = productStorage.findProductById(productId);
