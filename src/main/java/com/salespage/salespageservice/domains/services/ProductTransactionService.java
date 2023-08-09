@@ -148,16 +148,6 @@ public class ProductTransactionService extends BaseService {
 
   }
 
-  public void findShipperForProduct() {
-    List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByState(ProductTransactionState.WAITING_SHIPPER);
-    for (ProductTransaction productTransaction : productTransactions) {
-      Shipper shipper = shipperStorage.findFirstByShipModeAndAcceptTransaction(true, false);
-      productTransaction.setShipperUsername(shipper.getUsername());
-      productTransaction.setState(ProductTransactionState.SHIPPER_PROCESSING);
-      productTransactionStorage.save(productTransaction);
-    }
-  }
-
   public PageResponse<ProductTransactionResponse> getAllTransactionByUser(String username, String productId, ProductTransactionState state, Long lte, Long gte, Pageable pageable) {
     Query query = new Query();
     query.addCriteria(Criteria.where("seller_username").is(username));
