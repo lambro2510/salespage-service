@@ -96,6 +96,23 @@ public class SellerStoreController extends BaseController {
     }
   }
 
+  @DeleteMapping("")
+  @Operation(summary = "Xóa cửa hàng", description = "Xóa cửa hàng của người bán")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+      @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
+  })
+  public ResponseEntity<BaseResponse> deleteStore(Authentication authentication, @RequestParam String storeId) {
+    try {
+      sellerStoreService.deleteStore(getUsername(authentication), storeId);
+      return successApi("Xóa cửa hàng thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
+
   @PostMapping("upload-image")
   @Operation(summary = "Tải ảnh lên cho cửa hàng", description = "Tải ảnh lên cho cửa hàng")
   @ApiResponses(value = {

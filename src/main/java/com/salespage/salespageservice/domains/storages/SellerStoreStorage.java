@@ -46,4 +46,8 @@ public class SellerStoreStorage extends BaseStorage {
   public boolean isExistByStoreId(String refId) {
     return sellerStoreRepository.existsById(new ObjectId(refId));
   }
+
+  public void delete(SellerStore sellerStore) {
+    sellerStoreRepository.delete(sellerStore);
+  }
 }

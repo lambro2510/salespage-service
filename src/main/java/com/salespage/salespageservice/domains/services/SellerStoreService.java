@@ -129,4 +129,13 @@ public class SellerStoreService extends BaseService {
     sellerStoreResponse.assignFromSellerStore(sellerStore);
     return sellerStoreResponse;
   }
+
+  public void deleteStore(String username, String storeId) {
+    SellerStore sellerStore = sellerStoreStorage.findById(storeId);
+    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
+    if (!sellerStore.getStoreName().equals(username))
+      throw new AuthorizationException();
+
+    sellerStoreStorage.delete(sellerStore);
+  }
 }
