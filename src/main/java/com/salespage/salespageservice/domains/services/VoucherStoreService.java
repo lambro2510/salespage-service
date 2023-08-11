@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.voucherDtos.CreateVoucherStoreDto;
 import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto;
+import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.voucherResponse.VoucherStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.VoucherStore;
@@ -9,6 +10,9 @@ import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -62,13 +66,13 @@ public class VoucherStoreService extends BaseService {
   }
 
 
-  public List<VoucherStoreResponse> getAllVoucherStore(String username) {
-    List<VoucherStore> voucherStoreList = voucherStoreStorage.findVoucherStoreByCreatedBy(username);
+  public PageResponse<VoucherStoreResponse> getAllVoucherStore(String username, Pageable pageable) {
+    Page<VoucherStore> voucherStores = voucherStoreStorage.findVoucherStoreByCreatedBy(username, pageable);
     //TODO cần phải kiểm tra để lấy tên product của các sản phẩm trong store
     List<Product> products = new ArrayList<>();
     Map<String, String> productMap = new HashMap<>();
     List<VoucherStoreResponse> voucherStoreResponses = new ArrayList<>();
-    for (VoucherStore voucherStore : voucherStoreList) {
+    for (VoucherStore voucherStore : voucherStores.getContent()) {
       VoucherStoreResponse response = new VoucherStoreResponse();
       response.setVoucherStoreName(voucherStore.getVoucherStoreName());
       response.setVoucherStoreStatus(voucherStore.getVoucherStoreStatus());
@@ -82,7 +86,7 @@ public class VoucherStoreService extends BaseService {
 
       voucherStoreResponses.add(response);
     }
-    return voucherStoreResponses;
+    return PageResponse.createFrom(new PageImpl<>(voucherStoreResponses, pageable, voucherStores.getTotalElements()));
   }
 
   public void updateQuantityOfVoucherStore(String voucherStoreId, Long totalQuantity, Long totalUsed, String username) {

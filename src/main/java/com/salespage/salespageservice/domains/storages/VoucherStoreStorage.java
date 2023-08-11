@@ -2,6 +2,8 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,5 +28,10 @@ public class VoucherStoreStorage extends BaseStorage {
 
   public List<VoucherStore> findByVoucherStoreTypeAndRefId(VoucherStoreType voucherStoreType, String productId) {
     return voucherStoreRepository.findByVoucherStoreTypeAndRefId(voucherStoreType, productId);
+  }
+
+  public Page<VoucherStore> findVoucherStoreByCreatedBy(String username, Pageable pageable) {
+    return voucherStoreRepository.findVoucherStoreByCreatedBy(username, pageable);
+
   }
 }
