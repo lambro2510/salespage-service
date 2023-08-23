@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.responses.BankResponse.MbBankTransaction;
 import com.salespage.salespageservice.domains.utils.DateUtils;
+import com.salespage.salespageservice.domains.utils.Helper;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -72,7 +73,7 @@ public class BankTransaction {
     setCreditAmount(transaction.getCreditAmount());
     setDebitAmount(transaction.getDebitAmount());
     setCurrency(transaction.getCurrency());
-    setDescription(transaction.getDescription());
+    setDescription(Helper.getTransactionIdFromDescription(transaction.getDescription()));
     setAvailableBalance(transaction.getAvailableBalance());
     setBeneficiaryAccount(transaction.getBeneficiaryAccount());
     setRefNo(transaction.getRefNo());

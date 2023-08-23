@@ -20,6 +20,8 @@ public class Helper {
   public static String ZONE_UTC = "UTC";
   public static String ZONE_DEFAULT = "Asia/Ho_Chi_Minh";
 
+  public static String TRANSACTION_KEY = "refTranId";
+
   public static List<String> convertObjectIdListToHexStringList(List<ObjectId> objectIdList) {
     return objectIdList.stream()
         .map(ObjectId::toHexString)
@@ -58,9 +60,12 @@ public class Helper {
   }
 
   public static String genDescription(String paymentId) {
-    return paymentId.replace("-", "");
+    return TRANSACTION_KEY + paymentId.replace("-", "") + TRANSACTION_KEY;
   }
 
+  public static String getTransactionIdFromDescription(String description){
+    return description.split(TRANSACTION_KEY)[1];
+  }
   public static long getStartTimeOfDay(LocalDate date) {
     LocalTime startTime = LocalTime.of(0, 0, 0, 0);
     LocalDateTime dateTime = LocalDateTime.of(date, startTime);
