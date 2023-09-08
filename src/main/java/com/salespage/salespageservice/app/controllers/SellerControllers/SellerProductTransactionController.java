@@ -25,13 +25,17 @@ public class SellerProductTransactionController extends BaseController {
   public ResponseEntity<?> getAllTransaction(
       Authentication authentication,
       @RequestParam(required = false) String productId,
+      @RequestParam(required = false) String productName,
+      @RequestParam(required = false) String buyerName,
+      @RequestParam(required = false) String sellerStoreId,
+      @RequestParam(required = false) String sellerStoreName,
       @RequestParam(required = false) ProductTransactionState state,
       @RequestParam(required = false) Long lte,
       @RequestParam(required = false) Long gte,
       Pageable pageable
   ) {
     try {
-      return successApi(productTransactionService.getAllTransactionByUser(getUsername(authentication), productId, state, lte, gte, pageable));
+      return successApi(productTransactionService.getAllTransactionByUser(getUsername(authentication), productId,productName,buyerName,sellerStoreId,sellerStoreName, state, lte, gte, pageable));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

@@ -94,6 +94,7 @@ public class ProductTransactionService extends BaseService {
     productTransaction.setSellerUsername(product.getSellerUsername());
     productTransaction.setStoreId(sellerStore.getId().toHexString());
     productTransaction.setProduct(product);
+    productTransaction.setStore(sellerStore);
     productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
     if (StringUtils.isBlank(dto.getVoucherCode())) {
       VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction, sellerStore.getId().toHexString(), product.getPrice());
@@ -151,19 +152,37 @@ public class ProductTransactionService extends BaseService {
 
   }
 
-  public PageResponse<ProductTransactionResponse> getAllTransactionByUser(String username, String productId, ProductTransactionState state, Long lte, Long gte, Pageable pageable) {
+  public PageResponse<ProductTransactionResponse> getAllTransactionByUser(String username, String productId, String productName, String buyerName, String sellerStoreId, String sellerStoreName, ProductTransactionState state, Long lte, Long gte, Pageable pageable) {
     Query query = new Query();
     query.addCriteria(Criteria.where("seller_username").is(username));
     if (StringUtils.isNotBlank(productId)) {
       query.addCriteria(Criteria.where("_id").is(new ObjectId(productId)));
     }
+    if (StringUtils.isNotBlank(productName)) {
+      query.addCriteria(Criteria.where("product.product_name").is(productName));
+    }
+    if (StringUtils.isNotBlank(buyerName)) {
+      query.addCriteria(Criteria.where("buyer_username").is(buyerName));
+    }
     if (Objects.nonNull(state)) {
       query.addCriteria(Criteria.where("state").is(state));
     }
-    if (Objects.nonNull(gte)) {
-      query.addCriteria(Criteria.where("created_at").gte(gte));
+    if (StringUtils.isNotBlank(sellerStoreId)) {
+      query.addCriteria(Criteria.where("store_id").is(new ObjectId(sellerStoreId)));
     }
-    if (Objects.nonNull(lte)) {
+    if (StringUtils.isNotBlank(sellerStoreName)) {
+      query.addCriteria(Criteria.where("store.storeName").is(sellerStoreName));
+    }
+    if (Objects.nonNull(gte) && Objects.nonNull(lte)) {
+      Criteria andCriteria = new Criteria().andOperator(
+          Criteria.where("created_at").gte(gte),
+          Criteria.where("created_at").lte(lte)
+      );
+
+      query.addCriteria(andCriteria);
+    } else if (Objects.nonNull(gte)) {
+      query.addCriteria(Criteria.where("created_at").gte(gte));
+    } else if (Objects.nonNull(lte)) {
       query.addCriteria(Criteria.where("created_at").lte(lte));
     }
 
