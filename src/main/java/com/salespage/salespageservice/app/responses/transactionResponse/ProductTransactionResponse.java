@@ -21,6 +21,9 @@ public class ProductTransactionResponse {
   @Schema(description = "Tên sản phẩm")
   private String productName;
 
+  @Schema(description = "Link ảnh sản phẩm")
+  private String productImageUrl;
+
   @Schema(description = "Tổng giá")
   private Long totalPrice;
 
@@ -58,7 +61,8 @@ public class ProductTransactionResponse {
   public void partnerFromProductTransaction(ProductTransaction productTransaction) {
     transactionId = productTransaction.getId().toHexString();
     productId = productTransaction.getProductId();
-    productName = productTransaction.getProductName();
+    productName = productTransaction.getProduct().getProductName();
+    productImageUrl = productTransaction.getProduct().getDefaultImageUrl();
     totalPrice = productTransaction.getTotalPrice().longValue();
     sellerName = productTransaction.getSellerUsername();
     buyerName = productTransaction.getBuyerUsername();
