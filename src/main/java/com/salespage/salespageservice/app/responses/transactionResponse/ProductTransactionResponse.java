@@ -33,6 +33,9 @@ public class ProductTransactionResponse {
   @Schema(description = "Tên người mua")
   private String buyerName;
 
+  @Schema(description = "Id cửa hàng")
+  private String storeId;
+
   @Schema(description = "Tên cửa hàng")
   private String storeName;
 
@@ -63,6 +66,8 @@ public class ProductTransactionResponse {
     productId = productTransaction.getProductId();
     productName = productTransaction.getProduct().getProductName();
     productImageUrl = productTransaction.getProduct().getDefaultImageUrl();
+    storeId = productTransaction.getStoreId();
+    storeName = productTransaction.getStore().getStoreName();
     totalPrice = productTransaction.getTotalPrice().longValue();
     sellerName = productTransaction.getSellerUsername();
     buyerName = productTransaction.getBuyerUsername();
