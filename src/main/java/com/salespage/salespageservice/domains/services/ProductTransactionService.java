@@ -74,6 +74,9 @@ public class ProductTransactionService extends BaseService {
   public ProductTransactionResponse createProductTransaction(String username, ProductTransactionDto dto) {
     ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
     Product product = productStorage.findProductById(dto.getProductId());
+    if(Objects.isNull(product)){
+      throw new TransactionException("Sản phẩm này không tồn tại");
+    }
     if (username.equals(product.getSellerUsername()))
       throw new TransactionException(ErrorCode.NOT_ENOUGH_MONEY, "Bạn không thể mua mặt hàng này");
 
@@ -92,7 +95,7 @@ public class ProductTransactionService extends BaseService {
     productTransaction.setStoreId(sellerStore.getId().toHexString());
     productTransaction.setProduct(product);
     productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
-    if (Objects.nonNull(dto.getVoucherCode())) {
+    if (StringUtils.isBlank(dto.getVoucherCode())) {
       VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction, sellerStore.getId().toHexString(), product.getPrice());
       productTransaction.setVoucherInfo(voucherInfo);
       productTransaction.setIsUseVoucher(true);
