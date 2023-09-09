@@ -128,7 +128,7 @@ public class SellerProductController extends BaseController {
     }
   }
 
-  @PutMapping("")
+  @PutMapping("{productId}")
   @Operation(summary = "Cập nhật sản phẩm", description = "Cập nhật sản phẩm với thông tin đã cho")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Sản phẩm được cập nhật thành công"),
@@ -137,9 +137,9 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> updateProduct(Authentication authentication, @RequestBody ProductDto dto) {
+  public ResponseEntity<BaseResponse> updateProduct(Authentication authentication,@PathVariable String productId, @RequestBody CreateProductInfoDto dto) {
     try {
-      return successApi("Cập nhật sản phẩm thành công", productService.updateProduct(getUsername(authentication), dto));
+      return successApi("Cập nhật sản phẩm thành công", productService.updateProduct(getUsername(authentication),productId, dto));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

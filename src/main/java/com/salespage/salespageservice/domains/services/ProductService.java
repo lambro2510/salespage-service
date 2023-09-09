@@ -67,8 +67,8 @@ public class ProductService extends BaseService {
     return product;
   }
 
-  public Product updateProduct(String username, ProductDto dto) {
-    Product product = productStorage.findProductById(dto.getProductId());
+  public Product updateProduct(String username,String productId,  CreateProductInfoDto dto) {
+    Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này hoặc đã bị xóa");
     if (!Objects.equals(product.getSellerUsername(), username))
       throw new AuthorizationException("Bạn không có quyền cập nhật sản phẩm này");
@@ -79,7 +79,7 @@ public class ProductService extends BaseService {
     SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
 
-    product.updateProductInfo(dto);
+    product.updateProduct(dto);
     productStorage.save(product);
     return product;
   }
