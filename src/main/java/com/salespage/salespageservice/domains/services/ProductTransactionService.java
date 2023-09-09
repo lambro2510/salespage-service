@@ -185,7 +185,6 @@ public class ProductTransactionService extends BaseService {
     } else if (Objects.nonNull(lte)) {
       query.addCriteria(Criteria.where("created_at").lte(lte));
     }
-    query.with(Sort.by(Sort.Order.desc("created_at")));
 
     Page<ProductTransaction> transactions = productTransactionStorage.findAll(query, pageable);
     Page<ProductTransactionResponse> responses = new PageImpl<>(transactions.getContent().stream().map(ProductTransaction::partnerToProductTransactionResponse).collect(Collectors.toList()), pageable, transactions.getTotalElements());

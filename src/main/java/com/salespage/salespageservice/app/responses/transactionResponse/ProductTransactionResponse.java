@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.responses.transactionResponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
@@ -25,6 +26,7 @@ public class ProductTransactionResponse {
   private String productImageUrl;
 
   @Schema(description = "Tổng giá")
+  @JsonProperty("total_price")
   private Long totalPrice;
 
   @Schema(description = "Tên người bán")
@@ -59,6 +61,7 @@ public class ProductTransactionResponse {
 
   @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
   @Schema(description = "Ngày tạo")
+  @JsonProperty("created_at")
   private Date createdAt;
 
   public void partnerFromProductTransaction(ProductTransaction productTransaction) {
