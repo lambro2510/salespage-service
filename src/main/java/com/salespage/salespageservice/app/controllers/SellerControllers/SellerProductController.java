@@ -49,8 +49,8 @@ public class SellerProductController extends BaseController {
     }
   }
 
-  @GetMapping("detail")
-  public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId) {
+  @GetMapping("detail/{productId}")
+  public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @PathVariable String productId) {
     try {
       return successApi(productService.getSellerProductDetail(productId));
     } catch (Exception ex) {
@@ -74,7 +74,7 @@ public class SellerProductController extends BaseController {
     }
   }
 
-  @PostMapping("upload")
+  @PostMapping("upload/{productId}")
   @Operation(summary = "Tải lên hình ảnh cho sản phẩm", description = "Tải lên một hoặc nhiều hình ảnh cho sản phẩm với ID đã cho")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Hình ảnh tải lên thành công"),
@@ -84,7 +84,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<?> uploadImages(Authentication authentication,
-                                        @RequestParam @Valid @NotNull String productId,
+                                        @PathVariable String productId,
                                         @RequestBody @Valid @NotNull MultipartFile file) {
     try {
       return ResponseEntity.ok(productService.uploadProductImage(getUsername(authentication), productId, file));
@@ -93,7 +93,7 @@ public class SellerProductController extends BaseController {
     }
   }
 
-  @DeleteMapping("delete-images")
+  @DeleteMapping("delete-images/{productId}")
   @Operation(summary = "Xóa hình ảnh cho sản phẩm", description = "Xóa một hoặc nhiều hình ảnh cho sản phẩm với ID đã cho")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Hình ảnh xóa thành công"),
@@ -102,7 +102,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tìm thấy sản phẩm"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> deleteImages(Authentication authentication, @RequestParam String productId, @RequestParam String imageIds) {
+  public ResponseEntity<BaseResponse> deleteImages(Authentication authentication, @PathVariable String productId, @RequestParam String imageIds) {
     try {
       return successApi("Xóa ảnh thành công", productService.deleteProductImages(getUsername(authentication), productId, imageIds));
     } catch (Exception ex) {
@@ -111,7 +111,7 @@ public class SellerProductController extends BaseController {
   }
 
 
-  @DeleteMapping("")
+  @DeleteMapping("{productId}")
   @Operation(summary = "Xóa sản phẩm", description = "Xóa sản phẩm với ID đã cho")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Sản phẩm đã được xóa thành công"),
@@ -120,7 +120,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tìm thấy sản phẩm"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> deleteProduct(Authentication authentication, @RequestParam String productId) throws IOException {
+  public ResponseEntity<BaseResponse> deleteProduct(Authentication authentication, @PathVariable String productId) throws IOException {
     try {
       return successApi("Xóa sản phẩm thành công", productService.deleteProduct(getUsername(authentication), productId));
     } catch (Exception ex) {
