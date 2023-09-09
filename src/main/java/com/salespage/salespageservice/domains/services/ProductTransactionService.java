@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -178,13 +179,13 @@ public class ProductTransactionService extends BaseService {
           Criteria.where("created_at").gte(gte),
           Criteria.where("created_at").lte(lte)
       );
-
       query.addCriteria(andCriteria);
     } else if (Objects.nonNull(gte)) {
       query.addCriteria(Criteria.where("created_at").gte(gte));
     } else if (Objects.nonNull(lte)) {
       query.addCriteria(Criteria.where("created_at").lte(lte));
     }
+    query.with(Sort.by(Sort.Order.desc("created_at")));
 
     Page<ProductTransaction> transactions = productTransactionStorage.findAll(query, pageable);
     Page<ProductTransactionResponse> responses = new PageImpl<>(transactions.getContent().stream().map(ProductTransaction::partnerToProductTransactionResponse).collect(Collectors.toList()), pageable, transactions.getTotalElements());
