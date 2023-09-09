@@ -96,7 +96,7 @@ public class ProductTransactionService extends BaseService {
     productTransaction.setProduct(product);
     productTransaction.setStore(sellerStore);
     productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
-    if (StringUtils.isBlank(dto.getVoucherCode())) {
+    if (StringUtils.isNotBlank(dto.getVoucherCode())) {
       VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction, sellerStore.getId().toHexString(), product.getPrice());
       productTransaction.setVoucherInfo(voucherInfo);
       productTransaction.setIsUseVoucher(true);

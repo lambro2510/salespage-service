@@ -17,7 +17,6 @@ public class ProductTransactionInfoDto {
   @Schema(description = "Số lượng sản phẩm", example = "10")
   private Long quantity;
 
-  @NotBlank(message = "Ghi chú không được để trống")
   @Schema(description = "Ghi chú", example = "Vui lòng gửi sản phẩm sớm nhất có thể")
   private String note;
 
