@@ -35,8 +35,6 @@ public class ProductCategoryResponse {
     categoryName = productCategory.getCategoryName();
     categoryType = productCategory.getCategoryType();
     description = productCategory.getDescription();
-    timeType = productCategory.getTimeType();
-    timeValue = productCategory.getTimeValue();
     productType = productCategory.getProductType();
   }
 }

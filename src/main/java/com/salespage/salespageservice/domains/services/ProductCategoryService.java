@@ -25,8 +25,6 @@ public class ProductCategoryService extends BaseService {
         .description(dto.getDescription())
         .createdBy(username)
         .updatedBy(username)
-        .timeType(dto.getTimeType())
-        .timeValue(dto.getTimeValue())
         .build();
     productCategoryStorage.save(productCategory);
 
@@ -44,8 +42,6 @@ public class ProductCategoryService extends BaseService {
     productCategory.setProductType(dto.getProductType());
     productCategory.setCategoryType(dto.getCategoryType());
     productCategory.setDescription(dto.getDescription());
-    productCategory.setTimeType(dto.getTimeType());
-    productCategory.setTimeValue(dto.getTimeValue());
     productCategory.setUpdatedBy(username);
     productCategory.setUpdatedAt(System.currentTimeMillis());
     productCategoryStorage.save(productCategory);
