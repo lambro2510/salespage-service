@@ -36,7 +36,7 @@ public class PaymentStatisticService extends BaseService{
         paymentStatistic.setDaily(current);
         paymentStatistic.setProductId(product.getId().toHexString());
         paymentStatisticStorage.save(paymentStatistic);
-        statisticCheckpoint.getCheckPoint().plusDays(1);
+        statisticCheckpoint.setCheckPoint(current);
         statisticCheckpointStorage.save(statisticCheckpoint);
       }
     }
