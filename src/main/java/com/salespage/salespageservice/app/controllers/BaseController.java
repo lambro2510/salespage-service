@@ -32,7 +32,6 @@ public class BaseController {
     } else {
       throw new UnauthorizedException();
     }
-
   }
 
   protected List<UserRole> getUserRoles(Authentication authentication) {

@@ -32,12 +32,6 @@ public class ProductCategory extends BaseEntity {
   @Field("category_type")
   private CategoryType categoryType;
 
-  @Field("time_type")
-  private TimeType timeType;
-
-  @Field("time_value")
-  private Integer timeValue;
-
   @Field("product_type")
   private String productType;
 

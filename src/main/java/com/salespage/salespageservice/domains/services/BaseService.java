@@ -2,13 +2,17 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.domains.entities.types.LogType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
+import com.salespage.salespageservice.domains.info.OpenStreetMapResponse;
 import com.salespage.salespageservice.domains.storages.*;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import com.salespage.salespageservice.domains.utils.JwtUtils;
+import com.salespage.salespageservice.domains.utils.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BaseService {
   @Autowired
@@ -99,5 +103,16 @@ public class BaseService {
 
   protected boolean hasUserRole(List<UserRole> roles, UserRole role) {
     return roles.contains(role);
+  }
+
+  public OpenStreetMapResponse getOpenStreetMap(String lat, String lon, String address){
+    StringBuilder url = new StringBuilder("https://nominatim.openstreetmap.org/search.php?");
+    if(Objects.nonNull(lat) && Objects.nonNull(lon)){
+      url.append("q=").append(lat).append(',').append(lon);
+    }else if(Objects.nonNull(address)){
+      url.append("q=").append(address);
+    }
+    url.append("polygon_geojson").append("1").append("format").append("json");
+    return RequestUtil.request(HttpMethod.GET, url.toString(), OpenStreetMapResponse.class, null, null);
   }
 }
