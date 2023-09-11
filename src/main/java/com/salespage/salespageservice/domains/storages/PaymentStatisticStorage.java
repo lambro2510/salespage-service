@@ -12,6 +12,9 @@ public class PaymentStatisticStorage extends BaseStorage {
     paymentStatisticRepository.save(paymentStatistic);
   }
 
+  public void update(PaymentStatistic paymentStatistic) {
+    paymentStatisticRepository.save(paymentStatistic);
+  }
   public List<PaymentStatistic> findByDailyBetween(LocalDate startDate, LocalDate endDate) {
     return paymentStatisticRepository.findByDailyBetween(startDate, endDate);
   }

@@ -1,14 +1,12 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.responses.Statistic.TotalPaymentStatistic;
-import com.salespage.salespageservice.app.responses.transactionResponse.TotalStatisticResponse;
 import com.salespage.salespageservice.domains.Constants;
 import com.salespage.salespageservice.domains.entities.PaymentStatistic;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.StatisticCheckpoint;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.DateUtils;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -22,18 +20,23 @@ import java.util.*;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 
 @Service
-public class PaymentStatisticService extends BaseService{
-  public void asyncStatisticPreDay(){
+public class PaymentStatisticService extends BaseService {
+  public void asyncStatisticPreDay() {
     List<Product> products = productStorage.findAll();
     StatisticCheckpoint statisticCheckpoint = statisticCheckpointStorage.findById(Constants.PAYMENT_STATISTIC_CHECKPOINT);
-    if(Objects.isNull(statisticCheckpoint)){
+    if (Objects.isNull(statisticCheckpoint)) {
       statisticCheckpoint = new StatisticCheckpoint();
       statisticCheckpoint.setCheckPoint(DateUtils.now().toLocalDate().minusDays(64));
       statisticCheckpoint.setId(Constants.PAYMENT_STATISTIC_CHECKPOINT);
     }
-    for(LocalDate current = statisticCheckpoint.getCheckPoint(); current.isBefore(DateUtils.now().toLocalDate()); current = current.plusDays(1)){
-      for(Product product : products){
-        PaymentStatistic paymentStatistic = lookupAggregation(product.getId().toHexString(), current, current.plusDays(1));
+    for (LocalDate current = statisticCheckpoint.getCheckPoint(); current.isBefore(DateUtils.now().toLocalDate()); current = current.plusDays(1)) {
+      for (Product product : products) {
+        PaymentStatistic paymentStatistic = paymentStatisticStorage.findByDailyAndProductId(current, product.getId().toHexString());
+        if (paymentStatistic == null) {
+          paymentStatistic = new PaymentStatistic();
+        } else {
+          paymentStatistic = lookupAggregation(product.getId().toHexString(), current, current.plusDays(1));
+        }
         paymentStatistic.setDaily(current);
         paymentStatistic.setProductId(product.getId().toHexString());
         paymentStatisticStorage.save(paymentStatistic);
@@ -43,13 +46,18 @@ public class PaymentStatisticService extends BaseService{
     }
   }
 
-  public void asyncStatisticToday(){
+  public void asyncStatisticToday() {
     LocalDate startDay = DateUtils.startOfDay().toLocalDate();
     LocalDate endDay = startDay.plusDays(1);
     List<Product> products = productStorage.findAll();
 
-    for(Product product : products){
-      PaymentStatistic paymentStatistic = lookupAggregation(product.getId().toHexString(), startDay, endDay);
+    for (Product product : products) {
+      PaymentStatistic paymentStatistic = paymentStatisticStorage.findByDailyAndProductId(startDay, product.getId().toHexString());
+      if (paymentStatistic == null) {
+        paymentStatistic = new PaymentStatistic();
+      } else {
+        paymentStatistic = lookupAggregation(product.getId().toHexString(), startDay, endDay);
+      }
       paymentStatistic.setDaily(startDay);
       paymentStatistic.setProductId(product.getId().toHexString());
       paymentStatisticStorage.save(paymentStatistic);
@@ -69,7 +77,7 @@ public class PaymentStatisticService extends BaseService{
     AggregationResults<PaymentStatistic> result
         = mongoTemplate.aggregate(aggregation, "product_transaction", PaymentStatistic.class);
     PaymentStatistic response = new PaymentStatistic();
-    if(result.getUniqueMappedResult() != null){
+    if (result.getUniqueMappedResult() != null) {
       response = result.getUniqueMappedResult();
     }
     return response;
@@ -100,11 +108,11 @@ public class PaymentStatisticService extends BaseService{
   }
 
   public TotalPaymentStatistic getStatisticOfProduct(String productId, Long gte, Long lte) {
-    TotalPaymentStatistic statistic =new TotalPaymentStatistic();
+    TotalPaymentStatistic statistic = new TotalPaymentStatistic();
     LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
     LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
     Product product = productStorage.findProductById(productId);
-    if(Objects.isNull(product)) throw new ResourceNotFoundException("Product not found");
+    if (Objects.isNull(product)) throw new ResourceNotFoundException("Product not found");
     List<PaymentStatistic> paymentStatistics = paymentStatisticStorage.findByProductIdAndDailyBetween(productId, startDate, endDate);
     for (PaymentStatistic paymentStatistic : paymentStatistics) {
       partnerToResponse(statistic, paymentStatistic);
