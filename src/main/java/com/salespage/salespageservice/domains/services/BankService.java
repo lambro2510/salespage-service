@@ -23,7 +23,11 @@ import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -121,7 +125,8 @@ public class BankService extends BaseService {
     return JsonParser.entity(JsonParser.toJson(response.getData()), BankAccountData.class);
   }
 
-  @Transactional(noRollbackFor = {ResourceNotFoundException.class})
+  @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE, noRollbackFor = {ResourceNotFoundException.class})
+  @Retryable(maxAttempts = 5, backoff = @Backoff(delay = 1000))
   public void checkNotResolveTransaction() throws Exception {
     List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByPaymentStatus(PaymentStatus.WAITING);
     log.info("----checkNotResolveTransaction----: " + paymentTransactions.size() + " paymentTransactions chua duoc xu ly");

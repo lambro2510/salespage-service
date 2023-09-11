@@ -19,7 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -54,7 +58,8 @@ public class PaymentService extends BaseService {
     return id.toHexString();
   }
 
-  @Transactional(noRollbackFor = {ResourceNotFoundException.class})
+  @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED, noRollbackFor = {ResourceNotFoundException.class})
+  @Retryable(maxAttempts = 5, backoff = @Backoff(delay = 1000))
   public InfoResponse confirmPayment(String username, String paymentId) {
     InfoResponse info;
     try {
@@ -114,7 +119,7 @@ public class PaymentService extends BaseService {
   }
 
   public InfoResponse findPaymentByMbBank(PaymentTransaction paymentTransaction, User user, BankAccount bankAccount) {
-    BankTransaction bankTransaction = bankTransactionStorage.findByDescription(Helper.genDescription(paymentTransaction.getId().toHexString()));
+    BankTransaction bankTransaction = bankTransactionStorage.findByDescription(paymentTransaction.getId().toHexString());
     String message;
     if (Objects.isNull(bankTransaction)) return new InfoResponse(1, "Giao dịch đang được xử lý");
     if (bankTransaction.getDebitAmount() > 0) {
