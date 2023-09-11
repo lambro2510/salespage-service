@@ -11,7 +11,10 @@ import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.info.AddressResult;
 import com.salespage.salespageservice.domains.utils.Helper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +32,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class SellerStoreService extends BaseService {
+
+  @Autowired
+  @Lazy
+  private MapService mapService;
 
   public PageResponse<SellerStoreResponse> getAllSellerStore(String username, Pageable pageable) {
     Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
@@ -84,6 +91,7 @@ public class SellerStoreService extends BaseService {
     SellerStore sellerStore = new SellerStore();
     sellerStore.assignFromSellerStoreDto(sellerStoreDto);
     sellerStore.setOwnerStoreName(username);
+    setLocationOfStore(sellerStore);
     sellerStoreStorage.save(sellerStore);
   }
 
@@ -92,6 +100,7 @@ public class SellerStoreService extends BaseService {
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy cửa hàng này");
     sellerStore.assignFromSellerStoreDto(dto);
     sellerStore.setOwnerStoreName(username);
+    setLocationOfStore(sellerStore);
     sellerStoreStorage.save(sellerStore);
   }
 
@@ -137,5 +146,11 @@ public class SellerStoreService extends BaseService {
       throw new AuthorizationException();
 
     sellerStoreStorage.delete(sellerStore);
+  }
+
+  public void setLocationOfStore(SellerStore sellerStore){
+    AddressResult address =  suggestAddressByAddress(sellerStore.getAddress());
+    sellerStore.setStoreName(address.getResults().get(0).getFormattedAddress());
+    sellerStore.setLocation(address.getResults().get(0).getGeometry().getLocation().getLat() + "," + address.getResults().get(0).getGeometry().getLocation().getLng());
   }
 }

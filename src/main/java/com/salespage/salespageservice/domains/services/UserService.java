@@ -86,13 +86,4 @@ public class UserService extends BaseService {
     userStorage.save(user);
   }
 
-  public List<String> suggestAddress(String address) {
-    List<String> response = new ArrayList<>();
-    AddressResult addressResults = suggestAddressByAddress(address);
-    for (AddressResult.Result result : addressResults.getResults()){
-      response.add(result.getFormattedAddress());
-    }
-    return response;
-  }
-
 }

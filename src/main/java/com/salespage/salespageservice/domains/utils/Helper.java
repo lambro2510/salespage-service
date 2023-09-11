@@ -13,14 +13,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Helper {
 
   public static String ZONE_UTC = "UTC";
   public static String ZONE_DEFAULT = "Asia/Ho_Chi_Minh";
-
-  public static String TRANSACTION_KEY = "refTranId";
 
   public static List<String> convertObjectIdListToHexStringList(List<ObjectId> objectIdList) {
     return objectIdList.stream()
@@ -60,12 +60,22 @@ public class Helper {
   }
 
   public static String genDescription(String paymentId) {
-    return TRANSACTION_KEY + paymentId.replace("-", "") + TRANSACTION_KEY;
+    return "xxx" + paymentId + "xxx";
   }
 
-  public static String getTransactionIdFromDescription(String description){
-    return description.split(TRANSACTION_KEY)[1];
+
+  public static String getPaymentIdInDescription(String description){
+    description = description.replaceAll("\\s", "");
+    Pattern pattern = Pattern.compile("xxx(.*?)xxx"); // Regex để tìm giá trị trong xxx
+    Matcher matcher = pattern.matcher(description);
+
+    if (matcher.find()) {
+      return matcher.group(1); // Lấy giá trị nằm giữa các chuỗi "xxx"
+    } else {
+      return null; // Không tìm thấy giá trị trong chuỗi
+    }
   }
+
   public static long getStartTimeOfDay(LocalDate date) {
     LocalTime startTime = LocalTime.of(0, 0, 0, 0);
     LocalDateTime dateTime = LocalDateTime.of(date, startTime);

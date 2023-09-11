@@ -73,7 +73,7 @@ public class BankTransaction {
     setCreditAmount(transaction.getCreditAmount());
     setDebitAmount(transaction.getDebitAmount());
     setCurrency(transaction.getCurrency());
-    setDescription(Helper.getTransactionIdFromDescription(transaction.getDescription()));
+    setDescription(Helper.getPaymentIdInDescription(transaction.getDescription()));
     setAvailableBalance(transaction.getAvailableBalance());
     setBeneficiaryAccount(transaction.getBeneficiaryAccount());
     setRefNo(transaction.getRefNo());
