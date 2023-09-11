@@ -31,10 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -134,8 +131,27 @@ public class ProductService extends BaseService {
           .collect(Collectors.toList());
       query.addCriteria(Criteria.where("store_name").in(storeNames));
     }
+
     Page<Product> products = productStorage.findAll(query, pageable);
     List<ProductItemResponse> responses = products.getContent().stream().map(Product::assignToProductItemResponse).collect(Collectors.toList());
+    Map<String, SellerStore> sellerStoreMap = new HashMap<>();
+    Map<String, ProductCategory> productCategoryMap = new HashMap<>();
+    for(ProductItemResponse itemResponses : responses){
+      SellerStore sellerStore = sellerStoreMap.get(itemResponses.getStoreId());
+      if(Objects.isNull(sellerStore)){
+        sellerStore = sellerStoreStorage.findById(itemResponses.getStoreId());
+        sellerStoreMap.put(itemResponses.getStoreId(), sellerStore);
+      }
+
+      ProductCategory productCategory = productCategoryMap.get(itemResponses.getCategoryId());
+      if(Objects.isNull(productCategory)){
+        productCategory = productCategoryStorage.findById(itemResponses.getCategoryId());
+        productCategoryMap.put(itemResponses.getCategoryId(), productCategory);
+      }
+
+      itemResponses.setCategoryName(productCategory.getCategoryName());
+      itemResponses.setStoreName(sellerStore.getStoreName());
+    }
     Page<ProductItemResponse> itemResponses = new PageImpl<>(responses, pageable, products.getTotalElements());
     return PageResponse.createFrom(itemResponses);
   }
