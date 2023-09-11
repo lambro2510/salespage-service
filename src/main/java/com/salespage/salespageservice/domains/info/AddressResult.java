@@ -14,7 +14,8 @@ public class AddressResult {
   public static class Result {
     @JsonProperty("address_components")
     private List<AddressComponent> addressComponents;
-    private String formatted_address;
+    @JsonProperty("formatted_address")
+    private String formattedAddress;
     private Geometry geometry;
     private String place_id;
     private String reference;

@@ -90,7 +90,7 @@ public class UserService extends BaseService {
     List<String> response = new ArrayList<>();
     AddressResult addressResults = suggestAddressByAddress(address);
     for (AddressResult.Result result : addressResults.getResults()){
-      response.add(result.getAddress());
+      response.add(result.getFormattedAddress());
     }
     return response;
   }
