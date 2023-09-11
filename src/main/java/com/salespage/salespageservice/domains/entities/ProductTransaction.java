@@ -56,6 +56,9 @@ public class ProductTransaction extends BaseEntity {
   @Field("total_price")
   private Double totalPrice;
 
+  @Field("ship_cod")
+  private Double shipCod;
+
   @Field("address_receive")
   private String addressReceive;
 
@@ -86,7 +89,7 @@ public class ProductTransaction extends BaseEntity {
     quantity = dto.getQuantity();
     note = dto.getNote();
     addressReceive = dto.getAddress();
-    state = ProductTransactionState.NEW;
+    state = ProductTransactionState.WAITING_STORE;
   }
 
   public void updateTransaction(ProductTransactionInfoDto dto) {

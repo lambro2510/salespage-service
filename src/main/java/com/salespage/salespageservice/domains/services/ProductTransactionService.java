@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -111,13 +110,13 @@ public class ProductTransactionService extends BaseService {
   /*
    *Người dùng chỉnh sửa đơn hàng
    */
-  public ProductTransactionResponse updateProductTransaction(String username, ProductTransactionInfoDto dto, String transactionId) {
+  public void updateProductTransaction(String username, ProductTransactionInfoDto dto, String transactionId) {
     ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
     ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
-
+    if(!productTransaction.getBuyerUsername().equals(username)) throw new AuthorizationException();
     if (Objects.isNull(productTransaction)) throw new ResourceNotFoundException("Không tìm thấy đơn hàng");
 
-    if (!productTransaction.getState().equals(ProductTransactionState.NEW) && !productTransaction.getState().equals(ProductTransactionState.CANCEL))
+    if (!productTransaction.getState().equals(ProductTransactionState.WAITING_STORE) && !productTransaction.getState().equals(ProductTransactionState.CANCEL))
       throw new TransactionException("Trạng thái hiện tại không thể cập nhật đơn hàng");
 
     productTransaction.updateTransaction(dto);
@@ -125,7 +124,6 @@ public class ProductTransactionService extends BaseService {
     productTransactionResponse.partnerFromProductTransaction(productTransaction);
 
     //TODO Thêm vào kafka xử lý bất đồng bộ
-    return productTransactionResponse;
   }
 
 
@@ -194,7 +192,7 @@ public class ProductTransactionService extends BaseService {
   public void acceptTransactionByStore(String username, String transactionId) {
     ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
     if(!productTransaction.getSellerUsername().equals(username)) throw new AuthorizationException();
-    productTransaction.setState(ProductTransactionState.WAITING_SHIPPER);
+    productTransaction.setState(ProductTransactionState.ACCEPT_STORE);
     productTransactionStorage.save(productTransaction);
   }
 }

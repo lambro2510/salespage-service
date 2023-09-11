@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.entities;
 
 import com.salespage.salespageservice.domains.entities.status.ShipperStatus;
+import com.salespage.salespageservice.domains.entities.types.VehicleType;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -30,6 +31,9 @@ public class Shipper extends BaseEntity{
 
   @Field("latitude")
   private String latitude;
+
+  @Field("vehicle")
+  private VehicleType vehicleType;
 
   @Field("status")
   private ShipperStatus status;

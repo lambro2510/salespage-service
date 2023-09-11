@@ -20,10 +20,14 @@ public class SellerStoreDto {
   @Schema(description = "Trạng thái cửa hàng", example = "ACTIVE")
   private StoreStatus status;
 
+  @Schema(description = "Địa điểm của hàng", example = "21.0019622,C105.8067501")
+  private String location;
+
   public void assignFromSellerStoreDto(SellerStore sellerStore) {
     storeName = sellerStore.getStoreName();
     address = sellerStore.getAddress();
     description = sellerStore.getDescription();
     status = sellerStore.getStatus();
+    location = sellerStore.getLocation();
   }
 }

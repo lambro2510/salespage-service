@@ -6,9 +6,7 @@ import com.salespage.salespageservice.domains.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -25,7 +23,15 @@ public class PublicMapController extends BaseController {
       @RequestParam(required = false) String address) {
     try {
       return successApi(userService.getOpenStreetMap(lat,lon,address));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
 
+  @GetMapping("")
+  public ResponseEntity<BaseResponse> getSuggestAddress(@RequestParam String address) {
+    try {
+      return successApi(userService.suggestAddress(address));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

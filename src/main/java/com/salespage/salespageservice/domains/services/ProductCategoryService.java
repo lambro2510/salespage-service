@@ -30,7 +30,6 @@ public class ProductCategoryService extends BaseService {
 
   }
 
-  @Transactional
   public void updateProductCategory(String username, UpdateProductCategoryTypeDto dto) {
     ProductType type = productTypeStorage.findByProductType(dto.getProductType());
     if (Objects.isNull(type)) throw new ResourceNotFoundException("Không tìm thấy loại sản phẩm này");

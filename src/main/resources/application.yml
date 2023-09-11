@@ -96,3 +96,6 @@ mb-bank:
   token: ${TOKEN:7C37EBA7-1CA6-835F-9301-301551D39130}
   account-no : ${ACCOUNT_NO:8400134433008}
 
+goong:
+  url: ${GOONG_URL:https://rsapi.goong.io}
+  api-key: ${GOONG_API_KEY:v1DJOAPJpz8e6wHfg50LXQuMQThGJhbT6BYFwdCn}

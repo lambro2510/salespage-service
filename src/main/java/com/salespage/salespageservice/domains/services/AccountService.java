@@ -10,14 +10,19 @@ import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.entities.types.UserState;
 import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
+import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.info.DistanceMatrixResult;
 import com.salespage.salespageservice.domains.info.TokenInfo;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.utils.EmailRequest;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
+import com.salespage.salespageservice.domains.utils.RequestUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -120,4 +125,9 @@ public class AccountService extends BaseService {
       throw new ResourceNotFoundException("Tài khoản không tồn tại hoặc quyền không hợp lê");
     }
   }
+
+  public void acceptProductTransaction(String username, List<UserRole> userRoles, String transactionId) {
+  }
+
+
 }

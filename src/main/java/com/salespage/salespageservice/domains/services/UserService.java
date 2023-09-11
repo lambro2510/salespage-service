@@ -10,12 +10,15 @@ import com.salespage.salespageservice.domains.entities.types.RatingType;
 import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.info.AddressResult;
 import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -81,6 +84,15 @@ public class UserService extends BaseService {
     User user = userStorage.findByUsername(username);
     user.setImageUrl(imageUrl);
     userStorage.save(user);
+  }
+
+  public List<String> suggestAddress(String address) {
+    List<String> response = new ArrayList<>();
+    AddressResult addressResults = suggestAddressByAddress(address);
+    for (AddressResult.Result result : addressResults.getResults()){
+      response.add(result.getAddress());
+    }
+    return response;
   }
 
 }

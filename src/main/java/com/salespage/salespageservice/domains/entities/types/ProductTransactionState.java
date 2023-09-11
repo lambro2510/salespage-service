@@ -1,9 +1,10 @@
 package com.salespage.salespageservice.domains.entities.types;
 
 public enum ProductTransactionState {
-  NEW,
 
   WAITING_STORE,
+
+  ACCEPT_STORE,
 
   WAITING_SHIPPER,
 

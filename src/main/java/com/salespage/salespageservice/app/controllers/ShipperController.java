@@ -3,12 +3,10 @@ package com.salespage.salespageservice.app.controllers;
 import com.salespage.salespageservice.app.dtos.accountDtos.ShipperStatusDto;
 import com.salespage.salespageservice.domains.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("v1/shipper")
@@ -27,4 +25,13 @@ public class ShipperController extends BaseController {
     }
   }
 
+  @PostMapping("accept/{transactionId}")
+  private ResponseEntity<?> acceptProductTransaction(Authentication authentication, @PathVariable String transactionId) {
+    try {
+      accountService.acceptProductTransaction(getUsername(authentication), getUserRoles(authentication), transactionId);
+      return successApi("Tiếp nhận đơn hàng thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
 }
