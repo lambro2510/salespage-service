@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("api/v1/public/map")
-@Tag(name = "Product", description = "Lấy địa chỉ")
+@Tag(name = "Public map", description = "Lấy địa chỉ")
 @Log4j2
 public class PublicMapController extends BaseController {
   @Autowired private UserService userService;
