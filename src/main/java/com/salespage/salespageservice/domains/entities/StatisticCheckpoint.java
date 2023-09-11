@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -15,5 +16,6 @@ public class StatisticCheckpoint {
   private String id;
 
   @Field("check_point")
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate checkPoint;
 }

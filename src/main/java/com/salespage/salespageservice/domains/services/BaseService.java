@@ -13,6 +13,7 @@ import com.salespage.salespageservice.domains.utils.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpMethod;
 
 import java.util.List;
@@ -96,6 +97,9 @@ public class BaseService {
   protected StatisticCheckpointStorage statisticCheckpointStorage;
 
   @Autowired
+  protected PaymentStatisticStorage paymentStatisticStorage;
+
+  @Autowired
   protected ConfigStorage configStorage;
 
   @Autowired
@@ -107,6 +111,8 @@ public class BaseService {
   @Autowired
   @Lazy
   private SystemLogService systemLogService;
+
+  @Autowired protected MongoTemplate mongoTemplate;
 
   protected void writeLog(String message, String trace, LogType logType, String username) {
     systemLogService.createSystemLog(username, message, trace, logType);

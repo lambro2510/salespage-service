@@ -15,6 +15,7 @@ import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.producer.Producer;
+import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
 import lombok.extern.log4j.Log4j2;
@@ -81,7 +82,7 @@ public class BankService extends BaseService {
     genQrCodeDto.setTemplate("LDP0k8f");
     genQrCodeDto.setAcqId(bin);
     genQrCodeDto.setAccountName("Thanh toán mua hàng");
-    genQrCodeDto.setAddInfo(paymentId);
+    genQrCodeDto.setAddInfo(Helper.genDescription(paymentId));
     Map<String, String> header = new HashMap<>();
     VietQrResponse response = RequestUtil.request(HttpMethod.POST, VIETQRURL + "/v2/generate", VietQrResponse.class, genQrCodeDto, header);
     return JsonParser.entity(JsonParser.toJson(response.getData()), QrData.class);

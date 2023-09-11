@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 
+import com.salespage.salespageservice.domains.entities.PaymentStatistic;
 import com.salespage.salespageservice.domains.repositories.*;
 import com.salespage.salespageservice.domains.utils.RemoteCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,9 @@ public class BaseStorage {
 
   @Autowired
   protected ShipperRepository shipperRepository;
+
+  @Autowired
+  protected PaymentStatisticRepository paymentStatisticRepository;
 
   @Autowired
   protected MongoTemplate mongoTemplate;

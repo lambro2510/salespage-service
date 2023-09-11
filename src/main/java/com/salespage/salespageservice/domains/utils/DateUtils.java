@@ -149,4 +149,12 @@ public class DateUtils {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
     return LocalDateTime.parse(dateString, formatter);
   }
+
+  public static Long convertLocalDateToLong(LocalDate current) {
+    LocalDateTime localDateTime = current.atStartOfDay();
+
+    Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+
+    return instant.toEpochMilli();
+  }
 }
