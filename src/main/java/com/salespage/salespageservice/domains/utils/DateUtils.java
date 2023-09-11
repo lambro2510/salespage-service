@@ -157,4 +157,11 @@ public class DateUtils {
 
     return instant.toEpochMilli();
   }
+
+  public static LocalDateTime convertLongToLocalDateTime(Long timestamp) {
+
+    Instant instant = Instant.ofEpochMilli(timestamp);
+
+    return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+  }
 }
