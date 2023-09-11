@@ -7,12 +7,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class TotalPaymentStatistic {
+public class TotalPaymentStatisticResponse {
   private String productId;
   private String productName;
   private Long totalUser = 0L;
   private Long totalPurchase = 0L;
   private Long totalBuy = 0L;
+  private Long totalShipCod = 0L;
   private List<Daily> dailies;
 
   @Data
@@ -22,5 +23,6 @@ public class TotalPaymentStatistic {
     private Long totalUser = 0L;
     private Long totalPurchase = 0L;
     private Long totalBuy = 0L;
+    private Long totalShipCod = 0L;
   }
 }

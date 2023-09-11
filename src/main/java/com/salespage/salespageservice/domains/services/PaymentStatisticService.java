@@ -1,6 +1,6 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.responses.Statistic.TotalPaymentStatistic;
+import com.salespage.salespageservice.app.responses.Statistic.TotalPaymentStatisticResponse;
 import com.salespage.salespageservice.domains.Constants;
 import com.salespage.salespageservice.domains.entities.PaymentStatistic;
 import com.salespage.salespageservice.domains.entities.Product;
@@ -34,9 +34,9 @@ public class PaymentStatisticService extends BaseService {
         PaymentStatistic paymentStatistic = paymentStatisticStorage.findByDailyAndProductId(current, product.getId().toHexString());
         if (paymentStatistic == null) {
           paymentStatistic = new PaymentStatistic();
-        } else {
-          paymentStatistic = lookupAggregation(product.getId().toHexString(), current, current.plusDays(1));
         }
+        TotalPaymentStatisticResponse totalPaymentStatisticResponse = lookupAggregation(product.getId().toHexString(), current, current.plusDays(1));
+        paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
         paymentStatistic.setDaily(current);
         paymentStatistic.setProductId(product.getId().toHexString());
         paymentStatisticStorage.save(paymentStatistic);
@@ -55,9 +55,9 @@ public class PaymentStatisticService extends BaseService {
       PaymentStatistic paymentStatistic = paymentStatisticStorage.findByDailyAndProductId(startDay, product.getId().toHexString());
       if (paymentStatistic == null) {
         paymentStatistic = new PaymentStatistic();
-      } else {
-        paymentStatistic = lookupAggregation(product.getId().toHexString(), startDay, endDay);
       }
+      TotalPaymentStatisticResponse totalPaymentStatisticResponse = lookupAggregation(product.getId().toHexString(), startDay, endDay);
+      paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
       paymentStatistic.setDaily(startDay);
       paymentStatistic.setProductId(product.getId().toHexString());
       paymentStatisticStorage.save(paymentStatistic);
@@ -65,7 +65,7 @@ public class PaymentStatisticService extends BaseService {
 
   }
 
-  public PaymentStatistic lookupAggregation(String productId, LocalDate gte, LocalDate lte) {
+  public TotalPaymentStatisticResponse lookupAggregation(String productId, LocalDate gte, LocalDate lte) {
     Criteria criteria = Criteria.where("product_id").is(productId)
         .andOperator(Criteria.where("created_at").gte(DateUtils.convertLocalDateToLong(gte)), Criteria.where("created_at").lte(DateUtils.convertLocalDateToLong(lte)));
     AggregationOperation match = Aggregation.match(criteria);
@@ -74,25 +74,25 @@ public class PaymentStatisticService extends BaseService {
         .sum("ship_cod").as("totalShipCod");
 
     Aggregation aggregation = newAggregation(match, groupOperation);
-    AggregationResults<PaymentStatistic> result
-        = mongoTemplate.aggregate(aggregation, "product_transaction", PaymentStatistic.class);
-    PaymentStatistic response = new PaymentStatistic();
+    AggregationResults<TotalPaymentStatisticResponse> result
+        = mongoTemplate.aggregate(aggregation, "product_transaction", TotalPaymentStatisticResponse.class);
+    TotalPaymentStatisticResponse response = new TotalPaymentStatisticResponse();
     if (result.getUniqueMappedResult() != null) {
       response = result.getUniqueMappedResult();
     }
     return response;
   }
 
-  public List<TotalPaymentStatistic> getStatistic(Long gte, Long lte) {
+  public List<TotalPaymentStatisticResponse> getStatistic(Long gte, Long lte) {
     LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
     LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
 
     List<PaymentStatistic> paymentStatistics = paymentStatisticStorage.findByDailyBetween(startDate, endDate);
-    Map<String, TotalPaymentStatistic> mapProduct = new HashMap<>();
+    Map<String, TotalPaymentStatisticResponse> mapProduct = new HashMap<>();
 
     for (PaymentStatistic paymentStatistic : paymentStatistics) {
       mapProduct.computeIfAbsent(paymentStatistic.getProductId(), k -> {
-        TotalPaymentStatistic statistic = new TotalPaymentStatistic();
+        TotalPaymentStatisticResponse statistic = new TotalPaymentStatisticResponse();
         statistic.setProductId(k);
         statistic.setTotalBuy(0L);
         statistic.setTotalPurchase(0L);
@@ -100,15 +100,15 @@ public class PaymentStatisticService extends BaseService {
         return statistic;
       });
 
-      TotalPaymentStatistic statistic = mapProduct.get(paymentStatistic.getProductId());
+      TotalPaymentStatisticResponse statistic = mapProduct.get(paymentStatistic.getProductId());
       partnerToResponse(statistic, paymentStatistic);
     }
 
     return new ArrayList<>(mapProduct.values());
   }
 
-  public TotalPaymentStatistic getStatisticOfProduct(String productId, Long gte, Long lte) {
-    TotalPaymentStatistic statistic = new TotalPaymentStatistic();
+  public TotalPaymentStatisticResponse getStatisticOfProduct(String productId, Long gte, Long lte) {
+    TotalPaymentStatisticResponse statistic = new TotalPaymentStatisticResponse();
     LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
     LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
     Product product = productStorage.findProductById(productId);
@@ -120,11 +120,11 @@ public class PaymentStatisticService extends BaseService {
     return statistic;
   }
 
-  private void partnerToResponse(TotalPaymentStatistic statistic, PaymentStatistic paymentStatistic) {
+  private void partnerToResponse(TotalPaymentStatisticResponse statistic, PaymentStatistic paymentStatistic) {
     statistic.setTotalBuy(statistic.getTotalBuy() + paymentStatistic.getTotalBuy());
     statistic.setTotalPurchase(statistic.getTotalPurchase() + paymentStatistic.getTotalPurchase());
     statistic.setTotalUser(statistic.getTotalUser() + paymentStatistic.getTotalUser());
-    TotalPaymentStatistic.Daily daily = new TotalPaymentStatistic.Daily();
+    TotalPaymentStatisticResponse.Daily daily = new TotalPaymentStatisticResponse.Daily();
     daily.setDaily(paymentStatistic.getDaily());
     daily.setTotalBuy(paymentStatistic.getTotalBuy());
     daily.setTotalPurchase(paymentStatistic.getTotalPurchase());

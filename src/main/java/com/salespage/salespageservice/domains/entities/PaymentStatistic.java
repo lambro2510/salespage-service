@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.salespage.salespageservice.app.responses.Statistic.TotalPaymentStatisticResponse;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -33,4 +34,12 @@ public class PaymentStatistic {
 
   @Field("total_shipper_cod")
   private Long totalShipperCod = 0L;
+
+  public void partnerFromStatistic(TotalPaymentStatisticResponse response){
+    totalUser = response.getTotalUser();
+    totalBuy = response.getTotalBuy();
+    totalPurchase = response.getTotalPurchase();
+    totalShipperCod = response.getTotalShipCod();
+
+  }
 }
