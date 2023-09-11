@@ -6,6 +6,7 @@ import com.salespage.salespageservice.domains.Constants;
 import com.salespage.salespageservice.domains.entities.PaymentStatistic;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.StatisticCheckpoint;
+import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -92,18 +93,34 @@ public class PaymentStatisticService extends BaseService{
       });
 
       TotalPaymentStatistic statistic = mapProduct.get(paymentStatistic.getProductId());
-      statistic.setTotalBuy(statistic.getTotalBuy() + paymentStatistic.getTotalBuy());
-      statistic.setTotalPurchase(statistic.getTotalPurchase() + paymentStatistic.getTotalPurchase());
-      statistic.setTotalUser(statistic.getTotalUser() + paymentStatistic.getTotalUser());
-
-      TotalPaymentStatistic.Daily daily = new TotalPaymentStatistic.Daily();
-      daily.setDaily(paymentStatistic.getDaily());
-      daily.setTotalBuy(paymentStatistic.getTotalBuy());
-      daily.setTotalPurchase(paymentStatistic.getTotalPurchase());
-      daily.setTotalUser(paymentStatistic.getTotalUser());
-      statistic.getDailies().add(daily);
+      partnerToResponse(statistic, paymentStatistic);
     }
 
     return new ArrayList<>(mapProduct.values());
+  }
+
+  public TotalPaymentStatistic getStatisticOfProduct(String productId, Long gte, Long lte) {
+    TotalPaymentStatistic statistic =new TotalPaymentStatistic();
+    LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
+    LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
+    Product product = productStorage.findProductById(productId);
+    if(Objects.isNull(product)) throw new ResourceNotFoundException("Product not found");
+    List<PaymentStatistic> paymentStatistics = paymentStatisticStorage.findByProductIdAndDailyBetween(productId, startDate, endDate);
+    for (PaymentStatistic paymentStatistic : paymentStatistics) {
+      partnerToResponse(statistic, paymentStatistic);
+    }
+    return statistic;
+  }
+
+  private void partnerToResponse(TotalPaymentStatistic statistic, PaymentStatistic paymentStatistic) {
+    statistic.setTotalBuy(statistic.getTotalBuy() + paymentStatistic.getTotalBuy());
+    statistic.setTotalPurchase(statistic.getTotalPurchase() + paymentStatistic.getTotalPurchase());
+    statistic.setTotalUser(statistic.getTotalUser() + paymentStatistic.getTotalUser());
+    TotalPaymentStatistic.Daily daily = new TotalPaymentStatistic.Daily();
+    daily.setDaily(paymentStatistic.getDaily());
+    daily.setTotalBuy(paymentStatistic.getTotalBuy());
+    daily.setTotalPurchase(paymentStatistic.getTotalPurchase());
+    daily.setTotalUser(paymentStatistic.getTotalUser());
+    statistic.getDailies().add(daily);
   }
 }

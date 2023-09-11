@@ -14,4 +14,6 @@ public interface PaymentStatisticRepository extends MongoRepository<PaymentStati
   List<PaymentStatistic> findByDailyBetween(LocalDate startDate, LocalDate endDate);
 
   PaymentStatistic findByDailyAndProductId(LocalDate daily, String productId);
+
+  List<PaymentStatistic> findByProductIdAndDailyBetween(String productId, LocalDate startDate, LocalDate endDate);
 }

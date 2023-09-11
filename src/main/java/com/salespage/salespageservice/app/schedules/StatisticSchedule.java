@@ -72,13 +72,13 @@ public class StatisticSchedule {
     checkInDailyStatisticService.statisticUserCheckIn();
   }
 
-  @Scheduled(fixedRate = 1000 * 60) //1p 1 lần
+  @Scheduled(fixedDelay = 1000 * 60) //1p 1 lần
   public void paymentStatisticToday() {
     log.info("paymentStatistic -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
     paymentStatisticService.asyncStatisticToday();
   }
 
-  @Scheduled(fixedRate = 1000 * 60) //1p 1 lần
+  @Scheduled(fixedDelay = 1000 * 60) //1p 1 lần
   public void paymentStatisticPreDay() {
     log.info("paymentStatistic -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
     paymentStatisticService.asyncStatisticPreDay();

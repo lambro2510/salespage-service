@@ -26,4 +26,16 @@ public class SellerStatisticController extends BaseController {
       return errorApi(ex.getMessage());
     }
   }
+
+  @GetMapping("{productId}")
+  public ResponseEntity<BaseResponse> getTotalStatisticOfProduct(Authentication authentication,
+                                                                 @PathVariable String productId,
+                                                                 @RequestParam Long lte,
+                                                                 @RequestParam Long gte){
+    try{
+      return successApi(paymentStatisticService.getStatisticOfProduct(productId,gte, lte));
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
+  }
 }

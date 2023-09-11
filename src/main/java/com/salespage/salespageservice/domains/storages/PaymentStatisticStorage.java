@@ -19,4 +19,9 @@ public class PaymentStatisticStorage extends BaseStorage {
   public PaymentStatistic findByDailyAndProductId(LocalDate daily, String productId) {
     return paymentStatisticRepository.findByDailyAndProductId(daily, productId);
   }
+
+  public List<PaymentStatistic> findByProductIdAndDailyBetween(String productId, LocalDate startDate, LocalDate endDate) {
+    return paymentStatisticRepository.findByProductIdAndDailyBetween(productId, startDate, endDate);
+
+  }
 }
