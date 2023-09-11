@@ -136,7 +136,8 @@ public class BaseService {
 
   public DistanceMatrixResult.Distance getDistance(String shipperLocation, String userLocation, String vehicle){
     StringBuilder url = new StringBuilder(goongUrl);
-    url.append("?origins=").append(shipperLocation)
+    url.append("DistanceMatrix")
+        .append("?origins=").append(shipperLocation)
         .append("&destinations=").append(userLocation)
         .append("&vehicle=").append(vehicle)
         .append("&api_key=").append(goongApiKey);
@@ -149,7 +150,8 @@ public class BaseService {
 
   public AddressResult suggestAddressByAddress(String address){
     StringBuilder url = new StringBuilder(goongUrl);
-    url.append("?address=").append(address)
+    url.append("Geocode")
+        .append("?address=").append(address)
         .append("&api_key=").append(goongApiKey);
     AddressResult response = RequestUtil.request(HttpMethod.GET, url.toString(), AddressResult.class, null, null);
     if(Objects.isNull(response)){
