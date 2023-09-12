@@ -19,6 +19,7 @@ import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.utils.EmailRequest;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
+import com.salespage.salespageservice.domains.utils.SmsUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +45,9 @@ public class AccountService extends BaseService {
   @Autowired
   private GoogleDriver googleDriver;
 
+  @Value("${twilio.open:false}")
+  private boolean isCheckPhoneNumber;
+
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public JwtResponse signUp(SignUpDto dto) {
 
@@ -55,7 +59,7 @@ public class AccountService extends BaseService {
     accountStorage.save(account);
 
     userService.createUser(dto);
-
+    createVerifyCode(dto.getUsername());
     return new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
   }
 
@@ -102,6 +106,15 @@ public class AccountService extends BaseService {
     accountStorage.save(account);
   }
 
+  public boolean checkAccount(String username){
+    Account account = accountStorage.findByUsername(username);
+    if(account.getState().equals(UserState.NOT_VERIFIED)){
+      return true;
+    }else{
+      throw new BadRequestException("Tài khoản đã được xác minh");
+    }
+  }
+
   public void createVerifyCode(String username) {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) throw new AccountNotExistsException("Account not exist");
@@ -109,6 +122,9 @@ public class AccountService extends BaseService {
     int min = 10000;
     String code = Math.random() * (max - min + 1) + min + " ";
     accountStorage.saveVerifyCode(username, code);
+    if(isCheckPhoneNumber){
+      SmsUtils.sendMessage(code, user.getPhoneNumber());
+    }
     EmailRequest.sendVerificationCode(user.getEmail(), code);
   }
 

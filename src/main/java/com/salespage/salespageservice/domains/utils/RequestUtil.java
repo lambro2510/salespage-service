@@ -69,6 +69,7 @@ public class RequestUtil {
     }
   }
 
+
   public static String request(String url) {
     RestTemplate restTemplate = new RestTemplate();
     return restTemplate.getForObject(url, String.class);

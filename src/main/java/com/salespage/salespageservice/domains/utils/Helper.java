@@ -133,4 +133,14 @@ public class Helper {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     return dateFormat.format(date);
   }
+
+  public static String regexPhoneNumber(String phoneNumber){
+    if(phoneNumber.startsWith("0")){
+      phoneNumber = "+84" + phoneNumber.substring(1);
+    }else{
+      phoneNumber = "+" + phoneNumber;
+    }
+    return phoneNumber;
+  }
+
 }
