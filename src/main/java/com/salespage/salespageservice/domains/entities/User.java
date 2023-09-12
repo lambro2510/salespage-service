@@ -56,12 +56,9 @@ public class User {
 
   public void createUser(SignUpDto dto) {
     username = dto.getUsername();
-    firstName = dto.getFirstName();
-    lastName = dto.getLastName();
-    email = dto.getEmail();
     imageUrl = "";
     phoneNumber = dto.getPhoneNumber();
-    dateOfBirth = dto.getDateOfBirth();
+    displayName = dto.getUsername();
     rate = new Rate();
     balance = new UserBalance();
   }
