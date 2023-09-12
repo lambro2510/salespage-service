@@ -90,7 +90,7 @@ public class SellerStoreService extends BaseService {
     SellerStore sellerStore = new SellerStore();
     sellerStore.assignFromSellerStoreDto(sellerStoreDto);
     sellerStore.setOwnerStoreName(username);
-    setLocationOfStore(sellerStore);
+    setLocationOfStore(sellerStore, sellerStoreDto.getAddress());
     sellerStoreStorage.save(sellerStore);
   }
 
@@ -99,7 +99,7 @@ public class SellerStoreService extends BaseService {
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy cửa hàng này");
     sellerStore.assignFromSellerStoreDto(dto);
     sellerStore.setOwnerStoreName(username);
-    setLocationOfStore(sellerStore);
+    setLocationOfStore(sellerStore, dto.getAddress());
     sellerStoreStorage.save(sellerStore);
   }
 
@@ -147,9 +147,11 @@ public class SellerStoreService extends BaseService {
     sellerStoreStorage.delete(sellerStore);
   }
 
-  public void setLocationOfStore(SellerStore sellerStore){
+  public void setLocationOfStore(SellerStore sellerStore, String storeAddress){
     AddressResult address =  suggestAddressByAddress(sellerStore.getAddress());
-    sellerStore.setStoreName(address.getResults().get(0).getFormattedAddress());
-    sellerStore.setLocation(address.getResults().get(0).getGeometry().getLocation().getLat() + "," + address.getResults().get(0).getGeometry().getLocation().getLng());
+    if(Objects.equals(address.getResults().get(0).getFormattedAddress(), storeAddress)){
+      sellerStore.setStoreName(address.getResults().get(0).getFormattedAddress());
+      sellerStore.setLocation(address.getResults().get(0).getGeometry().getLocation().getLat() + "," + address.getResults().get(0).getGeometry().getLocation().getLng());
+    }
   }
 }
