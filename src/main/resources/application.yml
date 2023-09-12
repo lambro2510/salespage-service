@@ -44,7 +44,7 @@ spring:
         num-partitions: 1
   data:
     mongodb:
-      uri: ${DB_URI:mongodb://lam:Banhmy09@tcp.appengine.bfcplatform.vn:27602/salepage?authSource=admin}
+      uri: ${MONGODB_URI:mongodb://lam:Banhmy09@tcp.appengine.bfcplatform.vn:27602/salepage?authSource=admin}
   aop:
     proxy-target-class: true
   main:
