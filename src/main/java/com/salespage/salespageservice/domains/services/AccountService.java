@@ -45,7 +45,7 @@ public class AccountService extends BaseService {
   @Autowired
   private GoogleDriver googleDriver;
 
-  @Value("${twilio.open:false}")
+  @Value("${twilio.open:true}")
   private boolean isCheckPhoneNumber;
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)

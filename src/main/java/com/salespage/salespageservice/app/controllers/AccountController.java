@@ -90,7 +90,7 @@ public class AccountController extends BaseController {
     }
   }
 
-  @PostMapping("verify")
+  @GetMapping("verify")
   @Operation(summary = "Xác nhận mã đăng nhập", description = "Xác nhận mã đăng nhâp")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Xác minh mã xác minh thành công"),
