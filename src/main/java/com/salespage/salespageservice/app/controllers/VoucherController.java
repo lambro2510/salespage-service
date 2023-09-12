@@ -52,9 +52,9 @@ public class VoucherController extends BaseController {
 
 
   @GetMapping("user/voucher")
-  public ResponseEntity<BaseResponse> getUserVoucher(Authentication authentication, @RequestParam String productId) {
+  public ResponseEntity<BaseResponse> getUserVoucher(Authentication authentication, @RequestParam String productId, @RequestParam String storeId) {
     try {
-      return successApi(voucherCodeService.getUserVoucher(getUsername(authentication), productId));
+      return successApi(voucherCodeService.getUserVoucher(getUsername(authentication), productId, storeId));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

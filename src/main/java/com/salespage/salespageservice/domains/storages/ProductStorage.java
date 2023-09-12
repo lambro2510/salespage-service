@@ -32,8 +32,8 @@ public class ProductStorage extends BaseStorage {
     productRepository.deleteById(new ObjectId(productId));
   }
 
-  public List<Product> findBySellerStoreId(String storeId) {
-    return productRepository.findBySellerStoreId(storeId);
+  public List<Product> findBySellerStoreIdsContaining(String storeId) {
+    return productRepository.findBySellerStoreIdsContaining(storeId);
   }
 
   public void saveAll(List<Product> products) {

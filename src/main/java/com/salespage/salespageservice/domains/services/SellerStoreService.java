@@ -69,12 +69,11 @@ public class SellerStoreService extends BaseService {
     for (SellerStore sellerStore : sellerStoreList) {
       StoreDataResponse storeDataResponse = new StoreDataResponse();
       storeDataResponse.assignFromSellerStore(sellerStore);
-      List<Product> products = productStorage.findBySellerStoreId(sellerStore.getId().toHexString());
+      List<Product> products = productStorage.findBySellerStoreIdsContaining(sellerStore.getId().toHexString());
       List<ProductDataResponse> productDataResponses = new ArrayList<>();
       for (Product product : products) {
         ProductDataResponse productDataResponse = new ProductDataResponse();
         productDataResponse.assignFromProduct(product);
-        productDataResponse.setStoreName(sellerStore.getStoreName());
         productDataResponses.add(productDataResponse);
         List<ProductTypeDetail> productTypeDetails = productTypeStorage.findByProductId(product.getId().toHexString());
         productDataResponse.setProductTypes(productTypeDetails.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));

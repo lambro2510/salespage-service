@@ -26,8 +26,8 @@ public class VoucherStoreStorage extends BaseStorage {
     return voucherStoreRepository.findVoucherStoreByCreatedBy(username);
   }
 
-  public List<VoucherStore> findByVoucherStoreTypeAndRefId(VoucherStoreType voucherStoreType, String productId) {
-    return voucherStoreRepository.findByVoucherStoreTypeAndRefId(voucherStoreType, productId);
+  public List<VoucherStore> findByVoucherStoreTypeAndRefId(VoucherStoreType voucherStoreType, String refId) {
+    return voucherStoreRepository.findByVoucherStoreTypeAndRefId(voucherStoreType, refId);
   }
 
   public Page<VoucherStore> findVoucherStoreByCreatedBy(String username, Pageable pageable) {

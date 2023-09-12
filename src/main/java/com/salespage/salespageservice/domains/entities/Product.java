@@ -3,12 +3,12 @@ package com.salespage.salespageservice.domains.entities;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
-import com.salespage.salespageservice.app.dtos.productDtos.ProductInfoDto;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
+import com.salespage.salespageservice.domains.entities.types.SizeType;
+import com.salespage.salespageservice.domains.entities.types.WeightType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
@@ -48,32 +48,33 @@ public class Product extends BaseEntity {
   @Field("rate")
   private Rate rate = new Rate();
 
-  @Field("selling_address")
-  private String sellingAddress;
-
   @Field("seller_username")
   private String sellerUsername;
 
-  @Field("seller_store_id")
-  private String sellerStoreId;
+  @Field("seller_store_ids")
+  private List<String> sellerStoreIds;
+
+  @Field("detail")
+  private ProductDetail detail;
 
   public void updateProduct(CreateProductInfoDto dto) {
     productName = dto.getProductName();
     description = dto.getDescription();
     categoryId = dto.getCategoryId();
     price = dto.getProductPrice();
-    sellingAddress = dto.getSellingAddress();
-    sellerStoreId = dto.getStoreId();
-  }
+    sellerStoreIds = dto.getStoreIds();
+    ProductDetail productDetail = new ProductDetail();
+    productDetail.origin = dto.getOrigin();
+    productDetail.isForeign = dto.getIsForeign();
+    productDetail.size = dto.getSize();
+    productDetail.sizeType = dto.getSizeType();
+    productDetail.weight = dto.getWeight();
+    productDetail.weightType = dto.getWeightType();
+    productDetail.colors = dto.getColors();
+    productDetail.isGuarantee = dto.getIsGuarantee();
+    productDetail.quantity = dto.getQuantity();
+    detail = productDetail;
 
-  public void updateProductInfo(ProductInfoDto dto) {
-    updateProduct(dto);
-  }
-
-  public ProductDataResponse assignToProductDataResponse() {
-    ProductDataResponse response = new ProductDataResponse();
-    response.assignFromProduct(this);
-    return response;
   }
 
   public ProductItemResponse assignToProductItemResponse() {
@@ -93,5 +94,36 @@ public class Product extends BaseEntity {
     ProductDetailResponse response = new ProductDetailResponse();
     response.assignFromProduct(this);
     return response;
+  }
+
+  @Data
+  public static class ProductDetail {
+
+    @Field("origin")
+    String origin;
+
+    @Field("is_foreign")
+    Boolean isForeign;
+
+    @Field("size")
+    Long size;
+
+    @Field("sizeType")
+    SizeType sizeType;
+
+    @Field("weight")
+    Long weight;
+
+    @Field("weightType")
+    WeightType weightType;
+
+    @Field("colors")
+    List<String> colors;
+
+    @Field("is_guarantee")
+    Boolean isGuarantee;
+
+    @Field("quantity")
+    Long quantity = 0L;
   }
 }

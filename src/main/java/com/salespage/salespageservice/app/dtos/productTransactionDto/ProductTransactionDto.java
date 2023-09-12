@@ -12,6 +12,10 @@ public class ProductTransactionDto extends ProductTransactionInfoDto {
   @Schema(description = "ID sản phẩm", required = true)
   private String productId;
 
+  @NotBlank(message = "ID cửa hàng m")
+  @Schema(description = "ID cửa hàng", required = true)
+  private String storeId;
+
   @Schema(description = "Mã voucher")
   private String voucherCode;
 }

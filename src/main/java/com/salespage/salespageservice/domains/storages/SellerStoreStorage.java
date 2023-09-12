@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class SellerStoreStorage extends BaseStorage {
@@ -41,6 +42,10 @@ public class SellerStoreStorage extends BaseStorage {
 
   public List<SellerStore> findByIdIn(List<ObjectId> ids) {
     return sellerStoreRepository.findByIdIn(ids);
+  }
+
+  public List<SellerStore> findSellerStoreByIdIn(List<String> ids) {
+    return sellerStoreRepository.findByIdIn(ids.stream().map(k -> new ObjectId(k)).collect(Collectors.toList()));
   }
 
   public boolean isExistByStoreId(String refId) {

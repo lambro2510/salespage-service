@@ -35,12 +35,6 @@ public class ProductDataResponse {
   @Schema(description = "Tên người bán")
   protected String sellerUsername;
 
-  @Schema(description = "Tên cửa hàng")
-  protected String storeName;
-
-  @Schema(description = "Địa chỉ bán hàng")
-  protected String sellingAddress;
-
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();
@@ -48,6 +42,5 @@ public class ProductDataResponse {
     sellerUsername = product.getSellerUsername();
     productRate = product.getRate();
     description = product.getDescription();
-    sellingAddress = product.getSellingAddress();
   }
 }

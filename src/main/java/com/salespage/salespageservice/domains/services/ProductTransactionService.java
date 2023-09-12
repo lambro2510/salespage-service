@@ -80,7 +80,7 @@ public class ProductTransactionService extends BaseService {
     if (username.equals(product.getSellerUsername()))
       throw new TransactionException(ErrorCode.NOT_ENOUGH_MONEY, "Bạn không thể mua mặt hàng này");
 
-    SellerStore sellerStore = sellerStoreStorage.findById(product.getSellerStoreId());
+    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Cửa hàng không tồn tại");
 
     User user = userStorage.findByUsername(username);

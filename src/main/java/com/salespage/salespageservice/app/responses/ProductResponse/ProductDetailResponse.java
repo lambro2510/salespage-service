@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.responses.ProductResponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.salespage.salespageservice.app.responses.UploadImageData;
+import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductCategory;
 import com.salespage.salespageservice.domains.entities.SellerStore;
@@ -33,17 +34,8 @@ public class ProductDetailResponse extends ProductResponse {
   @Schema(description = "Đánh giá sản phẩm")
   Float rate = 0F;
 
-  @Schema(description = "URL ảnh cửa hàng")
-  String storeImageUrl;
-
-  @Schema(description = "ID cửa hàng")
-  String storeId;
-
-  @Schema(description = "Tên cửa hàng")
-  String storeName;
-
-  @Schema(description = "Đánh giá cửa hàng")
-  Rate storeRate;
+  @Schema(description = "Danh sách các cửa hàng bán")
+  List<SellerStoreResponse> stores;
 
   @Schema(description = "ID danh mục sản phẩm")
   String categoryId;
@@ -56,13 +48,6 @@ public class ProductDetailResponse extends ProductResponse {
         .collect(Collectors.toList());
     categoryId = product.getCategoryId();
     description = product.getDescription();
-  }
-
-  public void assignFromStore(SellerStore sellerStore) {
-    storeId = sellerStore.getId().toHexString();
-    storeName = sellerStore.getStoreName();
-    storeImageUrl = sellerStore.getImageUrl();
-    storeRate = sellerStore.getRate();
   }
 
   public void assignFromCategory(ProductCategory productCategory) {
