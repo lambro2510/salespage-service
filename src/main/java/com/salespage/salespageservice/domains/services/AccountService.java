@@ -97,6 +97,10 @@ public class AccountService extends BaseService {
 
 
   public void verifyCode(String username, int code) {
+    User user = userStorage.findByUsername(username);
+    if(Objects.isNull(user)){
+      throw new ResourceNotFoundException("Không tồn tại người dùng này");
+    }
     Integer verifyCode = Integer.valueOf(accountStorage.getVerifyCode(username));
     if (!verifyCode.equals(code))
       throw new ResourceNotFoundException("Invalid verify code");
