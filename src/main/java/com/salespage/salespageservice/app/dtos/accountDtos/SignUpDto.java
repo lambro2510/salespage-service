@@ -48,7 +48,7 @@ public class SignUpDto {
   @NotNull(message = "Ngày sinh là bắt buộc")
   @DateTimeFormat(pattern = "dd-MM-yyyy")
   @Past(message = "Ngày sinh không được lớn hơn ngày hiện tại")
-  @Schema(description = "Ngày sinh của người dùng", format = "date", example = "01-01-1990")
+  @Schema(description = "Ngày sinh của người dùng", example = "01-01-1990")
   @JsonFormat(pattern = "dd-MM-yyyy")
   private Date dateOfBirth;
 
