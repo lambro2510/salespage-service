@@ -98,7 +98,7 @@ public class AccountController extends BaseController {
       @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ, vui lòng kiểm tra các thông số yêu cầu"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> verifyCode(@RequestParam("code") Integer code, String username) {
+  public ResponseEntity<BaseResponse> verifyCode(@RequestParam("code") Integer code,@RequestParam String username) {
     try {
       accountService.verifyCode(username, code);
       return successApi("Xác minh thành công");
