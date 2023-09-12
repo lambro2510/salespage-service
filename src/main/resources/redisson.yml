@@ -1,3 +1,2 @@
 singleServerConfig:
   address: ${REDIS_ADDRESS}
-
