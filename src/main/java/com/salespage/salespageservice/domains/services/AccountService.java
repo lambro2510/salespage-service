@@ -101,10 +101,8 @@ public class AccountService extends BaseService {
     if(Objects.isNull(user)){
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
     }
-    String otp = accountStorage.getVerifyCode(username);
-    if(otp == null) throw new ResourceNotFoundException("Invalid verify code");
-    Integer verifyCode = Integer.valueOf(otp);
-    if (!verifyCode.equals(code))
+    Integer verifyCode = accountStorage.getVerifyCode(username);
+    if (Objects.isNull(verifyCode))
       throw new ResourceNotFoundException("Invalid verify code");
 
     Account account = accountStorage.findByUsername(username);
@@ -126,12 +124,12 @@ public class AccountService extends BaseService {
     if (Objects.isNull(user)) throw new AccountNotExistsException("Account not exist");
     int max = 99999;
     int min = 10000;
-    String code = (int) (Math.random() * (max - min + 1) + min ) + " ";
+    Integer code = (int) (Math.random() * (max - min + 1) + min );
     accountStorage.saveVerifyCode(username, code);
     if(isCheckPhoneNumber){
-      SmsUtils.sendMessage(code, user.getPhoneNumber(), authToken);
+      SmsUtils.sendMessage(code.toString(), user.getPhoneNumber(), authToken);
     }
-    EmailRequest.sendVerificationCode(user.getEmail(), code);
+    EmailRequest.sendVerificationCode(user.getEmail(), code.toString());
   }
 
   public void changeShipMode(String username, List<UserRole> userRoles, ShipperStatusDto dto) {
