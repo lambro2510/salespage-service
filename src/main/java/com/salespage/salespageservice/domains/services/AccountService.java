@@ -101,7 +101,9 @@ public class AccountService extends BaseService {
     if(Objects.isNull(user)){
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
     }
-    Integer verifyCode = Integer.valueOf(accountStorage.getVerifyCode(username));
+    String otp = accountStorage.getVerifyCode(username);
+    if(otp == null) throw new ResourceNotFoundException("Invalid verify code");
+    Integer verifyCode = Integer.valueOf(otp);
     if (!verifyCode.equals(code))
       throw new ResourceNotFoundException("Invalid verify code");
 
