@@ -6,6 +6,8 @@ import com.salespage.salespageservice.domains.entities.types.UserState;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class AccountStorage extends BaseStorage {
   public Account findByUsername(String username) {
@@ -36,4 +38,7 @@ public class AccountStorage extends BaseStorage {
     return accountRepository.existsByUsernameAndRole(username, role);
   }
 
+  public List<Account> findAll() {
+    return accountRepository.findAll();
+  }
 }

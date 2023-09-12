@@ -21,6 +21,7 @@ import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
 import com.salespage.salespageservice.domains.utils.SmsUtils;
 import lombok.extern.log4j.Log4j2;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -40,20 +41,19 @@ public class AccountService extends BaseService {
   private UserService userService;
 
   @Autowired
-  private Producer producer;
-
-  @Autowired
   private GoogleDriver googleDriver;
 
   @Value("${twilio.open:true}")
   private boolean isCheckPhoneNumber;
+
+  @Value("${twilio.token}")
+  private String authToken;
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public JwtResponse signUp(SignUpDto dto) {
 
     if (!dto.getConfirmPassword().equals(dto.getPassword())) throw new ResourceExitsException("Invalid password");
     if (accountStorage.existByUsername(dto.getUsername())) throw new ResourceExitsException("User existed");
-
     Account account = new Account();
     account.createAccount(dto);
     accountStorage.save(account);
@@ -124,10 +124,10 @@ public class AccountService extends BaseService {
     if (Objects.isNull(user)) throw new AccountNotExistsException("Account not exist");
     int max = 99999;
     int min = 10000;
-    String code = Math.random() * (max - min + 1) + min + " ";
+    String code = (int) (Math.random() * (max - min + 1) + min ) + " ";
     accountStorage.saveVerifyCode(username, code);
     if(isCheckPhoneNumber){
-      SmsUtils.sendMessage(code, user.getPhoneNumber());
+      SmsUtils.sendMessage(code, user.getPhoneNumber(), authToken);
     }
     EmailRequest.sendVerificationCode(user.getEmail(), code);
   }

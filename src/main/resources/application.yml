@@ -99,3 +99,6 @@ mb-bank:
 goong:
   url: ${GOONG_URL:https://rsapi.goong.io}
   api-key: ${GOONG_API_KEY:v1DJOAPJpz8e6wHfg50LXQuMQThGJhbT6BYFwdCn}
+
+twilio:
+  token : ${AUTH_TOKEN:6110a808d7174e32b183705194903c8b}

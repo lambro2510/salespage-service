@@ -11,11 +11,11 @@ import java.math.BigDecimal;
 public class SmsUtils {
   // Find your Account Sid and Token at twilio.com/console
   public static final String ACCOUNT_SID = "AC477c8a8ccc797b5b996db17c24858838";
-  public static final String AUTH_TOKEN = "4d2dc761f6e64a0556f133210c81a4f3";
+  public String AUTH_TOKEN;
 
-  public static void sendMessage(String otp, String phoneNumber) {
+  public static void sendMessage(String otp, String phoneNumber, String authToken) {
 
-    Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+    Twilio.init(ACCOUNT_SID, authToken);
     Message message = Message.creator(
             new com.twilio.type.PhoneNumber(Helper.regexPhoneNumber(phoneNumber)),
             new com.twilio.type.PhoneNumber("+18155960805"),
@@ -25,7 +25,4 @@ public class SmsUtils {
     System.out.println(message.getSid());
   }
 
-  public static void main(String[] args) {
-    sendMessage("251002", "+84979163206");
-  }
 }
