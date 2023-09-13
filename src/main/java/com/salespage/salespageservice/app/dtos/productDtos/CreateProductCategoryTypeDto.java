@@ -22,13 +22,10 @@ public class CreateProductCategoryTypeDto {
   @Schema(description = "Mô tả")
   private String description;
 
-  @NotNull(message = "Loại thời gian là bắt buộc")
-  @Schema(description = "Loại thời gian", required = true)
-  private TimeType timeType;
+  @Schema(description = "Độ tuối người dùng")
+  private String rangeAge;
 
-  @NotNull(message = "Giá trị thời gian là bắt buộc")
-  @Schema(description = "Giá trị thời gian", required = true)
-  private Integer timeValue;
+
 
   @NotBlank(message = "Loại sản phẩm là bắt buộc")
   @Schema(description = "Loại sản phẩm", required = true)

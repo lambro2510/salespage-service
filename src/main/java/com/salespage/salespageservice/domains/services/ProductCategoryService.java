@@ -22,6 +22,7 @@ public class ProductCategoryService extends BaseService {
         .categoryName(dto.getCategoryName())
         .categoryType(dto.getCategoryType())
         .productType(dto.getProductType())
+        .rangeAge(dto.getRangeAge())
         .description(dto.getDescription())
         .createdBy(username)
         .updatedBy(username)
@@ -41,6 +42,7 @@ public class ProductCategoryService extends BaseService {
     productCategory.setProductType(dto.getProductType());
     productCategory.setCategoryType(dto.getCategoryType());
     productCategory.setDescription(dto.getDescription());
+    productCategory.setRangeAge(dto.getRangeAge());
     productCategory.setUpdatedBy(username);
     productCategory.setUpdatedAt(System.currentTimeMillis());
     productCategoryStorage.save(productCategory);

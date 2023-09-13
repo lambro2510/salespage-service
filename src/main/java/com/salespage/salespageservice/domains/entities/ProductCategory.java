@@ -35,6 +35,9 @@ public class ProductCategory extends BaseEntity {
   @Field("product_type")
   private String productType;
 
+  @Field("rangeAge")
+  private String rangeAge;
+
   @Field("created_by")
   private String createdBy;
 
