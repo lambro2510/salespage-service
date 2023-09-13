@@ -45,8 +45,8 @@ public class ProductType extends BaseEntity {
 
   public ProductTypeResponse partnerToProductTypeResponse() {
     ProductTypeResponse response = new ProductTypeResponse();
-    response.setProductType(productType);
-    response.setTypeName(productTypeName);
+    response.setValue(productType);
+    response.setLabel(productTypeName);
     return response;
   }
 }
