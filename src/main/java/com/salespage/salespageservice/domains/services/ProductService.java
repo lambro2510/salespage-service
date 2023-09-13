@@ -402,4 +402,10 @@ public class ProductService extends BaseService {
     ratingStorage.save(rating);
     return rate;
   }
+
+  public List<String> getImage(String username, String productId) {
+    Product product = productStorage.findProductById(productId);
+    if(Objects.isNull(product)) throw new ResourceNotFoundException("Không có sản phẩm");
+    return product.getImageUrls();
+  }
 }
