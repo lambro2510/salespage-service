@@ -2,7 +2,6 @@ package com.salespage.salespageservice.app.controllers.SellerControllers;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
-import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,7 +65,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "401", description = "Không được phép"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> createProduct(Authentication authentication, @RequestBody CreateProductInfoDto dto) {
+  public ResponseEntity<BaseResponse> createProduct(Authentication authentication, @RequestBody @Valid CreateProductInfoDto dto) {
     try {
       return successApi("Tạo sản phẩm thành công", productService.createProduct(getUsername(authentication), dto));
     } catch (Exception ex) {
