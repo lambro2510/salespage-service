@@ -403,9 +403,9 @@ public class ProductService extends BaseService {
     return rate;
   }
 
-  public List<String> getImage(String username, String productId) {
+  public List<UploadImageData> getImage(String username, String productId) {
     Product product = productStorage.findProductById(productId);
     if(Objects.isNull(product)) throw new ResourceNotFoundException("Không có sản phẩm");
-    return product.getImageUrls();
+    return product.getImageUrls().stream().map(k -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", k, k)).collect(Collectors.toList());
   }
 }

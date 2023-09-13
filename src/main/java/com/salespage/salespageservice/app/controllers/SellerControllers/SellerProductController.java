@@ -92,7 +92,7 @@ public class SellerProductController extends BaseController {
     }
   }
 
-  @PostMapping("images/{productId}")
+  @GetMapping("images/{productId}")
   @Operation(summary = "Tải lên hình ảnh cho sản phẩm", description = "Tải lên một hoặc nhiều hình ảnh cho sản phẩm với ID đã cho")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Hình ảnh tải lên thành công"),
