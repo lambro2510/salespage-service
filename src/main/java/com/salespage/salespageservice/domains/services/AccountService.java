@@ -86,7 +86,7 @@ public class AccountService extends BaseService {
 
     Account account = accountStorage.findByUsername(dto.getUsername());
     if (account == null || !account.getUsername().equals(dto.getUsername()) || !BCrypt.checkpw(dto.getPassword(), account.getPassword()))
-      throw new AccountNotExistsException("Invalid username or password");
+      throw new BadRequestException("Invalid username or password");
 
     TokenInfo tokenInfo = new TokenInfo(account.getUsername(), account.getRole(), account.getState());
     String token = jwtUtils.generateToken(tokenInfo);
