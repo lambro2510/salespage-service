@@ -21,7 +21,7 @@ public class PaymentController extends BaseController {
   @Autowired
   private PaymentService paymentService;
 
-  @GetMapping("payment-transaction")
+  @GetMapping("")
   @Operation(summary = "Lịch sử nạp và rút tiền", description = "Truy vấn lịch sử các giao dịch nạp và rút tiền")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
@@ -36,7 +36,7 @@ public class PaymentController extends BaseController {
     }
   }
 
-  @PostMapping("create-payment")
+  @PostMapping("")
   @Operation(summary = "Tạo giao dịch", description = "Tạo một giao dịch nạp hoặc rút tiền mới")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
@@ -50,7 +50,7 @@ public class PaymentController extends BaseController {
     }
   }
 
-  @PostMapping("confirm-payment")
+  @PostMapping("confirm")
   @Operation(summary = "Xác nhận giao dịch", description = "Xác nhận một giao dịch nạp hoặc rút tiền")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
@@ -72,7 +72,7 @@ public class PaymentController extends BaseController {
     }
   }
 
-  @PutMapping("cancel-payment")
+  @PutMapping("cancel")
   @Operation(summary = "Hủy giao dịch", description = "Hủy bỏ một giao dịch nạp hoặc rút tiền")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
