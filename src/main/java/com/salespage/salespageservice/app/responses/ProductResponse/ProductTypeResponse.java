@@ -7,8 +7,8 @@ import lombok.Data;
 public class ProductTypeResponse {
 
   @Schema(description = "Loại sản phẩm")
-  String productType;
+  String value;
 
   @Schema(description = "Tên loại sản phẩm")
-  String typeName;
+  String label;
 }
