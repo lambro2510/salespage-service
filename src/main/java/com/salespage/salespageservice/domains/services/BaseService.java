@@ -19,7 +19,7 @@ import org.springframework.http.HttpMethod;
 import java.util.List;
 import java.util.Objects;
 
-public class BaseService {
+public class BaseService{
 
   @Value("${goong.url}")
   private String goongUrl;
@@ -107,6 +107,9 @@ public class BaseService {
 
   @Autowired
   protected RatingStorage ratingStorage;
+
+  @Autowired
+  protected OtpStorage otpStorage;
 
   @Autowired
   @Lazy

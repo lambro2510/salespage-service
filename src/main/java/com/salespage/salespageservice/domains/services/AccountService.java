@@ -5,8 +5,10 @@ import com.salespage.salespageservice.app.dtos.accountDtos.ShipperStatusDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.Account;
+import com.salespage.salespageservice.domains.entities.Otp;
 import com.salespage.salespageservice.domains.entities.Shipper;
 import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.entities.types.OtpStatus;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.entities.types.UserState;
 import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
@@ -25,6 +27,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -119,17 +122,19 @@ public class AccountService extends BaseService {
     }
   }
 
+  @Async("threadPoolTaskExecutor")
   public void createVerifyCode(String username) {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) throw new AccountNotExistsException("Account not exist");
     int max = 99999;
     int min = 10000;
-    Integer code = (int) (Math.random() * (max - min + 1) + min );
-    accountStorage.saveVerifyCode(username, code);
+    int code = (int) (Math.random() * (max - min + 1) + min );
+    Otp otp = new Otp(new ObjectId(), user.getPhoneNumber(), Integer.toString(code), OtpStatus.WAITING);
+    otpStorage.saveVerifyCode(username, otp);
     if(isCheckPhoneNumber){
-      SmsUtils.sendMessage(code.toString(), user.getPhoneNumber(), authToken);
+      SmsUtils.sendMessage(Integer.toString(code), user.getPhoneNumber(), authToken);
     }
-    EmailRequest.sendVerificationCode(user.getEmail(), code.toString());
+    EmailRequest.sendVerificationCode(user.getEmail(), Integer.toString(code));
   }
 
   public void changeShipMode(String username, List<UserRole> userRoles, ShipperStatusDto dto) {

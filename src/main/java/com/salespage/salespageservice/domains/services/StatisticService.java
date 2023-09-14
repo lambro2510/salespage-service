@@ -20,68 +20,8 @@ import java.util.*;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 
 @Service
-public class PaymentStatisticService extends BaseService {
-  public void asyncStatisticPreDay() {
-    List<Product> products = productStorage.findAll();
-    StatisticCheckpoint statisticCheckpoint = statisticCheckpointStorage.findById(Constants.PAYMENT_STATISTIC_CHECKPOINT);
-    if (Objects.isNull(statisticCheckpoint)) {
-      statisticCheckpoint = new StatisticCheckpoint();
-      statisticCheckpoint.setCheckPoint(DateUtils.now().toLocalDate().minusDays(64));
-      statisticCheckpoint.setId(Constants.PAYMENT_STATISTIC_CHECKPOINT);
-    }
-    for (LocalDate current = statisticCheckpoint.getCheckPoint(); current.isBefore(DateUtils.now().toLocalDate()); current = current.plusDays(1)) {
-      for (Product product : products) {
-        PaymentStatistic paymentStatistic = paymentStatisticStorage.findByDailyAndProductId(current, product.getId().toHexString());
-        if (paymentStatistic == null) {
-          paymentStatistic = new PaymentStatistic();
-        }
-        TotalPaymentStatisticResponse totalPaymentStatisticResponse = lookupAggregation(product.getId().toHexString(), current, current.plusDays(1));
-        paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
-        paymentStatistic.setDaily(current);
-        paymentStatistic.setProductId(product.getId().toHexString());
-        paymentStatisticStorage.save(paymentStatistic);
-        statisticCheckpoint.setCheckPoint(current);
-        statisticCheckpointStorage.save(statisticCheckpoint);
-      }
-    }
-  }
+public class StatisticService extends BaseService {
 
-  public void asyncStatisticToday() {
-    LocalDate startDay = DateUtils.startOfDay().toLocalDate();
-    LocalDate endDay = startDay.plusDays(1);
-    List<Product> products = productStorage.findAll();
-
-    for (Product product : products) {
-      PaymentStatistic paymentStatistic = paymentStatisticStorage.findByDailyAndProductId(startDay, product.getId().toHexString());
-      if (paymentStatistic == null) {
-        paymentStatistic = new PaymentStatistic();
-      }
-      TotalPaymentStatisticResponse totalPaymentStatisticResponse = lookupAggregation(product.getId().toHexString(), startDay, endDay);
-      paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
-      paymentStatistic.setDaily(startDay);
-      paymentStatistic.setProductId(product.getId().toHexString());
-      paymentStatisticStorage.save(paymentStatistic);
-    }
-
-  }
-
-  public TotalPaymentStatisticResponse lookupAggregation(String productId, LocalDate gte, LocalDate lte) {
-    Criteria criteria = Criteria.where("product_id").is(productId)
-        .andOperator(Criteria.where("created_at").gte(DateUtils.convertLocalDateToLong(gte)), Criteria.where("created_at").lte(DateUtils.convertLocalDateToLong(lte)));
-    AggregationOperation match = Aggregation.match(criteria);
-    GroupOperation groupOperation = Aggregation.group()
-        .sum("total_price").as("totalPurchase")
-        .sum("ship_cod").as("totalShipCod");
-
-    Aggregation aggregation = newAggregation(match, groupOperation);
-    AggregationResults<TotalPaymentStatisticResponse> result
-        = mongoTemplate.aggregate(aggregation, "product_transaction", TotalPaymentStatisticResponse.class);
-    TotalPaymentStatisticResponse response = new TotalPaymentStatisticResponse();
-    if (result.getUniqueMappedResult() != null) {
-      response = result.getUniqueMappedResult();
-    }
-    return response;
-  }
 
   public List<TotalPaymentStatisticResponse> getStatistic(Long gte, Long lte) {
     LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();

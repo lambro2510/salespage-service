@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.domains.entities.SystemLog;
 import com.salespage.salespageservice.domains.entities.types.LogType;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,6 @@ public class SystemLogService {
     systemLog.setMessage(message);
     systemLog.setTrace(trace);
     systemLog.setCreatedBy(createdBy);
-    systemLog.setCreatedAt(LocalDateTime.now());
+    systemLog.setCreatedAt(DateUtils.now());
   }
 }

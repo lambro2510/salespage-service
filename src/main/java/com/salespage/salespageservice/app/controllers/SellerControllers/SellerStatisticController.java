@@ -2,7 +2,7 @@ package com.salespage.salespageservice.app.controllers.SellerControllers;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.responses.BaseResponse;
-import com.salespage.salespageservice.domains.services.PaymentStatisticService;
+import com.salespage.salespageservice.domains.services.StatisticService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = "bearerAuth")
 public class SellerStatisticController extends BaseController {
 
-  @Autowired private PaymentStatisticService paymentStatisticService;
+  @Autowired private StatisticService statisticService;
   @GetMapping("")
   public ResponseEntity<BaseResponse> getTotalStatistic(Authentication authentication, @RequestParam Long lte, @RequestParam Long gte){
     try{
-      return successApi(paymentStatisticService.getStatistic(gte, lte));
+      return successApi(statisticService.getStatistic(gte, lte));
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }
@@ -33,7 +33,7 @@ public class SellerStatisticController extends BaseController {
                                                                  @RequestParam Long lte,
                                                                  @RequestParam Long gte){
     try{
-      return successApi(paymentStatisticService.getStatisticOfProduct(productId,gte, lte));
+      return successApi(statisticService.getStatisticOfProduct(productId,gte, lte));
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }

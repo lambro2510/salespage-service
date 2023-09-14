@@ -88,6 +88,9 @@ public class BaseStorage {
   protected PaymentStatisticRepository paymentStatisticRepository;
 
   @Autowired
+  protected OtpRepository otpRepository;
+
+  @Autowired
   protected MongoTemplate mongoTemplate;
 
   @Autowired
