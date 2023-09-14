@@ -46,7 +46,7 @@ public class AccountService extends BaseService {
   @Autowired
   private GoogleDriver googleDriver;
 
-  @Value("${twilio.open:true}")
+  @Value("${twilio.open:false}")
   private boolean isCheckPhoneNumber;
 
   @Value("${twilio.token}")
@@ -99,7 +99,7 @@ public class AccountService extends BaseService {
   }
 
 
-  public void verifyCode(String username, int code) {
+  public void verifyCode(String username, int code) throws IOException {
     User user = userStorage.findByUsername(username);
     if(Objects.isNull(user)){
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
