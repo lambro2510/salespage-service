@@ -4,6 +4,7 @@ import com.salespage.salespageservice.domains.repositories.base.impl.MongoResour
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
@@ -11,6 +12,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 @EnableScheduling
 @EnableWebSocket
 @EnableMongoRepositories(repositoryBaseClass = MongoResourceRepositoryImpl.class)
+@EnableAsync
 public class SalesPageAdminServiceApplication {
 
   public static void main(String[] args) {

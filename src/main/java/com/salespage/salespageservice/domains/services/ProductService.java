@@ -242,6 +242,7 @@ public class ProductService extends BaseService {
       productResponse.assignFromProduct(product);
       return productResponse;
     }).collect(Collectors.toList()));
+    statisticService.updateView(productId);
     return response;
   }
 
