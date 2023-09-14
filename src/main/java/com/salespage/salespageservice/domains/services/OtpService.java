@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class OtpService extends BaseService{
-  public final Long expireOtpTime = 600L;
+  public final Long expireOtpTime = 600000L;
   public List<Otp> getWaitingOtp() {
     List<Otp> waitingOtps = otpStorage.findByStatus(OtpStatus.WAITING);
     List<Otp> sendOtp = new ArrayList<>();
