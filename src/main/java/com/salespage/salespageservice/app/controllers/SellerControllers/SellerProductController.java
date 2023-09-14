@@ -31,7 +31,7 @@ public class SellerProductController extends BaseController {
   private ProductService productService;
 
   @GetMapping("")
-  @Operation(summary = "Tạo sản phẩm", description = "Tạo sản phẩm mới với thông tin đã cho")
+  @Operation(summary = "Danh sách sản phẩm", description = "Tạo sản phẩm mới với thông tin đã cho")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "Sản phẩm tạo thành công"),
       @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),

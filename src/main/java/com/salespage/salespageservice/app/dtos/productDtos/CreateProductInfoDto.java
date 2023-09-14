@@ -33,7 +33,6 @@ public class CreateProductInfoDto {
   @Schema(description = "Giá sản phẩm", example = "20990000")
   private Double productPrice;
 
-  @NotBlank(message = "Id cửa hàng không được để trống")
   @Size(max = 30, message = "Id cửa hàng tối đa 30 ký tự")
   @Schema(description = "Danh sách ID cửa hàng", example = "[\"642835ac24d1d851192a251d\",\"6428636624d1d851192a251e\",\"645c82f65ccca035f58f790e\"]")
   private List<String> storeIds;
