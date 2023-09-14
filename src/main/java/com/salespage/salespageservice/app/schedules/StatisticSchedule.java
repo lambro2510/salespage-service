@@ -1,7 +1,7 @@
 //package com.salespage.salespageservice.app.schedules;
 //
 //import com.salespage.salespageservice.domains.services.CheckInDailyStatisticService;
-//import com.salespage.salespageservice.domains.services.PaymentStatisticService;
+//import com.salespage.salespageservice.domains.services.ProductStatisticService;
 //import com.salespage.salespageservice.domains.services.TransactionStatisticService;
 //import lombok.extern.log4j.Log4j2;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@
 //  private CheckInDailyStatisticService checkInDailyStatisticService;
 //
 //  @Autowired
-//  private PaymentStatisticService paymentStatisticService;
+//  private ProductStatisticService ProductStatisticService;
 //
 //  @Scheduled(fixedDelay = 1000 * 30) //30s 1 lần
 //  public void asyncTransactionStatisticToday() {
@@ -73,14 +73,14 @@
 //  }
 //
 //  @Scheduled(fixedDelay = 1000 * 60) //1p 1 lần
-//  public void paymentStatisticToday() {
-//    log.info("paymentStatistic -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
-//    paymentStatisticService.asyncStatisticToday();
+//  public void ProductStatisticToday() {
+//    log.info("ProductStatistic -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
+//    ProductStatisticService.asyncStatisticToday();
 //  }
 //
 //  @Scheduled(fixedDelay = 1000 * 60) //1p 1 lần
-//  public void paymentStatisticPreDay() {
-//    log.info("paymentStatistic -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
-//    paymentStatisticService.asyncStatisticPreDay();
+//  public void ProductStatisticPreDay() {
+//    log.info("ProductStatistic -> {}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss")));
+//    ProductStatisticService.asyncStatisticPreDay();
 //  }
 //}

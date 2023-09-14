@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class TotalPaymentStatisticResponse {
+public class TotalProductStatisticResponse {
   private String productId;
   private String productName;
   private Long totalUser = 0L;

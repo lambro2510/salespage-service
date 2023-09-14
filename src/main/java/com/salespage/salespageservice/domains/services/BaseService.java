@@ -97,7 +97,7 @@ public class BaseService{
   protected StatisticCheckpointStorage statisticCheckpointStorage;
 
   @Autowired
-  protected PaymentStatisticStorage paymentStatisticStorage;
+  protected ProductStatisticStorage productStatisticStorage;
 
   @Autowired
   protected ConfigStorage configStorage;
