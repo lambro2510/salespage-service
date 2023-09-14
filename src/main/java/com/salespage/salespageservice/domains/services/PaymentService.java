@@ -9,6 +9,7 @@ import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
+import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
@@ -51,6 +52,7 @@ public class PaymentService extends BaseService {
     paymentTransaction.setUsername(username);
     paymentTransaction.setPaymentStatus(PaymentStatus.WAITING);
     paymentTransaction.setBankAccountId(dto.getBankAccountId());
+    paymentTransaction.setType(PaymentType.IN);
     paymentTransaction.setAmount(dto.getAmount());
     paymentTransaction.setDescription(Helper.genDescription(id.toHexString()));
     producer.createPaymentTransaction(paymentTransaction);
