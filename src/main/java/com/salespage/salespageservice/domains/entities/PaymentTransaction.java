@@ -45,6 +45,7 @@ public class PaymentTransaction extends BaseEntity {
     response.setStatus(paymentStatus);
     response.setCreated(new Date(createdAt));
     response.setAmount(amount);
+    response.setType(type);
     return response;
   }
 

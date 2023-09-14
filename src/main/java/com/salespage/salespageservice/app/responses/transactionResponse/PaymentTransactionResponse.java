@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.responses.transactionResponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
+import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -27,6 +28,9 @@ public class PaymentTransactionResponse {
 
   @Schema(description = "Số tiền")
   Long amount;
+
+  @Schema(description = "Loại thanh toán")
+  PaymentType type;
 
   @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
   @Schema(description = "Ngày tạo")
