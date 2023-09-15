@@ -85,16 +85,17 @@ public class StatisticService extends BaseService {
   }
 
   private void partnerToResponse(TotalProductStatisticResponse statistic, ProductStatistic productStatistic) {
+    Integer totalView = Math.toIntExact(productStatistic.getTotalView() == null ? 0 : productStatistic.getTotalView());
     statistic.setTotalBuy(statistic.getTotalBuy() + productStatistic.getTotalBuy());
     statistic.setTotalPurchase(statistic.getTotalPurchase() + productStatistic.getTotalPurchase());
     statistic.setTotalUser(statistic.getTotalUser() + productStatistic.getTotalUser());
-    statistic.setTotalView(statistic.getTotalView() + productStatistic.getTotalView());
+    statistic.setTotalView(statistic.getTotalView() + totalView);
     TotalProductStatisticResponse.Daily daily = new TotalProductStatisticResponse.Daily();
     daily.setDaily(productStatistic.getDaily());
     daily.setTotalBuy(productStatistic.getTotalBuy());
     daily.setTotalPurchase(productStatistic.getTotalPurchase());
     daily.setTotalUser(productStatistic.getTotalUser());
-    daily.setTotalUser(productStatistic.getTotalView());
+    daily.setTotalView(Long.valueOf(totalView));
     statistic.getDailies().add(daily);
   }
 }
