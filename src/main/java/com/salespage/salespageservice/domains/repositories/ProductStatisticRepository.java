@@ -33,4 +33,6 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
   HashSet<String> findDistinctTop10ProductIdByProductIdInOrderByTotalViewDesc(List<String> productIds);
 
   HashSet<ProductStatistic> findDistinctTop10ProductIdByOrderByTotalViewDesc();
+
+  List<ProductStatistic> findTop10ByOrderByTotalViewDesc();
 }

@@ -1,6 +1,9 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.dtos.productDtos.*;
+import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
+import com.salespage.salespageservice.app.dtos.productDtos.UpdateTypeDetailStatusDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
@@ -33,8 +36,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -66,7 +71,7 @@ public class ProductService extends BaseService {
     return product;
   }
 
-  public Product updateProduct(String username,String productId,  CreateProductInfoDto dto) {
+  public Product updateProduct(String username, String productId, CreateProductInfoDto dto) {
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này hoặc đã bị xóa");
     if (!Objects.equals(product.getSellerUsername(), username))
@@ -122,7 +127,7 @@ public class ProductService extends BaseService {
     return productStorage.findAll(query, pageable);
   }
 
-  public PageResponse<ProductItemResponse> getAllProduct(String productId, String storeName, Pageable pageable){
+  public PageResponse<ProductItemResponse> getAllProduct(String productId, String storeName, Pageable pageable) {
     Query query = new Query();
     if (StringUtil.isNotBlank(productId) && ObjectId.isValid(productId)) {
       query.addCriteria(Criteria.where("_id").is(new ObjectId(productId)));
@@ -209,18 +214,24 @@ public class ProductService extends BaseService {
   public List<ProductResponse> findHotProduct(String username) {
     List<ProductResponse> responses = new ArrayList<>();
     List<Product> products;
-    if(Objects.isNull(username)){
+    if (Objects.isNull(username)) {
       HashSet<String> productStatistics = new HashSet<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
       products = productStorage.findTop10ByIdIn(new ArrayList<>(productStatistics));
-    }else{
+    } else {
       List<SearchHistory> searchHistories = searchHistoryStorage.findTop10ByUsernameOrderByCreatedAtDesc(username);
       List<SearchHistory> searchProductHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.PRODUCT_NAME)).collect(Collectors.toList());
       List<SearchHistory> searchStoreHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.STORE_NAME)).collect(Collectors.toList());
       List<SearchHistory> searchSellerHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.SELLER_USERNAME)).collect(Collectors.toList());
-      List<ProductStatistic> productStatistics = productStatisticStorage.findTop10ByProductIdInOrderByTotalViewDesc(searchProductHistories.stream().map(SearchHistory::getSearchData).collect(Collectors.toList()));
+      List<ProductStatistic> productStatistics;
+      if (searchProductHistories.isEmpty()) {
+        productStatistics = productStatisticStorage.findTop10ByOrderByTotalViewDesc();
+      }else{
+        productStatistics = productStatisticStorage.findTop10ByProductIdInOrderByTotalViewDesc(searchProductHistories.stream().map(SearchHistory::getSearchData).collect(Collectors.toList()));
+
+      }
       products = productStorage.findByIdIn(productStatistics.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
       responses.addAll(products.stream().map(Product::assignToProductResponse).collect(Collectors.toList()));
-      if(responses.size() < 10){
+      if (responses.size() < 10) {
         HashSet<String> anotherProducts = new HashSet<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
         products.addAll(productStorage.findByIdIn(new ArrayList<>(anotherProducts)));
       }
@@ -231,7 +242,7 @@ public class ProductService extends BaseService {
 
   public ProductDetailResponse getProductDetail(String username, String productId) throws Exception {
     Product product = productStorage.findProductById(productId);
-    if(Objects.isNull(product)) throw new ResourceNotFoundException("Không tìm thấy sản phẩm");
+    if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tìm thấy sản phẩm");
 
     ProductDetailResponse response = product.assignToProductDetailResponse();
     List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds());
@@ -421,7 +432,7 @@ public class ProductService extends BaseService {
 
   public List<UploadImageData> getImage(String username, String productId) {
     Product product = productStorage.findProductById(productId);
-    if(Objects.isNull(product)) throw new ResourceNotFoundException("Không có sản phẩm");
+    if (Objects.isNull(product)) throw new ResourceNotFoundException("Không có sản phẩm");
     return product.getImageUrls().stream().map(k -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", k, k)).collect(Collectors.toList());
   }
 

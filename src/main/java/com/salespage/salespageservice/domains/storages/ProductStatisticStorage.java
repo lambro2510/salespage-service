@@ -61,4 +61,8 @@ public class ProductStatisticStorage extends BaseStorage {
     return productStatisticRepository.findDistinctTop10ProductIdByOrderByTotalViewDesc().stream().map(ProductStatistic::getProductId).collect(Collectors.toCollection(HashSet::new));
 
   }
+
+  public List<ProductStatistic> findTop10ByOrderByTotalViewDesc() {
+    return productStatisticRepository.findTop10ByOrderByTotalViewDesc();
+  }
 }
