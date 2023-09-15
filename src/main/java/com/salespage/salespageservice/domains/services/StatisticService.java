@@ -37,6 +37,9 @@ public class StatisticService extends BaseService {
     ProductStatistic statistic = productStatisticStorage.findByProductIdToday(productId);
     if(statistic == null){
       statistic = new ProductStatistic();
+      statistic.setDaily(DateUtils.now().toLocalDate());
+      statistic.setProductId(productId);
+      statistic.setProductName(product.getProductName());
     }
     statistic.setTotalView(statistic.getTotalView() + 1);
     productStatisticStorage.save(statistic);

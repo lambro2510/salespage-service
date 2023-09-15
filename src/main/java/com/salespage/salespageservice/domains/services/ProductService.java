@@ -48,8 +48,6 @@ public class ProductService extends BaseService {
   @Autowired
   private SellerStoreService sellerStoreService;
 
-  @Autowired
-  private StatisticService statisticService;
 
   public Product createProduct(String username, CreateProductInfoDto dto) {
     List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(dto.getStoreIds());

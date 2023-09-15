@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatis
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -18,10 +19,14 @@ public class ProductStatistic {
 
   @Field("daily")
   @JsonFormat(pattern = "dd-MM-yyyy")
+  @Indexed(name = "daily_index", unique = true)
   private LocalDate daily;
 
   @Field("product_id")
   private String productId;
+
+  @Field("product_name")
+  private String productName;
 
   @Field("total_user")
   private Long totalUser = 0L;
