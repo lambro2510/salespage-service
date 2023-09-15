@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.utils.CacheKey;
+import com.salespage.salespageservice.domains.utils.Helper;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -75,4 +77,16 @@ public class ProductStorage extends BaseStorage {
     return productRepository.existsById(new ObjectId(refId));
   }
 
+  public List<Product> findByIdIn(List<String> productIds) {
+    return productRepository.findByIdIn(Helper.convertListStringToListObjectId(productIds));
+  }
+
+  public List<Product> findTopNByIdIn(int size, List<String> productIds) {
+    return productRepository.findTopNByIdIn(Helper.convertListStringToListObjectId(productIds), size);
+  }
+
+  public List<Product> findTop10ByIdIn(List<String> productIds) {
+    return productRepository.findTop10ByIdIn(Helper.convertListStringToListObjectId(productIds));
+
+  }
 }

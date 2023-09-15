@@ -100,6 +100,9 @@ public class BaseService{
   protected ProductStatisticStorage productStatisticStorage;
 
   @Autowired
+  protected SearchHistoryStorage searchHistoryStorage;
+
+  @Autowired
   protected ConfigStorage configStorage;
 
   @Autowired

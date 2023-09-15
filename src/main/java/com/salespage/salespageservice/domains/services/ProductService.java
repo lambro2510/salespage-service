@@ -13,6 +13,7 @@ import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeStatus;
 import com.salespage.salespageservice.domains.entities.types.FavoriteType;
 import com.salespage.salespageservice.domains.entities.types.RatingType;
+import com.salespage.salespageservice.domains.entities.types.SearchType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
@@ -207,8 +208,27 @@ public class ProductService extends BaseService {
     return response;
   }
 
-  public HotProductResponse findHotProduct(String username) {
-    return new HotProductResponse();
+  public List<ProductResponse> findHotProduct(String username) {
+    List<ProductResponse> responses = new ArrayList<>();
+    if(Objects.isNull(username)){
+      List<ProductStatistic> productStatistics = productStatisticStorage.findTop10ByOrderByTotalViewDesc();
+      List<Product> products = productStorage.findTop10ByIdIn(productStatistics.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
+      responses.addAll(products.stream().map(Product::assignToProductResponse).collect(Collectors.toList()));
+    }else{
+      List<SearchHistory> searchHistories = searchHistoryStorage.findTop10ByUsernameOrderByCreatedAtDesc(username);
+      List<SearchHistory> searchProductHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.PRODUCT_NAME)).collect(Collectors.toList());
+      List<SearchHistory> searchStoreHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.STORE_NAME)).collect(Collectors.toList());
+      List<SearchHistory> searchSellerHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.SELLER_USERNAME)).collect(Collectors.toList());
+      List<ProductStatistic> productStatistics = productStatisticStorage.findTop10ByProductIdInOrderByTotalViewDesc(searchProductHistories.stream().map(SearchHistory::getSearchData).collect(Collectors.toList()));
+      List<Product> products = productStorage.findByIdIn(productStatistics.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
+      responses.addAll(products.stream().map(Product::assignToProductResponse).collect(Collectors.toList()));
+      if(responses.size() < 10){
+        List<ProductStatistic> anotherProducts = productStatisticStorage.findTop10ByOrderByTotalBuyDesc();
+        products.addAll(productStorage.findTopNByIdIn(10 - responses.size(), anotherProducts.stream().map(ProductStatistic::getProductId).collect(Collectors.toList())));
+
+      }
+    }
+    return responses;
   }
 
   public ProductDetailResponse getProductDetail(String username, String productId) throws Exception {

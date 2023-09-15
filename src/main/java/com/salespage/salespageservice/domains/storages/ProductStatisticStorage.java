@@ -10,28 +10,52 @@ import java.util.List;
 @Component
 public class ProductStatisticStorage extends BaseStorage {
   public void save(ProductStatistic ProductStatistic) {
-    ProductStatisticRepository.save(ProductStatistic);
+    productStatisticRepository.save(ProductStatistic);
   }
 
   public void update(ProductStatistic ProductStatistic) {
-    ProductStatisticRepository.save(ProductStatistic);
+    productStatisticRepository.save(ProductStatistic);
   }
   public List<ProductStatistic> findByDailyBetween(LocalDate startDate, LocalDate endDate) {
-    return ProductStatisticRepository.findByDailyBetween(startDate, endDate);
+    return productStatisticRepository.findByDailyBetween(startDate, endDate);
   }
 
   public ProductStatistic findByDailyAndProductId(LocalDate daily, String productId) {
-    return ProductStatisticRepository.findByDailyAndProductId(daily, productId);
+    return productStatisticRepository.findByDailyAndProductId(daily, productId);
   }
 
   public List<ProductStatistic> findByProductIdAndDailyBetween(String productId, LocalDate startDate, LocalDate endDate) {
-    return ProductStatisticRepository.findByProductIdAndDailyBetween(productId, startDate, endDate);
+    return productStatisticRepository.findByProductIdAndDailyBetween(productId, startDate, endDate);
 
   }
 
   public ProductStatistic findByProductIdToday(String productId) {
     LocalDate now = DateUtils.now().toLocalDate();
-    return ProductStatisticRepository.findByProductIdAndDaily(productId, now);
+    return productStatisticRepository.findByProductIdAndDaily(productId, now);
+
+  }
+
+  public List<ProductStatistic> findTop10ByOrderByTotalBuyDesc() {
+    return productStatisticRepository.findTop10ByOrderByTotalBuyDesc();
+  }
+
+  public List<ProductStatistic> findTop10ByProductIdInOrderByTotalBuyDesc(List<String> productIds) {
+    return productStatisticRepository.findTop10ByProductIdInOrderByTotalBuyDesc(productIds);
+
+  }
+
+  public List<ProductStatistic> findTopNByOrderByTotalBuyDesc(int size) {
+    return productStatisticRepository.findTopNByOrderByTotalBuyDesc(size);
+
+  }
+
+  public List<ProductStatistic> findTop10ByOrderByTotalViewDesc() {
+    return productStatisticRepository.findTop10ByOrderByTotalViewDesc();
+
+  }
+
+  public List<ProductStatistic> findTop10ByProductIdInOrderByTotalViewDesc(List<String> productIds) {
+    return productStatisticRepository.findTop10ByProductIdInOrderByTotalViewDesc(productIds);
 
   }
 }
