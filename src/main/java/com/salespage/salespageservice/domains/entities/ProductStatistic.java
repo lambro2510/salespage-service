@@ -45,6 +45,5 @@ public class ProductStatistic {
 
   public void addView(){
     totalView = totalView == null ? 1 : totalView + 1;
-
   }
 }

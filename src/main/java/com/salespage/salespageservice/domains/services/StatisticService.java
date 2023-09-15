@@ -84,15 +84,17 @@ public class StatisticService extends BaseService {
     return statistic;
   }
 
-  private void partnerToResponse(TotalProductStatisticResponse statistic, ProductStatistic ProductStatistic) {
-    statistic.setTotalBuy(statistic.getTotalBuy() + ProductStatistic.getTotalBuy());
-    statistic.setTotalPurchase(statistic.getTotalPurchase() + ProductStatistic.getTotalPurchase());
-    statistic.setTotalUser(statistic.getTotalUser() + ProductStatistic.getTotalUser());
+  private void partnerToResponse(TotalProductStatisticResponse statistic, ProductStatistic productStatistic) {
+    statistic.setTotalBuy(statistic.getTotalBuy() + productStatistic.getTotalBuy());
+    statistic.setTotalPurchase(statistic.getTotalPurchase() + productStatistic.getTotalPurchase());
+    statistic.setTotalUser(statistic.getTotalUser() + productStatistic.getTotalUser());
+    statistic.setTotalView(statistic.getTotalView() + productStatistic.getTotalView());
     TotalProductStatisticResponse.Daily daily = new TotalProductStatisticResponse.Daily();
-    daily.setDaily(ProductStatistic.getDaily());
-    daily.setTotalBuy(ProductStatistic.getTotalBuy());
-    daily.setTotalPurchase(ProductStatistic.getTotalPurchase());
-    daily.setTotalUser(ProductStatistic.getTotalUser());
+    daily.setDaily(productStatistic.getDaily());
+    daily.setTotalBuy(productStatistic.getTotalBuy());
+    daily.setTotalPurchase(productStatistic.getTotalPurchase());
+    daily.setTotalUser(productStatistic.getTotalUser());
+    daily.setTotalUser(productStatistic.getTotalView());
     statistic.getDailies().add(daily);
   }
 }
