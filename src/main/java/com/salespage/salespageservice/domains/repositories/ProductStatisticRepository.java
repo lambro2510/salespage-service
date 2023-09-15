@@ -3,10 +3,13 @@ package com.salespage.salespageservice.domains.repositories;
 import com.salespage.salespageservice.domains.entities.ProductStatistic;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface ProductStatisticRepository extends MongoRepository<ProductStatistic, ObjectId> {
@@ -25,7 +28,9 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
 
   List<ProductStatistic> findTopNByOrderByTotalBuyDesc(int size);
 
-  List<ProductStatistic> findTop10ByOrderByTotalViewDesc();
-
   List<ProductStatistic> findTop10ByProductIdInOrderByTotalViewDesc(List<String> productIds);
+
+  HashSet<String> findDistinctTop10ProductIdByProductIdInOrderByTotalViewDesc(List<String> productIds);
+
+  HashSet<ProductStatistic> findDistinctTop10ProductIdByOrderByTotalViewDesc();
 }

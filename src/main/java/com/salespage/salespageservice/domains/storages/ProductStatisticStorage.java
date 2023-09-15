@@ -5,7 +5,10 @@ import com.salespage.salespageservice.domains.utils.DateUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class ProductStatisticStorage extends BaseStorage {
@@ -49,13 +52,13 @@ public class ProductStatisticStorage extends BaseStorage {
 
   }
 
-  public List<ProductStatistic> findTop10ByOrderByTotalViewDesc() {
-    return productStatisticRepository.findTop10ByOrderByTotalViewDesc();
+  public List<ProductStatistic> findTop10ByProductIdInOrderByTotalViewDesc(List<String> productIds) {
+    return productStatisticRepository.findTop10ByProductIdInOrderByTotalViewDesc(productIds);
 
   }
 
-  public List<ProductStatistic> findTop10ByProductIdInOrderByTotalViewDesc(List<String> productIds) {
-    return productStatisticRepository.findTop10ByProductIdInOrderByTotalViewDesc(productIds);
+  public HashSet<String> findDistinctTop10ProductIdByOrderByTotalViewDesc() {
+    return productStatisticRepository.findDistinctTop10ProductIdByOrderByTotalViewDesc().stream().map(ProductStatistic::getProductId).collect(Collectors.toCollection(HashSet::new));
 
   }
 }

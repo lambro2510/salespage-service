@@ -208,24 +208,24 @@ public class ProductService extends BaseService {
 
   public List<ProductResponse> findHotProduct(String username) {
     List<ProductResponse> responses = new ArrayList<>();
+    List<Product> products;
     if(Objects.isNull(username)){
-      List<ProductStatistic> productStatistics = productStatisticStorage.findTop10ByOrderByTotalViewDesc();
-      List<Product> products = productStorage.findTop10ByIdIn(productStatistics.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
-      responses.addAll(products.stream().map(Product::assignToProductResponse).collect(Collectors.toList()));
+      HashSet<String> productStatistics = new HashSet<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
+      products = productStorage.findTop10ByIdIn(new ArrayList<>(productStatistics));
     }else{
       List<SearchHistory> searchHistories = searchHistoryStorage.findTop10ByUsernameOrderByCreatedAtDesc(username);
       List<SearchHistory> searchProductHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.PRODUCT_NAME)).collect(Collectors.toList());
       List<SearchHistory> searchStoreHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.STORE_NAME)).collect(Collectors.toList());
       List<SearchHistory> searchSellerHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.SELLER_USERNAME)).collect(Collectors.toList());
       List<ProductStatistic> productStatistics = productStatisticStorage.findTop10ByProductIdInOrderByTotalViewDesc(searchProductHistories.stream().map(SearchHistory::getSearchData).collect(Collectors.toList()));
-      List<Product> products = productStorage.findByIdIn(productStatistics.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
+      products = productStorage.findByIdIn(productStatistics.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
       responses.addAll(products.stream().map(Product::assignToProductResponse).collect(Collectors.toList()));
       if(responses.size() < 10){
-        List<ProductStatistic> anotherProducts = productStatisticStorage.findTop10ByOrderByTotalViewDesc();
-        products.addAll(productStorage.findTopNByIdIn(10 - responses.size(), anotherProducts.stream().map(ProductStatistic::getProductId).collect(Collectors.toList())));
-
+        HashSet<String> anotherProducts = new HashSet<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
+        products.addAll(productStorage.findByIdIn(new ArrayList<>(anotherProducts)));
       }
     }
+    responses.addAll(products.stream().map(Product::assignToProductResponse).collect(Collectors.toList()));
     return responses;
   }
 
@@ -436,15 +436,21 @@ public class ProductService extends BaseService {
   }
 
 
-  public List<ProductResponse> getSuggestProduct(String productId){
+  public List<ProductResponse> getSuggestProduct(String productId) {
     Product product = productStorage.findProductById(productId);
-    if(Objects.isNull(product)) throw new ResourceNotFoundException("Sản phẩm không tồn tại");
+    if (product == null) throw new ResourceNotFoundException("Sản phẩm không tồn tại");
+
     List<Product> suggestProduct = productStorage.findByCategoryId(product.getCategoryId());
-    if(suggestProduct.size() < 10) {
-      List<ProductStatistic> anotherProducts = productStatisticStorage.findTop10ByOrderByTotalViewDesc();
-      List<Product> anotherProduct = productStorage.findTopNByIdIn(10 - suggestProduct.size(), anotherProducts.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
+
+    if (suggestProduct.size() < 10) {
+      List<String> productIds = new ArrayList<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
+      List<Product> anotherProduct = productStorage.findTop10ByIdIn(productIds);
       suggestProduct.addAll(anotherProduct);
     }
-    return suggestProduct.stream().map(Product::assignToProductResponse).collect(Collectors.toList());
+
+    return new ArrayList<>(new HashSet<>(suggestProduct.stream()
+        .map(Product::assignToProductResponse)
+        .collect(Collectors.toList())));
   }
+
 }
