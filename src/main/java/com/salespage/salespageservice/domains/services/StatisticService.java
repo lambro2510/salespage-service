@@ -41,7 +41,8 @@ public class StatisticService extends BaseService {
       statistic.setProductId(productId);
       statistic.setProductName(product.getProductName());
     }
-    statistic.setTotalView(statistic.getTotalView() + 1);
+    statistic.addView();
+
     productStatisticStorage.save(statistic);
 
   }

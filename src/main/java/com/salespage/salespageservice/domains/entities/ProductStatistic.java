@@ -43,11 +43,8 @@ public class ProductStatistic {
   @Field("total_shipper_cod")
   private Long totalShipperCod = 0L;
 
-  public void partnerFromStatistic(TotalProductStatisticResponse response){
-    totalUser = response.getTotalUser();
-    totalBuy = response.getTotalBuy();
-    totalPurchase = response.getTotalPurchase();
-    totalShipperCod = response.getTotalShipCod();
+  public void addView(){
+    totalView = totalView == null ? 1 : totalView + 1;
 
   }
 }
