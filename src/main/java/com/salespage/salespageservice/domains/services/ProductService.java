@@ -207,6 +207,10 @@ public class ProductService extends BaseService {
     return response;
   }
 
+  public HotProductResponse findHotProduct(String username) {
+    return new HotProductResponse();
+  }
+
   public ProductDetailResponse getProductDetail(String username, String productId) throws Exception {
     Product product = productStorage.findProductById(productId);
     if(Objects.isNull(product)) throw new ResourceNotFoundException("Không tìm thấy sản phẩm");
@@ -219,14 +223,6 @@ public class ProductService extends BaseService {
       sellerStoreResponse.assignFromSellerStore(k);
       return sellerStoreResponse;
     }).collect(Collectors.toList()));
-
-    if (Objects.nonNull(username)) {
-      UserFavorite userFavorite = userFavoriteStorage.findByUsernameAndRefIdAndFavoriteType(username, productId, FavoriteType.PRODUCT);
-      Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productId, RatingType.PRODUCT);
-      if (Objects.isNull(rating)) rating = new Rating();
-      response.setIsLike(!Objects.isNull(userFavorite) && userFavorite.getLike());
-      response.setRate(rating.getPoint());
-    }
 
     //assign from favorite
 
@@ -242,7 +238,6 @@ public class ProductService extends BaseService {
       productResponse.assignFromProduct(product);
       return productResponse;
     }).collect(Collectors.toList()));
-    statisticService.updateView(productId);
     return response;
   }
 
@@ -411,4 +406,16 @@ public class ProductService extends BaseService {
     if(Objects.isNull(product)) throw new ResourceNotFoundException("Không có sản phẩm");
     return product.getImageUrls().stream().map(k -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", k, k)).collect(Collectors.toList());
   }
+
+  public void getRating(String username, ProductDetailResponse productDetail) throws Exception {
+    if (Objects.nonNull(username)) {
+      UserFavorite userFavorite = userFavoriteStorage.findByUsernameAndRefIdAndFavoriteType(username, productDetail.getProductId(), FavoriteType.PRODUCT);
+      Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productDetail.getProductId(), RatingType.PRODUCT);
+      if (Objects.isNull(rating)) rating = new Rating();
+      productDetail.setIsLike(!Objects.isNull(userFavorite) && userFavorite.getLike());
+      productDetail.setRate(rating.getPoint());
+    }
+  }
+
+
 }

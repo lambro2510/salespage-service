@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,6 +30,7 @@ public class StatisticService extends BaseService {
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   @Retryable(maxAttempts = 5, backoff = @Backoff(delay = 1000))
+  @Async("threadPoolTaskExecutor")
   public void updateView(String productId){
     Product product = productStorage.findProductById(productId);
     if(Objects.isNull(product)) throw new ResourceNotFoundException("Product not found");
