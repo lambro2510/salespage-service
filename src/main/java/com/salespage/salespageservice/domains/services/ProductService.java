@@ -221,7 +221,7 @@ public class ProductService extends BaseService {
       List<Product> products = productStorage.findByIdIn(productStatistics.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
       responses.addAll(products.stream().map(Product::assignToProductResponse).collect(Collectors.toList()));
       if(responses.size() < 10){
-        List<ProductStatistic> anotherProducts = productStatisticStorage.findTop10ByOrderByTotalBuyDesc();
+        List<ProductStatistic> anotherProducts = productStatisticStorage.findTop10ByOrderByTotalViewDesc();
         products.addAll(productStorage.findTopNByIdIn(10 - responses.size(), anotherProducts.stream().map(ProductStatistic::getProductId).collect(Collectors.toList())));
 
       }
@@ -436,4 +436,15 @@ public class ProductService extends BaseService {
   }
 
 
+  public List<ProductResponse> getSuggestProduct(String productId){
+    Product product = productStorage.findProductById(productId);
+    if(Objects.isNull(product)) throw new ResourceNotFoundException("Sản phẩm không tồn tại");
+    List<Product> suggestProduct = productStorage.findByCategoryId(product.getCategoryId());
+    if(suggestProduct.size() < 10) {
+      List<ProductStatistic> anotherProducts = productStatisticStorage.findTop10ByOrderByTotalViewDesc();
+      List<Product> anotherProduct = productStorage.findTopNByIdIn(10 - suggestProduct.size(), anotherProducts.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
+      suggestProduct.addAll(anotherProduct);
+    }
+    return suggestProduct.stream().map(Product::assignToProductResponse).collect(Collectors.toList());
+  }
 }

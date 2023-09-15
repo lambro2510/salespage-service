@@ -72,6 +72,15 @@ public class PublicProductController extends BaseController {
     }
   }
 
+  @GetMapping("suggest/{productId}")
+  public ResponseEntity<BaseResponse> getSuggestProduct(@PathVariable String productId) {
+    try {
+      return successApi(productService.getSuggestProduct(productId));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
+
   @GetMapping("detail")
   public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId) {
     try {
