@@ -35,6 +35,12 @@ public class ProductDataResponse {
   @Schema(description = "Tên người bán")
   protected String sellerUsername;
 
+  @Schema(description = "Giảm giá phần trăm")
+  protected Double discountPercent;
+
+  @Schema(description = "Tiền sau giảm giá")
+  protected Double sellPrice;
+
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();
@@ -42,5 +48,7 @@ public class ProductDataResponse {
     sellerUsername = product.getSellerUsername();
     productRate = product.getRate();
     description = product.getDescription();
+    discountPercent = product.getDiscountPercent();
+    sellPrice = product.getSellPrice();
   }
 }

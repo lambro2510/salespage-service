@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Data
@@ -63,5 +60,10 @@ public class CreateProductInfoDto {
 
   @Schema(description = "Số lượng", example = "5")
   private Long quantity;
+
+  @Schema(description = "Phần trăm giảm giá", example = "5")
+  @Min(0)
+  @Max(100)
+  private Double discountPercent;
 }
 

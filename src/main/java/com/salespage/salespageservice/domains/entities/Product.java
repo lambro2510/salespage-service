@@ -45,6 +45,12 @@ public class Product extends BaseEntity {
   @Field(value = "price")
   private Double price;
 
+  @Field(value = "sell_price")
+  private Double sellPrice;
+
+  @Field(value = "discount_percent")
+  private Double discountPercent;
+
   @Field("rate")
   private Rate rate = new Rate();
 
@@ -63,6 +69,8 @@ public class Product extends BaseEntity {
     categoryId = dto.getCategoryId();
     price = dto.getProductPrice();
     sellerStoreIds = dto.getStoreIds();
+    discountPercent = dto.getDiscountPercent();
+    sellPrice = price * (discountPercent / 100D);
     ProductDetail productDetail = new ProductDetail();
     productDetail.origin = dto.getOrigin();
     productDetail.isForeign = dto.getIsForeign();
@@ -77,11 +85,6 @@ public class Product extends BaseEntity {
 
   }
 
-  public ProductItemResponse assignToProductItemResponse() {
-    ProductItemResponse response = new ProductItemResponse();
-    response.assignFromProduct(this);
-    return response;
-  }
 
   public ProductResponse assignToProductResponse() {
     ProductResponse response = new ProductResponse();
