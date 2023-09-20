@@ -3,9 +3,8 @@ package com.salespage.salespageservice.domains.entities;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.SizeType;
 import com.salespage.salespageservice.domains.entities.types.WeightType;
@@ -70,7 +69,7 @@ public class Product extends BaseEntity {
     price = dto.getProductPrice();
     sellerStoreIds = dto.getStoreIds();
     discountPercent = dto.getDiscountPercent();
-    sellPrice = price * (discountPercent / 100D);
+    sellPrice = price - price * (discountPercent / 100D);
     ProductDetail productDetail = new ProductDetail();
     productDetail.origin = dto.getOrigin();
     productDetail.isForeign = dto.getIsForeign();
@@ -84,17 +83,14 @@ public class Product extends BaseEntity {
     detail = productDetail;
 
   }
-
-
-  public ProductResponse assignToProductResponse() {
-    ProductResponse response = new ProductResponse();
+  public ProductDetailResponse assignToProductDetailResponse() {
+    ProductDetailResponse response = new ProductDetailResponse();
     response.assignFromProduct(this);
     return response;
   }
 
-
-  public ProductDetailResponse assignToProductDetailResponse() {
-    ProductDetailResponse response = new ProductDetailResponse();
+  public ProductDataResponse assignToProductDataResponse() {
+    ProductDataResponse response = new ProductDataResponse();
     response.assignFromProduct(this);
     return response;
   }

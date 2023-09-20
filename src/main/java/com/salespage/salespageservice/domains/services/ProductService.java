@@ -5,9 +5,8 @@ import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateTypeDetailStatusDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductItemResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
 import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
@@ -127,7 +126,7 @@ public class ProductService extends BaseService {
     return productStorage.findAll(query, pageable);
   }
 
-  public PageResponse<ProductItemResponse> getAllProduct(String productId, String storeName, Pageable pageable) {
+  public PageResponse<ProductDataResponse> getAllProduct(String productId, String storeName, Pageable pageable) {
     Query query = new Query();
     if (StringUtil.isNotBlank(productId) && ObjectId.isValid(productId)) {
       query.addCriteria(Criteria.where("_id").is(new ObjectId(productId)));
@@ -141,35 +140,32 @@ public class ProductService extends BaseService {
         query.addCriteria(Criteria.where("seller_store_ids").in(storeIds));
       }
     }
-    List<ProductItemResponse> responses = new ArrayList<>();
+    List<ProductDataResponse> responses = new ArrayList<>();
     Page<Product> products = productStorage.findAll(query, pageable);
     for (Product product : products) {
-      ProductItemResponse response = new ProductItemResponse();
-      response.assignFromProduct(product);
+      ProductDataResponse response = new ProductDataResponse();
       ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
-      if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
-      response.setCategoryName(productCategory.getCategoryName());
-
-      List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds());
-      response.setStores(sellerStores.stream().map(k -> {
+      List<SellerStoreResponse> storeResponses = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds()).stream().map(k -> {
         SellerStoreResponse sellerStoreResponse = new SellerStoreResponse();
         sellerStoreResponse.assignFromSellerStore(k);
         return sellerStoreResponse;
-      }).collect(Collectors.toList()));
-
+      }).collect(Collectors.toList());
+      response.assignFromProduct(product);
+      response.setCategoryName(productCategory.getCategoryName());
+      response.setStores(storeResponses);
       responses.add(response);
     }
-    Page<ProductItemResponse> itemResponses = new PageImpl<>(responses, pageable, products.getTotalElements());
+    Page<ProductDataResponse> itemResponses = new PageImpl<>(responses, pageable, products.getTotalElements());
     return PageResponse.createFrom(itemResponses);
   }
 
-  public PageResponse<ProductItemResponse> findProduct(String productId, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
+  public PageResponse<ProductDataResponse> findProduct(String productId, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
     Page<Product> products = getAllProduct(null, productId, productName, minPrice, maxPrice, storeName, username, lte, gte, pageable);
 
-    List<ProductItemResponse> responses = new ArrayList<>();
+    List<ProductDataResponse> responses = new ArrayList<>();
 
     for (Product product : products) {
-      ProductItemResponse response = new ProductItemResponse();
+      ProductDataResponse response = new ProductDataResponse();
       response.assignFromProduct(product);
 
       ProductCategory productCategory = productCategoryStorage.findById(response.getCategoryId());
@@ -211,8 +207,8 @@ public class ProductService extends BaseService {
     return response;
   }
 
-  public List<ProductResponse> findHotProduct(String username) {
-    List<ProductResponse> responses = new ArrayList<>();
+  public List<ProductDataResponse> findHotProduct(String username) {
+    List<ProductDataResponse> responses = new ArrayList<>();
     List<Product> products;
     if (Objects.isNull(username)) {
       HashSet<String> productStatistics = new HashSet<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
@@ -230,13 +226,13 @@ public class ProductService extends BaseService {
 
       }
       products = productStorage.findByIdIn(productStatistics.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
-      responses.addAll(products.stream().map(Product::assignToProductResponse).collect(Collectors.toList()));
+      responses.addAll(products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList()));
       if (responses.size() < 10) {
         HashSet<String> anotherProducts = new HashSet<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
         products.addAll(productStorage.findByIdIn(new ArrayList<>(anotherProducts)));
       }
     }
-    responses.addAll(products.stream().map(Product::assignToProductResponse).collect(Collectors.toList()));
+    responses.addAll(products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList()));
     return responses;
   }
 
@@ -261,12 +257,6 @@ public class ProductService extends BaseService {
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
     response.assignFromCategory(productCategory);
 
-    List<Product> similarProducts = findSimilarProducts(product, productCategory.getCategoryName());
-    response.setSimilarProducts(similarProducts.stream().map(k -> {
-      ProductResponse productResponse = new ProductResponse();
-      productResponse.assignFromProduct(product);
-      return productResponse;
-    }).collect(Collectors.toList()));
     return response;
   }
 
@@ -447,7 +437,7 @@ public class ProductService extends BaseService {
   }
 
 
-  public List<ProductResponse> getSuggestProduct(String productId) {
+  public List<ProductDataResponse> getSuggestProduct(String productId) {
     Product product = productStorage.findProductById(productId);
     if (product == null) throw new ResourceNotFoundException("Sản phẩm không tồn tại");
 
@@ -460,7 +450,7 @@ public class ProductService extends BaseService {
     }
 
     return new ArrayList<>(new HashSet<>(suggestProduct.stream()
-        .map(Product::assignToProductResponse)
+        .map(Product::assignToProductDataResponse)
         .collect(Collectors.toList())));
   }
 

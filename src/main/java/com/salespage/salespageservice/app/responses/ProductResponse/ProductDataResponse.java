@@ -1,5 +1,7 @@
 package com.salespage.salespageservice.app.responses.ProductResponse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,6 +43,19 @@ public class ProductDataResponse {
   @Schema(description = "Tiền sau giảm giá")
   protected Double sellPrice;
 
+  @Schema(description = "URL ảnh sản phẩm")
+  protected String imageUrl;
+
+  @Schema(description = "Trạng thái sản phẩm hot")
+  @JsonProperty("isHot")
+  protected Boolean isHot = false;
+
+  @Schema(description = "ID cửa hàng")
+  List<SellerStoreResponse> stores;
+
+  @Schema(description = "ID danh mục sản phẩm")
+  String categoryId;
+
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();
@@ -50,5 +65,7 @@ public class ProductDataResponse {
     description = product.getDescription();
     discountPercent = product.getDiscountPercent();
     sellPrice = product.getSellPrice();
+    categoryId = product.getCategoryId();
+    imageUrl = product.getDefaultImageUrl();
   }
 }

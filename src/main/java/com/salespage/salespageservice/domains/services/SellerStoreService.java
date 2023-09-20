@@ -3,11 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
 import com.salespage.salespageservice.app.dtos.storeDtos.UpdateSellerStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
-import com.salespage.salespageservice.app.responses.storeResponse.StoreDataResponse;
-import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
@@ -54,7 +50,7 @@ public class SellerStoreService extends BaseService {
   }
 
 
-  public PageResponse<StoreDataResponse> getAllStore(String storeId, String storeName, Pageable pageable) {
+  public PageResponse<SellerStoreResponse> getAllStore(String storeId, String storeName, Pageable pageable) {
     Query query = new Query();
     if (storeId != null) {
       query.addCriteria(Criteria.where("id").is(storeId));
@@ -63,26 +59,12 @@ public class SellerStoreService extends BaseService {
       query.addCriteria(Criteria.where("store_name").is(storeName));
     }
     Page<SellerStore> sellerStores = sellerStoreStorage.findAll(pageable);
-    List<SellerStore> sellerStoreList = sellerStores.getContent();
 
-    List<StoreDataResponse> storeDataResponses = new ArrayList<>();
-    for (SellerStore sellerStore : sellerStoreList) {
-      StoreDataResponse storeDataResponse = new StoreDataResponse();
-      storeDataResponse.assignFromSellerStore(sellerStore);
-      List<Product> products = productStorage.findBySellerStoreIdsContaining(sellerStore.getId().toHexString());
-      List<ProductDataResponse> productDataResponses = new ArrayList<>();
-      for (Product product : products) {
-        ProductDataResponse productDataResponse = new ProductDataResponse();
-        productDataResponse.assignFromProduct(product);
-        productDataResponses.add(productDataResponse);
-        List<ProductTypeDetail> productTypeDetails = productTypeStorage.findByProductId(product.getId().toHexString());
-        productDataResponse.setProductTypes(productTypeDetails.stream().map(ProductTypeDetail::getProductId).collect(Collectors.toList()));
-      }
-      storeDataResponse.setProductDataResponses(productDataResponses);
-      storeDataResponses.add(storeDataResponse);
-    }
-
-    Page<StoreDataResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, pageable, sellerStores.getTotalElements());
+    Page<SellerStoreResponse> pageStoreDataResponse = new PageImpl<>(sellerStores.stream().map(k -> {
+      SellerStoreResponse response = new SellerStoreResponse();
+      response.assignFromSellerStore(k);
+      return response;
+    }).collect(Collectors.toList()), pageable, sellerStores.getTotalElements());
     return PageResponse.createFrom(pageStoreDataResponse);
   }
 
@@ -120,8 +102,8 @@ public class SellerStoreService extends BaseService {
     return imageUrl;
   }
 
-  public StoreDataResponse getStoreDetail(String storeId) {
-    StoreDataResponse storeDataResponse = new StoreDataResponse();
+  public SellerStoreResponse getStoreDetail(String storeId) {
+    SellerStoreResponse storeDataResponse = new SellerStoreResponse();
     SellerStore sellerStore = sellerStoreStorage.findById(storeId);
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
     storeDataResponse.assignFromSellerStore(sellerStore);

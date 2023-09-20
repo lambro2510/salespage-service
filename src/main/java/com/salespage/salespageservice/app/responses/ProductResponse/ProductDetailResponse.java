@@ -16,16 +16,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class ProductDetailResponse extends ProductResponse {
+public class ProductDetailResponse{
+  @Schema(description = "id sản phẩm")
+  String productId;
+
+  @Schema(description = "tên sản phẩm")
+  String productName;
+
+  @Schema(description = "giá sản phẩm")
+  Double productPrice;
+
+  @Schema(description = "giá bán sản phẩm")
+  Double sellProductPrice;
+
+  @Schema(description = "phần trăm giảm giá sản phẩm")
+  Double discountPercent;
 
   @Schema(description = "Danh sách URL ảnh sản phẩm")
   List<UploadImageData> imageUrls = new ArrayList<>();
 
   @Schema(description = "Mô tả sản phẩm")
   String description;
-
-  @Schema(description = "Danh sách sản phẩm tương tự")
-  List<ProductResponse> similarProducts = new ArrayList<>();
 
   @Schema(description = "Trạng thái thích sản phẩm")
   @JsonProperty("isLike")
@@ -40,9 +51,15 @@ public class ProductDetailResponse extends ProductResponse {
   @Schema(description = "ID danh mục sản phẩm")
   String categoryId;
 
-  @Override
+  @Schema(description = "Tên danh mục sản phẩm")
+  String categoryName;
+
   public void assignFromProduct(Product product) {
-    super.assignFromProduct(product);
+    productId = product.getId().toHexString();
+    productName = product.getProductName();
+    productPrice = product.getPrice();
+    sellProductPrice = product.getSellPrice();
+    discountPercent = product.getDiscountPercent();
     imageUrls = product.getImageUrls().stream()
         .map(image -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", image, image))
         .collect(Collectors.toList());
