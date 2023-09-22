@@ -7,9 +7,12 @@ import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductCategory;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
+import com.salespage.salespageservice.domains.entities.types.SizeType;
+import com.salespage.salespageservice.domains.entities.types.WeightType;
 import com.salespage.salespageservice.domains.utils.Helper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +57,27 @@ public class ProductDetailResponse{
   @Schema(description = "Tên danh mục sản phẩm")
   String categoryName;
 
+  String origin;
+
+  Boolean isForeign;
+
+  Long size;
+
+  SizeType sizeType;
+
+  Long weight;
+
+  WeightType weightType;
+
+  List<String> colors;
+
+  Boolean isGuarantee;
+
+  Long quantity = 0L;
+
+  @JsonProperty("is_hot")
+  Boolean isHot;
+
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();
@@ -64,7 +88,18 @@ public class ProductDetailResponse{
         .map(image -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", image, image))
         .collect(Collectors.toList());
     categoryId = product.getCategoryId();
+    isHot = product.getIsHot();
     description = product.getDescription();
+    origin = product.getDetail().getOrigin();
+    isForeign = product.getDetail().getIsForeign();
+    size = product.getDetail().getSize();
+    sizeType = product.getDetail().getSizeType();
+    weight = product.getDetail().getWeight();
+    weightType = product.getDetail().getWeightType();
+    weight = product.getDetail().getWeight();
+    colors = product.getDetail().getColors();
+    isGuarantee = product.getDetail().getIsGuarantee();
+    quantity = product.getDetail().getQuantity();
   }
 
   public void assignFromCategory(ProductCategory productCategory) {

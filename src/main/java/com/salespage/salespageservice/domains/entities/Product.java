@@ -59,6 +59,9 @@ public class Product extends BaseEntity {
   @Field("seller_store_ids")
   private List<String> sellerStoreIds;
 
+  @Field("is_hot")
+  private Boolean isHot;
+
   @Field("detail")
   private ProductDetail detail;
 
