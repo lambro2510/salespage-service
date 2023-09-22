@@ -43,13 +43,4 @@ public class OpenAPISecurityConfiguration {
                 .scheme("bearer")
                 .bearerFormat("JWT")));
   }
-
-  @Bean
-  public GroupedOpenApi api() {
-    return GroupedOpenApi.builder()
-        .group("api")
-        .pathsToMatch("/api/**")
-        .build();
-  }
-
 }
