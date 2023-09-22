@@ -38,7 +38,7 @@ spring:
       topic:
         replication-factor: 2
         num-partitions: 1
-    - group-id: "bizfly-7-453-RewardGift"
+    - group-id: "bizfly-7-453-LikeTopic"
       topic:
         replication-factor: 2
         num-partitions: 1

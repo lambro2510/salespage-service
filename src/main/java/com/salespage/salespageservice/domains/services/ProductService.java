@@ -30,6 +30,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -395,7 +396,10 @@ public class ProductService extends BaseService {
     return products;
   }
 
-  @Transactional
+  public void updateRatingAsync (String username, String productId, Float point){
+    producer.updateRating(new com.salespage.salespageservice.domains.info.Rating(username, productId, point));
+  }
+  @Transactional(isolation =  Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public Rate updateRating(String username, String productId, Float point) {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");

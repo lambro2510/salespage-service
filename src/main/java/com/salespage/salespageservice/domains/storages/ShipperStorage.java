@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.Shipper;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,5 +26,9 @@ public class ShipperStorage extends BaseStorage{
 
   public void saveAll(List<Shipper> freeShippers) {
     shipperRepository.saveAll(freeShippers);
+  }
+
+  public List<Shipper> findByIdIn(List<String> refIds) {
+    return shipperRepository.findByIdIn(Helper.convertListStringToListObjectId(refIds));
   }
 }

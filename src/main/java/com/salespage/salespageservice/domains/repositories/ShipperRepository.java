@@ -14,4 +14,6 @@ public interface ShipperRepository extends MongoRepository<Shipper, ObjectId> {
   Shipper findFirstByShipModeAndAcceptTransaction(boolean shipMode, boolean acceptTransaction);
 
   List<Shipper> findByShipModeAndAcceptTransaction(boolean shipMode, boolean acceptTransaction);
+
+  List<Shipper> findByIdIn(List<ObjectId> objectIds);
 }

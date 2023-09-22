@@ -42,8 +42,6 @@ import java.util.stream.Collectors;
 @Log4j2
 public class BankService extends BaseService {
   @Autowired
-  Producer producer;
-  @Autowired
   NotificationService notificationService;
   @Autowired
   PaymentService paymentService;

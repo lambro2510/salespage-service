@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.producer;
 
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
+import com.salespage.salespageservice.domains.info.Rating;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,13 @@ public class Producer {
     }
   }
 
+  public void updateRating(Rating rating) {
+    try {
+      log.debug("====write updateRating log success" + rating);
+      kafkaTemplate.send(TopicConfig.LIKE_TOPIC, JsonParser.toJson(rating));
+    } catch (Exception e) {
+      log.error(String.valueOf(e));
+    }
+  }
 }
 

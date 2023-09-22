@@ -6,6 +6,7 @@ import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.info.AddressResult;
 import com.salespage.salespageservice.domains.info.DistanceMatrixResult;
 import com.salespage.salespageservice.domains.info.OpenStreetMapResponse;
+import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.storages.*;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import com.salespage.salespageservice.domains.utils.JwtUtils;
@@ -110,6 +111,9 @@ public class BaseService{
 
   @Autowired
   protected RatingStorage ratingStorage;
+
+  @Autowired
+  protected Producer producer;
 
   @Autowired
   protected OtpStorage otpStorage;

@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -26,5 +27,9 @@ public class UserStorage extends BaseStorage {
 
   public List<User> findAll() {
     return userRepository.findAll();
+  }
+
+  public List<User> findByIdIn(List<String> refIds) {
+    return userRepository.findByIdIn(Helper.convertListStringToListObjectId(refIds));
   }
 }
