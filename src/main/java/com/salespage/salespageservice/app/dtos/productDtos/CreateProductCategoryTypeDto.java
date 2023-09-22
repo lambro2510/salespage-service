@@ -25,8 +25,6 @@ public class CreateProductCategoryTypeDto {
   @Schema(description = "Độ tuối người dùng")
   private String rangeAge;
 
-
-
   @NotBlank(message = "Loại sản phẩm là bắt buộc")
   @Schema(description = "Loại sản phẩm", required = true)
   private String productType;

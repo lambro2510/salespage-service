@@ -216,13 +216,6 @@
             <version>1.72</version>
         </dependency>
 
-        <!--    <dependency>-->
-        <!--      <groupId>com.wi</groupId>-->
-        <!--      <artifactId>bcprov-jdk15</artifactId>-->
-        <!--      <version>136</version>-->
-        <!--      <scope>system</scope>-->
-        <!--      <systemPath>${basedir}/libs/bcprov-jdk15-136.jar</systemPath>-->
-        <!--    </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
