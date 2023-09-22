@@ -16,7 +16,7 @@ spring:
     properties:
       sasl.mechanism: SCRAM-SHA-512
       security.protocol: SASL_PLAINTEXT
-      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USERNAME:bizfly-7-453-lambro2510}" password="${KAFKA_PASSWORD:lambro2510}";
+      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USERNAME:bizfly-7-453-admin}" password="${KAFKA_PASSWORD:admin123}";
     topic:
       replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
       num-partitions: ${KAFKA_NUM_PARTITIONS:3}
