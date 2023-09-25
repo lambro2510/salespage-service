@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class ShipperStatusDto {
+public class CheckInDto {
 
   @NotNull(message = "Trạng thái là bắt buộc")
   @Schema(description = "Trạng thái của người giao hàng", required = true)

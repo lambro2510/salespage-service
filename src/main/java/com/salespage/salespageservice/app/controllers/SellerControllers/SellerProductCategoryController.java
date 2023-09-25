@@ -39,14 +39,14 @@ public class SellerProductCategoryController extends BaseController {
     }
   }
 
-  @GetMapping("detail")
+  @GetMapping("{id}")
   @Operation(summary = "Lấy chi tiết danh mục sản phẩm", description = "Lấy chi tiết danh mục sản phẩm theo ID")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
       @ApiResponse(responseCode = "401", description = "Không được phép"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  private ResponseEntity<?> getDetailProductCategory(Authentication authentication, @RequestParam String id) {
+  private ResponseEntity<?> getDetailProductCategory(Authentication authentication, @PathVariable String id) {
     try {
       return successApi(productCategoryService.getDetailProductCategory(getUsername(authentication), id));
     } catch (Exception ex) {
@@ -70,30 +70,30 @@ public class SellerProductCategoryController extends BaseController {
     }
   }
 
-  @PutMapping("")
+  @PutMapping("{id}")
   @Operation(summary = "Cập nhật danh mục sản phẩm", description = "Cập nhật một danh mục sản phẩm")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
       @ApiResponse(responseCode = "401", description = "Không được phép"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  private ResponseEntity<?> updateProductCategory(Authentication authentication, @RequestBody @Valid UpdateProductCategoryTypeDto dto) {
+  private ResponseEntity<?> updateProductCategory(Authentication authentication,@PathVariable String id, @RequestBody @Valid CreateProductCategoryTypeDto dto) {
     try {
-      productCategoryService.updateProductCategory(getUsername(authentication), dto);
+      productCategoryService.updateProductCategory(getUsername(authentication),id, dto);
       return successApi("Cập nhật danh mục sản phẩm thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }
   }
 
-  @DeleteMapping("")
+  @DeleteMapping("{id}")
   @Operation(summary = "Xóa danh mục sản phẩm", description = "Xóa một danh mục sản phẩm theo ID")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
       @ApiResponse(responseCode = "401", description = "Không được phép"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  private ResponseEntity<?> deleteProductCategory(Authentication authentication, @RequestParam String id) {
+  private ResponseEntity<?> deleteProductCategory(Authentication authentication, @PathVariable String id) {
     try {
       productCategoryService.deleteProductCategory(getUsername(authentication), id);
       return successApi("Xóa danh mục sản phẩm thành công");

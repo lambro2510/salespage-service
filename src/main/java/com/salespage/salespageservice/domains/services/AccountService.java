@@ -1,7 +1,7 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.LoginDto;
-import com.salespage.salespageservice.app.dtos.accountDtos.ShipperStatusDto;
+import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.Account;
@@ -15,18 +15,14 @@ import com.salespage.salespageservice.domains.exceptions.AccountNotExistsExcepti
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
-import com.salespage.salespageservice.domains.info.DistanceMatrixResult;
 import com.salespage.salespageservice.domains.info.TokenInfo;
-import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.utils.EmailRequest;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
-import com.salespage.salespageservice.domains.utils.RequestUtil;
 import com.salespage.salespageservice.domains.utils.SmsUtils;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -137,7 +133,7 @@ public class AccountService extends BaseService {
     EmailRequest.sendVerificationCode(user.getEmail(), Integer.toString(code));
   }
 
-  public void changeShipMode(String username, List<UserRole> userRoles, ShipperStatusDto dto) {
+  public void changeShipMode(String username, List<UserRole> userRoles, CheckInDto dto) {
     Account account = accountStorage.findByUsername(username);
     if (Objects.nonNull(account) && hasUserRole(userRoles, UserRole.SHIPPER)) {
       Shipper shipper = shipperStorage.findByUsername(username);

@@ -76,8 +76,8 @@ public class SellerStoreService extends BaseService {
     sellerStoreStorage.save(sellerStore);
   }
 
-  public void updateStore(String username, UpdateSellerStoreDto dto) {
-    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
+  public void updateStore(String username, String id, UpdateSellerStoreDto dto) {
+    SellerStore sellerStore = sellerStoreStorage.findById(id);
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy cửa hàng này");
     sellerStore.assignFromSellerStoreDto(dto);
     sellerStore.setOwnerStoreName(username);

@@ -45,7 +45,7 @@ public class SellerStoreController extends BaseController {
     }
   }
 
-  @GetMapping("detail")
+  @GetMapping("{id}")
   @Operation(summary = "Lấy thông tin cửa hàng", description = "Lấy thông tin cửa hàng của người bán")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
@@ -54,9 +54,9 @@ public class SellerStoreController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tìm thấy cửa hàng"),
       @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
-  public ResponseEntity<BaseResponse> getStoreDetail(Authentication authentication, @RequestParam String storeId) {
+  public ResponseEntity<BaseResponse> getStoreDetail(Authentication authentication, @PathVariable String id) {
     try {
-      return successApi(sellerStoreService.getStoreDetail(getUsername(authentication), storeId));
+      return successApi(sellerStoreService.getStoreDetail(getUsername(authentication), id));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }
@@ -79,7 +79,7 @@ public class SellerStoreController extends BaseController {
     }
   }
 
-  @PutMapping("")
+  @PutMapping("{id}")
   @Operation(summary = "Cập nhật thông tin các cửa hàng", description = "Cập nhật thông tin các cửa hàng của người bán")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
@@ -87,9 +87,9 @@ public class SellerStoreController extends BaseController {
       @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
       @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
-  public ResponseEntity<BaseResponse> updateStore(Authentication authentication, @RequestBody UpdateSellerStoreDto dto) {
+  public ResponseEntity<BaseResponse> updateStore(Authentication authentication, @PathVariable String id,  @RequestBody UpdateSellerStoreDto dto) {
     try {
-      sellerStoreService.updateStore(getUsername(authentication), dto);
+      sellerStoreService.updateStore(getUsername(authentication),id, dto);
       return successApi("Cập nhật cửa hàng thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());

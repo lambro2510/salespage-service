@@ -1,9 +1,8 @@
 package com.salespage.salespageservice.app.controllers;
 
-import com.salespage.salespageservice.app.dtos.accountDtos.ShipperStatusDto;
+import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.domains.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ public class ShipperController extends BaseController {
   private AccountService accountService;
 
   @PostMapping("status")
-  private ResponseEntity<?> changeModeOn(Authentication authentication, @RequestBody ShipperStatusDto dto) {
+  private ResponseEntity<?> changeModeOn(Authentication authentication, @RequestBody CheckInDto dto) {
     try {
       accountService.changeShipMode(getUsername(authentication), getUserRoles(authentication), dto);
       return successApi("Chuyển trạng thái thành công");

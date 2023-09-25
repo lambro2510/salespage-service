@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.consumers;
 
+import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
@@ -54,6 +55,17 @@ public class ProductTransactionConsumer extends BankService {
     try{
       Rating rating = JsonParser.entity(message, Rating.class);
       productService.updateRating(rating.getUsername(), rating.getProductId(), rating.getPoint());
+    }catch (Exception ex){
+      log.error("====> receiveMessage error: {} ", ex.getMessage());
+    }
+  }
+
+  @KafkaListener(topics = TopicConfig.CHECK_IN_TOPIC)
+  public void checkIn(String message) {
+    log.debug("Received message from " + TopicConfig.CHECK_IN_TOPIC + message);
+    try{
+      CheckInDto rating = JsonParser.entity(message, CheckInDto.class);
+//      productService.updateRating(rating.getUsername(), rating.getProductId(), rating.getPoint());
     }catch (Exception ex){
       log.error("====> receiveMessage error: {} ", ex.getMessage());
     }

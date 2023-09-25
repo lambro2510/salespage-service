@@ -31,11 +31,11 @@ public class ProductCategoryService extends BaseService {
 
   }
 
-  public void updateProductCategory(String username, UpdateProductCategoryTypeDto dto) {
+  public void updateProductCategory(String username,String categoryId, CreateProductCategoryTypeDto dto) {
     ProductType type = productTypeStorage.findByProductType(dto.getProductType());
     if (Objects.isNull(type)) throw new ResourceNotFoundException("Không tìm thấy loại sản phẩm này");
 
-    ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, dto.getId());
+    ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, categoryId);
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
 
     productCategory.setCategoryName(dto.getCategoryName());

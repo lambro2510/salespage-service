@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 public class TopicConfig {
   public static final String SALE_PAGE_PAYMENT_TRANSACTION = "bizfly-7-453-PaymentTransaction";
   public static final String LIKE_TOPIC = "bizfly-7-453-LikeTopic";
+  public static final String CHECK_IN_TOPIC = "bizfly-7-453-CheckInTopic";
 
 
 //  @Value("${spring.kafka.topic.replication-factor}")

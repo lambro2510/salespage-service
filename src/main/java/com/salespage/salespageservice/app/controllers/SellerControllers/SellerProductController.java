@@ -48,7 +48,7 @@ public class SellerProductController extends BaseController {
     }
   }
 
-  @GetMapping("detail/{productId}")
+  @GetMapping("{productId}")
   public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @PathVariable String productId) {
     try {
       return successApi(productService.getSellerProductDetail(productId));

@@ -41,13 +41,13 @@ public class SellerProductTransactionController extends BaseController {
     }
   }
 
-  @PutMapping("")
+  @PutMapping("{id}")
   public ResponseEntity<?> acceptTransactionByStore(
       Authentication authentication,
-      @RequestParam String transactionId
+      @PathVariable String id
   ) {
     try {
-      productTransactionService.acceptTransactionByStore(getUsername(authentication), transactionId);
+      productTransactionService.acceptTransactionByStore(getUsername(authentication), id);
       return successApi("Đơn hàng đã được bạn nhận thành công.");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());

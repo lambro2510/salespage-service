@@ -301,6 +301,51 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>cz.habarta.typescript-generator</groupId>
+                <artifactId>typescript-generator-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <jsonLibrary>jackson2</jsonLibrary>
+                            <classPatterns>
+                                <pattern>com.salespage.salespageservice.app.dtos.accountDtos.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.productDtos.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.voucherDtos.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.UserFavoriteDtos.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.userDtos.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.storeDtos.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.productTransactionDto.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.bankDtos.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.PaymentDtos.*</pattern>
+
+                                <pattern>com.salespage.salespageservice.app.responses.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.voucherResponse.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.transactionResponse.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.storeResponse.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.Statistic.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.PaymentResponse.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.FavoriteResponse.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.BankResponse.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.notificationResponse.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.ProductResponse.*</pattern>
+                            </classPatterns>
+                            <excludeClasses>
+                                <class>com.salespage.salespageservice.SalesPageAdminServiceApplication</class>
+                            </excludeClasses>
+                            <outputFile>target/interface.d.ts</outputFile>
+                            <outputKind>global</outputKind>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
