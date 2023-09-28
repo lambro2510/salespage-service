@@ -81,8 +81,8 @@ public class PublicProductController extends BaseController {
     }
   }
 
-  @GetMapping("detail")
-  public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @RequestParam String productId) {
+  @GetMapping("{productId}")
+  public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @PathVariable String productId) {
     try {
       String username = null;
       ProductDetailResponse response = new ProductDetailResponse();

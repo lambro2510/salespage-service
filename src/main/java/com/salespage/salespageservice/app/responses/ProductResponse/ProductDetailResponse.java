@@ -46,7 +46,7 @@ public class ProductDetailResponse{
   Boolean isLike = false;
 
   @Schema(description = "Đánh giá sản phẩm")
-  Float rate = 0F;
+  Rate rate = new Rate();
 
   @Schema(description = "Danh sách các cửa hàng bán")
   List<SellerStoreResponse> stores;
@@ -87,6 +87,7 @@ public class ProductDetailResponse{
     imageUrls = product.getImageUrls().stream()
         .map(image -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", image, image))
         .collect(Collectors.toList());
+    rate = product.getRate();
     categoryId = product.getCategoryId();
     isHot = product.getIsHot();
     description = product.getDescription();

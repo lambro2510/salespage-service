@@ -250,9 +250,6 @@ public class ProductService extends BaseService {
       return sellerStoreResponse;
     }).collect(Collectors.toList()));
 
-    //assign from favorite
-
-
     //assign from category
     ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
