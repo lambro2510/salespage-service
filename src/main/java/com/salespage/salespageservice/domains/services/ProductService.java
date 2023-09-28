@@ -433,7 +433,7 @@ public class ProductService extends BaseService {
       Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productDetail.getProductId(), RatingType.PRODUCT);
       if (Objects.isNull(rating)) rating = new Rating();
       productDetail.setIsLike(!Objects.isNull(userFavorite) && userFavorite.getLike());
-      productDetail.setRate(rating.getPoint());
+      productDetail.setYourRate(rating.getPoint());
     }
   }
 
