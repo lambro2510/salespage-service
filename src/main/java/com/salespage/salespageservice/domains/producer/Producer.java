@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.producer;
 
+import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.info.Rating;
 import com.salespage.salespageservice.domains.utils.JsonParser;
@@ -28,6 +29,15 @@ public class Producer {
     try {
       log.debug("====write updateRating log success" + rating);
       kafkaTemplate.send(TopicConfig.LIKE_TOPIC, JsonParser.toJson(rating));
+    } catch (Exception e) {
+      log.error(String.valueOf(e));
+    }
+  }
+
+  public void checkIn(CheckInDto dto) {
+    try {
+      log.debug("====write updateRating log success" + dto);
+      kafkaTemplate.send(TopicConfig.CHECK_IN_TOPIC, JsonParser.toJson(dto));
     } catch (Exception e) {
       log.error(String.valueOf(e));
     }

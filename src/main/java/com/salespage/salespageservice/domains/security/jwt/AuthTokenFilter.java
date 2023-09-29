@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.security.jwt;
 
 
+import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.domains.security.services.UserDetailsServiceImpl;
 import com.salespage.salespageservice.domains.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
@@ -41,7 +42,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
       String jwt = getJwtFromRequest(request);
       String bankToken = getCassoTokenFromRequest(request);
-
+      String lat = getLatFromRequest(request);
+      String lng = getLngFromRequest(request);
       if (StringUtils.hasText(jwt) && jwtUtils.validateToken(jwt)) {
 
         String username = jwtUtils.getUsernameFromJWT(jwt);
@@ -49,7 +51,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails != null) {
-          // Nếu người dùng hợp lệ, set thông tin cho Seturity Context
+          userDetailsService.checkIn(new CheckInDto(lat, lng, username));
           UsernamePasswordAuthenticationToken
               authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
           authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -57,7 +59,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         }
       } else if (StringUtils.hasText(bankToken) && cassoToken.equals(bankToken)) {
         UserDetails userDetails = new User("casso", "lam12345", new ArrayList<>());
-        // Nếu người dùng hợp lệ, set thông tin cho Seturity Context
         UsernamePasswordAuthenticationToken
             authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -69,6 +70,18 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     filterChain.doFilter(request, response);
+  }
+
+  private String getLngFromRequest(HttpServletRequest request) {
+    String lat = request.getHeader("lat");
+    if (StringUtils.hasText(lat)) return lat;
+    return null;
+  }
+
+  private String getLatFromRequest(HttpServletRequest request) {
+    String lng = request.getHeader("lng");
+    if (StringUtils.hasText(lng)) return lng;
+    return null;
   }
 
   private String getJwtFromRequest(HttpServletRequest request) {

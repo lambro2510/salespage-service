@@ -8,6 +8,7 @@ import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import com.salespage.salespageservice.domains.info.Rating;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.producer.TopicConfig;
+import com.salespage.salespageservice.domains.services.AccountService;
 import com.salespage.salespageservice.domains.services.BankService;
 import com.salespage.salespageservice.domains.services.NotificationService;
 import com.salespage.salespageservice.domains.services.ProductService;
@@ -31,6 +32,9 @@ public class ProductTransactionConsumer extends BankService {
 
   @Autowired
   private ProductService productService;
+  
+  @Autowired
+  private AccountService accountService;
 
   @KafkaListener(topics = TopicConfig.SALE_PAGE_PAYMENT_TRANSACTION)
   public void createPayment(String message) {
@@ -64,8 +68,8 @@ public class ProductTransactionConsumer extends BankService {
   public void checkIn(String message) {
     log.debug("Received message from " + TopicConfig.CHECK_IN_TOPIC + message);
     try{
-      CheckInDto rating = JsonParser.entity(message, CheckInDto.class);
-//      productService.updateRating(rating.getUsername(), rating.getProductId(), rating.getPoint());
+      CheckInDto dto = JsonParser.entity(message, CheckInDto.class);
+      accountService.checkIn(dto);
     }catch (Exception ex){
       log.error("====> receiveMessage error: {} ", ex.getMessage());
     }

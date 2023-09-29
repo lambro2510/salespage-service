@@ -1,8 +1,10 @@
 package com.salespage.salespageservice.domains.security.services;
 
+import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.entities.CheckInDaily;
 import com.salespage.salespageservice.domains.exceptions.WrongAccountOrPasswordException;
+import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.storages.AccountStorage;
 import com.salespage.salespageservice.domains.storages.CheckInDailyStorage;
 import com.salespage.salespageservice.domains.utils.DateUtils;
@@ -21,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   private AccountStorage accountStorage;
 
   @Autowired
-  private CheckInDailyStorage checkInDailyStorage;
+  private Producer producer;
 
   @Override
   @Transactional
@@ -29,26 +31,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     Account account = accountStorage.findByUsername(username);
     if (account == null) {
       throw new WrongAccountOrPasswordException();
-    } else {
-      String today = DateUtils.nowString("dd/MM/yyyy");
-      if (!today.equals(account.getLastLogin())) {
-        account.setLastLogin(today);
-        accountStorage.save(account);
-        checkInDaily(account.getUsername());
-      }
     }
     return UserDetailsImpl.build(account);
   }
 
-  public void checkInDaily(String username) {
-    String today = DateUtils.nowString("dd/MM/yyyy");
-    CheckInDaily checkInDaily = checkInDailyStorage.findByUsernameAndDate(username, today);
-    if (Objects.isNull(checkInDaily)) {
-      checkInDaily = new CheckInDaily();
-      checkInDaily.setDate(today);
-      checkInDaily.setUsername(username);
-      checkInDailyStorage.save(checkInDaily);
-    }
+  public void checkIn(CheckInDto dto){
+    producer.checkIn(dto);
+
   }
 }
 

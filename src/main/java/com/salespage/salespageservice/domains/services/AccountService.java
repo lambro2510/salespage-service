@@ -4,10 +4,7 @@ import com.salespage.salespageservice.app.dtos.accountDtos.LoginDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.responses.JwtResponse;
-import com.salespage.salespageservice.domains.entities.Account;
-import com.salespage.salespageservice.domains.entities.Otp;
-import com.salespage.salespageservice.domains.entities.Shipper;
-import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.types.OtpStatus;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.entities.types.UserState;
@@ -16,6 +13,7 @@ import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.info.TokenInfo;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.EmailRequest;
 import com.salespage.salespageservice.domains.utils.GoogleDriver;
 import com.salespage.salespageservice.domains.utils.SmsUtils;
@@ -138,7 +136,6 @@ public class AccountService extends BaseService {
     if (Objects.nonNull(account) && hasUserRole(userRoles, UserRole.SHIPPER)) {
       Shipper shipper = shipperStorage.findByUsername(username);
       if(Objects.isNull(shipper)) throw new ResourceNotFoundException("Tài khoản chưa được xác minh");
-      shipper.setShipMode(dto.getStatus());
       shipper.setLongitude(dto.getLongitude());
       shipper.setLatitude(dto.getLatitude());
       shipperStorage.save(shipper);
@@ -150,5 +147,24 @@ public class AccountService extends BaseService {
   public void acceptProductTransaction(String username, List<UserRole> userRoles, String transactionId) {
   }
 
+  public void checkIn(CheckInDto dto){
+      Account account = accountStorage.findByUsername(dto.getUsername());
+      String today = DateUtils.nowString("dd/MM/yyyy");
+      if (!today.equals(account.getLastLogin())) {
+        account.setLastLogin(today);
+        accountStorage.save(account);
+        checkInDaily(account.getUsername());
+    }
+  }
 
+  public void checkInDaily(String username) {
+    String today = DateUtils.nowString("dd/MM/yyyy");
+    CheckInDaily checkInDaily = checkInDailyStorage.findByUsernameAndDate(username, today);
+    if (Objects.isNull(checkInDaily)) {
+      checkInDaily = new CheckInDaily();
+      checkInDaily.setDate(today);
+      checkInDaily.setUsername(username);
+      checkInDailyStorage.save(checkInDaily);
+    }
+  }
 }
