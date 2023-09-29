@@ -43,6 +43,12 @@ public class ProductDataResponse {
   @Schema(description = "Tiền sau giảm giá")
   protected Double sellPrice;
 
+  @Schema(description = "Số sản phẩm bán đươc")
+  protected Long totalSell;
+
+  @Schema(description = "Số lượt xem")
+  protected Long totalView;
+
   @Schema(description = "URL ảnh sản phẩm")
   protected String imageUrl;
 
@@ -56,6 +62,9 @@ public class ProductDataResponse {
   @Schema(description = "ID danh mục sản phẩm")
   String categoryId;
 
+  @Schema(description = "Ngày bắt đầu bán")
+  protected Long createdAt;
+
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();
@@ -67,5 +76,6 @@ public class ProductDataResponse {
     sellPrice = product.getSellPrice();
     categoryId = product.getCategoryId();
     imageUrl = product.getDefaultImageUrl();
+    createdAt = product.getCreatedAt();
   }
 }

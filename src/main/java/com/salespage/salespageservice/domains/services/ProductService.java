@@ -8,6 +8,7 @@ import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
+import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
 import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.domains.entities.*;
@@ -19,6 +20,7 @@ import com.salespage.salespageservice.domains.entities.types.SearchType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.Helper;
 import jodd.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
@@ -52,6 +54,9 @@ public class ProductService extends BaseService {
 
   @Autowired
   private SellerStoreService sellerStoreService;
+
+  @Autowired
+  private StatisticService statisticService;
 
 
   public Product createProduct(String username, CreateProductInfoDto dto) {
@@ -234,6 +239,12 @@ public class ProductService extends BaseService {
       }
     }
     responses.addAll(products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList()));
+    responses.forEach(product -> {
+      TotalProductStatisticResponse productStatistics = statisticService.getStatisticOfProduct(product.getProductId(), product.getCreatedAt(), DateUtils.nowInMillis());
+      product.setTotalSell(productStatistics.getTotalBuy());
+      product.setTotalView(productStatistics.getTotalView());
+    });
+
     return responses;
   }
 
@@ -381,16 +392,6 @@ public class ProductService extends BaseService {
 
   public List<ProductTypeResponse> getAllActiveProductType() {
     return productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList());
-  }
-
-  private List<Product> findSimilarProducts(Product product, String categoryName) throws Exception {
-    List<ProductCategory> productCategories = productCategoryStorage.findByCategoryName(categoryName);
-
-    List<String> categoriesId = productCategories.stream().map(item -> item.getId().toHexString()).collect(Collectors.toList());
-    List<Product> products = productStorage.findTop11ByCategoryIdIn(categoriesId);
-
-    products = products.stream().filter(item -> !item.getId().equals(product.getId())).collect(Collectors.toList());
-    return products;
   }
 
   public void updateRatingAsync (String username, String productId, Float point){
