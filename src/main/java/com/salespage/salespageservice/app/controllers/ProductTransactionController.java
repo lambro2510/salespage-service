@@ -64,7 +64,7 @@ public class ProductTransactionController extends BaseController {
   })
   public ResponseEntity<BaseResponse> addToCart(
       Authentication authentication,
-      @RequestBody ProductTransactionDto dto) {
+      @RequestBody @Valid ProductTransactionDto dto) {
     try {
       productTransactionService.addToCart(getUsername(authentication), dto);
       return successApi("Thêm vào giỏ hàng thành công");
