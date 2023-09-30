@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,7 +16,7 @@ public class TotalProductStatisticResponse {
   private Long totalView = 0L;
   private Long totalBuy = 0L;
   private Long totalShipCod = 0L;
-  private List<Daily> dailies;
+  private List<Daily> dailies = new ArrayList<>();
 
   @Data
   public static class Daily {

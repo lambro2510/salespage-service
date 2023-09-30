@@ -61,6 +61,7 @@ public class StatisticService extends BaseService {
         statistic.setTotalBuy(0L);
         statistic.setTotalPurchase(0L);
         statistic.setTotalUser(0L);
+        statistic.setDailies(new ArrayList<>());
         return statistic;
       });
 
