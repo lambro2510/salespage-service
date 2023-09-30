@@ -8,6 +8,7 @@ import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
+import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,10 +70,40 @@ public class ProductTransactionService extends BaseService {
   }
 
   /*
-   * Người dùng tạo 1 đơn hàng
+   * Thêm hàng vào giỏ đồ
    */
   @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public ProductTransactionResponse createProductTransaction(String username, ProductTransactionDto dto) {
+  public void addToCart(String username, ProductTransactionDto dto) {
+    Product product = productStorage.findProductById(dto.getProductId());
+    if(Objects.isNull(product)){
+      throw new TransactionException("Sản phẩm này không tồn tại");
+    }
+    if (username.equals(product.getSellerUsername()))
+      throw new TransactionException(ErrorCode.NOT_ENOUGH_MONEY, "Bạn không thể mua mặt hàng này");
+
+    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
+    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Cửa hàng không tồn tại");
+
+    User user = userStorage.findByUsername(username);
+    if (Objects.isNull(user)) throw new ResourceNotFoundException("Người dùng không tồn tại");
+
+    ProductTransaction productTransaction = new ProductTransaction();
+    productTransaction.setId(new ObjectId());
+    productTransaction.createAddToCart(username, dto);
+    productTransaction.setSellerUsername(product.getSellerUsername());
+    productTransaction.setStoreId(sellerStore.getId().toHexString());
+    productTransaction.setProduct(product);
+    productTransaction.setStore(sellerStore);
+    productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
+    productTransactionStorage.save(productTransaction);
+    userStorage.save(user);
+  }
+
+  /*
+   * Người dùng tạo 1 đơn hàng
+   */
+  @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+  public void createProductTransaction(String username, ProductTransactionDto dto) {
     ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
     Product product = productStorage.findProductById(dto.getProductId());
     if(Objects.isNull(product)){
@@ -104,9 +136,7 @@ public class ProductTransactionService extends BaseService {
     productTransactionResponse.partnerFromProductTransaction(productTransaction);
     productTransactionStorage.save(productTransaction);
     userStorage.save(user);
-    return productTransactionResponse;
   }
-
   /*
    *Người dùng chỉnh sửa đơn hàng
    */
@@ -194,5 +224,28 @@ public class ProductTransactionService extends BaseService {
     if(!productTransaction.getSellerUsername().equals(username)) throw new AuthorizationException();
     productTransaction.setState(ProductTransactionState.ACCEPT_STORE);
     productTransactionStorage.save(productTransaction);
+  }
+
+  @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+  public void confirmPayment(String username, List<String> ids) {
+    User user = userStorage.findByUsername(username);
+    if(Objects.isNull(user)){
+      throw new ResourceNotFoundException("Không tồn tại người dùng này");
+    }
+    List<ProductTransaction> productTransactions = productTransactionStorage.findByIdIn(ids);
+    if(productTransactions.size() > 10){
+      throw new BadRequestException("Vượt quá số lượng sản phẩm trong giỏ hàng, vui long loại bớt sản phẩm");
+    }
+    Double totalMoney = 0D;
+    for(ProductTransaction productTransaction : productTransactions){
+      totalMoney += productTransaction.getTotalPrice();
+      productTransaction.setState(ProductTransactionState.WAITING_STORE);
+    }
+    if(totalMoney > user.getBalance().getMoney()){
+      throw new TransactionException(ErrorCode.NOT_ENOUGH_MONEY, "Tài khoản của bạn không đủ tiền");
+    }
+    user.getBalance().minusMoney(totalMoney.longValue());
+    userStorage.save(user);
+    productTransactionStorage.saveAll(productTransactions);
   }
 }

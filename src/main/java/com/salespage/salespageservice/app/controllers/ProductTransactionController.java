@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -48,6 +49,44 @@ public class ProductTransactionController extends BaseController {
       return successApi("Tạo mới giao dịch thành công");
     } catch (TransactionException ex) {
       return errorApi(ErrorCode.NOT_ENOUGH_MONEY);
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @PostMapping("cart")
+  @Operation(summary = "Thêm sản phẩm vào giỏ hàng", description = "Tạo một giao dịch sản phẩm mới với thông tin đã cho")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Giao dịch sản phẩm đã được tạo"),
+      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+      @ApiResponse(responseCode = "401", description = "Không được phép"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<BaseResponse> addToCart(
+      Authentication authentication,
+      @RequestBody @Valid ProductTransactionDto dto) {
+    try {
+      productTransactionService.addToCart(getUsername(authentication), dto);
+      return successApi("Thêm vào giỏ hàng thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @PutMapping("cart")
+  @Operation(summary = "Tạo giao dịch sản phẩm", description = "Tạo một giao dịch sản phẩm mới với thông tin đã cho")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Giao dịch sản phẩm đã được tạo"),
+      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+      @ApiResponse(responseCode = "401", description = "Không được phép"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<BaseResponse> confirmPayment(
+      Authentication authentication,
+      @RequestBody List<String> ids) {
+    try {
+      productTransactionService.confirmPayment(getUsername(authentication), ids);
+      return successApi("Thanh toán thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

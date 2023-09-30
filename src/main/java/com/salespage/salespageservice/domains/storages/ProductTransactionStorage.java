@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.storages;
 import com.salespage.salespageservice.app.responses.transactionResponse.TotalStatisticResponse;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,5 +66,9 @@ public class ProductTransactionStorage extends BaseStorage {
 
   public List<ProductTransaction> findProductTransactionByState(ProductTransactionState productTransactionState) {
     return productTransactionRepository.findProductTransactionByState(productTransactionState);
+  }
+
+  public List<ProductTransaction> findByIdIn(List<String> ids) {
+    return productTransactionRepository.findByIdIn(Helper.convertListStringToListObjectId(ids));
   }
 }

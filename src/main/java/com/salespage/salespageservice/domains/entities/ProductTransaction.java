@@ -92,6 +92,15 @@ public class ProductTransaction extends BaseEntity {
     state = ProductTransactionState.WAITING_STORE;
   }
 
+  public void createAddToCart(String username, ProductTransactionDto dto) {
+    buyerUsername = username;
+    productId = dto.getProductId();
+    quantity = dto.getQuantity();
+    note = dto.getNote();
+    addressReceive = dto.getAddress();
+    state = ProductTransactionState.IN_CART;
+  }
+
   public void updateTransaction(ProductTransactionInfoDto dto) {
     quantity = dto.getQuantity();
     note = dto.getNote();
