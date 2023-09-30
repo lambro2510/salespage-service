@@ -266,6 +266,10 @@ public class ProductService extends BaseService {
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
     response.assignFromCategory(productCategory);
 
+    TotalProductStatisticResponse productStatistics = statisticService.getStatisticOfProduct(product.getId().toHexString(), product.getCreatedAt(), DateUtils.nowInMillis());
+    response.setTotalSell(productStatistics.getTotalBuy());
+    response.setTotalView(productStatistics.getTotalView());
+
     return response;
   }
 

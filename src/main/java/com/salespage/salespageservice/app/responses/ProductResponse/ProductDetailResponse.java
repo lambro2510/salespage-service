@@ -60,6 +60,12 @@ public class ProductDetailResponse{
   @Schema(description = "Tên danh mục sản phẩm")
   String categoryName;
 
+  @Schema(description = "Số sản phẩm bán đươc")
+  protected Long totalSell;
+
+  @Schema(description = "Số lượt xem")
+  protected Long totalView;
+
   String origin;
 
   Boolean isForeign;
