@@ -29,6 +29,10 @@ public class ProductTransactionResponse {
   @JsonProperty("total_price")
   private Long totalPrice;
 
+  @Schema(description = "Giá mỗi sản phẩm")
+  @JsonProperty("price")
+  private Double price;
+
   @Schema(description = "Tên người bán")
   private String sellerName;
 
@@ -81,5 +85,6 @@ public class ProductTransactionResponse {
     note = productTransaction.getNote();
     address = productTransaction.getAddressReceive();
     createdAt = new Date(productTransaction.getCreatedAt());
+    price = productTransaction.getProduct().getPrice();
   }
 }
