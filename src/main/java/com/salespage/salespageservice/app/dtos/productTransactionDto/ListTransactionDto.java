@@ -14,6 +14,9 @@ public class ListTransactionDto {
   @Schema(description = "Ghi chú", example = "Vui lòng gửi sản phẩm sớm nhất có thể")
   private String note;
 
+  @Schema(description = "Số lượng", example = "Số lượng")
+  private Long quantity;
+
   @NotBlank(message = "Địa chỉ nhận hàng không được để trống")
   @Schema(description = "Địa chỉ nhận hàng", example = "24/5 Phường Trường Thi")
   private String address;

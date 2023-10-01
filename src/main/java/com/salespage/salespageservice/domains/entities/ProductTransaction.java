@@ -112,6 +112,11 @@ public class ProductTransaction extends BaseEntity {
     this.note = note;
   }
 
+  public void updateQuantity(long newQuantity){
+    quantity = newQuantity;
+    double rate = (double) newQuantity / (double) quantity;
+    totalPrice = totalPrice/rate;
+  }
   @EqualsAndHashCode(callSuper = true)
   @Data
   public static class Message extends BaseEntity {

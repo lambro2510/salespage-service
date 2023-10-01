@@ -243,6 +243,8 @@ public class ProductTransactionService extends BaseService {
       if(StringUtils.isNotBlank(tranData.getVoucherCode())){
         voucherCodeService.useVoucher(username, tranData.getVoucherCode(), productTransaction);
       }
+      productTransaction.updateQuantity(tranData.getQuantity());
+      voucherCodeService.useVoucher(username, tranData.getVoucherCode(), productTransaction);
       totalMoney += productTransaction.getTotalPrice();
       productTransaction.setState(ProductTransactionState.WAITING_STORE);
     }
