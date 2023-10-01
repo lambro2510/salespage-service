@@ -71,4 +71,8 @@ public class ProductTransactionStorage extends BaseStorage {
   public List<ProductTransaction> findByIdIn(List<String> ids) {
     return productTransactionRepository.findByIdIn(Helper.convertListStringToListObjectId(ids));
   }
+
+  public List<ProductTransaction> findProductTransactionByBuyerUsernameAndState(String username, ProductTransactionState state) {
+    return productTransactionRepository.findProductTransactionByBuyerUsernameAndState(username, state);
+  }
 }

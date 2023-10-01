@@ -253,4 +253,9 @@ public class ProductTransactionService extends BaseService {
     userStorage.save(user);
     productTransactionStorage.saveAll(productTransactions);
   }
+
+  public List<ProductTransactionResponse> getTransactionInCart(String username) {
+    List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByBuyerUsernameAndState(username, ProductTransactionState.IN_CART);
+    return productTransactions.stream().map(ProductTransaction::partnerToProductTransactionResponse).collect(Collectors.toList());
+  }
 }
