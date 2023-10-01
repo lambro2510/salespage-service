@@ -90,7 +90,7 @@ public class VoucherCodeService extends BaseService {
     return voucherCode.getCode();
   }
 
-  public VoucherInfo useVoucher(String username, String code, ProductTransaction productTransaction, String storeId, Double price) {
+  public VoucherInfo useVoucher(String username, String code, ProductTransaction productTransaction) {
     VoucherInfo voucherInfo = new VoucherInfo();
     voucherInfo.setPriceBefore(productTransaction.getTotalPrice());
     VoucherCode voucherCode = voucherCodeStorage.findCodeCanUse(username, code);
@@ -103,14 +103,14 @@ public class VoucherCodeService extends BaseService {
     if (Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
       throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
 
-    if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < price || voucherStore.getVoucherStoreDetail().getMinAblePrice() > price)
-      throw new BadRequestException("Mã không thể sử dụng cho sản phẩm này, không nằm trong giá trị mã có thể sử dụng");
+    if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < productTransaction.getProduct().getPrice() || voucherStore.getVoucherStoreDetail().getMinAblePrice() > productTransaction.getProduct().getPrice())
+      throw new BadRequestException("Mã không thể sử dụng cho sản phẩm" + productTransaction.getProduct().getProductName() +", không nằm trong giá trị mã có thể sử dụng");
 
     if (voucherStore.getVoucherStoreType() == VoucherStoreType.PRODUCT) {
       if (!voucherStore.getRefId().equals(productTransaction.getProductId()))
-        throw new BadRequestException("Mã giảm giá không áp dụng cho sản phẩm này");
+        throw new BadRequestException("Mã giảm giá không áp dụng cho sản phẩm " + productTransaction.getProduct().getProductName());
     } else {
-      if (!voucherStore.getRefId().equals(storeId))
+      if (!voucherStore.getRefId().equals(productTransaction.getStoreId()))
         throw new BadRequestException("Mã giảm giá không áp dụng cho cửa hàng này");
     }
 
@@ -127,6 +127,8 @@ public class VoucherCodeService extends BaseService {
     voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
     voucherInfo.setPriceAfter(productTransaction.getTotalPrice());
     voucherInfo.setTotalDiscount(voucherInfo.getPriceAfter() - voucherInfo.getPriceBefore());
+    productTransaction.setIsUseVoucher(true);
+    productTransaction.setVoucherInfo(voucherInfo);
     return voucherInfo;
   }
 

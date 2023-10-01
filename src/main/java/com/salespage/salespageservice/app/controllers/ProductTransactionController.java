@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.controllers;
 
+import com.salespage.salespageservice.app.dtos.productTransactionDto.ListTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
@@ -74,7 +75,7 @@ public class ProductTransactionController extends BaseController {
   }
 
   @PutMapping("cart")
-  @Operation(summary = "Tạo giao dịch sản phẩm", description = "Tạo một giao dịch sản phẩm mới với thông tin đã cho")
+  @Operation(summary = "Mua sản phẩm trong giỏ hàng", description = "Mua sản phẩm trong giỏ hàng")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "Giao dịch sản phẩm đã được tạo"),
       @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
@@ -83,9 +84,9 @@ public class ProductTransactionController extends BaseController {
   })
   public ResponseEntity<BaseResponse> confirmPayment(
       Authentication authentication,
-      @RequestBody List<String> ids) {
+      @RequestBody List<ListTransactionDto> dto) {
     try {
-      productTransactionService.confirmPayment(getUsername(authentication), ids);
+      productTransactionService.confirmPayment(getUsername(authentication), dto);
       return successApi("Thanh toán thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());

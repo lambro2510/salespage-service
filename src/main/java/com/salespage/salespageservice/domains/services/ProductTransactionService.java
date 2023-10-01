@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.services;
 
+import com.salespage.salespageservice.app.dtos.productTransactionDto.ListTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
@@ -26,10 +27,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -129,9 +128,7 @@ public class ProductTransactionService extends BaseService {
     productTransaction.setStore(sellerStore);
     productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
     if (StringUtils.isNotBlank(dto.getVoucherCode())) {
-      VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction, sellerStore.getId().toHexString(), product.getPrice());
-      productTransaction.setVoucherInfo(voucherInfo);
-      productTransaction.setIsUseVoucher(true);
+      voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction);
     }
     productTransactionResponse.partnerFromProductTransaction(productTransaction);
     productTransactionStorage.save(productTransaction);
@@ -227,17 +224,25 @@ public class ProductTransactionService extends BaseService {
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
-  public void confirmPayment(String username, List<String> ids) {
+  public void confirmPayment(String username, List<ListTransactionDto> dto) {
     User user = userStorage.findByUsername(username);
     if(Objects.isNull(user)){
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
     }
-    List<ProductTransaction> productTransactions = productTransactionStorage.findByIdIn(ids);
+    List<ProductTransaction> productTransactions = productTransactionStorage.findByIdIn(dto.stream().map(ListTransactionDto::getTransactionId).collect(Collectors.toList()));
+    Map<String, ListTransactionDto> tranMap = dto.stream().collect(Collectors.toMap(ListTransactionDto::getTransactionId, Function.identity()));
     if(productTransactions.size() > 10){
       throw new BadRequestException("Vượt quá số lượng sản phẩm trong giỏ hàng, vui long loại bớt sản phẩm");
     }
     Double totalMoney = 0D;
     for(ProductTransaction productTransaction : productTransactions){
+      ListTransactionDto tranData = tranMap.get(productTransaction.getId().toHexString());
+      if(tranData == null){
+        throw new ResourceNotFoundException("Không tìm thấy giao dịch");
+      }
+      if(StringUtils.isNotBlank(tranData.getVoucherCode())){
+        voucherCodeService.useVoucher(username, tranData.getVoucherCode(), productTransaction);
+      }
       totalMoney += productTransaction.getTotalPrice();
       productTransaction.setState(ProductTransactionState.WAITING_STORE);
     }
