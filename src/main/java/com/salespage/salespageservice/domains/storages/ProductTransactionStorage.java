@@ -24,7 +24,7 @@ public class ProductTransactionStorage extends BaseStorage {
     productTransactionRepository.save(productTransaction);
   }
 
-  public ProductTransaction findProductTransactionByIdInCache(String id) {
+  public ProductTransaction findProductTransactionById(String id) {
     return productTransactionRepository.findProductTransactionById(new ObjectId((id)));
   }
 

@@ -51,10 +51,10 @@ public class ProductTransaction extends BaseEntity {
   private ProductTransactionState state;
 
   @Field("quantity")
-  private Long quantity;
+  private Long quantity = 0L;
 
   @Field("total_price")
-  private Double totalPrice;
+  private Double totalPrice = 0D;
 
   @Field("ship_cod")
   private Double shipCod;
@@ -102,7 +102,7 @@ public class ProductTransaction extends BaseEntity {
   }
 
   public void updateTransaction(ProductTransactionInfoDto dto) {
-    quantity = dto.getQuantity();
+    updateQuantity(dto.getQuantity());
     note = dto.getNote();
     addressReceive = dto.getAddress();
   }

@@ -6,7 +6,6 @@ import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTran
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
 import com.salespage.salespageservice.domains.entities.*;
-import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
@@ -139,11 +138,11 @@ public class ProductTransactionService extends BaseService {
    */
   public void updateProductTransaction(String username, ProductTransactionInfoDto dto, String transactionId) {
     ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
-    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
-    if(!productTransaction.getBuyerUsername().equals(username)) throw new AuthorizationException();
+    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionById(transactionId);
     if (Objects.isNull(productTransaction)) throw new ResourceNotFoundException("Không tìm thấy đơn hàng");
+    if(!productTransaction.getBuyerUsername().equals(username)) throw new AuthorizationException();
 
-    if (!productTransaction.getState().equals(ProductTransactionState.WAITING_STORE) && !productTransaction.getState().equals(ProductTransactionState.CANCEL))
+    if (!productTransaction.getState().equals(ProductTransactionState.WAITING_STORE) && !productTransaction.getState().equals(ProductTransactionState.IN_CART))
       throw new TransactionException("Trạng thái hiện tại không thể cập nhật đơn hàng");
 
     productTransaction.updateTransaction(dto);
@@ -154,8 +153,8 @@ public class ProductTransactionService extends BaseService {
   }
 
 
-  public ProductTransaction cancelProductTransaction(String username, String transactionId) {
-    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
+  public void cancelProductTransaction(String username, String transactionId) {
+    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionById(transactionId);
     if (!username.equals(productTransaction.getBuyerUsername()))
       throw new TransactionException("Bạn không có quyền hủy đơn hàng này");
 
@@ -163,7 +162,6 @@ public class ProductTransactionService extends BaseService {
 
     productTransactionStorage.save(productTransaction);
 
-    return productTransaction;
   }
 
   /*
@@ -171,7 +169,7 @@ public class ProductTransactionService extends BaseService {
    */
   public void productTransactionCancel(String productId) {
     List<ProductTransaction> productTransactions = productTransactionStorage.findAllProductTransactionByProductId(productId);
-    if (productTransactions.size() == 0) return;
+    if (productTransactions.isEmpty()) return;
 
     productTransactions.forEach(transaction -> transaction.updateState(ProductTransactionState.CANCEL, "Sản phẩm đã ngừng bán hoặc không tồn tại"));
     productTransactionStorage.saveAll(productTransactions);
@@ -217,7 +215,7 @@ public class ProductTransactionService extends BaseService {
   }
 
   public void acceptTransactionByStore(String username, String transactionId) {
-    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionByIdInCache(transactionId);
+    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionById(transactionId);
     if(!productTransaction.getSellerUsername().equals(username)) throw new AuthorizationException();
     productTransaction.setState(ProductTransactionState.ACCEPT_STORE);
     productTransactionStorage.save(productTransaction);
@@ -269,5 +267,16 @@ public class ProductTransactionService extends BaseService {
       }
     }
     productTransactionStorage.deleteAll(productTransactions);
+  }
+
+  public void updateQuantityOfTransaction(String username, String id, Long amount) {
+    ProductTransaction productTransaction = productTransactionStorage.findProductTransactionById(id);
+    if(Objects.isNull(productTransaction)){
+      throw new ResourceNotFoundException("Giao dịch không tồn tại");
+    }
+    ProductTransactionState state = productTransaction.getState();
+    if(state != ProductTransactionState.IN_CART && state != ProductTransactionState.WAITING_STORE){
+      throw new BadRequestException("Trạng thái giao dịch hiện tại không thể cập nhật");
+    }
   }
 }
