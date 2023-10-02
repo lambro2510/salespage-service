@@ -260,4 +260,14 @@ public class ProductTransactionService extends BaseService {
     List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByBuyerUsernameAndState(username, ProductTransactionState.IN_CART);
     return productTransactions.stream().map(ProductTransaction::partnerToProductTransactionResponse).collect(Collectors.toList());
   }
+
+  public void deleteCart(String username, List<String> ids) {
+    List<ProductTransaction> productTransactions = productTransactionStorage.findByIdInAndState(ids, ProductTransactionState.IN_CART);
+    for(ProductTransaction productTransaction : productTransactions){
+      if(!Objects.equals(productTransaction.getBuyerUsername(), username)){
+        throw new AuthorizationException();
+      }
+    }
+    productTransactionStorage.deleteAll(productTransactions);
+  }
 }

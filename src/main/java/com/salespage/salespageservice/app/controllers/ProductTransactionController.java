@@ -109,6 +109,25 @@ public class ProductTransactionController extends BaseController {
     }
   }
 
+  @DeleteMapping("cart")
+  @Operation(summary = "Mua sản phẩm trong giỏ hàng", description = "Mua sản phẩm trong giỏ hàng")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Giao dịch sản phẩm đã được tạo"),
+      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
+      @ApiResponse(responseCode = "401", description = "Không được phép"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<BaseResponse> deleteCart(
+      Authentication authentication,
+      @RequestBody List<String> ids) {
+    try {
+      productTransactionService.deleteCart(getUsername(authentication), ids);
+      return successApi("Xóa thành công");
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
+
   @PutMapping("")
   @Operation(summary = "Cập nhật giao dịch sản phẩm", description = "Cập nhật giao dịch sản phẩm với thông tin đã cho")
   @ApiResponses(value = {

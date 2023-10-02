@@ -31,4 +31,6 @@ public interface ProductTransactionRepository extends MongoRepository<ProductTra
   List<ProductTransaction> findByIdIn(List<ObjectId> ids);
 
   List<ProductTransaction> findProductTransactionByBuyerUsernameAndState(String username, ProductTransactionState state);
+
+  List<ProductTransaction> findByIdInAndState(List<ObjectId> objectIds, ProductTransactionState state);
 }

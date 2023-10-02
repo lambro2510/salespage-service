@@ -75,4 +75,12 @@ public class ProductTransactionStorage extends BaseStorage {
   public List<ProductTransaction> findProductTransactionByBuyerUsernameAndState(String username, ProductTransactionState state) {
     return productTransactionRepository.findProductTransactionByBuyerUsernameAndState(username, state);
   }
+
+  public List<ProductTransaction> findByIdInAndState(List<String> ids, ProductTransactionState state) {
+    return productTransactionRepository.findByIdInAndState(Helper.convertListStringToListObjectId(ids), state);
+  }
+
+  public void deleteAll(List<ProductTransaction> productTransactions) {
+    productTransactionRepository.deleteAll(productTransactions);
+  }
 }
