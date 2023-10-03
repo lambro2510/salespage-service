@@ -15,6 +15,7 @@ import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.VoucherCodeException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import com.salespage.salespageservice.domains.utils.Helper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -114,16 +115,13 @@ public class VoucherCodeService extends BaseService {
         throw new BadRequestException("Mã giảm giá không áp dụng cho cửa hàng này");
     }
 
-    if (voucherStore.getDiscountType().equals(DiscountType.PERCENT)) {
-      productTransaction.setTotalPrice(productTransaction.getTotalPrice() * (voucherStore.getValue() / 100));
-    } else {
-      productTransaction.setTotalPrice(productTransaction.getTotalPrice() - voucherStore.getValue());
-    }
+    productTransaction.setTotalPrice(getPriceWhenUseVoucher(productTransaction.getTotalPrice(), voucherStore.getDiscountType(), voucherStore.getValue()));
 
     voucherCode.setUserAt(new Date());
     voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
     voucherCodeStorage.save(voucherCode);
     voucherInfo.setVoucherCode(code);
+    voucherInfo.setValue(voucherStore.getValue());
     voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
     voucherInfo.setPriceAfter(productTransaction.getTotalPrice());
     voucherInfo.setTotalDiscount(voucherInfo.getPriceAfter() - voucherInfo.getPriceBefore());
@@ -132,6 +130,13 @@ public class VoucherCodeService extends BaseService {
     return voucherInfo;
   }
 
+  public Double getPriceWhenUseVoucher(Double getTotalPrice, DiscountType type, Long value){
+    if(type.equals(DiscountType.PERCENT)){
+      return getTotalPrice * (value / 100);
+    }else{
+      return getTotalPrice* value;
+    }
+  }
   public PageResponse<VoucherCodeResponse> getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
     if (Objects.isNull(voucherStore))
@@ -176,4 +181,28 @@ public class VoucherCodeService extends BaseService {
     return responses;
   }
 
+  public VoucherInfo getVoucherInfo(String voucherCodeId) {
+    if(StringUtils.isBlank(voucherCodeId)){
+      return null;
+    }
+
+    VoucherCode voucherCode = voucherCodeStorage.findById(voucherCodeId);
+    if(voucherCode == null){
+      return null;
+    }
+    if(!voucherCode.checkVoucher()){
+      return null;
+    }
+    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
+    if(voucherStore == null){
+      return null;
+    }
+
+    VoucherInfo info = new VoucherInfo();
+    info.setVoucherCode(voucherCode.getCode());
+    info.setDiscountType(voucherStore.getDiscountType());
+    info.setValue(voucherStore.getValue());
+    info.setVoucherName(voucherStore.getVoucherStoreName());
+    return info;
+  }
 }

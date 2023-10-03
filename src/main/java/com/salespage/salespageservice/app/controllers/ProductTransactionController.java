@@ -44,9 +44,9 @@ public class ProductTransactionController extends BaseController {
   })
   public ResponseEntity<BaseResponse> createProductTransaction(
       Authentication authentication,
-      @RequestBody @Valid ProductTransactionDto dto) {
+      @RequestBody @Valid List<ProductTransactionDto> dtos) {
     try {
-      productTransactionService.createProductTransaction(getUsername(authentication), dto);
+      productTransactionService.createProductTransaction(getUsername(authentication), dtos);
       return successApi("Tạo mới giao dịch thành công");
     } catch (TransactionException ex) {
       return errorApi(ErrorCode.NOT_ENOUGH_MONEY);
@@ -66,63 +66,6 @@ public class ProductTransactionController extends BaseController {
   public ResponseEntity<BaseResponse> getAllProductTransaction(Authentication authentication) {
     try {
       return successApi(productTransactionService.getTransactionInCart(getUsername(authentication)));
-    } catch (Exception ex) {
-      return errorApi(ex.getMessage());
-    }
-  }
-
-  @PostMapping("cart")
-  @Operation(summary = "Thêm sản phẩm vào giỏ hàng", description = "Tạo một giao dịch sản phẩm mới với thông tin đã cho")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "201", description = "Giao dịch sản phẩm đã được tạo"),
-      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
-      @ApiResponse(responseCode = "401", description = "Không được phép"),
-      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
-  })
-  public ResponseEntity<BaseResponse> addToCart(
-      Authentication authentication,
-      @RequestBody ProductTransactionDto dto) {
-    try {
-      productTransactionService.addToCart(getUsername(authentication), dto);
-      return successApi("Thêm vào giỏ hàng thành công");
-    } catch (Exception ex) {
-      return errorApi(ex.getMessage());
-    }
-  }
-
-  @PutMapping("cart")
-  @Operation(summary = "Mua sản phẩm trong giỏ hàng", description = "Mua sản phẩm trong giỏ hàng")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "201", description = "Giao dịch sản phẩm đã được tạo"),
-      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
-      @ApiResponse(responseCode = "401", description = "Không được phép"),
-      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
-  })
-  public ResponseEntity<BaseResponse> confirmPayment(
-      Authentication authentication,
-      @RequestBody List<ListTransactionDto> dto) {
-    try {
-      productTransactionService.confirmPayment(getUsername(authentication), dto);
-      return successApi("Thanh toán thành công");
-    } catch (Exception ex) {
-      return errorApi(ex.getMessage());
-    }
-  }
-
-  @DeleteMapping("cart")
-  @Operation(summary = "Mua sản phẩm trong giỏ hàng", description = "Mua sản phẩm trong giỏ hàng")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "201", description = "Giao dịch sản phẩm đã được tạo"),
-      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
-      @ApiResponse(responseCode = "401", description = "Không được phép"),
-      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
-  })
-  public ResponseEntity<BaseResponse> deleteCart(
-      Authentication authentication,
-      @RequestBody List<String> ids) {
-    try {
-      productTransactionService.deleteCart(getUsername(authentication), ids);
-      return successApi("Xóa thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

@@ -97,41 +97,49 @@ public class ProductTransactionService extends BaseService {
     userStorage.save(user);
   }
 
+
+
   /*
    * Người dùng tạo 1 đơn hàng
    */
-  @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
-  public void createProductTransaction(String username, ProductTransactionDto dto) {
-    ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
-    Product product = productStorage.findProductById(dto.getProductId());
-    if(Objects.isNull(product)){
-      throw new TransactionException("Sản phẩm này không tồn tại");
-    }
-    if (username.equals(product.getSellerUsername()))
-      throw new TransactionException(ErrorCode.NOT_ENOUGH_MONEY, "Bạn không thể mua mặt hàng này");
-
-    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
-    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Cửa hàng không tồn tại");
-
+  @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+  public void createProductTransaction(String username, List<ProductTransactionDto> dtos) {
     User user = userStorage.findByUsername(username);
-    if (Objects.isNull(user)) throw new ResourceNotFoundException("Người dùng không tồn tại");
-    if (!user.updateBalance(false, product.getPrice().longValue()))
-      throw new TransactionException("Tài khoản của bạn không đủ tiền để thành toán mặt hàng này");
-
-    ProductTransaction productTransaction = new ProductTransaction();
-    productTransaction.setId(new ObjectId());
-    productTransaction.createNewTransaction(username, dto);
-    productTransaction.setSellerUsername(product.getSellerUsername());
-    productTransaction.setStoreId(sellerStore.getId().toHexString());
-    productTransaction.setProduct(product);
-    productTransaction.setStore(sellerStore);
-    productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
-    if (StringUtils.isNotBlank(dto.getVoucherCode())) {
-      voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction);
+    if (Objects.isNull(user)) {
+      throw new ResourceNotFoundException("Người dùng không tồn tại");
     }
-    productTransactionResponse.partnerFromProductTransaction(productTransaction);
-    productTransactionStorage.save(productTransaction);
+
+    for(ProductTransactionDto dto : dtos){
+      Product product = productStorage.findProductById(dto.getProductId());
+      if(Objects.isNull(product)){
+        throw new TransactionException("Sản phẩm này không tồn tại");
+      }
+      if (username.equals(product.getSellerUsername()))
+        throw new TransactionException(ErrorCode.NOT_ENOUGH_MONEY, "Bạn không thể mua mặt hàng này");
+
+      SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
+      if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Cửa hàng không tồn tại");
+      updateUserBalance(user, product.getPrice().longValue());
+
+      ProductTransaction productTransaction = new ProductTransaction();
+      productTransaction.setId(new ObjectId());
+      productTransaction.createNewTransaction(username, dto);
+      productTransaction.setSellerUsername(product.getSellerUsername());
+      productTransaction.setStoreId(sellerStore.getId().toHexString());
+      productTransaction.setProduct(product);
+      productTransaction.setStore(sellerStore);
+      productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
+      if (StringUtils.isNotBlank(dto.getVoucherCode())) {
+        voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction);
+      }
+      productTransactionStorage.save(productTransaction);
+    }
     userStorage.save(user);
+  }
+
+  public void updateUserBalance(User user, Long amount){
+    if (!user.updateBalance(false, amount))
+      throw new TransactionException("Tài khoản của bạn không đủ tiền để thành toán. Vui lòng nạp thêm.");
   }
   /*
    *Người dùng chỉnh sửa đơn hàng

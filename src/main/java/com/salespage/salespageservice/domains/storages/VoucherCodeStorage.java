@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.VoucherCode;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
@@ -34,5 +35,9 @@ public class VoucherCodeStorage extends BaseStorage {
 
   public Page<VoucherCode> findAll(Query query, Pageable pageable) {
     return voucherCodeRepository.findAll(query, pageable);
+  }
+
+  public VoucherCode findById(String voucherCodeId) {
+    return voucherCodeRepository.findById(new ObjectId(voucherCodeId)).get();
   }
 }

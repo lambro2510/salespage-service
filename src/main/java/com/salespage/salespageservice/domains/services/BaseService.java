@@ -119,6 +119,9 @@ public class BaseService{
   protected OtpStorage otpStorage;
 
   @Autowired
+  protected CartStorage cartStorage;
+
+  @Autowired
   @Lazy
   private SystemLogService systemLogService;
 

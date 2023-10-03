@@ -16,4 +16,6 @@ public class VoucherInfo {
   private Double totalDiscount;
   private Double priceBefore;
   private Double priceAfter;
+  private Long value;
+  private String voucherName;
 }

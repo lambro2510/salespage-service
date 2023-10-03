@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.entities;
 
 import com.salespage.salespageservice.app.responses.voucherResponse.VoucherCodeResponse;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -46,5 +47,9 @@ public class VoucherCode extends BaseEntity {
     response.setVoucherCodeStatus(voucherCodeStatus);
     response.setExpireTime(expireTime);
     return response;
+  }
+
+  public boolean checkVoucher(){
+    return expireTime.isBefore(DateUtils.now().toLocalDate()) && voucherCodeStatus.equals(VoucherCodeStatus.OWNER);
   }
 }

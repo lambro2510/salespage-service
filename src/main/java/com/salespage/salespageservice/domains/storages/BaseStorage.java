@@ -95,6 +95,9 @@ public class BaseStorage {
   protected SearchHistoryRepository searchHistoryRepository;
 
   @Autowired
+  protected CartRepository cartRepository;
+
+  @Autowired
   protected MongoTemplate mongoTemplate;
 
   @Autowired
