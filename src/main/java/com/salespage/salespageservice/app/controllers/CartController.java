@@ -37,9 +37,9 @@ public class CartController extends BaseController{
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<?> updateQuantity(Authentication authentication, @PathVariable String id, @RequestParam Long quantity){
+  public ResponseEntity<?> updateCart(Authentication authentication, @PathVariable String id, @RequestParam Long quantity, @RequestParam(required = false) String voucherCodeId){
     try{
-      cartService.updateQuantity(getUsername(authentication), id, quantity);
+      cartService.updateCart(getUsername(authentication), id, quantity, voucherCodeId);
       return successApi("Cập nhật thành công");
     }catch (Exception ex){
       return errorApi(ex.getMessage());

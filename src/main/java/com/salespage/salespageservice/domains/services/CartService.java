@@ -4,7 +4,6 @@ import com.salespage.salespageservice.app.dtos.Cart.CartDto;
 import com.salespage.salespageservice.app.responses.Cart.CartResponse;
 import com.salespage.salespageservice.domains.entities.Cart;
 import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.VoucherCode;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
@@ -79,11 +78,12 @@ public class CartService extends BaseService {
     return responses;
   }
 
-  public void updateQuantity(String username, String id, Long quantity) {
+  public void updateCart(String username, String id, Long quantity, String voucherCodeId) {
     Cart cart = cartStorage.findById(id);
     if(!Objects.equals(cart.getUsername(), username)){
       throw new AuthorizationException();
     }
+    VoucherInfo info = voucherCodeService.getVoucherInfo(voucherCodeId);
     Product product = productStorage.findProductById(cart.getProductId());
     if (product == null) {
       throw new ResourceNotFoundException("Sản phẩm không còn được bán");
@@ -94,6 +94,8 @@ public class CartService extends BaseService {
     }
 
     cart.setQuantity(quantity);
+    cart.setVoucherCodeId(voucherCodeId);
+    cart.setVoucherInfo(info);
     cartStorage.save(cart);
   }
 }
