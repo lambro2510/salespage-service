@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.dtos.Cart.CartDto;
 import com.salespage.salespageservice.app.responses.Cart.CartResponse;
 import com.salespage.salespageservice.domains.entities.Cart;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
@@ -31,10 +32,15 @@ public class CartService extends BaseService {
     if (product == null) {
       throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
     }
+    SellerStore store = sellerStoreStorage.findById(dto.getStoreId());
+    if (store == null) {
+      throw new ResourceNotFoundException("Không tồn tại cửa hàng này");
+    }
     VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(dto.getVoucherId(), username, true);
     Cart cart = Cart.builder()
         .username(username)
         .productId(dto.getProductId())
+        .storeId(dto.getStoreId())
         .productName(product.getProductName())
         .quantity(dto.getQuantity())
         .voucherInfo(voucherInfo)
@@ -51,6 +57,15 @@ public class CartService extends BaseService {
       response.setCartId(cart.getId().toHexString());
       response.setProductId(cart.getProductId());
       response.setQuantity(cart.getQuantity());
+
+      SellerStore store = sellerStoreStorage.findById(cart.getStoreId());
+      if (store == null) {
+        response.setStoreName("Cửa hàng đã bị xóa");
+      }else{
+        response.setStoreId(cart.getStoreId());
+        response.setStoreName(store.getStoreName());
+      }
+
 
       Product product = productStorage.findProductById(cart.getProductId());
       if (product == null) {

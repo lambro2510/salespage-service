@@ -31,6 +31,9 @@ public class Cart extends BaseEntity{
   @Field("voucher_code_id")
   String voucherCodeId;
 
+  @Field("store_id")
+  String storeId;
+
   @Field("voucher_info")
   VoucherInfo voucherInfo;
 

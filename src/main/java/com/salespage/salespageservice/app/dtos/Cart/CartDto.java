@@ -14,5 +14,8 @@ public class CartDto {
   @Min(1)
   Long quantity;
 
+  @NotNull
+  String storeId;
+
   String voucherId;
 }
