@@ -10,5 +10,7 @@ public class CartByStoreResponse {
 
   String storeId;
 
+  String storeName;
+
   List<CartResponse> cartResponses = new ArrayList<>();
 }

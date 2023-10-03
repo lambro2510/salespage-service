@@ -112,6 +112,7 @@ public class CartService extends BaseService {
         .map(entry -> {
           CartByStoreResponse cartByStoreResponse = new CartByStoreResponse();
           cartByStoreResponse.setStoreId(entry.getKey());
+          cartByStoreResponse.setStoreName(entry.getValue().get(0).getStoreName());
           cartByStoreResponse.setCartResponses(entry.getValue());
           return cartByStoreResponse;
         })
