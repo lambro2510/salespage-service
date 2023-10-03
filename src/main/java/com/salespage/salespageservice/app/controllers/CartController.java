@@ -46,7 +46,7 @@ public class CartController extends BaseController{
     }
   }
 
-  @PutMapping("{id}")
+  @DeleteMapping("{id}")
   public ResponseEntity<?> deleteCart(Authentication authentication, @PathVariable String id){
     try{
       cartService.deleteCart(getUsername(authentication), id);
