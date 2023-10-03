@@ -18,7 +18,7 @@ public class CartController extends BaseController{
   CartService cartService;
 
   @GetMapping("")
-  public ResponseEntity<?> getProductCart(Authentication authentication, @RequestBody @Valid CartDto dto){
+  public ResponseEntity<?> getProductCart(Authentication authentication){
     try{
       return successApi(cartService.findCartByUsername(getUsername(authentication)));
     }catch (Exception ex){
