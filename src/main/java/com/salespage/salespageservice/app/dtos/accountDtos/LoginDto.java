@@ -15,6 +15,6 @@ public class LoginDto {
 
   @NotNull(message = "Mật khẩu không được để trống")
   @Size(min = 6, max = 24, message = "Mật khẩu phải tử 6 đến 24 ký tự")
-  @Schema(description = "Mật khẩu của tài khoản", example = "banhmy09@")
+  @Schema(description = "Mật khẩu của tài khoản", example = "Banhmy09@")
   private String password;
 }

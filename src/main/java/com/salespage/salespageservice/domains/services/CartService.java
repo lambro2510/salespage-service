@@ -74,7 +74,7 @@ public class CartService extends BaseService {
 
       response.setVoucherInfo(cart.getVoucherInfo());
       response.setQuantity(cart.getQuantity());
-
+      responses.add(response);
     }
     return responses;
   }
