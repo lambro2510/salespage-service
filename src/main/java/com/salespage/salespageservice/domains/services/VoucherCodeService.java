@@ -14,6 +14,7 @@ import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundExcepti
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.VoucherCodeException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.Helper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +82,8 @@ public class VoucherCodeService extends BaseService {
     voucherCodeLimit.setNumberReceiveVoucher(voucherCodeLimit.getNumberReceiveVoucher() + 1);
     if (voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser())
       throw new VoucherCodeException(ErrorCode.LIMIT_RECEIVE_VOUCHER, "Bạn đã nhận tối đa số lượng mã giảm giá");
-    VoucherCode voucherCode = voucherCodeStorage.findFirstVoucherCanUseByVoucherStoreId(voucherStoreId, new Date());
-    voucherCode.setOwnerId(username);
+    VoucherCode voucherCode = voucherCodeStorage.findFirstVoucherCanUseByVoucherStoreId(voucherStoreId, DateUtils.now().toLocalDate());
+    voucherCode.setUsername(username);
     voucherCode.setVoucherCodeStatus(VoucherCodeStatus.OWNER);
     voucherStore.getVoucherStoreDetail().setQuantityUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed() + 1);
     voucherCodeStorage.save(voucherCode);
@@ -91,7 +92,7 @@ public class VoucherCodeService extends BaseService {
     return voucherCode.getCode();
   }
 
-  public VoucherInfo useVoucher(String username, String code, ProductTransaction productTransaction) {
+  public void useVoucher(String username, String code, ProductTransaction productTransaction) {
     VoucherInfo voucherInfo = new VoucherInfo();
     voucherInfo.setPriceBefore(productTransaction.getTotalPrice());
     VoucherCode voucherCode = voucherCodeStorage.findCodeCanUse(username, code);
@@ -127,7 +128,6 @@ public class VoucherCodeService extends BaseService {
     voucherInfo.setTotalDiscount(voucherInfo.getPriceAfter() - voucherInfo.getPriceBefore());
     productTransaction.setIsUseVoucher(true);
     productTransaction.setVoucherInfo(voucherInfo);
-    return voucherInfo;
   }
 
   public Double getPriceWhenUseVoucher(Double getTotalPrice, DiscountType type, Long value){
@@ -184,28 +184,35 @@ public class VoucherCodeService extends BaseService {
     return responses;
   }
 
-  public VoucherInfo getVoucherInfo(String voucherCodeId) {
-    if(StringUtils.isBlank(voucherCodeId)){
-      return null;
-    }
+  public VoucherInfo getVoucherInfo(String voucherCodeId, String username, boolean isThrowErr) {
+    try{
+      if(StringUtils.isBlank(voucherCodeId)){
+        return null;
+      }
 
-    VoucherCode voucherCode = voucherCodeStorage.findById(voucherCodeId);
-    if(voucherCode == null){
-      return null;
-    }
-    if(!voucherCode.checkVoucher()){
-      return null;
-    }
-    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
-    if(voucherStore == null){
-      return null;
-    }
+      VoucherCode voucherCode = voucherCodeStorage.findById(voucherCodeId);
+      if(voucherCode == null){
+        throw new ResourceNotFoundException("Mã không tồn tại");
+      }
+      if(!voucherCode.checkVoucher(username)){
+        throw new BadRequestException("Mã không hợp lệ");
+      }
+      VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
+      if(voucherStore == null){
+        throw new ResourceNotFoundException("Cửa hàng không tồn tại");
+      }
 
-    VoucherInfo info = new VoucherInfo();
-    info.setVoucherCode(voucherCode.getCode());
-    info.setDiscountType(voucherStore.getDiscountType());
-    info.setValue(voucherStore.getValue());
-    info.setVoucherName(voucherStore.getVoucherStoreName());
-    return info;
+      VoucherInfo info = new VoucherInfo();
+      info.setVoucherCode(voucherCode.getCode());
+      info.setDiscountType(voucherStore.getDiscountType());
+      info.setValue(voucherStore.getValue());
+      info.setVoucherName(voucherStore.getVoucherStoreName());
+      return info;
+    }catch (Exception ex){
+      if(isThrowErr){
+        throw new BadRequestException(ex.getMessage());
+      }
+    }
+    return null;
   }
 }

@@ -31,7 +31,7 @@ public class CartService extends BaseService {
     if (product == null) {
       throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
     }
-    VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(dto.getVoucherId());
+    VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(dto.getVoucherId(), username, true);
     Cart cart = Cart.builder()
         .username(username)
         .productId(dto.getProductId())
@@ -67,7 +67,7 @@ public class CartService extends BaseService {
         }
       }
 
-      VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(cart.getVoucherCodeId());
+      VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(cart.getVoucherCodeId(), username, false);
       if(voucherInfo == null){
         response.setVoucherNote("Chưa chọn mã giảm giá");
       }
@@ -86,7 +86,7 @@ public class CartService extends BaseService {
     if(!Objects.equals(cart.getUsername(), username)){
       throw new AuthorizationException();
     }
-    VoucherInfo info = voucherCodeService.getVoucherInfo(voucherCodeId);
+    VoucherInfo info = voucherCodeService.getVoucherInfo(voucherCodeId, username, true);
     Product product = productStorage.findProductById(cart.getProductId());
     if (product == null) {
       throw new ResourceNotFoundException("Sản phẩm không còn được bán");
