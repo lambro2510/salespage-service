@@ -1,9 +1,11 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.Cart.CartDto;
+import com.salespage.salespageservice.app.responses.Cart.CartByStoreResponse;
 import com.salespage.salespageservice.app.responses.Cart.CartResponse;
 import com.salespage.salespageservice.domains.entities.Cart;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.ProductCategory;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
@@ -14,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService extends BaseService {
@@ -49,7 +53,7 @@ public class CartService extends BaseService {
     cartStorage.save(cart);
   }
 
-  public List<CartResponse> findCartByUsername(String username) {
+  public List<CartByStoreResponse> findCartByUsername(String username) {
     List<Cart> carts = cartStorage.findByUsername(username);
     List<CartResponse> responses = new ArrayList<>();
     for (Cart cart : carts) {
@@ -73,6 +77,12 @@ public class CartService extends BaseService {
         response.setProductNote("Sản phẩm không còn được bán");
         response.setCanPayment(false);
       } else {
+        ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
+        if(Objects.nonNull(productCategory)){
+          response.setCategoryName(productCategory.getCategoryName());
+        }
+
+        response.setCategoryId(product.getCategoryId());
         response.setTotalPrice(product.getPrice() * cart.getQuantity());
         response.setProductName(product.getProductName());
         response.setImageUrl(product.getDefaultImageUrl());
@@ -94,7 +104,18 @@ public class CartService extends BaseService {
       }
       responses.add(response);
     }
-    return responses;
+
+    Map<String, List<CartResponse>> cartMap = responses.stream()
+        .collect(Collectors.groupingBy(CartResponse::getStoreId));
+
+    return cartMap.entrySet().stream()
+        .map(entry -> {
+          CartByStoreResponse cartByStoreResponse = new CartByStoreResponse();
+          cartByStoreResponse.setStoreId(entry.getKey());
+          cartByStoreResponse.setCartResponses(entry.getValue());
+          return cartByStoreResponse;
+        })
+        .collect(Collectors.toList());
   }
 
   public void updateCart(String username, String id, Long quantity, String voucherCodeId) {

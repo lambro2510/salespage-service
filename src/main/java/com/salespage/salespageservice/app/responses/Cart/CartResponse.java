@@ -16,6 +16,10 @@ public class CartResponse {
 
   String storeName;
 
+  String categoryId;
+
+  String categoryName;
+
   String imageUrl;
 
   String productName;
