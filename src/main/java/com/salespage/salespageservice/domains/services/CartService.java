@@ -50,7 +50,6 @@ public class CartService extends BaseService {
       CartResponse response = new CartResponse();
       response.setCartId(cart.getId().toHexString());
       response.setProductId(cart.getProductId());
-
       response.setQuantity(cart.getQuantity());
 
       Product product = productStorage.findProductById(cart.getProductId());
@@ -59,7 +58,9 @@ public class CartService extends BaseService {
         response.setProductNote("Sản phẩm không còn được bán");
         response.setCanPayment(false);
       } else {
+        response.setTotalPrice(product.getPrice() * cart.getQuantity());
         response.setProductName(product.getProductName());
+        response.setImageUrl(product.getDefaultImageUrl());
         response.setProductNote("Còn " + product.getDetail().getQuantity() + " sản phẩm có sẵn");
         if (product.getDetail().getQuantity() <= cart.getQuantity()) {
           response.setProductNote(response.getProductNote() + "vui lòng điều chỉnh lại số lượng mua.");

@@ -207,6 +207,7 @@ public class VoucherCodeService extends BaseService {
       info.setDiscountType(voucherStore.getDiscountType());
       info.setValue(voucherStore.getValue());
       info.setVoucherName(voucherStore.getVoucherStoreName());
+      info.setVoucherStoreType(voucherStore.getVoucherStoreType());
       return info;
     }catch (Exception ex){
       if(isThrowErr){
