@@ -170,6 +170,7 @@ public class VoucherCodeService extends BaseService {
       if(Objects.isNull(voucherCode)) continue;
       responses.add(UserVoucherResponse
           .builder()
+          .voucherCodeId(voucherCode.getId().toHexString())
           .voucherStoreName(voucherStore.getVoucherStoreName())
           .voucherCode(voucherCode.getCode())
           .discountType(voucherStore.getDiscountType())

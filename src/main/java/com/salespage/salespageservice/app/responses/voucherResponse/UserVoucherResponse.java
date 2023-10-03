@@ -17,6 +17,9 @@ public class UserVoucherResponse {
   @Schema(description = "Tên cửa hàng voucher")
   String voucherStoreName;
 
+  @Schema(description = "Id voucher")
+  String voucherCodeId;
+
   @Schema(description = "Mã voucher")
   String voucherCode;
 
