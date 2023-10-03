@@ -48,6 +48,7 @@ public class CartService extends BaseService {
     List<CartResponse> responses = new ArrayList<>();
     for (Cart cart : carts) {
       CartResponse response = new CartResponse();
+      response.setCartId(cart.getId().toHexString());
       Product product = productStorage.findProductById(cart.getProductId());
       if (product == null) {
         response.setProductName(cart.getProductName());

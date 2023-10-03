@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 public class CartResponse {
 
+  String cartId;
+
   Boolean canPayment = true;
 
   String productId;
