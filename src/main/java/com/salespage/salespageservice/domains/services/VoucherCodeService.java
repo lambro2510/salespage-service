@@ -157,12 +157,14 @@ public class VoucherCodeService extends BaseService {
     return PageResponse.createFrom(codeResponses);
   }
 
-  public List<UserVoucherResponse> getUserVoucher(String username, String productId, String storeId) {
+  public List<UserVoucherResponse> getUserVoucher(String username, String productId) {
     List<UserVoucherResponse> responses = new ArrayList<>();
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tìm thấy sản phâm");
     List<VoucherStore> voucherStores = voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.PRODUCT, productId);
-    voucherStores.addAll(voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.STORE, storeId));
+    for(String storeId : product.getSellerStoreIds()){
+      voucherStores.addAll(voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.STORE, storeId));
+    }
     for (VoucherStore voucherStore : voucherStores) {
       VoucherCode voucherCode = voucherCodeStorage.findFirstCodeCanUse(username, voucherStore.getId().toHexString());
       if(Objects.isNull(voucherCode)) continue;
