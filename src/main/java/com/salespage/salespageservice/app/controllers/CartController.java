@@ -45,4 +45,14 @@ public class CartController extends BaseController{
       return errorApi(ex.getMessage());
     }
   }
+
+  @PutMapping("{id}")
+  public ResponseEntity<?> deleteCart(Authentication authentication, @PathVariable String id){
+    try{
+      cartService.deleteCart(getUsername(authentication), id);
+      return successApi("Xóa thành công");
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
+  }
 }

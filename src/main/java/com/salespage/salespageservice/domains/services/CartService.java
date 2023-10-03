@@ -49,6 +49,10 @@ public class CartService extends BaseService {
     for (Cart cart : carts) {
       CartResponse response = new CartResponse();
       response.setCartId(cart.getId().toHexString());
+      response.setProductId(cart.getProductId());
+
+      response.setQuantity(cart.getQuantity());
+
       Product product = productStorage.findProductById(cart.getProductId());
       if (product == null) {
         response.setProductName(cart.getProductName());
@@ -70,10 +74,8 @@ public class CartService extends BaseService {
       if(voucherInfo != null && product != null){
         Double totalPrice = voucherCodeService.getPriceWhenUseVoucher(product.getPrice() * cart.getQuantity(), voucherInfo.getDiscountType(), voucherInfo.getValue());
         response.setTotalPrice(totalPrice);
+        response.setVoucherInfo(voucherInfo);
       }
-
-      response.setVoucherInfo(cart.getVoucherInfo());
-      response.setQuantity(cart.getQuantity());
       responses.add(response);
     }
     return responses;
@@ -98,5 +100,18 @@ public class CartService extends BaseService {
     cart.setVoucherCodeId(voucherCodeId);
     cart.setVoucherInfo(info);
     cartStorage.save(cart);
+  }
+
+  public void deleteCart(String username, String id) {
+    Cart cart = cartStorage.findById(id);
+    if(cart == null){
+      throw new ResourceNotFoundException("Không tồn tại");
+    }
+
+    if(!Objects.equals(cart.getUsername(), username)){
+      throw new AuthorizationException();
+    }
+
+    cartStorage.delete(cart);
   }
 }

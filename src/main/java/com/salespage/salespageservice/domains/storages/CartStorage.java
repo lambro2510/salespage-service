@@ -23,4 +23,8 @@ public class CartStorage extends BaseStorage{
   public Long countByUsername(String username) {
     return cartRepository.countByUsername(username);
   }
+
+  public void delete(Cart cart) {
+    cartRepository.delete(cart);
+  }
 }
