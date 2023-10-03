@@ -20,6 +20,12 @@ public class CartResponse {
 
   String categoryName;
 
+  Double price;
+
+  Double sellPrice;
+
+  Double discountPercent;
+
   String imageUrl;
 
   String productName;

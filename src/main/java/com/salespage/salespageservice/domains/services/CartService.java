@@ -82,6 +82,9 @@ public class CartService extends BaseService {
           response.setCategoryName(productCategory.getCategoryName());
         }
 
+        response.setPrice(product.getPrice());
+        response.setSellPrice(product.getSellPrice());
+        response.setDiscountPercent(product.getDiscountPercent());
         response.setCategoryId(product.getCategoryId());
         response.setTotalPrice(product.getPrice() * cart.getQuantity());
         response.setProductName(product.getProductName());
