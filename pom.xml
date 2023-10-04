@@ -330,6 +330,8 @@
                                 <pattern>com.salespage.salespageservice.app.dtos.bankDtos.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.dtos.PaymentDtos.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.dtos.CartDtos.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.productComboDtos.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.*</pattern>
 
                                 <pattern>com.salespage.salespageservice.app.responses.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.responses.voucherResponse.*</pattern>
@@ -342,6 +344,7 @@
                                 <pattern>com.salespage.salespageservice.app.responses.notificationResponse.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.responses.ProductResponse.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.responses.CartResponse.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.*</pattern>
                             </classPatterns>
                             <excludeClasses>
                                 <class>com.salespage.salespageservice.SalesPageAdminServiceApplication</class>
