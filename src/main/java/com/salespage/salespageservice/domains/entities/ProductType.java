@@ -48,8 +48,8 @@ public class ProductType extends BaseEntity {
 
   public ProductTypeResponse partnerToProductTypeResponse() {
     ProductTypeResponse response = new ProductTypeResponse();
-    response.setValue(productType);
-    response.setLabel(productTypeName);
+    response.setValue(id.toHexString());
+    response.setLabel(productType + '-' + productTypeName);
     return response;
   }
 }
