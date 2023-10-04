@@ -14,7 +14,7 @@ public interface ProductTypeRepository extends MongoRepository<ProductType, Obje
 
   List<ProductType> findByStatus(ProductTypeStatus status);
 
-  List<ProductType> findTop20ByProductTypeNameLikeAndStatus(String typeName, ProductTypeStatus status);
+  List<ProductType> findTop20ByProductTypeNameLikeOrProductTypeLikeAndStatus(String typeName, String type, ProductTypeStatus status);
 
   List<ProductType> findTop20By();
 
