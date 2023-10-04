@@ -102,7 +102,7 @@ public class SellerStoreService extends BaseService {
   public SellerStoreResponse getStoreDetail(String username, String storeId) {
     SellerStore sellerStore = sellerStoreStorage.findById(storeId);
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
-    if (!sellerStore.getStoreName().equals(username))
+    if (!sellerStore.getOwnerStoreName().equals(username))
       throw new AuthorizationException("Không có quyền xem thông tin cửa hàng này");
     return  modelMapper.toSellerStoreResponse(sellerStore);
   }
