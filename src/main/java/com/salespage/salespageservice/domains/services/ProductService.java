@@ -400,10 +400,13 @@ public class ProductService extends BaseService {
   }
 
   public List<ProductTypeResponse> getAllActiveProductType(String productTypeName) {
+    List<ProductType> productTypes;
     if(StringUtils.isNotBlank(productTypeName)){
-      productTypeStorage.findByProductTypeNameLikeAndStatus(productTypeName, ProductTypeStatus.ACTIVE);
+      productTypes = productTypeStorage.findTop20ByProductTypeNameLikeAndStatus(productTypeName, ProductTypeStatus.ACTIVE);
+    }else{
+      productTypes = productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE);
     }
-    return productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList());
+    return productTypes.stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList());
   }
 
   public void updateRatingAsync (String username, String productId, Float point){
