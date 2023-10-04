@@ -68,12 +68,9 @@ public class ProductDataResponse {
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();
-    productPrice = product.getPrice();
     sellerUsername = product.getSellerUsername();
     productRate = product.getRate();
     description = product.getDescription();
-    discountPercent = product.getDiscountPercent();
-    sellPrice = product.getSellPrice();
     categoryId = product.getCategoryId();
     imageUrl = product.getDefaultImageUrl();
     createdAt = product.getCreatedAt();

@@ -3,10 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.Cart.CartDto;
 import com.salespage.salespageservice.app.responses.Cart.CartByStoreResponse;
 import com.salespage.salespageservice.app.responses.Cart.CartResponse;
-import com.salespage.salespageservice.domains.entities.Cart;
-import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.ProductCategory;
-import com.salespage.salespageservice.domains.entities.SellerStore;
+import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
@@ -32,7 +29,11 @@ public class CartService extends BaseService {
     if (countCartOfUser >= 10) {
       throw new BadRequestException("Vượt quá số lượng sản phẩm trong giỏ hàng.");
     }
-    Product product = productStorage.findProductById(dto.getProductId());
+    ProductDetail productDetail = productDetailStorage.findById(dto.getProductDetailId());
+    if (productDetail == null) {
+      throw new ResourceNotFoundException("Sản phẩm không còn được bán");
+    }
+    Product product = productStorage.findProductById(productDetail.getProductId());
     if (product == null) {
       throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
     }
@@ -43,7 +44,7 @@ public class CartService extends BaseService {
     VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(dto.getVoucherId(), username, true);
     Cart cart = Cart.builder()
         .username(username)
-        .productId(dto.getProductId())
+        .productDetailId(dto.getProductDetailId())
         .storeId(dto.getStoreId())
         .productName(product.getProductName())
         .quantity(dto.getQuantity())
@@ -59,7 +60,7 @@ public class CartService extends BaseService {
     for (Cart cart : carts) {
       CartResponse response = new CartResponse();
       response.setCartId(cart.getId().toHexString());
-      response.setProductId(cart.getProductId());
+      response.setProductId(cart.getProductDetailId());
       response.setQuantity(cart.getQuantity());
 
       SellerStore store = sellerStoreStorage.findById(cart.getStoreId());
@@ -71,26 +72,34 @@ public class CartService extends BaseService {
       }
 
 
-      Product product = productStorage.findProductById(cart.getProductId());
-      if (product == null) {
+      ProductDetail productDetail = productDetailStorage.findById(cart.getProductDetailId());
+      if (productDetail == null) {
         response.setProductName(cart.getProductName());
         response.setProductNote("Sản phẩm không còn được bán");
         response.setCanPayment(false);
       } else {
-        ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
-        if(Objects.nonNull(productCategory)){
-          response.setCategoryName(productCategory.getCategoryName());
+        Product product = productStorage.findProductById(productDetail.getProductId());
+        if(product == null){
+          response.setProductName(cart.getProductName());
+          response.setProductNote("Sản phẩm không còn được bán");
+          response.setCanPayment(false);
+        }else{
+          response.setProductName(product.getProductName());
+          response.setCategoryId(product.getCategoryId());
+          response.setImageUrl(product.getDefaultImageUrl());
+          ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
+          if(Objects.nonNull(productCategory)){
+            response.setCategoryName(productCategory.getCategoryName());
+          }
         }
 
-        response.setPrice(product.getPrice());
-        response.setSellPrice(product.getSellPrice());
-        response.setDiscountPercent(product.getDiscountPercent());
-        response.setCategoryId(product.getCategoryId());
-        response.setTotalPrice(product.getPrice() * cart.getQuantity());
-        response.setProductName(product.getProductName());
-        response.setImageUrl(product.getDefaultImageUrl());
-        response.setProductNote("Còn " + product.getDetail().getQuantity() + " sản phẩm có sẵn");
-        if (product.getDetail().getQuantity() <= cart.getQuantity()) {
+        response.setPrice(productDetail.getOriginPrice());
+        response.setSellPrice(productDetail.getSellPrice());
+        response.setDiscountPercent(productDetail.getDiscountPercent());
+        response.setTotalPrice(productDetail.getSellPrice() * cart.getQuantity());
+
+        response.setProductNote("Còn " + productDetail.getQuantity() + " sản phẩm có sẵn");
+        if (productDetail.getQuantity() <= cart.getQuantity()) {
           response.setProductNote(response.getProductNote() + "vui lòng điều chỉnh lại số lượng mua.");
           response.setCanPayment(false);
         }
@@ -100,8 +109,8 @@ public class CartService extends BaseService {
       if(voucherInfo == null){
         response.setVoucherNote("Chưa chọn mã giảm giá");
       }
-      if(voucherInfo != null && product != null){
-        Double totalPrice = voucherCodeService.getPriceWhenUseVoucher(product.getPrice() * cart.getQuantity(), voucherInfo.getDiscountType(), voucherInfo.getValue());
+      if(voucherInfo != null && productDetail != null){
+        Double totalPrice = voucherCodeService.getPriceWhenUseVoucher(productDetail.getSellPrice() * cart.getQuantity(), voucherInfo.getDiscountType(), voucherInfo.getValue());
         response.setTotalPrice(totalPrice);
         response.setVoucherInfo(voucherInfo);
       }
@@ -128,12 +137,12 @@ public class CartService extends BaseService {
       throw new AuthorizationException();
     }
     VoucherInfo info = voucherCodeService.getVoucherInfo(voucherCodeId, username, true);
-    Product product = productStorage.findProductById(cart.getProductId());
-    if (product == null) {
+    ProductDetail productDetail = productDetailStorage.findById(cart.getProductDetailId());
+    if (productDetail == null) {
       throw new ResourceNotFoundException("Sản phẩm không còn được bán");
     }
 
-    if(product.getDetail().getQuantity() < quantity){
+    if(productDetail.getQuantity() < quantity){
       throw new BadRequestException("Sản phẩm hiện không đủ số lượng");
     }
 

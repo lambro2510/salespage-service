@@ -31,9 +31,9 @@ public class ProductTransaction extends BaseEntity {
   @Indexed(name = "buyer_username_idx")
   private String buyerUsername;
 
-  @Field("product_id")
-  @Indexed(name = "product_id_idx")
-  private String productId;
+  @Field("product_detail_id")
+  @Indexed(name = "product_detail_id_idx")
+  private String productDetailId;
 
   @Field("seller_username")
   private String sellerUsername;
@@ -43,6 +43,9 @@ public class ProductTransaction extends BaseEntity {
 
   @Field("store")
   private SellerStore store;
+
+  @Field("product_detail")
+  private ProductDetail productDetail;
 
   @Field("product")
   private Product product;
@@ -85,20 +88,11 @@ public class ProductTransaction extends BaseEntity {
 
   public void createNewTransaction(String username, ProductTransactionDto dto) {
     buyerUsername = username;
-    productId = dto.getProductId();
+    productDetailId = dto.getProductDetailId();
     quantity = dto.getQuantity();
     note = dto.getNote();
     addressReceive = dto.getAddress();
     state = ProductTransactionState.WAITING_STORE;
-  }
-
-  public void createAddToCart(String username, ProductTransactionDto dto) {
-    buyerUsername = username;
-    productId = dto.getProductId();
-    quantity = dto.getQuantity();
-    note = dto.getNote();
-    addressReceive = dto.getAddress();
-    state = ProductTransactionState.IN_CART;
   }
 
   public void updateTransaction(ProductTransactionInfoDto dto) {

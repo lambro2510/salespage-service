@@ -20,6 +20,9 @@ public class TransactionStatistic {
   @Field("username")
   private String username;
 
+  @Field("product_detail_id")
+  private String productDetailId;
+
   @Field("product_id")
   private String productId;
 

@@ -98,6 +98,9 @@ public class BaseStorage {
   protected CartRepository cartRepository;
 
   @Autowired
+  protected ProductDetailRepository productDetailRepository;
+
+  @Autowired
   protected MongoTemplate mongoTemplate;
 
   @Autowired

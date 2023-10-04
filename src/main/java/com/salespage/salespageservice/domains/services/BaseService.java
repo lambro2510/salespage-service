@@ -122,6 +122,9 @@ public class BaseService{
   protected CartStorage cartStorage;
 
   @Autowired
+  protected ProductDetailStorage productDetailStorage;
+
+  @Autowired
   @Lazy
   private SystemLogService systemLogService;
 

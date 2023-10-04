@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class CartDto {
   @NotNull
-  String productId;
+  String productDetailId;
 
   @NotNull
   @Min(1)

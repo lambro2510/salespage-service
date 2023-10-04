@@ -70,9 +70,6 @@ public class ProductTransactionResponse {
 
   public void partnerFromProductTransaction(ProductTransaction productTransaction) {
     transactionId = productTransaction.getId().toHexString();
-    productId = productTransaction.getProductId();
-    productName = productTransaction.getProduct().getProductName();
-    productImageUrl = productTransaction.getProduct().getDefaultImageUrl();
     storeId = productTransaction.getStoreId();
     storeName = productTransaction.getStore().getStoreName();
     totalPrice = productTransaction.getTotalPrice().longValue();
@@ -85,6 +82,5 @@ public class ProductTransactionResponse {
     note = productTransaction.getNote();
     address = productTransaction.getAddressReceive();
     createdAt = new Date(productTransaction.getCreatedAt());
-    price = productTransaction.getProduct().getPrice();
   }
 }

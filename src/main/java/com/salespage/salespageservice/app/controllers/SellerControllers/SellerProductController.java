@@ -93,7 +93,7 @@ public class SellerProductController extends BaseController {
   }
 
   @GetMapping("images/{productId}")
-  @Operation(summary = "Tải lên hình ảnh cho sản phẩm", description = "Tải lên một hoặc nhiều hình ảnh cho sản phẩm với ID đã cho")
+  @Operation(summary = "lấy hình ảnh của sản phẩm", description = "Tải lên một hoặc nhiều hình ảnh cho sản phẩm với ID đã cho")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Hình ảnh tải lên thành công"),
       @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
@@ -171,7 +171,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> updateProduct(Authentication authentication, @RequestParam String productId, @RequestParam String imageUrl) {
+  public ResponseEntity<BaseResponse> updateImageProduct(Authentication authentication, @RequestParam String productId, @RequestParam String imageUrl) {
     try {
       productService.updateDefaultImage(getUsername(authentication), productId, imageUrl);
       return successApi("Cập nhật ảnh đại diện sản phẩm thành công");

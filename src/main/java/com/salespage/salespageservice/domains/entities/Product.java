@@ -41,15 +41,6 @@ public class Product extends BaseEntity {
   @Field("category_id")
   private String categoryId;
 
-  @Field(value = "price")
-  private Double price;
-
-  @Field(value = "sell_price")
-  private Double sellPrice;
-
-  @Field(value = "discount_percent")
-  private Double discountPercent;
-
   @Field("rate")
   private Rate rate = new Rate();
 
@@ -62,28 +53,12 @@ public class Product extends BaseEntity {
   @Field("is_hot")
   private Boolean isHot;
 
-  @Field("detail")
-  private ProductDetail detail;
 
   public void updateProduct(CreateProductInfoDto dto) {
     productName = dto.getProductName();
     description = dto.getDescription();
     categoryId = dto.getCategoryId();
-    price = dto.getProductPrice();
     sellerStoreIds = dto.getStoreIds();
-    discountPercent = dto.getDiscountPercent();
-    sellPrice = price - price * (discountPercent / 100D);
-    ProductDetail productDetail = new ProductDetail();
-    productDetail.origin = dto.getOrigin();
-    productDetail.isForeign = dto.getIsForeign();
-    productDetail.size = dto.getSize();
-    productDetail.sizeType = dto.getSizeType();
-    productDetail.weight = dto.getWeight();
-    productDetail.weightType = dto.getWeightType();
-    productDetail.colors = dto.getColors();
-    productDetail.isGuarantee = dto.getIsGuarantee();
-    productDetail.quantity = dto.getQuantity();
-    detail = productDetail;
 
   }
   public ProductDetailResponse assignToProductDetailResponse() {
@@ -98,34 +73,4 @@ public class Product extends BaseEntity {
     return response;
   }
 
-  @Data
-  public static class ProductDetail {
-
-    @Field("origin")
-    String origin;
-
-    @Field("is_foreign")
-    Boolean isForeign;
-
-    @Field("size")
-    Long size;
-
-    @Field("sizeType")
-    SizeType sizeType;
-
-    @Field("weight")
-    Long weight;
-
-    @Field("weightType")
-    WeightType weightType;
-
-    @Field("colors")
-    List<String> colors;
-
-    @Field("is_guarantee")
-    Boolean isGuarantee;
-
-    @Field("quantity")
-    Long quantity = 0L;
-  }
 }

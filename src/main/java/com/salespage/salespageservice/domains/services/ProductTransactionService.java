@@ -6,6 +6,7 @@ import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTran
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
 import com.salespage.salespageservice.domains.entities.*;
+import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
@@ -67,36 +68,6 @@ public class ProductTransactionService extends BaseService {
     return PageResponse.createFrom(pageResponse);
   }
 
-  /*
-   * Thêm hàng vào giỏ đồ
-   */
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public void addToCart(String username, ProductTransactionDto dto) {
-    Product product = productStorage.findProductById(dto.getProductId());
-    if(Objects.isNull(product)){
-      throw new TransactionException("Sản phẩm này không tồn tại");
-    }
-    if (username.equals(product.getSellerUsername()))
-      throw new TransactionException(ErrorCode.NOT_ENOUGH_MONEY, "Bạn không thể mua mặt hàng này");
-
-    SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
-    if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Cửa hàng không tồn tại");
-
-    User user = userStorage.findByUsername(username);
-    if (Objects.isNull(user)) throw new ResourceNotFoundException("Người dùng không tồn tại");
-
-    ProductTransaction productTransaction = new ProductTransaction();
-    productTransaction.setId(new ObjectId());
-    productTransaction.createAddToCart(username, dto);
-    productTransaction.setSellerUsername(product.getSellerUsername());
-    productTransaction.setStoreId(sellerStore.getId().toHexString());
-    productTransaction.setProduct(product);
-    productTransaction.setStore(sellerStore);
-    productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
-    productTransactionStorage.save(productTransaction);
-    userStorage.save(user);
-  }
-
 
 
   /*
@@ -110,7 +81,11 @@ public class ProductTransactionService extends BaseService {
     }
 
     for(ProductTransactionDto dto : dtos){
-      Product product = productStorage.findProductById(dto.getProductId());
+      ProductDetail productDetail = productDetailStorage.findById(dto.getProductDetailId());
+      if(Objects.isNull(productDetail)){
+        throw new TransactionException("Loại sản phẩm này không còn được bán");
+      }
+      Product product = productStorage.findProductById(productDetail.getProductId());
       if(Objects.isNull(product)){
         throw new TransactionException("Sản phẩm này không tồn tại");
       }
@@ -119,7 +94,7 @@ public class ProductTransactionService extends BaseService {
 
       SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
       if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Cửa hàng không tồn tại");
-      updateUserBalance(user, product.getPrice().longValue());
+
 
       ProductTransaction productTransaction = new ProductTransaction();
       productTransaction.setId(new ObjectId());
@@ -128,9 +103,12 @@ public class ProductTransactionService extends BaseService {
       productTransaction.setStoreId(sellerStore.getId().toHexString());
       productTransaction.setProduct(product);
       productTransaction.setStore(sellerStore);
-      productTransaction.setTotalPrice(product.getPrice() * dto.getQuantity());
+      productTransaction.setTotalPrice(productDetail.getSellPrice() * dto.getQuantity());
       if (StringUtils.isNotBlank(dto.getVoucherCode())) {
-        voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction);
+        VoucherInfo voucherInfo = voucherCodeService.useVoucher(username, dto.getVoucherCode(), productTransaction);
+        updateUserBalance(user, voucherInfo.getPriceAfter().longValue());
+      }else{
+        updateUserBalance(user, productDetail.getSellPrice().longValue());
       }
       productTransactionStorage.save(productTransaction);
     }

@@ -66,23 +66,7 @@ public class ProductDetailResponse{
   @Schema(description = "Số lượt xem")
   protected Long totalView;
 
-  String origin;
-
-  Boolean isForeign;
-
-  Long size;
-
-  SizeType sizeType;
-
-  Long weight;
-
-  WeightType weightType;
-
-  List<String> colors;
-
-  Boolean isGuarantee;
-
-  Long quantity = 0L;
+  List<ProductDetailResponse> productDetails = new ArrayList<>();
 
   @JsonProperty("is_hot")
   Boolean isHot;
@@ -90,9 +74,6 @@ public class ProductDetailResponse{
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();
-    productPrice = product.getPrice();
-    sellProductPrice = product.getSellPrice();
-    discountPercent = product.getDiscountPercent();
     imageUrls = product.getImageUrls().stream()
         .map(image -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", image, image))
         .collect(Collectors.toList());
@@ -100,16 +81,6 @@ public class ProductDetailResponse{
     categoryId = product.getCategoryId();
     isHot = product.getIsHot();
     description = product.getDescription();
-    origin = product.getDetail().getOrigin();
-    isForeign = product.getDetail().getIsForeign();
-    size = product.getDetail().getSize();
-    sizeType = product.getDetail().getSizeType();
-    weight = product.getDetail().getWeight();
-    weightType = product.getDetail().getWeightType();
-    weight = product.getDetail().getWeight();
-    colors = product.getDetail().getColors();
-    isGuarantee = product.getDetail().getIsGuarantee();
-    quantity = product.getDetail().getQuantity();
   }
 
   public void assignFromCategory(ProductCategory productCategory) {
