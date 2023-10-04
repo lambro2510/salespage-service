@@ -24,6 +24,7 @@ import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.Helper;
 import jodd.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -388,13 +389,20 @@ public class ProductService extends BaseService {
     productTypeStorage.save(productTypeDetail);
   }
 
-  public List<ProductType> getAllProductType(List<UserRole> roles) {
+  public List<ProductType> getAllProductType(List<UserRole> roles, String typeName) {
     if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
       throw new AuthorizationException("Bạn không có quyền xem danh sách này");
-    return productTypeStorage.findAll();
+    if(StringUtils.isNotBlank(typeName)){
+      return productTypeStorage.findTop20ByProductTypeNameLike(typeName);
+    }else{
+      return productTypeStorage.findAll();
+    }
   }
 
-  public List<ProductTypeResponse> getAllActiveProductType() {
+  public List<ProductTypeResponse> getAllActiveProductType(String productTypeName) {
+    if(StringUtils.isNotBlank(productTypeName)){
+      productTypeStorage.findTop20ByProductTypeNameLikeAndStatus(productTypeName, ProductTypeStatus.ACTIVE);
+    }
     return productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList());
   }
 

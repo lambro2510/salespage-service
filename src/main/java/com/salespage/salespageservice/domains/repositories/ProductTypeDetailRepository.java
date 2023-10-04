@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.repositories;
 
+import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -16,4 +17,5 @@ public interface ProductTypeDetailRepository extends MongoRepository<ProductType
   List<ProductTypeDetail> findByProductId(String productId);
 
   List<ProductTypeDetail> findTop10ByTypeDetailNameInOrderByCreatedAtDesc(List<String> listType);
+
 }

@@ -113,9 +113,9 @@ public class ProductTypeController extends BaseController {
   }
 
   @GetMapping("type")
-  public ResponseEntity<BaseResponse> getAllProductType(Authentication authentication) {
+  public ResponseEntity<BaseResponse> getAllProductType(Authentication authentication, @RequestParam(required = false) String typeName) {
     try {
-      return successApi(null, productService.getAllProductType(getUserRoles(authentication)));
+      return successApi(null, productService.getAllProductType(getUserRoles(authentication), typeName));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

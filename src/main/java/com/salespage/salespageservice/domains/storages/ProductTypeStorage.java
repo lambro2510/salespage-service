@@ -19,6 +19,19 @@ public class ProductTypeStorage extends BaseStorage {
     return productTypeRepository.findByProductType(productType);
   }
 
+  public List<ProductType> findTop20ByProductTypeNameLikeAndStatus(String typeName, ProductTypeStatus status) {
+    return productTypeRepository.findTop20ByProductTypeNameLikeAndStatus(typeName, status);
+  }
+
+  public List<ProductType> findTop20ByProductTypeNameLike(String typeName) {
+    return productTypeRepository.findTop20ByProductTypeNameLike(typeName);
+  }
+
+
+  public List<ProductType> findTop20() {
+    return productTypeRepository.findTop20By();
+  }
+
   public void save(ProductTypeDetail productTypeDetail) {
     productTypeDetailRepository.save(productTypeDetail);
   }
@@ -46,4 +59,5 @@ public class ProductTypeStorage extends BaseStorage {
   public List<ProductTypeDetail> getTop10SimilarProduct(List<String> listType) {
     return productTypeDetailRepository.findTop10ByTypeDetailNameInOrderByCreatedAtDesc(listType);
   }
+
 }

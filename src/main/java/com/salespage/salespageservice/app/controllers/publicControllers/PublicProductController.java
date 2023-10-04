@@ -100,7 +100,7 @@ public class PublicProductController extends BaseController {
   }
 
   @GetMapping("type")
-  public ResponseEntity<BaseResponse> getAllActiveProductType() {
-    return successApi(productService.getAllActiveProductType());
+  public ResponseEntity<BaseResponse> getAllActiveProductType(@RequestParam(required = false) String productTypeName) {
+    return successApi(productService.getAllActiveProductType(productTypeName));
   }
 }
