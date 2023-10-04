@@ -401,7 +401,7 @@ public class ProductService extends BaseService {
 
   public List<ProductTypeResponse> getAllActiveProductType(String productTypeName) {
     if(StringUtils.isNotBlank(productTypeName)){
-      productTypeStorage.findTop20ByProductTypeNameLikeAndStatus(productTypeName, ProductTypeStatus.ACTIVE);
+      productTypeStorage.findByProductTypeNameLikeAndStatus(productTypeName, ProductTypeStatus.ACTIVE);
     }
     return productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE).stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList());
   }
