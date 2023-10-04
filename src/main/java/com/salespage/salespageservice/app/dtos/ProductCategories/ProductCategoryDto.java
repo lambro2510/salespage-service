@@ -12,7 +12,7 @@ public class ProductCategoryDto {
 
   private CategoryType categoryType;
 
-  private String productType;
+  private String productTypeId;
 
   private String rangeAge;
 

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductCategoryService extends BaseService {
   public void createProductCategory(String username, ProductCategoryDto dto) {
-    ProductType type = productTypeStorage.findByProductType(dto.getProductType());
+    ProductType type = productTypeStorage.findProductTypeById(dto.getProductTypeId());
     if (Objects.isNull(type)) throw new ResourceNotFoundException("Không tìm thấy loại sản phẩm này");
     ProductCategory productCategory = modelMapper.toProductCategory(dto);
     productCategoryStorage.save(productCategory);
@@ -25,7 +25,7 @@ public class ProductCategoryService extends BaseService {
   }
 
   public void updateProductCategory(String username,String categoryId, ProductCategoryDto dto) {
-    ProductType type = productTypeStorage.findByProductType(dto.getProductType());
+    ProductType type = productTypeStorage.findProductTypeById(dto.getProductTypeId());
     if (Objects.isNull(type)) throw new ResourceNotFoundException("Không tìm thấy loại sản phẩm này");
 
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, categoryId);
