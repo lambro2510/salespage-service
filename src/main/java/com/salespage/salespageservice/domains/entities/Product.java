@@ -8,6 +8,7 @@ import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetai
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.SizeType;
 import com.salespage.salespageservice.domains.entities.types.WeightType;
+import com.salespage.salespageservice.domains.info.ProductInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
@@ -31,6 +32,9 @@ public class Product extends BaseEntity {
 
   @Field("description")
   private String description;
+
+  @Field("product_info")
+  private List<ProductInfo> productInfos = new ArrayList<>();
 
   @Field("image_urls")
   private List<String> imageUrls = new ArrayList<>();

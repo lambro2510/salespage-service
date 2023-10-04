@@ -1,9 +1,6 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
-import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
-import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
-import com.salespage.salespageservice.app.dtos.productDtos.UpdateTypeDetailStatusDto;
+import com.salespage.salespageservice.app.dtos.productDtos.*;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
@@ -60,8 +57,8 @@ public class ProductService extends BaseService {
   private StatisticService statisticService;
 
 
-  public Product createProduct(String username, CreateProductInfoDto dto) {
-    List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(dto.getStoreIds());
+  public Product createProduct(String username, ProductDto dto) {
+    List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(dto.getSellerStoreIds());
     if (sellerStores.isEmpty()) throw new ResourceNotFoundException("Không tồn tại cửa hàng này");
     if (sellerStores.stream().noneMatch(store -> store.getOwnerStoreName().equals(username))) {
       throw new AuthorizationException();
@@ -70,14 +67,12 @@ public class ProductService extends BaseService {
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, dto.getCategoryId());
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
 
-    Product product = new Product();
-    product.updateProduct(dto);
-    product.setSellerUsername(username);
+    Product product = modelMapper.toProduct(dto);
     productStorage.save(product);
     return product;
   }
 
-  public Product updateProduct(String username, String productId, CreateProductInfoDto dto) {
+  public Product updateProduct(String username, String productId, ProductDto dto) {
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này hoặc đã bị xóa");
     if (!Objects.equals(product.getSellerUsername(), username))
@@ -86,11 +81,10 @@ public class ProductService extends BaseService {
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, dto.getCategoryId());
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
 
-    List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(dto.getStoreIds());
+    List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(dto.getSellerStoreIds());
     if (sellerStores.isEmpty()) throw new ResourceNotFoundException("Không tồn tại cửa hàng này");
-    dto.setStoreIds(sellerStores.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList()));
-
-    product.updateProduct(dto);
+    product = modelMapper.toProduct(dto);
+    dto.setSellerStoreIds(sellerStores.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList()));
     productStorage.save(product);
     return product;
   }
@@ -152,11 +146,8 @@ public class ProductService extends BaseService {
     for (Product product : products) {
       ProductDataResponse response = new ProductDataResponse();
       ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
-      List<SellerStoreResponse> storeResponses = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds()).stream().map(k -> {
-        SellerStoreResponse sellerStoreResponse = new SellerStoreResponse();
-        sellerStoreResponse.assignFromSellerStore(k);
-        return sellerStoreResponse;
-      }).collect(Collectors.toList());
+      List<SellerStoreResponse> storeResponses = sellerStoreStorage.findSellerStoreByIdIn(
+          product.getSellerStoreIds()).stream().map(k -> modelMapper.toSellerStoreResponse(k)).collect(Collectors.toList());
       response.assignFromProduct(product);
       response.setCategoryName(productCategory.getCategoryName());
       response.setStores(storeResponses);
@@ -180,11 +171,7 @@ public class ProductService extends BaseService {
       response.setCategoryName(productCategory.getCategoryName());
 
       List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds());
-      response.setStores(sellerStores.stream().map(k -> {
-        SellerStoreResponse sellerStoreResponse = new SellerStoreResponse();
-        sellerStoreResponse.assignFromSellerStore(k);
-        return sellerStoreResponse;
-      }).collect(Collectors.toList()));
+      response.setStores(sellerStores.stream().map(k -> modelMapper.toSellerStoreResponse(k)).collect(Collectors.toList()));
 
       List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(response.getProductId());
       response.setProductTypes(typeDetails.stream().map(ProductTypeDetail::getTypeDetailName).collect(Collectors.toList()));
@@ -202,11 +189,7 @@ public class ProductService extends BaseService {
     response = product.assignToProductDetailResponse();
     List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds());
 
-    response.setStores(sellerStores.stream().map(k -> {
-      SellerStoreResponse sellerStoreResponse = new SellerStoreResponse();
-      sellerStoreResponse.assignFromSellerStore(k);
-      return sellerStoreResponse;
-    }).collect(Collectors.toList()));
+    response.setStores(sellerStores.stream().map(k -> modelMapper.toSellerStoreResponse(k)).collect(Collectors.toList()));
 
     ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
@@ -256,11 +239,7 @@ public class ProductService extends BaseService {
     ProductDetailResponse response = product.assignToProductDetailResponse();
     List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds());
 
-    response.setStores(sellerStores.stream().map(k -> {
-      SellerStoreResponse sellerStoreResponse = new SellerStoreResponse();
-      sellerStoreResponse.assignFromSellerStore(k);
-      return sellerStoreResponse;
-    }).collect(Collectors.toList()));
+    response.setStores(sellerStores.stream().map(k -> modelMapper.toSellerStoreResponse(k)).collect(Collectors.toList()));
 
     //assign from category
     ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());

@@ -38,14 +38,9 @@ public class SellerStoreService extends BaseService {
     Page<SellerStore> sellerStores = sellerStoreStorage.findByOwnerStoreName(username, newPageable);
     List<SellerStore> sellerStoreList = sellerStores.getContent();
 
-    List<SellerStoreResponse> storeDataResponses = new ArrayList<>();
-    for (SellerStore sellerStore : sellerStoreList) {
-      SellerStoreResponse storeDataResponse = new SellerStoreResponse();
-      storeDataResponse.assignFromSellerStore(sellerStore);
-      storeDataResponses.add(storeDataResponse);
-    }
+    List<SellerStoreResponse> sellerStoreResponses = modelMapper.toListSellerStoreResponse(sellerStoreList);
 
-    Page<SellerStoreResponse> pageStoreDataResponse = new PageImpl<>(storeDataResponses, newPageable, sellerStores.getTotalElements());
+    Page<SellerStoreResponse> pageStoreDataResponse = new PageImpl<>(sellerStoreResponses, newPageable, sellerStores.getTotalElements());
     return PageResponse.createFrom(pageStoreDataResponse);
   }
 
@@ -60,26 +55,21 @@ public class SellerStoreService extends BaseService {
     }
     Page<SellerStore> sellerStores = sellerStoreStorage.findAll(pageable);
 
-    Page<SellerStoreResponse> pageStoreDataResponse = new PageImpl<>(sellerStores.stream().map(k -> {
-      SellerStoreResponse response = new SellerStoreResponse();
-      response.assignFromSellerStore(k);
-      return response;
-    }).collect(Collectors.toList()), pageable, sellerStores.getTotalElements());
+    Page<SellerStoreResponse> pageStoreDataResponse = new PageImpl<>(modelMapper.toListSellerStoreResponse(sellerStores.getContent()), pageable, sellerStores.getTotalElements());
     return PageResponse.createFrom(pageStoreDataResponse);
   }
 
-  public void createStore(String username, SellerStoreDto sellerStoreDto) {
-    SellerStore sellerStore = new SellerStore();
-    sellerStore.assignFromSellerStoreDto(sellerStoreDto);
+  public void createStore(String username, SellerStoreDto dto) {
+    SellerStore sellerStore = modelMapper.toSellerStore(dto);
     sellerStore.setOwnerStoreName(username);
-    setLocationOfStore(sellerStore, sellerStoreDto.getAddress());
+    setLocationOfStore(sellerStore, dto.getAddress());
     sellerStoreStorage.save(sellerStore);
   }
 
   public void updateStore(String username, String id, UpdateSellerStoreDto dto) {
     SellerStore sellerStore = sellerStoreStorage.findById(id);
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy cửa hàng này");
-    sellerStore.assignFromSellerStoreDto(dto);
+    sellerStore = modelMapper.toSellerStore(dto);
     sellerStore.setOwnerStoreName(username);
     setLocationOfStore(sellerStore, dto.getAddress());
     sellerStoreStorage.save(sellerStore);
@@ -103,21 +93,18 @@ public class SellerStoreService extends BaseService {
   }
 
   public SellerStoreResponse getStoreDetail(String storeId) {
-    SellerStoreResponse storeDataResponse = new SellerStoreResponse();
     SellerStore sellerStore = sellerStoreStorage.findById(storeId);
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
-    storeDataResponse.assignFromSellerStore(sellerStore);
-    return storeDataResponse;
+
+    return modelMapper.toSellerStoreResponse(sellerStore);
   }
 
   public SellerStoreResponse getStoreDetail(String username, String storeId) {
-    SellerStoreResponse sellerStoreResponse = new SellerStoreResponse();
     SellerStore sellerStore = sellerStoreStorage.findById(storeId);
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
     if (!sellerStore.getStoreName().equals(username))
       throw new AuthorizationException("Không có quyền xem thông tin cửa hàng này");
-    sellerStoreResponse.assignFromSellerStore(sellerStore);
-    return sellerStoreResponse;
+    return  modelMapper.toSellerStoreResponse(sellerStore);
   }
 
   public void deleteStore(String username, String storeId) {

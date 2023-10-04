@@ -215,6 +215,11 @@
             <artifactId>bcprov-jdk18on</artifactId>
             <version>1.72</version>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -324,7 +329,7 @@
                                 <pattern>com.salespage.salespageservice.app.dtos.productTransactionDto.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.dtos.bankDtos.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.dtos.PaymentDtos.*</pattern>
-                                <pattern>com.salespage.salespageservice.app.dtos.Cart.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.dtos.CartDtos.*</pattern>
 
                                 <pattern>com.salespage.salespageservice.app.responses.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.responses.voucherResponse.*</pattern>
@@ -336,7 +341,7 @@
                                 <pattern>com.salespage.salespageservice.app.responses.BankResponse.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.responses.notificationResponse.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.responses.ProductResponse.*</pattern>
-                                <pattern>com.salespage.salespageservice.app.responses.Cart.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.CartResponse.*</pattern>
                             </classPatterns>
                             <excludeClasses>
                                 <class>com.salespage.salespageservice.SalesPageAdminServiceApplication</class>

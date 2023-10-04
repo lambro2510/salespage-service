@@ -1,8 +1,8 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.dtos.Cart.CartDto;
-import com.salespage.salespageservice.app.responses.Cart.CartByStoreResponse;
-import com.salespage.salespageservice.app.responses.Cart.CartResponse;
+import com.salespage.salespageservice.app.dtos.CartDtos.CartDto;
+import com.salespage.salespageservice.app.responses.CartResponse.CartByStoreResponse;
+import com.salespage.salespageservice.app.responses.CartResponse.CartResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;

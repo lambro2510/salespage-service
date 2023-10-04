@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.controllers.SellerControllers;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
+import com.salespage.salespageservice.app.dtos.ProductCategories.ProductCategoryDto;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductCategoryTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateProductCategoryTypeDto;
 import com.salespage.salespageservice.domains.services.ProductCategoryService;
@@ -61,7 +62,7 @@ public class SellerProductCategoryController extends BaseController {
       @ApiResponse(responseCode = "401", description = "Không được phép"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  private ResponseEntity<?> createProductCategory(Authentication authentication, @RequestBody CreateProductCategoryTypeDto dto) {
+  private ResponseEntity<?> createProductCategory(Authentication authentication, @RequestBody ProductCategoryDto dto) {
     try {
       productCategoryService.createProductCategory(getUsername(authentication), dto);
       return successApi("Tạo danh mục sản phẩm thành công");
@@ -77,7 +78,7 @@ public class SellerProductCategoryController extends BaseController {
       @ApiResponse(responseCode = "401", description = "Không được phép"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  private ResponseEntity<?> updateProductCategory(Authentication authentication,@PathVariable String id, @RequestBody @Valid CreateProductCategoryTypeDto dto) {
+  private ResponseEntity<?> updateProductCategory(Authentication authentication,@PathVariable String id, @RequestBody @Valid ProductCategoryDto dto) {
     try {
       productCategoryService.updateProductCategory(getUsername(authentication),id, dto);
       return successApi("Cập nhật danh mục sản phẩm thành công");

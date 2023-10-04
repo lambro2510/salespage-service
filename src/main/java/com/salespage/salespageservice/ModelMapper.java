@@ -1,0 +1,54 @@
+package com.salespage.salespageservice;
+
+import com.salespage.salespageservice.app.dtos.ProductCategories.ProductCategoryDto;
+import com.salespage.salespageservice.app.dtos.productComboDtos.ComboDto;
+import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
+import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
+import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductCategoryResponse;
+import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
+import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.ProductCategory;
+import com.salespage.salespageservice.domains.entities.ProductCombo;
+import com.salespage.salespageservice.domains.entities.SellerStore;
+import org.bson.types.ObjectId;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Mapper(componentModel = "spring")
+public interface ModelMapper {
+
+  @Named("objectIdToString")
+  default String objectIdToString(ObjectId objectId) {
+    return objectId != null ? objectId.toHexString() : null;
+  }
+
+  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
+  ProductComboResponse toProductComboResponse(ProductCombo productCombo);
+
+  List<ProductComboResponse> toListProductCombo(List<ProductCombo> productCombos);
+
+  ProductCombo toProductCombo(ComboDto dto);
+
+  Product toProduct(ProductDto dto);
+
+  // Custom mapping for ProductCategory
+  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
+  ProductCategoryResponse toProductCategoryResponse(ProductCategory category);
+
+  List<ProductCategoryResponse> toListProductCategoryResponse(List<ProductCategory> categories);
+
+  ProductCategory toProductCategory(ProductCategoryDto dto);
+
+  SellerStore toSellerStore(SellerStoreDto dto);
+
+  List<SellerStoreResponse> toListSellerStoreResponse(List<SellerStore> sellerStoreList);
+
+  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
+  SellerStoreResponse toSellerStoreResponse(SellerStore sellerStore);
+}

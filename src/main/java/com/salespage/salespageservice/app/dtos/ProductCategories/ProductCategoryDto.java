@@ -1,12 +1,10 @@
-package com.salespage.salespageservice.app.responses.ProductResponse;
+package com.salespage.salespageservice.app.dtos.ProductCategories;
 
 import com.salespage.salespageservice.domains.entities.types.CategoryType;
 import lombok.Data;
 
 @Data
-public class ProductCategoryResponse {
-
-  private String id;
+public class ProductCategoryDto {
 
   private String categoryName;
 

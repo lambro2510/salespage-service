@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.services;
 
+import com.salespage.salespageservice.ModelMapper;
 import com.salespage.salespageservice.domains.entities.types.LogType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
@@ -27,6 +28,8 @@ public class BaseService{
 
   @Value("${goong.api-key}")
   private String goongApiKey;
+
+  @Autowired protected ModelMapper modelMapper;
 
   @Autowired
   protected AccountStorage accountStorage;
@@ -123,6 +126,12 @@ public class BaseService{
 
   @Autowired
   protected ProductDetailStorage productDetailStorage;
+
+  @Autowired
+  protected ProductComboStorage productComboStorage;
+
+  @Autowired
+  protected ProductComboDetailStorage productComboDetailStorage;
 
   @Autowired
   @Lazy

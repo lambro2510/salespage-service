@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.controllers.SellerControllers;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,7 +66,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "401", description = "Không được phép"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> createProduct(Authentication authentication, @RequestBody @Valid CreateProductInfoDto dto) {
+  public ResponseEntity<BaseResponse> createProduct(Authentication authentication, @RequestBody @Valid ProductDto dto) {
     try {
       return successApi("Tạo sản phẩm thành công", productService.createProduct(getUsername(authentication), dto));
     } catch (Exception ex) {
@@ -137,7 +138,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tìm thấy sản phẩm"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> deleteProduct(Authentication authentication, @PathVariable String productId) throws IOException {
+  public ResponseEntity<BaseResponse> deleteProduct(Authentication authentication, @PathVariable String productId){
     try {
       return successApi("Xóa sản phẩm thành công", productService.deleteProduct(getUsername(authentication), productId));
     } catch (Exception ex) {
@@ -154,7 +155,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> updateProduct(Authentication authentication,@PathVariable String productId, @RequestBody CreateProductInfoDto dto) {
+  public ResponseEntity<BaseResponse> updateProduct(Authentication authentication,@PathVariable String productId, @RequestBody ProductDto dto) {
     try {
       return successApi("Cập nhật sản phẩm thành công", productService.updateProduct(getUsername(authentication),productId, dto));
     } catch (Exception ex) {

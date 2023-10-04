@@ -1,4 +1,4 @@
-package com.salespage.salespageservice.app.responses.Cart;
+package com.salespage.salespageservice.app.responses.CartResponse;
 
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import lombok.Data;

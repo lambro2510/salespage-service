@@ -101,6 +101,12 @@ public class BaseStorage {
   protected ProductDetailRepository productDetailRepository;
 
   @Autowired
+  protected ProductComboDetailRepository productComboDetailRepository;
+
+  @Autowired
+  protected ProductComboRepository productComboRepository;
+
+  @Autowired
   protected MongoTemplate mongoTemplate;
 
   @Autowired

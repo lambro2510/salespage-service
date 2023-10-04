@@ -9,29 +9,20 @@ import lombok.Data;
 public class SellerStoreResponse {
 
   @Schema(description = "ID cửa hàng")
-  private String storeId;
+  private String id;
 
-  @Schema(description = "Tên cửa hàng")
   private String storeName;
 
-  @Schema(description = "Địa chỉ cửa hàng")
   private String address;
 
-  @Schema(description = "Mô tả cửa hàng")
   private String description;
 
-  @Schema(description = "Trạng thái cửa hàng")
+  private String location;
+
   private StoreStatus status;
 
   @Schema(description = "URL ảnh cửa hàng")
   private String imageUrl;
 
-  public void assignFromSellerStore(SellerStore sellerStore) {
-    storeId = sellerStore.getId().toHexString();
-    imageUrl = sellerStore.getImageUrl();
-    storeName = sellerStore.getStoreName();
-    address = sellerStore.getAddress();
-    description = sellerStore.getDescription();
-    status = sellerStore.getStatus();
-  }
+
 }

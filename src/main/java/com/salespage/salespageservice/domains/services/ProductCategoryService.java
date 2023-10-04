@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.services;
 
+import com.salespage.salespageservice.app.dtos.ProductCategories.ProductCategoryDto;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductCategoryTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateProductCategoryTypeDto;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductCategoryResponse;
@@ -15,36 +16,22 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductCategoryService extends BaseService {
-  public void createProductCategory(String username, CreateProductCategoryTypeDto dto) {
+  public void createProductCategory(String username, ProductCategoryDto dto) {
     ProductType type = productTypeStorage.findByProductType(dto.getProductType());
     if (Objects.isNull(type)) throw new ResourceNotFoundException("Không tìm thấy loại sản phẩm này");
-    ProductCategory productCategory = ProductCategory.builder()
-        .categoryName(dto.getCategoryName())
-        .categoryType(dto.getCategoryType())
-        .productType(dto.getProductType())
-        .rangeAge(dto.getRangeAge())
-        .description(dto.getDescription())
-        .createdBy(username)
-        .updatedBy(username)
-        .build();
+    ProductCategory productCategory = modelMapper.toProductCategory(dto);
     productCategoryStorage.save(productCategory);
 
   }
 
-  public void updateProductCategory(String username,String categoryId, CreateProductCategoryTypeDto dto) {
+  public void updateProductCategory(String username,String categoryId, ProductCategoryDto dto) {
     ProductType type = productTypeStorage.findByProductType(dto.getProductType());
     if (Objects.isNull(type)) throw new ResourceNotFoundException("Không tìm thấy loại sản phẩm này");
 
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, categoryId);
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
 
-    productCategory.setCategoryName(dto.getCategoryName());
-    productCategory.setProductType(dto.getProductType());
-    productCategory.setCategoryType(dto.getCategoryType());
-    productCategory.setDescription(dto.getDescription());
-    productCategory.setRangeAge(dto.getRangeAge());
-    productCategory.setUpdatedBy(username);
-    productCategory.setUpdatedAt(System.currentTimeMillis());
+    productCategory = modelMapper.toProductCategory(dto);
     productCategoryStorage.save(productCategory);
   }
 
@@ -56,14 +43,12 @@ public class ProductCategoryService extends BaseService {
   }
 
   public List<ProductCategoryResponse> getProductCategory(String username) {
-    return productCategoryStorage.findByCreatedBy(username).stream().map(ProductCategory::partnerToResponse).collect(Collectors.toList());
+    return modelMapper.toListProductCategoryResponse(productCategoryStorage.findByCreatedBy(username));
   }
 
   public ProductCategoryResponse getDetailProductCategory(String username, String id) {
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, id);
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
-    ProductCategoryResponse response = new ProductCategoryResponse();
-    response.partnerFromCategory(productCategory);
-    return response;
+    return modelMapper.toProductCategoryResponse(productCategory);
   }
 }

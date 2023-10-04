@@ -1,6 +1,6 @@
 package com.salespage.salespageservice.app.controllers;
 
-import com.salespage.salespageservice.app.dtos.Cart.CartDto;
+import com.salespage.salespageservice.app.dtos.CartDtos.CartDto;
 import com.salespage.salespageservice.domains.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

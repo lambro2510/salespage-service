@@ -1,4 +1,4 @@
-package com.salespage.salespageservice.app.dtos.Cart;
+package com.salespage.salespageservice.app.dtos.CartDtos;
 
 import lombok.Data;
 
