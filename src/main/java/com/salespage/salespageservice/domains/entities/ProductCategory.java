@@ -26,14 +26,14 @@ public class ProductCategory extends BaseEntity {
   @Field("category_name")
   private String categoryName;
 
-  @Field("description")
-  private String description;
-
   @Field("category_type")
   private CategoryType categoryType;
 
-  @Field("product_type")
-  private String productType;
+  @Field("description")
+  private String description;
+
+  @Field("product_type_id")
+  private String productTypeId;
 
   @Field("rangeAge")
   private String rangeAge;
