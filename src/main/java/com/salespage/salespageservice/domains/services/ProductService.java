@@ -71,6 +71,15 @@ public class ProductService extends BaseService {
     return product;
   }
 
+  public void createProductDetail(String username, ProductDetailDto dto) {
+    Product product= productStorage.findProductById(dto.getProductId());
+    if(product == null){
+      throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
+    }
+    ProductDetail productDetail = modelMapper.toProductDetail(dto);
+    productDetailStorage.save(productDetail);
+  }
+
   public Product updateProduct(String username, String productId, ProductDto dto) {
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này hoặc đã bị xóa");

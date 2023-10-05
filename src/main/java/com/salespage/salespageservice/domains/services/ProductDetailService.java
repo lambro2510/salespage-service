@@ -25,7 +25,7 @@ public class ProductDetailService extends BaseService{
     }
     ProductDetail productDetail = new ProductDetail();
     productDetail.setProductId(dto.getProductId());
-    productDetail.setType(new ProductDetail.ProductDetailType(dto.getType(), dto.getColor()));
+    productDetail.setType(dto.getType());
     productDetail.setOriginPrice(dto.getOriginPrice());
     productDetail.setSellPrice(dto.getOriginPrice());
     productDetail.setDiscountPercent(dto.getDiscountPercent());
@@ -39,7 +39,7 @@ public class ProductDetailService extends BaseService{
       throw new ResourceNotFoundException("Không tồn tại chi tiết sản phẩm");
     }
     productDetail.setProductId(dto.getProductId());
-    productDetail.setType(new ProductDetail.ProductDetailType(dto.getType(), dto.getColor()));
+    productDetail.setType(dto.getType());
     productDetail.setOriginPrice(dto.getOriginPrice());
     productDetail.setSellPrice(dto.getOriginPrice());
     productDetail.setDiscountPercent(dto.getDiscountPercent());

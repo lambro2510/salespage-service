@@ -21,6 +21,7 @@ import java.util.List;
 public class SellerProductComboController extends BaseController {
   @Autowired
   ProductComboService productComboService;
+
   @GetMapping("")
   public ResponseEntity<BaseResponse> getProductCombo(Authentication authentication) {
     try {
@@ -61,11 +62,11 @@ public class SellerProductComboController extends BaseController {
   }
 
   @PutMapping("combo/{id}")
-  public ResponseEntity<?> updateProductComboDetail(Authentication authentication, @PathVariable String id,@RequestBody List<String> ids){
-    try{
+  public ResponseEntity<?> updateProductComboDetail(Authentication authentication, @PathVariable String id, @RequestBody List<String> ids) {
+    try {
       productComboService.addProductToCombo(getUsername(authentication), id, ids);
       return successApi("Cập nhật thành công");
-    }catch (Exception ex){
+    } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }
   }

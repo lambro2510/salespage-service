@@ -3,6 +3,7 @@ package com.salespage.salespageservice;
 import com.salespage.salespageservice.app.dtos.ProductCategories.ProductCategoryDto;
 import com.salespage.salespageservice.app.dtos.productComboDtos.ComboDto;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductDetailDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
 import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboDetailResponse;
@@ -67,4 +68,6 @@ public interface ModelMapper {
 
   @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
   ProductComboDetailResponse toProductComboDetailResponse(ProductCombo bestCombo);
+
+  ProductDetail toProductDetail(ProductDetailDto dto);
 }
