@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,4 +20,12 @@ public class UploadImageData {
   String url;
 
   String thumbUrl;
+
+  public UploadImageData(String url){
+    uid = UUID.randomUUID().toString();
+    name = uid;
+    status = "done";
+    this.url = url;
+    this.thumbUrl = url;
+  }
 }

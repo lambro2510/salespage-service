@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.SellerProductResponse;
 import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
 import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
@@ -127,7 +128,7 @@ public class ProductService extends BaseService {
     return productStorage.findAll(query, pageable);
   }
 
-  public PageResponse<ProductDataResponse> getAllProduct(String productId, String storeName, Pageable pageable) {
+  public PageResponse<SellerProductResponse> getAllProduct(String productId, String storeName, Pageable pageable) {
     Query query = new Query();
     if (StringUtil.isNotBlank(productId) && ObjectId.isValid(productId)) {
       query.addCriteria(Criteria.where("_id").is(new ObjectId(productId)));
@@ -141,19 +142,16 @@ public class ProductService extends BaseService {
         query.addCriteria(Criteria.where("seller_store_ids").in(storeIds));
       }
     }
-    List<ProductDataResponse> responses = new ArrayList<>();
     Page<Product> products = productStorage.findAll(query, pageable);
-    for (Product product : products) {
-      ProductDataResponse response = new ProductDataResponse();
-      ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
-      List<SellerStoreResponse> storeResponses = sellerStoreStorage.findSellerStoreByIdIn(
-          product.getSellerStoreIds()).stream().map(k -> modelMapper.toSellerStoreResponse(k)).collect(Collectors.toList());
-      response.assignFromProduct(product);
-      response.setCategoryName(productCategory.getCategoryName());
+    List<SellerProductResponse> responses = modelMapper.toListSellerProductResponse(products.getContent());
+    for (SellerProductResponse response : responses) {
+      ProductCategory productCategory = productCategoryStorage.findById(response.getCategoryId());
+      List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(response.getSellerStoreIds());
+      List<SellerStoreResponse> storeResponses = modelMapper.toListSellerStoreResponse(sellerStores);
       response.setStores(storeResponses);
-      responses.add(response);
+      response.setProductCategory(modelMapper.toProductCategoryResponse(productCategory));
     }
-    Page<ProductDataResponse> itemResponses = new PageImpl<>(responses, pageable, products.getTotalElements());
+    Page<SellerProductResponse> itemResponses = new PageImpl<>(responses, pageable, products.getTotalElements());
     return PageResponse.createFrom(itemResponses);
   }
 

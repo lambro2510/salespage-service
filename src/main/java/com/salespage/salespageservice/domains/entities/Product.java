@@ -24,7 +24,6 @@ import java.util.List;
 @Data
 public class Product extends BaseEntity {
   @Id
-  @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
   @Field("product_name")

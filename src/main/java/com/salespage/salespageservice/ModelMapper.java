@@ -7,6 +7,7 @@ import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
 import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductCategoryResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.SellerProductResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductCategory;
@@ -47,8 +48,13 @@ public interface ModelMapper {
 
   SellerStore toSellerStore(SellerStoreDto dto);
 
+  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
+  SellerStoreResponse toSellerStoreResponse(SellerStore sellerStore);
+
   List<SellerStoreResponse> toListSellerStoreResponse(List<SellerStore> sellerStoreList);
 
   @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
-  SellerStoreResponse toSellerStoreResponse(SellerStore sellerStore);
+  SellerProductResponse toSellerProductResponse(Product product);
+
+  List<SellerProductResponse> toListSellerProductResponse(List<Product> products);
 }
