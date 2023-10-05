@@ -57,13 +57,6 @@ public class Product extends BaseEntity {
   private Boolean isHot;
 
 
-  public void updateProduct(CreateProductInfoDto dto) {
-    productName = dto.getProductName();
-    description = dto.getDescription();
-    categoryId = dto.getCategoryId();
-    sellerStoreIds = dto.getStoreIds();
-
-  }
   public ProductDetailResponse assignToProductDetailResponse() {
     ProductDetailResponse response = new ProductDetailResponse();
     response.assignFromProduct(this);

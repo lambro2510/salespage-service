@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ProductInfo {
 
-  String value;
+  String label;
 
-  String description;
+  String value;
 }
