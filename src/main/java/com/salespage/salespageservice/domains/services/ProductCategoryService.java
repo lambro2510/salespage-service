@@ -20,6 +20,8 @@ public class ProductCategoryService extends BaseService {
     ProductType type = productTypeStorage.findProductTypeById(dto.getProductTypeId());
     if (Objects.isNull(type)) throw new ResourceNotFoundException("Không tìm thấy loại sản phẩm này");
     ProductCategory productCategory = modelMapper.toProductCategory(dto);
+    productCategory.setCreatedBy(username);
+    productCategory.setUpdatedBy(username);
     productCategoryStorage.save(productCategory);
 
   }
@@ -32,6 +34,7 @@ public class ProductCategoryService extends BaseService {
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
 
     productCategory = modelMapper.toProductCategory(dto);
+    productCategory.setUpdatedBy(username);
     productCategoryStorage.save(productCategory);
   }
 
