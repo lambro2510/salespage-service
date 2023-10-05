@@ -14,7 +14,11 @@ public class ProductCategoryResponse {
 
   private CategoryType categoryType;
 
+  private String productTypeId;
+
   private String productType;
+
+  private String productTypeName;
 
   private String rangeAge;
 

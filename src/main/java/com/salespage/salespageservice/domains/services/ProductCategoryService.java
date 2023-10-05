@@ -46,7 +46,15 @@ public class ProductCategoryService extends BaseService {
   }
 
   public List<ProductCategoryResponse> getProductCategory(String username) {
-    return modelMapper.toListProductCategoryResponse(productCategoryStorage.findByCreatedBy(username));
+    List<ProductCategoryResponse> responses = modelMapper.toListProductCategoryResponse(productCategoryStorage.findByCreatedBy(username));
+    for(ProductCategoryResponse response : responses){
+      ProductType type = productTypeStorage.findProductTypeById(response.getProductTypeId());
+      if(type != null){
+        response.setProductType(type.getProductType());
+        response.setProductTypeName(type.getProductTypeName());
+      }
+    }
+    return responses;
   }
 
   public ProductCategoryResponse getDetailProductCategory(String username, String id) {
