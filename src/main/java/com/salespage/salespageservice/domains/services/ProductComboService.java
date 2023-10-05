@@ -43,7 +43,7 @@ public class ProductComboService extends BaseService {
     if (Objects.isNull(productCombo)) {
       throw new ResourceNotFoundException("Không tồn tại combo này");
     }
-    productCombo = modelMapper.toProductCombo(dto);
+    modelMapper.mapToProductCombo(dto, productCombo);
     productCombo.setCreatedBy(username);
     productComboStorage.save(productCombo);
   }

@@ -2,7 +2,6 @@ package com.salespage.salespageservice;
 
 import com.salespage.salespageservice.app.dtos.ProductCategories.ProductCategoryDto;
 import com.salespage.salespageservice.app.dtos.productComboDtos.ComboDto;
-import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductDetailDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
@@ -17,9 +16,9 @@ import com.salespage.salespageservice.domains.entities.*;
 import org.bson.types.ObjectId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -70,4 +69,12 @@ public interface ModelMapper {
   ProductComboDetailResponse toProductComboDetailResponse(ProductCombo bestCombo);
 
   ProductDetail toProductDetail(ProductDetailDto dto);
+
+  void mapToProductCategory(ProductCategoryDto dto, @MappingTarget ProductCategory productCategory);
+
+  void mapToProductCombo(ComboDto dto, @MappingTarget ProductCombo productCombo);
+
+  void mapToProduct(ProductDto dto, @MappingTarget Product product);
+
+  void mapToSellerStore(SellerStoreDto dto,@MappingTarget  SellerStore sellerStore);
 }

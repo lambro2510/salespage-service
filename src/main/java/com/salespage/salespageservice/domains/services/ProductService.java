@@ -91,7 +91,8 @@ public class ProductService extends BaseService {
 
     List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(dto.getSellerStoreIds());
     if (sellerStores.isEmpty()) throw new ResourceNotFoundException("Không tồn tại cửa hàng này");
-    product = modelMapper.toProduct(dto);
+    modelMapper.mapToProduct(dto, product);
+
     dto.setSellerStoreIds(sellerStores.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList()));
     productStorage.save(product);
     return product;

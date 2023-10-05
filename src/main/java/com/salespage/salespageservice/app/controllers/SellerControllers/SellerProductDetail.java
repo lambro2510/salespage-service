@@ -41,7 +41,7 @@ public class SellerProductDetail extends BaseController {
   }
 
   @PutMapping("{detailId}")
-  public ResponseEntity<BaseResponse> createProductDetail(Authentication authentication, @PathVariable String detailId, @RequestBody ProductDetailDto dto) {
+  public ResponseEntity<BaseResponse> updateProductDetail(Authentication authentication, @PathVariable String detailId, @RequestBody ProductDetailDto dto) {
     try {
       productDetailService.updateProductDetail(getUsername(authentication), detailId, dto);
       return successApi("Cập nhật thành công");

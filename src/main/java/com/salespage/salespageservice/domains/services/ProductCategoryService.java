@@ -33,7 +33,7 @@ public class ProductCategoryService extends BaseService {
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, categoryId);
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
 
-    productCategory = modelMapper.toProductCategory(dto);
+    modelMapper.mapToProductCategory(dto,productCategory);
     productCategory.setUpdatedBy(username);
     productCategoryStorage.save(productCategory);
   }

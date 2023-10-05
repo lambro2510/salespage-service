@@ -42,7 +42,7 @@ public class SellerProductComboController extends BaseController {
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<BaseResponse> createProductCombo(Authentication authentication, @PathVariable String id, @RequestBody ComboDto dto) {
+  public ResponseEntity<BaseResponse> updateProductCombo(Authentication authentication, @PathVariable String id, @RequestBody ComboDto dto) {
     try {
       productComboService.updateProductCombo(getUsername(authentication), id, dto);
       return successApi("Cập nhật thành công");

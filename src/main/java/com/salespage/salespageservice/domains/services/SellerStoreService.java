@@ -1,7 +1,6 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
-import com.salespage.salespageservice.app.dtos.storeDtos.UpdateSellerStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.domains.entities.SellerStore;
@@ -21,10 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class SellerStoreService extends BaseService {
@@ -66,11 +63,10 @@ public class SellerStoreService extends BaseService {
     sellerStoreStorage.save(sellerStore);
   }
 
-  public void updateStore(String username, String id, UpdateSellerStoreDto dto) {
+  public void updateStore(String username, String id, SellerStoreDto dto) {
     SellerStore sellerStore = sellerStoreStorage.findById(id);
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy cửa hàng này");
-    sellerStore = modelMapper.toSellerStore(dto);
-    sellerStore.setOwnerStoreName(username);
+    modelMapper.mapToSellerStore(dto, sellerStore);
     setLocationOfStore(sellerStore, dto.getAddress());
     sellerStoreStorage.save(sellerStore);
   }
@@ -104,7 +100,7 @@ public class SellerStoreService extends BaseService {
     if (Objects.isNull(sellerStore)) throw new ResourceNotFoundException("Không tìm thấy của hàng này");
     if (!sellerStore.getOwnerStoreName().equals(username))
       throw new AuthorizationException("Không có quyền xem thông tin cửa hàng này");
-    return  modelMapper.toSellerStoreResponse(sellerStore);
+    return modelMapper.toSellerStoreResponse(sellerStore);
   }
 
   public void deleteStore(String username, String storeId) {
@@ -116,10 +112,10 @@ public class SellerStoreService extends BaseService {
     sellerStoreStorage.delete(sellerStore);
   }
 
-  public void setLocationOfStore(SellerStore sellerStore, String storeAddress){
-    AddressResult address =  suggestAddressByAddress(sellerStore.getAddress());
-    if(Objects.equals(address.getResults().get(0).getFormattedAddress(), storeAddress)){
-      sellerStore.setStoreName(address.getResults().get(0).getFormattedAddress());
+  public void setLocationOfStore(SellerStore sellerStore, String storeAddress) {
+    AddressResult address = suggestAddressByAddress(sellerStore.getAddress());
+    if (Objects.equals(address.getResults().get(0).getFormattedAddress(), storeAddress)) {
+      sellerStore.setAddress(address.getResults().get(0).getFormattedAddress());
       sellerStore.setLocation(address.getResults().get(0).getGeometry().getLocation().getLat() + "," + address.getResults().get(0).getGeometry().getLocation().getLng());
     }
   }
