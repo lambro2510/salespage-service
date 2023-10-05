@@ -48,16 +48,6 @@ public class ProductComboController extends BaseController{
     }
   }
 
-  @PutMapping("combo/{id}")
-  public ResponseEntity<?> updateProductComboDetail(Authentication authentication, @PathVariable String id,@RequestBody List<String> ids){
-    try{
-      productComboService.addProductToCombo(getUsername(authentication), id, ids);
-      return successApi("Cập nhật thành công");
-    }catch (Exception ex){
-      return errorApi(ex.getMessage());
-    }
-  }
-
   @DeleteMapping("{id}")
   public ResponseEntity<?> deleteProductCombo(Authentication authentication, @PathVariable String id){
     try{

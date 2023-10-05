@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Seller product combo", description = "Quản lý combo sản phẩm")
 @RequestMapping("api/v1/seller/product-combo")
 @RestController
@@ -19,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 public class SellerProductComboController extends BaseController {
   @Autowired
   ProductComboService productComboService;
-  @GetMapping("{productId}")
-  public ResponseEntity<BaseResponse> getProductCombo(Authentication authentication, @PathVariable String productId) {
+  @GetMapping("")
+  public ResponseEntity<BaseResponse> getProductCombo(Authentication authentication) {
     try {
       return successApi(productComboService.getProductCombo(getUsername(authentication)));
     } catch (Exception ex) {
@@ -38,22 +40,32 @@ public class SellerProductComboController extends BaseController {
     }
   }
 
-  @PutMapping("{ComboId}")
-  public ResponseEntity<BaseResponse> createProductCombo(Authentication authentication, @PathVariable String ComboId, @RequestBody ComboDto dto) {
+  @PutMapping("{id}")
+  public ResponseEntity<BaseResponse> createProductCombo(Authentication authentication, @PathVariable String id, @RequestBody ComboDto dto) {
     try {
-      productComboService.updateProductCombo(getUsername(authentication), ComboId, dto);
+      productComboService.updateProductCombo(getUsername(authentication), id, dto);
       return successApi("Cập nhật thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }
   }
 
-  @DeleteMapping("{ComboId}")
-  public ResponseEntity<BaseResponse> deleteProductCombo(Authentication authentication, @PathVariable String ComboId) {
+  @DeleteMapping("{id}")
+  public ResponseEntity<BaseResponse> deleteProductCombo(Authentication authentication, @PathVariable String id) {
     try {
-      productComboService.deleteProductCombo(getUsername(authentication), ComboId);
+      productComboService.deleteProductCombo(getUsername(authentication), id);
       return successApi("Xóa thành công");
     } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @PutMapping("combo/{id}")
+  public ResponseEntity<?> updateProductComboDetail(Authentication authentication, @PathVariable String id,@RequestBody List<String> ids){
+    try{
+      productComboService.addProductToCombo(getUsername(authentication), id, ids);
+      return successApi("Cập nhật thành công");
+    }catch (Exception ex){
       return errorApi(ex.getMessage());
     }
   }
