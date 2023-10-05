@@ -20,8 +20,6 @@ public class ProductDto{
 
   private String categoryId;
 
-  private String sellerUsername;
-
   private List<String> sellerStoreIds;
 
   private List<ProductInfo> productInfos = new ArrayList<>();

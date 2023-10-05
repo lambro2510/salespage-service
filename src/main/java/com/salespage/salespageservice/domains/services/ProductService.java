@@ -66,6 +66,7 @@ public class ProductService extends BaseService {
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tồn tại danh mục này");
 
     Product product = modelMapper.toProduct(dto);
+    product.setCreatedBy(username);
     productStorage.save(product);
     return product;
   }
