@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductCombo;
+import com.salespage.salespageservice.domains.entities.types.ActiveState;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -22,5 +23,9 @@ public class ProductComboStorage extends BaseStorage{
 
   public List<ProductCombo> findByCreatedBy(String username) {
     return productComboRepository.findByCreatedBy(username);
+  }
+
+  public ProductCombo findByIdAndState(String comboId, ActiveState activeState) {
+    return productComboRepository.findByIdAndState(new ObjectId(comboId), activeState);
   }
 }

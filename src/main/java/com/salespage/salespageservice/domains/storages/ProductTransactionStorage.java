@@ -36,9 +36,6 @@ public class ProductTransactionStorage extends BaseStorage {
     return productTransactionRepository.findAll(query, pageable);
   }
 
-  public List<ProductTransaction> findAllProductTransactionByProductId(String productId) {
-    return productTransactionRepository.findAllProductTransactionByProductId(new ObjectId(productId));
-  }
 
   public TotalStatisticResponse countByProductId(String id, Long startAt, Long endAt) {
     Criteria criteria = Criteria.where("product_id").is(id)
@@ -56,29 +53,18 @@ public class ProductTransactionStorage extends BaseStorage {
     return response;
   }
 
-  public Integer countUserBuy(String username, String productId) {
-    return productTransactionRepository.countByBuyerUsernameAndProductId(username, productId);
-  }
+
 
   public List<ProductTransaction> findByCreatedAtBetween(Long startTimeOfDay, Long endTimeOfDay) {
     return productTransactionRepository.findByCreatedAtBetween(startTimeOfDay, endTimeOfDay);
   }
 
-  public List<ProductTransaction> findProductTransactionByState(ProductTransactionState productTransactionState) {
-    return productTransactionRepository.findProductTransactionByState(productTransactionState);
-  }
+
 
   public List<ProductTransaction> findByIdIn(List<String> ids) {
     return productTransactionRepository.findByIdIn(Helper.convertListStringToListObjectId(ids));
   }
 
-  public List<ProductTransaction> findProductTransactionByBuyerUsernameAndState(String username, ProductTransactionState state) {
-    return productTransactionRepository.findProductTransactionByBuyerUsernameAndState(username, state);
-  }
-
-  public List<ProductTransaction> findByIdInAndState(List<String> ids, ProductTransactionState state) {
-    return productTransactionRepository.findByIdInAndState(Helper.convertListStringToListObjectId(ids), state);
-  }
 
   public void deleteAll(List<ProductTransaction> productTransactions) {
     productTransactionRepository.deleteAll(productTransactions);

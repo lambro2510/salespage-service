@@ -16,8 +16,8 @@ public class ProductComboDetail extends BaseEntity{
   @Id
   private ObjectId id;
 
-  @Field("product_combo_id")
-  private String productComboId;
+  @Field("combo_id")
+  private String comboId;
 
   @Field("product_id")
   private String productId;

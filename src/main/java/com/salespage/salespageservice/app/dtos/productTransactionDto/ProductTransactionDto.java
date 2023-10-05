@@ -17,5 +17,5 @@ public class ProductTransactionDto extends ProductTransactionInfoDto {
   private String storeId;
 
   @Schema(description = "Mã voucher")
-  private String voucherCode;
+  private String voucherCodeId;
 }

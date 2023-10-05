@@ -32,7 +32,7 @@ public class VoucherStore extends BaseEntity {
   private DiscountType discountType;
 
   @Field("value")
-  private Long value;
+  private Double value;
 
   @Field("voucher_store_detail")
   private VoucherStoreDetail voucherStoreDetail;

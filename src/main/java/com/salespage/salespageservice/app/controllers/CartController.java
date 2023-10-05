@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.CartDtos.CartDto;
+import com.salespage.salespageservice.app.dtos.CartDtos.CartPaymentDto;
 import com.salespage.salespageservice.domains.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -31,6 +33,16 @@ public class CartController extends BaseController{
     try{
       cartService.createCart(getUsername(authentication), dto);
       return successApi("Thêm vào giỏ hàng thành công");
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @PostMapping("payment")
+  public ResponseEntity<?> paymentProductInCart(Authentication authentication, @RequestBody @Valid List<CartPaymentDto> dto){
+    try{
+      cartService.paymentProductInCart(getUsername(authentication), dto);
+      return successApi("Thanh toán thành công, đơn hàng đang được kiểm duyệt");
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }

@@ -47,7 +47,7 @@ public class SellerProductTransactionController extends BaseController {
       @PathVariable String id
   ) {
     try {
-      productTransactionService.acceptTransactionByStore(getUsername(authentication), id);
+//      productTransactionService.acceptTransactionByStore(getUsername(authentication), id);
       return successApi("Đơn hàng đã được bạn nhận thành công.");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());

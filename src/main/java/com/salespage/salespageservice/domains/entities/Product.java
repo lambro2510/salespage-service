@@ -47,8 +47,8 @@ public class Product extends BaseEntity {
   @Field("rate")
   private Rate rate = new Rate();
 
-  @Field("seller_username")
-  private String sellerUsername;
+  @Field("created_by")
+  private String createdBy;
 
   @Field("seller_store_ids")
   private List<String> sellerStoreIds;

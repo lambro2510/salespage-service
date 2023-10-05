@@ -46,7 +46,7 @@ public class ProductTransactionController extends BaseController {
       Authentication authentication,
       @RequestBody @Valid List<ProductTransactionDto> dtos) {
     try {
-      productTransactionService.createProductTransaction(getUsername(authentication), dtos);
+//      productTransactionService.createProductTransaction(getUsername(authentication), dtos);
       return successApi("Tạo mới giao dịch thành công");
     } catch (TransactionException ex) {
       return errorApi(ErrorCode.NOT_ENOUGH_MONEY);
@@ -65,10 +65,11 @@ public class ProductTransactionController extends BaseController {
   })
   public ResponseEntity<BaseResponse> getAllProductTransaction(Authentication authentication) {
     try {
-      return successApi(productTransactionService.getTransactionInCart(getUsername(authentication)));
+//      return successApi(productTransactionService.getTransactionInCart(getUsername(authentication)));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }
+    return null;
   }
 
   @PutMapping("")
@@ -82,7 +83,7 @@ public class ProductTransactionController extends BaseController {
   })
   public ResponseEntity<BaseResponse> updateProductTransaction(Authentication authentication, @RequestParam String transactionId, @RequestBody ProductTransactionInfoDto dto) {
     try {
-      productTransactionService.updateProductTransaction(getUsername(authentication), dto, transactionId);
+//      productTransactionService.updateProductTransaction(getUsername(authentication), dto, transactionId);
       return successApi("Cập nhật giao dịch thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
@@ -100,7 +101,7 @@ public class ProductTransactionController extends BaseController {
   })
   public ResponseEntity<BaseResponse> cancelProductTransaction(Authentication authentication, @RequestParam String transactionId) {
     try {
-      productTransactionService.cancelProductTransaction(getUsername(authentication), transactionId);
+//      productTransactionService.cancelProductTransaction(getUsername(authentication), transactionId);
       return successApi("Hủy bỏ giao dịch thành công");
     } catch (Exception ex) {
       return errorApi(ex.getMessage());

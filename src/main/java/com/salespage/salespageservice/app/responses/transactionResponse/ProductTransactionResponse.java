@@ -68,19 +68,5 @@ public class ProductTransactionResponse {
   @JsonProperty("created_at")
   private Date createdAt;
 
-  public void partnerFromProductTransaction(ProductTransaction productTransaction) {
-    transactionId = productTransaction.getId().toHexString();
-    storeId = productTransaction.getStoreId();
-    storeName = productTransaction.getStore().getStoreName();
-    totalPrice = productTransaction.getTotalPrice().longValue();
-    sellerName = productTransaction.getSellerUsername();
-    buyerName = productTransaction.getBuyerUsername();
-    quantity = productTransaction.getQuantity();
-    isUseVoucher = productTransaction.getIsUseVoucher();
-    productTransactionState = productTransaction.getState();
-    voucherInfo = productTransaction.getVoucherInfo();
-    note = productTransaction.getNote();
-    address = productTransaction.getAddressReceive();
-    createdAt = new Date(productTransaction.getCreatedAt());
-  }
+
 }

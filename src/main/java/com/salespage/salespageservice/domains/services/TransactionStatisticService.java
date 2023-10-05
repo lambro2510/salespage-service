@@ -60,22 +60,22 @@ public class TransactionStatisticService extends BaseService {
   }
 
   public void statisticUpdate(String date, Long startAt, Long endAt, StatisticType statisticType) {
-    List<ProductTransaction> listProductTransactions = productTransactionStorage.findByCreatedAtBetween(startAt, endAt);
-    for (ProductTransaction transaction : listProductTransactions) {
-      TransactionStatistic transactionStatistic = transactionStatisticStorage.findByDateAndProductIdAndStatisticType(date, transaction.getProductDetailId(), statisticType);
-      if (Objects.isNull(transactionStatistic)) transactionStatistic = new TransactionStatistic();
-
-      TotalStatisticResponse total = productTransactionStorage.countByProductId(transaction.getProductDetailId(), startAt, endAt);
-      transactionStatistic.setStatisticType(statisticType);
-      transactionStatistic.setDate(date);
-      transactionStatistic.setUsername(transaction.getSellerUsername());
-      transactionStatistic.setProductId(transaction.getProduct().getId().toHexString());
-      transactionStatistic.setProductDetailId(transaction.getProductDetailId());
-      transactionStatistic.setTotalPrice(total.getTotalPrice());
-      transactionStatistic.setTotalProduct(total.getQuantity());
-      transactionStatistic.setTotalUser(productTransactionStorage.countUserBuy(transaction.getBuyerUsername(), transaction.getProductDetailId()));
-      transactionStatisticStorage.save(transactionStatistic);
-    }
+//    List<ProductTransaction> listProductTransactions = productTransactionStorage.findByCreatedAtBetween(startAt, endAt);
+//    for (ProductTransaction transaction : listProductTransactions) {
+//      TransactionStatistic transactionStatistic = transactionStatisticStorage.findByDateAndProductIdAndStatisticType(date, transaction.getProductDetailId(), statisticType);
+//      if (Objects.isNull(transactionStatistic)) transactionStatistic = new TransactionStatistic();
+//
+//      TotalStatisticResponse total = productTransactionStorage.countByProductId(transaction.getProductDetailId(), startAt, endAt);
+//      transactionStatistic.setStatisticType(statisticType);
+//      transactionStatistic.setDate(date);
+//      transactionStatistic.setUsername(transaction.getSellerUsername());
+//      transactionStatistic.setProductId(transaction.getProduct().getId().toHexString());
+//      transactionStatistic.setProductDetailId(transaction.getProductDetailId());
+//      transactionStatistic.setTotalPrice(total.getTotalPrice());
+//      transactionStatistic.setTotalProduct(total.getQuantity());
+//      transactionStatistic.setTotalUser(productTransactionStorage.countUserBuy(transaction.getBuyerUsername(), transaction.getProductDetailId()));
+//      transactionStatisticStorage.save(transactionStatistic);
+//    }
   }
 
 

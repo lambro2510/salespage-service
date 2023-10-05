@@ -73,7 +73,7 @@ public class ProductService extends BaseService {
   public Product updateProduct(String username, String productId, ProductDto dto) {
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này hoặc đã bị xóa");
-    if (!Objects.equals(product.getSellerUsername(), username))
+    if (!Objects.equals(product.getCreatedBy(), username))
       throw new AuthorizationException("Bạn không có quyền cập nhật sản phẩm này");
 
     ProductCategory productCategory = productCategoryStorage.findByCreatedByAndId(username, dto.getCategoryId());
@@ -256,10 +256,10 @@ public class ProductService extends BaseService {
 
     Product product = productStorage.findProductById(productId);
 
-    if (!username.equals(product.getSellerUsername()))
+    if (!username.equals(product.getCreatedBy()))
       throw new ResourceNotFoundException("Bạn không có sản phẩm này");
 
-    productTransactionService.productTransactionCancel(productId);
+//    productTransactionService.productTransactionCancel(productId);
     productStorage.delete(productId);
     googleDriver.deleteFolderByName(productId);
     return true;
@@ -269,7 +269,7 @@ public class ProductService extends BaseService {
     List<UploadImageData> imageUrls = new ArrayList<>();
     Product product = productStorage.findProductById(productId);
     if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
-    if (!product.getSellerUsername().equals(username))
+    if (!product.getCreatedBy().equals(username))
       throw new AuthorizationException("Không được phép");
 
     String imageUrl = googleDriver.uploadPublicImageNotDelete("Product-" + productId, file.getName() + System.currentTimeMillis(), Helper.convertMultiPartToFile(file));
@@ -284,7 +284,7 @@ public class ProductService extends BaseService {
   public void updateDefaultImage(String username, String productId, String imageUrl) {
     Product product = productStorage.findProductById(productId);
     if (product == null) throw new ResourceNotFoundException("Không tòn tại sản phẩm này hoặc đã bị xóa");
-    if (!product.getSellerUsername().equals(username))
+    if (!product.getCreatedBy().equals(username))
       throw new AuthorizationException("Không được phép");
 
     product.setDefaultImageUrl(imageUrl);
@@ -293,7 +293,7 @@ public class ProductService extends BaseService {
 
   public List<String> deleteProductImages(String username, String productId, String images) {
     Product product = productStorage.findProductById(productId);
-    if (!product.getSellerUsername().equals(username))
+    if (!product.getCreatedBy().equals(username))
       throw new AuthorizationException("Bạn không thể xóa ảnh của sản phẩm này");
     String[] listImages = images.split(",");
     List<String> imageUrls = new ArrayList<>();

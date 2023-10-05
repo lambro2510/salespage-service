@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
+import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -21,6 +21,9 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Document("product_transaction")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductTransaction extends BaseEntity {
 
   @Id
@@ -31,94 +34,18 @@ public class ProductTransaction extends BaseEntity {
   @Indexed(name = "buyer_username_idx")
   private String buyerUsername;
 
-  @Field("product_detail_id")
-  @Indexed(name = "product_detail_id_idx")
-  private String productDetailId;
-
-  @Field("seller_username")
-  private String sellerUsername;
-
-  @Field("store_id")
-  private String storeId;
-
-  @Field("store")
-  private SellerStore store;
-
-  @Field("product_detail")
-  private ProductDetail productDetail;
-
-  @Field("product")
-  private Product product;
-
-  @Field("state")
-  private ProductTransactionState state;
-
-  @Field("quantity")
-  private Long quantity = 0L;
-
   @Field("total_price")
-  private Double totalPrice = 0D;
+  private Double totalPrice;
 
-  @Field("ship_cod")
-  private Double shipCod;
-
-  @Field("address_receive")
-  private String addressReceive;
+  @Field("product_transaction_details")
+  private List<ProductTransactionDetail> productTransactionDetails;
 
   @Field("note")
   private String note;
 
-  @Field("is_use_voucher")
-  private Boolean isUseVoucher = false;
+  @Field("combo_info")
+  private ComboInfo comboInfo;
 
-  @Field("voucher_info")
-  private VoucherInfo voucherInfo;
 
-  @Field("shipper_username")
-  private String shipperUsername;
 
-  @Field("message")
-  private List<Message> messages = new ArrayList<>();
-
-  public ProductTransactionResponse partnerToProductTransactionResponse(){
-    ProductTransactionResponse productTransactionResponse = new ProductTransactionResponse();
-    productTransactionResponse.partnerFromProductTransaction(this);
-    return productTransactionResponse;
-  }
-
-  public void createNewTransaction(String username, ProductTransactionDto dto) {
-    buyerUsername = username;
-    productDetailId = dto.getProductDetailId();
-    quantity = dto.getQuantity();
-    note = dto.getNote();
-    addressReceive = dto.getAddress();
-    state = ProductTransactionState.WAITING_STORE;
-  }
-
-  public void updateTransaction(ProductTransactionInfoDto dto) {
-    updateQuantity(dto.getQuantity());
-    note = dto.getNote();
-    addressReceive = dto.getAddress();
-  }
-
-  public void updateState(ProductTransactionState state, String note) {
-    this.state = state;
-    this.note = note;
-  }
-
-  public void updateQuantity(long newQuantity){
-    quantity = newQuantity;
-    double rate = (double) newQuantity / (double) quantity;
-    totalPrice = totalPrice/rate;
-  }
-  @EqualsAndHashCode(callSuper = true)
-  @Data
-  public static class Message extends BaseEntity {
-    private String sender;
-
-    private String receiver;
-
-    private String content;
-
-  }
 }

@@ -30,7 +30,7 @@ public class UserVoucherResponse {
   Long maxPrice;
 
   @Schema(description = "Giá trị giảm giá")
-  Long value;
+  Double value;
 
   @Schema(description = "Loại giảm giá")
   DiscountType discountType;

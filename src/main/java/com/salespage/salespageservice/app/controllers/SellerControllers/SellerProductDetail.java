@@ -51,7 +51,7 @@ public class SellerProductDetail extends BaseController {
   }
 
   @DeleteMapping("{detailId}")
-  public ResponseEntity<BaseResponse> createProductDetail(Authentication authentication, @PathVariable String detailId) {
+  public ResponseEntity<BaseResponse> deleteProductDetail(Authentication authentication, @PathVariable String detailId) {
     try {
       productDetailService.deleteProductDetail(getUsername(authentication), detailId);
       return successApi("Xóa thành công");

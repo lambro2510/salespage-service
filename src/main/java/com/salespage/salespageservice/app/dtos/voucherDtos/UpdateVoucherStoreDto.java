@@ -28,12 +28,12 @@ public class UpdateVoucherStoreDto {
 
   @Positive(message = "Giá trị không được âm")
   @Schema(description = "Giá trị của voucher", example = "5000000")
-  private Long value;
+  private Double value;
 
   @Min(value = 0, message = "Giá trị phần trăm không được nhỏ hơn 0")
   @Max(value = 100, message = "Giá trị phần trăm không được lớn hơn 100")
   @Schema(description = "Phần trăm giá trị voucher", example = "10")
-  private Long valuePercent;
+  private Double valuePercent;
 
   @PositiveOrZero(message = "Giá trị tối đa không được âm")
   @Schema(description = "Giá trị sản phẩm tối đa có thể áp dụng voucher", example = "100000")

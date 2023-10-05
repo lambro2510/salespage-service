@@ -134,6 +134,9 @@ public class BaseService{
   protected ProductComboDetailStorage productComboDetailStorage;
 
   @Autowired
+  protected ProductTransactionDetailStorage productTransactionDetailStorage;
+
+  @Autowired
   @Lazy
   private SystemLogService systemLogService;
 

@@ -32,4 +32,6 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
   List<Product> findTopNByIdIn(Collection<ObjectId> id, @Param("limit") int limit);
 
   List<Product> findTop10ByIdIn(List<ObjectId> objectIds);
+
+  List<Product> findByIdInAndCreatedBy(List<ObjectId> objectIds, String username);
 }

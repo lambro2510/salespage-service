@@ -34,5 +34,5 @@ public class VoucherStoreResponse {
   private String refId;
 
   @Schema(description = "Giá trị của voucher", example = "10000")
-  private Long value;
+  private Double value;
 }

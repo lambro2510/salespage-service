@@ -29,21 +29,20 @@ public class ShipperService extends BaseService{
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public void findShipperForProduct() {
     List<Shipper> freeShippers = shipperStorage.findByShipModeAndAcceptTransaction(true, false);
-    List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByState(ProductTransactionState.ACCEPT_STORE);
+//    List<ProductTransaction> productTransactions = productTransactionStorage.findProductTransactionByState(ProductTransactionState.ACCEPT_STORE);
     for(Shipper shipper : freeShippers){
-      for(ProductTransaction productTransaction: productTransactions){
-        String shipperLocation = shipper.getLatitude() + ',' + shipper.getLongitude();
-        DistanceMatrixResult.Distance distance = getDistance(shipperLocation, productTransaction.getStore().getLocation(), shipper.getVehicleType().getValue());
-        if(VehicleType.CAR == shipper.getVehicleType()){
-          if(distance.getValue() < 10000){
-            shipper.setAcceptTransaction(true);
-            productTransaction.setState(ProductTransactionState.WAITING_SHIPPER);
-          }
-        }
-      }
+//      for(ProductTransaction productTransaction: productTransactions){
+//        String shipperLocation = shipper.getLatitude() + ',' + shipper.getLongitude();
+//        DistanceMatrixResult.Distance distance = getDistance(shipperLocation, productTransaction.getStore().getLocation(), shipper.getVehicleType().getValue());
+//        if(VehicleType.CAR == shipper.getVehicleType()){
+//          if(distance.getValue() < 10000){
+//            shipper.setAcceptTransaction(true);
+//          }
+//        }
+//      }
     }
     shipperStorage.saveAll(freeShippers);
-    productTransactionStorage.saveAll(productTransactions);
+//    productTransactionStorage.saveAll(productTransactions);
   }
 
 

@@ -8,6 +8,7 @@ import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.RatingType;
 import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
+import com.salespage.salespageservice.domains.exceptions.NotEnoughMoneyException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.info.AddressResult;
@@ -85,4 +86,10 @@ public class UserService extends BaseService {
     userStorage.save(user);
   }
 
+  public void minusBalance(User user, Double totalPrice) {
+    if(user.getBalance().getMoney() < totalPrice){
+      throw new NotEnoughMoneyException();
+    }
+    user.getBalance().minusMoney(totalPrice);
+  }
 }

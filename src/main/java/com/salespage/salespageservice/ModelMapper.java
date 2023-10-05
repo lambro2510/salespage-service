@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.dtos.productComboDtos.ComboDto;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
+import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductCategoryResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.SellerProductDetailResponse;
@@ -63,4 +64,7 @@ public interface ModelMapper {
   TypeDetailResponse toTypeDetails(ProductTypeDetail typeDetail);
 
   List<TypeDetailResponse> toListTypeDetails(List<ProductTypeDetail> typeDetails);
+
+  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
+  ProductComboDetailResponse toProductComboDetailResponse(ProductCombo bestCombo);
 }

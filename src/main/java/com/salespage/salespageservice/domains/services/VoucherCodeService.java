@@ -105,39 +105,27 @@ public class VoucherCodeService extends BaseService {
     if (Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
       throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
 
-    if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < productTransaction.getProductDetail().getSellPrice() || voucherStore.getVoucherStoreDetail().getMinAblePrice() > productTransaction.getProductDetail().getSellPrice())
-      throw new BadRequestException("Mã không thể sử dụng cho sản phẩm, không nằm trong giá trị mã có thể sử dụng");
-
-    if (voucherStore.getVoucherStoreType() == VoucherStoreType.PRODUCT) {
-      if (!voucherStore.getRefId().equals(productTransaction.getProductDetail().getProductId()))
-        throw new BadRequestException("Mã giảm giá không áp dụng cho sản phẩm ");
-    } else {
-      if (!voucherStore.getRefId().equals(productTransaction.getStoreId()))
-        throw new BadRequestException("Mã giảm giá không áp dụng cho cửa hàng này");
-    }
 
     productTransaction.setTotalPrice(getPriceWhenUseVoucher(productTransaction.getTotalPrice(), voucherStore.getDiscountType(), voucherStore.getValue()));
 
     voucherCode.setUserAt(new Date());
     voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
     voucherCodeStorage.save(voucherCode);
-    voucherInfo.setVoucherCode(code);
     voucherInfo.setValue(voucherStore.getValue());
     voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
     voucherInfo.setPriceAfter(productTransaction.getTotalPrice());
     voucherInfo.setTotalDiscount(voucherInfo.getPriceAfter() - voucherInfo.getPriceBefore());
-    productTransaction.setIsUseVoucher(true);
-    productTransaction.setVoucherInfo(voucherInfo);
     return voucherInfo;
   }
 
-  public Double getPriceWhenUseVoucher(Double getTotalPrice, DiscountType type, Long value){
-    if(type.equals(DiscountType.PERCENT)){
+  public Double getPriceWhenUseVoucher(Double getTotalPrice, DiscountType type, Double value) {
+    if (type.equals(DiscountType.PERCENT)) {
       return getTotalPrice * (value / 100);
-    }else{
-      return getTotalPrice* value;
+    } else {
+      return getTotalPrice * value;
     }
   }
+
   public PageResponse<VoucherCodeResponse> getAllVoucherCodeInStore(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Pageable pageable) {
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherStoreId);
     if (Objects.isNull(voucherStore))
@@ -163,12 +151,12 @@ public class VoucherCodeService extends BaseService {
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tìm thấy sản phâm");
     List<VoucherStore> voucherStores = voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.PRODUCT, productId);
-    for(String storeId : product.getSellerStoreIds()){
+    for (String storeId : product.getSellerStoreIds()) {
       voucherStores.addAll(voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.STORE, storeId));
     }
     for (VoucherStore voucherStore : voucherStores) {
       VoucherCode voucherCode = voucherCodeStorage.findFirstCodeCanUse(username, voucherStore.getId().toHexString());
-      if(Objects.isNull(voucherCode)) continue;
+      if (Objects.isNull(voucherCode)) continue;
       responses.add(UserVoucherResponse
           .builder()
           .voucherCodeId(voucherCode.getId().toHexString())
@@ -185,36 +173,79 @@ public class VoucherCodeService extends BaseService {
     return responses;
   }
 
-  public VoucherInfo getVoucherInfo(String voucherCodeId, String username, boolean isThrowErr) {
-    try{
-      if(StringUtils.isBlank(voucherCodeId)){
+  public VoucherInfo getVoucherInfo(String voucherCodeId, String username, Product product,Double sellPrice, boolean isThrowErr) {
+    try {
+      if (StringUtils.isBlank(voucherCodeId)) {
         return null;
       }
 
       VoucherCode voucherCode = voucherCodeStorage.findById(voucherCodeId);
-      if(voucherCode == null){
+      if (voucherCode == null) {
         throw new ResourceNotFoundException("Mã không tồn tại");
       }
-      if(!voucherCode.checkVoucher(username)){
+      if (!voucherCode.checkVoucher(username)) {
         throw new BadRequestException("Mã không hợp lệ");
       }
       VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
-      if(voucherStore == null){
+      if (voucherStore == null) {
         throw new ResourceNotFoundException("Cửa hàng không tồn tại");
       }
-
-      VoucherInfo info = new VoucherInfo();
-      info.setVoucherCode(voucherCode.getCode());
-      info.setDiscountType(voucherStore.getDiscountType());
-      info.setValue(voucherStore.getValue());
-      info.setVoucherName(voucherStore.getVoucherStoreName());
-      info.setVoucherStoreType(voucherStore.getVoucherStoreType());
-      return info;
-    }catch (Exception ex){
-      if(isThrowErr){
+      if (voucherStore.getVoucherStoreType().equals(VoucherStoreType.PRODUCT)) {
+        if (!product.getId().toHexString().equals(voucherStore.getRefId())) {
+          throw new BadRequestException("Mã không hợp lệ");
+        }
+      } else {
+        if (!product.getSellerStoreIds().contains(voucherStore.getRefId())) {
+          throw new BadRequestException("Mã không hợp lệ");
+        }
+      }
+      return new VoucherInfo();
+    } catch (Exception ex) {
+      if (isThrowErr) {
         throw new BadRequestException(ex.getMessage());
       }
     }
     return null;
   }
+
+  public VoucherInfo getVoucherInfoAndUse(String voucherCodeId, String username, Product product, Double sellPrice) {
+    if (StringUtils.isBlank(voucherCodeId)) {
+      return null;
+    }
+
+    VoucherCode voucherCode = voucherCodeStorage.findById(voucherCodeId);
+    if (voucherCode == null) {
+      throw new ResourceNotFoundException("Mã không tồn tại");
+    }
+    if (!voucherCode.checkVoucher(username)) {
+      throw new BadRequestException("Mã không hợp lệ");
+    }
+    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
+    if (voucherStore == null) {
+      throw new ResourceNotFoundException("Cửa hàng không tồn tại");
+    }
+
+    if(voucherStore.getVoucherStoreStatus() != VoucherStoreStatus.ACTIVE){
+        throw new BadRequestException("Mã giảm giá đạng không được sử dụng");
+    }
+
+    if(voucherStore.getVoucherStoreDetail().getMaxAblePrice() < sellPrice || voucherStore.getVoucherStoreDetail().getMinAblePrice() > sellPrice ){
+      throw new BadRequestException("Voucher chỉ có thể sử dụng cho các sản phẩm có giá trị từ " + voucherStore.getVoucherStoreDetail().getMinAblePrice() + "đến " + voucherStore.getVoucherStoreDetail().getMaxAblePrice());
+    }
+
+    if (voucherStore.getVoucherStoreType().equals(VoucherStoreType.PRODUCT)) {
+      if (!product.getId().toHexString().equals(voucherStore.getRefId())) {
+        throw new BadRequestException("Mã không hợp lệ");
+      }
+    } else {
+      if (!product.getSellerStoreIds().contains(voucherStore.getRefId())) {
+        throw new BadRequestException("Mã không hợp lệ");
+      }
+    }
+
+
+    return new VoucherInfo(voucherCode, voucherStore, sellPrice);
+  }
+
+
 }
