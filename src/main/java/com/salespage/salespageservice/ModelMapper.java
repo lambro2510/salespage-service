@@ -7,12 +7,11 @@ import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.dtos.storeDtos.SellerStoreDto;
 import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductCategoryResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.SellerProductDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.SellerProductResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.TypeDetailResponse;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
-import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.ProductCategory;
-import com.salespage.salespageservice.domains.entities.ProductCombo;
-import com.salespage.salespageservice.domains.entities.SellerStore;
+import com.salespage.salespageservice.domains.entities.*;
 import org.bson.types.ObjectId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -57,4 +56,11 @@ public interface ModelMapper {
   SellerProductResponse toSellerProductResponse(Product product);
 
   List<SellerProductResponse> toListSellerProductResponse(List<Product> products);
+
+  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
+  SellerProductDetailResponse toSellerProductDetailResponse(Product product);
+
+  TypeDetailResponse toTypeDetails(ProductTypeDetail typeDetail);
+
+  List<TypeDetailResponse> toListTypeDetails(List<ProductTypeDetail> typeDetails);
 }

@@ -2,10 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.productDtos.*;
 import com.salespage.salespageservice.app.responses.PageResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductTypeResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.SellerProductResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.*;
 import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
 import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
@@ -181,17 +178,20 @@ public class ProductService extends BaseService {
     return PageResponse.createFrom(new PageImpl<>(responses, pageable, products.getTotalElements()));
   }
 
-  public ProductDetailResponse getSellerProductDetail(String productId) throws Exception {
-    ProductDetailResponse response;
+  public SellerProductDetailResponse getSellerProductDetail(String productId) throws Exception {
     Product product = productStorage.findProductById(productId);
-    response = product.assignToProductDetailResponse();
+    SellerProductDetailResponse response = modelMapper.toSellerProductDetailResponse(product);
     List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds());
-
-    response.setStores(sellerStores.stream().map(k -> modelMapper.toSellerStoreResponse(k)).collect(Collectors.toList()));
 
     ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
     if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
-    response.assignFromCategory(productCategory);
+
+    List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(productId);
+
+    response.setTypeDetails(modelMapper.toListTypeDetails(typeDetails));
+    response.setStores(modelMapper.toListSellerStoreResponse(sellerStores));
+    response.setProductCategory(modelMapper.toProductCategoryResponse(productCategory));
+
     return response;
   }
 
