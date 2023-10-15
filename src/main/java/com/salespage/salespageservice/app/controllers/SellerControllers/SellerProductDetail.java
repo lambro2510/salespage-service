@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Seller product", description = "Quản lý sản phẩm được bán")
+@Tag(name = "Seller product detail", description = "Quản lý sản phẩm được bán")
 @CrossOrigin
 @RestController
 @RequestMapping("api/v1/seller/product-detail")

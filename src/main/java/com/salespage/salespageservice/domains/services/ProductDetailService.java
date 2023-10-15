@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductDetailService extends BaseService{
+public class ProductDetailService extends BaseService {
   public List<ProductDetailInfoResponse> getProductDetail(String username, String productId) {
     List<ProductDetail> productDetails = productDetailStorage.findByProductId(productId);
     return productDetails.stream().map(ProductDetail::partnerToResponse).collect(Collectors.toList());
@@ -20,36 +20,27 @@ public class ProductDetailService extends BaseService{
 
   public void createProductDetail(String username, ProductDetailDto dto) {
     Product product = productStorage.findProductById(dto.getProductId());
-    if(Objects.isNull(product)){
+    if (Objects.isNull(product)) {
       throw new ResourceNotFoundException("Không tồn tại sản phẩm");
     }
-    ProductDetail productDetail = new ProductDetail();
-    productDetail.setProductId(dto.getProductId());
-    productDetail.setType(dto.getType());
-    productDetail.setOriginPrice(dto.getOriginPrice());
-    productDetail.setSellPrice(dto.getOriginPrice());
-    productDetail.setDiscountPercent(dto.getDiscountPercent());
-    productDetail.setQuantity(dto.getQuantity());
+    ProductDetail productDetail = modelMapper.toProductDetail(dto);
+    productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * dto.getDiscountPercent());
     productDetailStorage.save(productDetail);
   }
 
   public void updateProductDetail(String username, String detailId, ProductDetailDto dto) {
     ProductDetail productDetail = productDetailStorage.findById(detailId);
-    if(Objects.isNull(productDetail)){
+    if (Objects.isNull(productDetail)) {
       throw new ResourceNotFoundException("Không tồn tại chi tiết sản phẩm");
     }
-    productDetail.setProductId(dto.getProductId());
-    productDetail.setType(dto.getType());
-    productDetail.setOriginPrice(dto.getOriginPrice());
-    productDetail.setSellPrice(dto.getOriginPrice());
-    productDetail.setDiscountPercent(dto.getDiscountPercent());
-    productDetail.setQuantity(dto.getQuantity());
+    modelMapper.mapToProductDetail(productDetail, dto);
+    productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * dto.getDiscountPercent());
     productDetailStorage.save(productDetail);
   }
 
-  public void deleteProductDetail(String username, String detailId){
+  public void deleteProductDetail(String username, String detailId) {
     ProductDetail productDetail = productDetailStorage.findById(detailId);
-    if(Objects.isNull(productDetail)){
+    if (Objects.isNull(productDetail)) {
       throw new ResourceNotFoundException("Không tồn tại chi tiết sản phẩm");
     }
     productDetailStorage.delete(productDetail);

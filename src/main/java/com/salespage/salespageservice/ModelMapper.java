@@ -76,5 +76,7 @@ public interface ModelMapper {
 
   void mapToProduct(ProductDto dto, @MappingTarget Product product);
 
-  void mapToSellerStore(SellerStoreDto dto,@MappingTarget  SellerStore sellerStore);
+  void mapToSellerStore(SellerStoreDto dto, @MappingTarget SellerStore sellerStore);
+
+  void mapToProductDetail(ProductDetail productDetail,@MappingTarget ProductDetailDto dto);
 }
