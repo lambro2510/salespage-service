@@ -23,13 +23,9 @@ public class ProductDetailService extends BaseService{
     if(Objects.isNull(product)){
       throw new ResourceNotFoundException("Không tồn tại sản phẩm");
     }
-    ProductDetail productDetail = new ProductDetail();
-    productDetail.setProductId(dto.getProductId());
-    productDetail.setType(dto.getType());
-    productDetail.setOriginPrice(dto.getOriginPrice());
-    productDetail.setSellPrice(dto.getOriginPrice());
-    productDetail.setDiscountPercent(dto.getDiscountPercent());
-    productDetail.setQuantity(dto.getQuantity());
+    ProductDetail productDetail = modelMapper.toProductDetail(dto);
+    productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * (productDetail.getOriginPrice()/100));
+
     productDetailStorage.save(productDetail);
   }
 
@@ -38,12 +34,8 @@ public class ProductDetailService extends BaseService{
     if(Objects.isNull(productDetail)){
       throw new ResourceNotFoundException("Không tồn tại chi tiết sản phẩm");
     }
-    productDetail.setProductId(dto.getProductId());
-    productDetail.setType(dto.getType());
-    productDetail.setOriginPrice(dto.getOriginPrice());
-    productDetail.setSellPrice(dto.getOriginPrice());
-    productDetail.setDiscountPercent(dto.getDiscountPercent());
-    productDetail.setQuantity(dto.getQuantity());
+    modelMapper.mapToProductDetailDto(dto, productDetail);
+    productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * (productDetail.getOriginPrice()/100));
     productDetailStorage.save(productDetail);
   }
 
