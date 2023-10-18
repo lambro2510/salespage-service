@@ -24,7 +24,7 @@ public class ProductDetailService extends BaseService{
       throw new ResourceNotFoundException("Không tồn tại sản phẩm");
     }
     ProductDetail productDetail = modelMapper.toProductDetail(dto);
-    productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * (productDetail.getOriginPrice()/100));
+    productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * (productDetail.getDiscountPercent()/100));
 
     productDetailStorage.save(productDetail);
   }
@@ -35,7 +35,7 @@ public class ProductDetailService extends BaseService{
       throw new ResourceNotFoundException("Không tồn tại chi tiết sản phẩm");
     }
     modelMapper.mapToProductDetailDto(dto, productDetail);
-    productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * (productDetail.getOriginPrice()/100));
+    productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * (productDetail.getDiscountPercent()/100));
     productDetailStorage.save(productDetail);
   }
 
