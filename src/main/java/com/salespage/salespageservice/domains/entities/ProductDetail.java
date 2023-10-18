@@ -53,9 +53,8 @@ public class ProductDetail extends BaseEntity{
     ProductDetailInfoResponse response = new ProductDetailInfoResponse();
     response.setProductDetailId(id.toHexString());
     response.setProductId(productId);
-    response.setColor(type.color);
     response.setQuantity(quantity);
-    response.setType(type.type);
+    response.setType(type);
     response.setOriginPrice(originPrice);
     response.setSellPrice(sellPrice);
     response.setDiscountPercent(discountPercent);

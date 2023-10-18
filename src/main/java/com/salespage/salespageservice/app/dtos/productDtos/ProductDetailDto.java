@@ -4,6 +4,9 @@ import com.salespage.salespageservice.domains.entities.ProductDetail;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 @Data
 public class ProductDetailDto {
   String productId;
@@ -14,7 +17,7 @@ public class ProductDetailDto {
 
   Double originPrice;
 
-  Double sellPrice;
-
+  @Min(0)
+  @Max(100)
   Double discountPercent;
 }
