@@ -136,10 +136,13 @@ public class ProductService extends BaseService {
     return productStorage.findAll(query, pageable);
   }
 
-  public PageResponse<SellerProductResponse> getAllProduct(String productId, String storeName, Pageable pageable) {
+  public PageResponse<SellerProductResponse> getAllProduct(String productId,String storeId, String storeName, Pageable pageable) {
     Query query = new Query();
     if (StringUtil.isNotBlank(productId) && ObjectId.isValid(productId)) {
       query.addCriteria(Criteria.where("_id").is(new ObjectId(productId)));
+    }
+    if (StringUtil.isNotBlank(storeId) && ObjectId.isValid(storeId)) {
+      query.addCriteria(Criteria.where("seller_store_ids").in(new ObjectId(storeId)));
     }
     if (StringUtil.isNotBlank(storeName)) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByStoreName(storeName);

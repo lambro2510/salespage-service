@@ -40,10 +40,11 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<BaseResponse> getAllProduct(Authentication authentication,
+                                                    @RequestParam(required = false) String storeId,
                                                     @RequestParam(required = false) String storeName,
                                                     Pageable pageable) {
     try {
-      return successApi(productService.getAllProduct(getUsername(authentication), storeName, pageable));
+      return successApi(productService.getAllProduct(getUsername(authentication),storeId, storeName, pageable));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }
