@@ -9,6 +9,7 @@ import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.SizeType;
 import com.salespage.salespageservice.domains.entities.types.WeightType;
+import com.salespage.salespageservice.domains.info.ProductInfo;
 import com.salespage.salespageservice.domains.utils.Helper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -66,7 +67,7 @@ public class ProductDetailResponse{
   @Schema(description = "Số lượt xem")
   protected Long totalView;
 
-  List<ProductDetailResponse> productDetails = new ArrayList<>();
+  List<ProductInfo> productInfos = new ArrayList<>();
 
   @JsonProperty("is_hot")
   Boolean isHot;
@@ -78,6 +79,7 @@ public class ProductDetailResponse{
         .map(image -> new UploadImageData(Helper.generateRandomString(), Helper.generateRandomString() + ".png", "done", image, image))
         .collect(Collectors.toList());
     rate = product.getRate();
+    productInfos = product.getProductInfos();
     categoryId = product.getCategoryId();
     isHot = product.getIsHot();
     description = product.getDescription();

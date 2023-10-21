@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Log4j2
@@ -159,15 +160,21 @@ public class ProductService extends BaseService {
   public PageResponse<ProductDataResponse> findProduct(String productId, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
     Page<Product> products = getAllProduct(null, productId, productName, minPrice, maxPrice, storeName, username, lte, gte, pageable);
 
-    List<ProductDataResponse> responses = new ArrayList<>();
-
-    for (Product product : products) {
-      ProductDataResponse response = new ProductDataResponse();
-      response.assignFromProduct(product);
-      responses.add(response);
-    }
+    List<ProductDataResponse> responses = toProductDataResponse(products.getContent());
 
     return PageResponse.createFrom(new PageImpl<>(responses, pageable, products.getTotalElements()));
+  }
+
+  private List<ProductDataResponse> toProductDataResponse(List<Product> products) {
+    List<ProductDataResponse> responses = products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList());
+    responses.forEach(product -> {
+      TotalProductStatisticResponse productStatistics = statisticService.getStatisticOfProduct(product.getProductId(), product.getCreatedAt(), DateUtils.nowInMillis());
+      List<ProductDetail> productDetails = productDetailStorage.findByProductId(product.getProductId());
+      product.assignFromListDetail(productDetails);
+      product.setTotalSell(productStatistics.getTotalBuy());
+      product.setTotalView(productStatistics.getTotalView());
+    });
+    return responses;
   }
 
   public SellerProductDetailResponse getSellerProductDetail(String productId) throws Exception {
@@ -207,16 +214,8 @@ public class ProductService extends BaseService {
         products = productStorage.findTop10ByIsHotOrderByUpdatedAtDesc();
       }
     }
-    List<ProductDataResponse> responses = products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList());
-    responses.forEach(product -> {
-      TotalProductStatisticResponse productStatistics = statisticService.getStatisticOfProduct(product.getProductId(), product.getCreatedAt(), DateUtils.nowInMillis());
-      List<ProductDetail> productDetails = productDetailStorage.findByProductId(product.getProductId());
-      product.assignFromListDetail(productDetails);
-      product.setTotalSell(productStatistics.getTotalBuy());
-      product.setTotalView(productStatistics.getTotalView());
-    });
 
-    return responses;
+    return toProductDataResponse(products);
   }
 
   public ProductDetailResponse getProductDetail(String username, String productId) throws Exception {
