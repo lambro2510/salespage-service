@@ -34,10 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -127,22 +124,24 @@ public class ProductService extends BaseService {
     return productStorage.findAll(query, pageable);
   }
 
-  public PageResponse<SellerProductResponse> getAllProduct(String productId,String storeId, String storeName, Pageable pageable) {
+  public PageResponse<SellerProductResponse> getAllProduct(String productId, String storeId, String storeName, String productName, Pageable pageable) {
     Query query = new Query();
     if (StringUtil.isNotBlank(productId) && ObjectId.isValid(productId)) {
       query.addCriteria(Criteria.where("_id").is(new ObjectId(productId)));
     }
     if (StringUtil.isNotBlank(storeId) && ObjectId.isValid(storeId)) {
-      query.addCriteria(Criteria.where("seller_store_ids").in(new ObjectId(storeId)));
+      query.addCriteria(Criteria.where("seller_store_ids").in(List.of(storeId)));
+    }
+    if (StringUtil.isNotBlank(productName) && ObjectId.isValid(productName)) {
+      query.addCriteria(Criteria.where("product_name").is(productName));
     }
     if (StringUtil.isNotBlank(storeName)) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByStoreName(storeName);
       List<String> storeIds = sellerStores.stream()
           .map(k -> k.getId().toHexString())
           .collect(Collectors.toList());
-      if (!storeIds.isEmpty()) {
         query.addCriteria(Criteria.where("seller_store_ids").in(storeIds));
-      }
+
     }
     Page<Product> products = productStorage.findAll(query, pageable);
     List<SellerProductResponse> responses = modelMapper.toListSellerProductResponse(products.getContent());

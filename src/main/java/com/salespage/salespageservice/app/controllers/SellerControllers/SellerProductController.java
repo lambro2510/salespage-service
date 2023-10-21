@@ -42,9 +42,10 @@ public class SellerProductController extends BaseController {
   public ResponseEntity<BaseResponse> getAllProduct(Authentication authentication,
                                                     @RequestParam(required = false) String storeId,
                                                     @RequestParam(required = false) String storeName,
+                                                    @RequestParam(required = false) String productName,
                                                     Pageable pageable) {
     try {
-      return successApi(productService.getAllProduct(getUsername(authentication),storeId, storeName, pageable));
+      return successApi(productService.getAllProduct(getUsername(authentication),storeId, storeName,productName, pageable));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }
