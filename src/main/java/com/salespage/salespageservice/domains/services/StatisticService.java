@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
 import com.salespage.salespageservice.domains.Constants;
+import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.entities.ProductStatistic;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.StatisticCheckpoint;
@@ -48,28 +49,14 @@ public class StatisticService extends BaseService {
   }
 
   public List<TotalProductStatisticResponse> getStatistic(Long gte, Long lte) {
-    LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
-    LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
-
-    List<ProductStatistic> productStatistics = productStatisticStorage.findByDailyBetween(startDate, endDate);
-    Map<String, TotalProductStatisticResponse> mapProduct = new HashMap<>();
-
-    for (ProductStatistic productStatistic : productStatistics) {
-      mapProduct.computeIfAbsent(productStatistic.getProductId(), k -> {
-        TotalProductStatisticResponse statistic = new TotalProductStatisticResponse();
-        statistic.setProductId(k);
-        statistic.setTotalBuy(0L);
-        statistic.setTotalPurchase(0L);
-        statistic.setTotalUser(0L);
-        statistic.setDailies(new ArrayList<>());
-        return statistic;
-      });
-
-      TotalProductStatisticResponse statistic = mapProduct.get(productStatistic.getProductId());
-      partnerToResponse(statistic, productStatistic);
+    List<TotalProductStatisticResponse> responses = new ArrayList<>();
+    List<Product> products = productStorage.findAll();
+    for(Product product : products){
+      TotalProductStatisticResponse response = getStatisticOfProduct(product.getId().toHexString(), gte, lte);
+      responses.add(response);
     }
 
-    return new ArrayList<>(mapProduct.values());
+    return responses;
   }
 
   public TotalProductStatisticResponse getStatisticOfProduct(String productId, Long gte, Long lte) {
@@ -78,14 +65,17 @@ public class StatisticService extends BaseService {
     LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Product not found");
-    List<ProductStatistic> ProductStatistics = productStatisticStorage.findByProductIdAndDailyBetween(productId, startDate, endDate);
-    for (ProductStatistic ProductStatistic : ProductStatistics) {
-      partnerToResponse(statistic, ProductStatistic);
+    List<ProductDetail> productDetails = productDetailStorage.findByProductId(productId);
+    for(ProductDetail productDetail : productDetails){
+      List<ProductStatistic> productStatistics = productStatisticStorage.findByProductIdAndDailyBetween(productId, startDate, endDate);
+      for (ProductStatistic productStatistic : productStatistics) {
+        partnerToResponse(statistic, productStatistic, productDetail);
+      }
     }
     return statistic;
   }
 
-  private void partnerToResponse(TotalProductStatisticResponse statistic, ProductStatistic productStatistic) {
+  private void partnerToResponse(TotalProductStatisticResponse statistic, ProductStatistic productStatistic, ProductDetail productDetail) {
     Integer totalView = Math.toIntExact(productStatistic.getTotalView() == null ? 0 : productStatistic.getTotalView());
     statistic.setTotalBuy(statistic.getTotalBuy() + productStatistic.getTotalBuy());
     statistic.setTotalPurchase(statistic.getTotalPurchase() + productStatistic.getTotalPurchase());
@@ -97,6 +87,15 @@ public class StatisticService extends BaseService {
     daily.setTotalPurchase(productStatistic.getTotalPurchase());
     daily.setTotalUser(productStatistic.getTotalUser());
     daily.setTotalView(Long.valueOf(totalView));
-    statistic.getDailies().add(daily);
+
+    TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic= new TotalProductStatisticResponse.ProductDetailStatistic();
+    productDetailStatistic.setProductDetailId(productDetail.getId().toHexString());
+    productDetailStatistic.setTotalBuy(productDetailStatistic.getTotalBuy() + productStatistic.getTotalBuy());
+    productDetailStatistic.setTotalPurchase(productDetailStatistic.getTotalPurchase() + productStatistic.getTotalPurchase());
+    productDetailStatistic.setTotalUser(productDetailStatistic.getTotalUser() + productStatistic.getTotalUser());
+    productDetailStatistic.setTotalView(productDetailStatistic.getTotalView() + productStatistic.getTotalView());
+    productDetailStatistic.getDailies().add(daily);
+
+    statistic.getProductDetails().add(productDetailStatistic);
   }
 }

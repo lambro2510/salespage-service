@@ -89,4 +89,16 @@ public class ProductStorage extends BaseStorage {
   public List<Product> findByIdInAndCreatedBy(List<String> productIds, String username) {
     return productRepository.findByIdInAndCreatedBy(Helper.convertListStringToListObjectId(productIds), username);
   }
+
+  public List<Product> findTop10ByIsHotOrderByUpdatedAtDesc() {
+    return productRepository.findTop10ByIsHotOrderByUpdatedAtDesc(true);
+  }
+
+  public List<Product> findTop10ByIsHotOrderByUpdatedAt() {
+    return productRepository.findTop10ByIsHotOrderByUpdatedAt(true);
+  }
+
+  public List<Product> findTop10ByIdInAndIsHotOrderByUpdatedAt(List<String> productIds) {
+    return productRepository.findTop10ByIdInAndIsHotOrderByUpdatedAt(Helper.convertListStringToListObjectId(productIds));
+  }
 }

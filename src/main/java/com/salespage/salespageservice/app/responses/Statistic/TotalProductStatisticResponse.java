@@ -16,7 +16,20 @@ public class TotalProductStatisticResponse {
   private Long totalView = 0L;
   private Long totalBuy = 0L;
   private Long totalShipCod = 0L;
-  private List<Daily> dailies = new ArrayList<>();
+  private List<ProductDetailStatistic> productDetails = new ArrayList<>();
+
+  @Data
+  public static class ProductDetailStatistic {
+    private String productDetailId;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate daily;
+    private Long totalUser = 0L;
+    private Long totalPurchase = 0L;
+    private Long totalView = 0L;
+    private Long totalBuy = 0L;
+    private Long totalShipCod = 0L;
+    private List<Daily> dailies = new ArrayList<>();
+  }
 
   @Data
   public static class Daily {
@@ -28,4 +41,6 @@ public class TotalProductStatisticResponse {
     private Long totalBuy = 0L;
     private Long totalShipCod = 0L;
   }
+
+
 }

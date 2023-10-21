@@ -34,4 +34,10 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
   List<Product> findTop10ByIdIn(List<ObjectId> objectIds);
 
   List<Product> findByIdInAndCreatedBy(List<ObjectId> objectIds, String username);
+
+  List<Product> findTop10ByIsHotOrderByUpdatedAtDesc(boolean b);
+
+  List<Product> findTop10ByIsHotOrderByUpdatedAt(boolean b);
+
+  List<Product> findTop10ByIdInAndIsHotOrderByUpdatedAt(List<ObjectId> objectIds);
 }

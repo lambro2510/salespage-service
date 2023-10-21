@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import javax.persistence.Id;
 
 @EqualsAndHashCode(callSuper = true)
-@Document
+@Document("product_detail")
 @Data
 public class ProductDetail extends BaseEntity{
 

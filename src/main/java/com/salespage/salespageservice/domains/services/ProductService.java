@@ -164,20 +164,8 @@ public class ProductService extends BaseService {
     for (Product product : products) {
       ProductDataResponse response = new ProductDataResponse();
       response.assignFromProduct(product);
-
-      ProductCategory productCategory = productCategoryStorage.findById(response.getCategoryId());
-      if (Objects.isNull(productCategory)) throw new ResourceNotFoundException("Không tìm thấy danh mục sản phẩm");
-      response.setCategoryName(productCategory.getCategoryName());
-
-      List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds());
-      response.setStores(sellerStores.stream().map(k -> modelMapper.toSellerStoreResponse(k)).collect(Collectors.toList()));
-
-      List<ProductTypeDetail> typeDetails = productTypeStorage.findByProductId(response.getProductId());
-      response.setProductTypes(typeDetails.stream().map(ProductTypeDetail::getTypeDetailName).collect(Collectors.toList()));
-
       responses.add(response);
     }
-
 
     return PageResponse.createFrom(new PageImpl<>(responses, pageable, products.getTotalElements()));
   }
@@ -200,11 +188,9 @@ public class ProductService extends BaseService {
   }
 
   public List<ProductDataResponse> findHotProduct(String username) {
-    List<ProductDataResponse> responses = new ArrayList<>();
     List<Product> products;
     if (Objects.isNull(username)) {
-      HashSet<String> productStatistics = new HashSet<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
-      products = productStorage.findTop10ByIdIn(new ArrayList<>(productStatistics));
+      products = productStorage.findTop10ByIsHotOrderByUpdatedAtDesc();
     } else {
       List<SearchHistory> searchHistories = searchHistoryStorage.findTop10ByUsernameOrderByCreatedAtDesc(username);
       List<SearchHistory> searchProductHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.PRODUCT_NAME)).collect(Collectors.toList());
@@ -212,21 +198,20 @@ public class ProductService extends BaseService {
       List<SearchHistory> searchSellerHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.SELLER_USERNAME)).collect(Collectors.toList());
       List<ProductStatistic> productStatistics;
       if (searchProductHistories.isEmpty()) {
-        productStatistics = productStatisticStorage.findTop10ByOrderByTotalViewDesc();
+        products = productStorage.findTop10ByIsHotOrderByUpdatedAtDesc();
       }else{
-        productStatistics = productStatisticStorage.findTop10ByProductIdInOrderByTotalViewDesc(searchProductHistories.stream().map(SearchHistory::getSearchData).collect(Collectors.toList()));
-
+        List<String> productIds = searchProductHistories.stream().map(SearchHistory::getSearchData).collect(Collectors.toList());
+        products = productStorage.findTop10ByIdInAndIsHotOrderByUpdatedAt(productIds);
       }
-      products = productStorage.findByIdIn(productStatistics.stream().map(ProductStatistic::getProductId).collect(Collectors.toList()));
-      responses.addAll(products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList()));
-      if (responses.size() < 10) {
-        HashSet<String> anotherProducts = new HashSet<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
-        products.addAll(productStorage.findByIdIn(new ArrayList<>(anotherProducts)));
+      if (products.size() < 10) {
+        products = productStorage.findTop10ByIsHotOrderByUpdatedAtDesc();
       }
     }
-    responses.addAll(products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList()));
+    List<ProductDataResponse> responses = products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList());
     responses.forEach(product -> {
       TotalProductStatisticResponse productStatistics = statisticService.getStatisticOfProduct(product.getProductId(), product.getCreatedAt(), DateUtils.nowInMillis());
+      List<ProductDetail> productDetails = productDetailStorage.findByProductId(product.getProductId());
+      product.assignFromListDetail(productDetails);
       product.setTotalSell(productStatistics.getTotalBuy());
       product.setTotalView(productStatistics.getTotalView());
     });
