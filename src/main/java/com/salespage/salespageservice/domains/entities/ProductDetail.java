@@ -51,7 +51,7 @@ public class ProductDetail extends BaseEntity{
 
   public ProductDetailInfoResponse partnerToResponse(){
     ProductDetailInfoResponse response = new ProductDetailInfoResponse();
-    response.setProductDetailId(id.toHexString());
+    response.setId(id.toHexString());
     response.setProductId(productId);
     response.setQuantity(quantity);
     response.setType(type);
