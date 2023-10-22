@@ -10,6 +10,8 @@ public class CartResponse {
 
   Boolean canPayment = true;
 
+  String productDetailId;
+
   String productId;
 
   String storeId;

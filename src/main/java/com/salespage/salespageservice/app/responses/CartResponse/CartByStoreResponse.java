@@ -21,12 +21,15 @@ public class CartByStoreResponse {
 
   ProductComboDetailResponse bestCombo;
 
-  public void setBestCombo(){
-    if(!combos.isEmpty()){
-      Optional<ProductComboDetailResponse> bestCombo = combos.stream()
-          .filter(combo -> combo.getTotalPrice() > 0)
-          .max(Comparator.comparingDouble(ProductComboDetailResponse::getTotalPrice));
-      setBestCombo(bestCombo.get());
+  public void setBestCombo() {
+    if (!combos.isEmpty()) {
+      Double maxDiscount = 0D;
+      for(ProductComboDetailResponse combo : combos){
+        if(combo.getMaxDiscount() > maxDiscount && combo.getCanUse()){
+          bestCombo = combo;
+        }
+      }
     }
   }
+
 }

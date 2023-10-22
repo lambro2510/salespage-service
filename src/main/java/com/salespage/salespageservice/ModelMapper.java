@@ -26,6 +26,10 @@ public interface ModelMapper {
     return objectId != null ? objectId.toHexString() : null;
   }
 
+  default String map(ObjectId value) {
+    return objectIdToString(value);
+  }
+
   @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
   ProductComboResponse toProductComboResponse(ProductCombo productCombo);
 
@@ -62,8 +66,6 @@ public interface ModelMapper {
 
   List<TypeDetailResponse> toListTypeDetails(List<ProductTypeDetail> typeDetails);
 
-  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
-  ProductComboDetailResponse toProductComboDetailResponse(ProductCombo bestCombo);
 
   ProductDetail toProductDetail(ProductDetailDto dto);
 
@@ -73,12 +75,16 @@ public interface ModelMapper {
 
   void mapToProduct(ProductDto dto, @MappingTarget Product product);
 
-  void mapToSellerStore(SellerStoreDto dto,@MappingTarget  SellerStore sellerStore);
+  void mapToSellerStore(SellerStoreDto dto, @MappingTarget SellerStore sellerStore);
 
-  void mapToProductDetailDto(ProductDetailDto dto,@MappingTarget ProductDetail productDetail);
+  void mapToProductDetailDto(ProductDetailDto dto, @MappingTarget ProductDetail productDetail);
 
   @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
   ProductDetailInfoResponse toProductDetailInfo(ProductDetail productDetails);
 
   List<ProductDetailInfoResponse> toListProductDetailInfo(List<ProductDetail> productDetails);
+  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
+  ProductComboDetailResponse toProductComboDetailResponse(ProductCombo productCombo);
+
+  void mapToProductComboDetailResponse(ProductCombo productCombo, @MappingTarget ProductComboDetailResponse response);
 }

@@ -74,7 +74,8 @@ public class ProductComboService extends BaseService {
         .collect(Collectors.groupingBy(ProductComboDetail::getComboId));
 
     for (String comboId : groupedByProductComboId.keySet()) {
-      ProductComboDetailResponse response = modelMapper.toProductComboDetailResponse(bestCombo);
+      ProductComboDetailResponse response = new ProductComboDetailResponse();
+
       ProductCombo productCombo = productComboStorage.findByIdAndState(comboId, ActiveState.ACTIVE);
       if (Objects.isNull(productCombo)) {
         response.setCanUse(false);
@@ -92,6 +93,8 @@ public class ProductComboService extends BaseService {
           response.setCanUse(false);
         }
       }
+
+      modelMapper.mapToProductComboDetailResponse(productCombo, response);
       responses.add(response);
     }
     return responses;

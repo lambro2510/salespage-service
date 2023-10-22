@@ -77,6 +77,7 @@ public class CartService extends BaseService {
       CartResponse response = new CartResponse();
       response.setCartId(cart.getId().toHexString());
       response.setProductId(cart.getProductDetailId());
+
       response.setQuantity(cart.getQuantity());
 
       SellerStore store = sellerStoreStorage.findById(cart.getStoreId());
@@ -101,6 +102,7 @@ public class CartService extends BaseService {
           response.setProductNote("Sản phẩm không còn được bán");
           response.setCanPayment(false);
         } else {
+          response.setProductId(product.getId().toHexString());
           response.setProductName(product.getProductName());
           response.setCategoryId(product.getCategoryId());
           response.setImageUrl(product.getDefaultImageUrl());
