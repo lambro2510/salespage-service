@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class ProductTransactionDto extends ProductTransactionInfoDto {
+public class ProductTransactionDto {
 
   @NotBlank(message = "ID chi tiết sản phẩm là bắt buộc")
   @Schema(description = "ID chi tiết sản phẩm", required = true)
@@ -18,4 +18,10 @@ public class ProductTransactionDto extends ProductTransactionInfoDto {
 
   @Schema(description = "Mã voucher")
   private String voucherCodeId;
+
+  @Schema(description = "Ghi chú")
+  private String note;
+
+  @Schema(description = "Địa chỉ nhận hàng")
+  private String address;
 }

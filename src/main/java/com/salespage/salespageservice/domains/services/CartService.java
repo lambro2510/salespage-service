@@ -217,6 +217,10 @@ public class CartService extends BaseService {
 
       List<ProductTransactionDetail> transactionDetails = new ArrayList<>();
       for (ProductTransactionDto transaction : dto.getTransaction()) {
+        Cart cart = cartStorage.findById(transaction.getProductDetailId());
+        if (cart == null) {
+          throw new ResourceNotFoundException("Không thấy sản phẩm trong giỏ hàng");
+        }
         ProductDetail productDetail = productDetailStorage.findById(transaction.getProductDetailId());
         if (productDetail == null) {
           throw new ResourceNotFoundException("Vật phẩm không còn được bán");
@@ -233,7 +237,7 @@ public class CartService extends BaseService {
         if (StringUtils.isNotBlank(transaction.getVoucherCodeId())) {
           info = voucherCodeService.getVoucherInfoAndUse(transaction.getVoucherCodeId(), username, product, productDetail.getSellPrice());
         }
-        ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(productDetail, info, transaction.getAddress(), transaction.getQuantity(), store, transaction.getNote());
+        ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(productDetail, info, transaction.getAddress(), cart.getQuantity(), store, transaction.getNote());
         transactionDetails.add(productTransactionDetail);
       }
       long distinctProduct = transactionDetails.stream().map(ProductTransactionDetail::getProductDetailId).distinct().count();
