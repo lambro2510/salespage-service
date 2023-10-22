@@ -22,9 +22,11 @@ public class CartByStoreResponse {
   ProductComboDetailResponse bestCombo;
 
   public void setBestCombo(){
-    Optional<ProductComboDetailResponse> bestCombo = combos.stream()
-        .filter(combo -> combo.getTotalPrice() > 0)
-        .max(Comparator.comparingDouble(ProductComboDetailResponse::getTotalPrice));
-    setBestCombo(bestCombo.get());
+    if(!combos.isEmpty()){
+      Optional<ProductComboDetailResponse> bestCombo = combos.stream()
+          .filter(combo -> combo.getTotalPrice() > 0)
+          .max(Comparator.comparingDouble(ProductComboDetailResponse::getTotalPrice));
+      setBestCombo(bestCombo.get());
+    }
   }
 }
