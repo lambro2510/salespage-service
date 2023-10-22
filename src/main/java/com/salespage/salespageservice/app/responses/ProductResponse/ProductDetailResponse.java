@@ -72,6 +72,8 @@ public class ProductDetailResponse{
   @JsonProperty("is_hot")
   Boolean isHot;
 
+  List<ProductDetailInfoResponse> productDetails = new ArrayList<>();
+
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
     productName = product.getProductName();

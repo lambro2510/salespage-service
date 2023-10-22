@@ -236,6 +236,9 @@ public class ProductService extends BaseService {
     response.setTotalSell(productStatistics.getTotalBuy());
     response.setTotalView(productStatistics.getTotalView());
 
+    List<ProductDetail> productDetails = productDetailStorage.findByProductId(productId);
+    List<ProductDetailInfoResponse> productDetailResponses = modelMapper.toListProductDetailInfo(productDetails);
+    response.setProductDetails(productDetailResponses);
     return response;
   }
 
