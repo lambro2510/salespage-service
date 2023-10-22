@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class ProductDetailInfoResponse {
-  String productDetailId;
+  String id;
 
   String productId;
 

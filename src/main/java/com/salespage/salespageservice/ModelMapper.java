@@ -77,5 +77,8 @@ public interface ModelMapper {
 
   void mapToProductDetailDto(ProductDetailDto dto,@MappingTarget ProductDetail productDetail);
 
+  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
+  ProductDetailInfoResponse toProductDetailInfo(ProductDetail productDetails);
+
   List<ProductDetailInfoResponse> toListProductDetailInfo(List<ProductDetail> productDetails);
 }
