@@ -34,6 +34,8 @@ public class CartResponse {
 
   Long quantity = 0L;
 
+  Integer limit = 0;
+
   String productNote;
 
   String voucherNote;

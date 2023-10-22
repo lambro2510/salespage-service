@@ -96,6 +96,7 @@ public class CartService extends BaseService {
         response.setProductNote("Sản phẩm không còn được bán");
         response.setCanPayment(false);
       } else {
+        response.setLimit(productDetail.getQuantity());
         product = productStorage.findProductById(productDetail.getProductId());
         if (product == null) {
           response.setProductName(cart.getProductName());
