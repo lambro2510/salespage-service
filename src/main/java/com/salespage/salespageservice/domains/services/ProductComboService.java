@@ -68,7 +68,6 @@ public class ProductComboService extends BaseService {
 
   public List<ProductComboDetailResponse> findAllComboByProductIds(List<String> ids, Double totalPrice) {
     List<ProductComboDetailResponse> responses = new ArrayList<>();
-    ProductCombo bestCombo = new ProductCombo();
     List<ProductComboDetail> productComboDetails = productComboDetailStorage.findByProductIdIn(ids);
     Map<String, List<ProductComboDetail>> groupedByProductComboId = productComboDetails.stream()
         .collect(Collectors.groupingBy(ProductComboDetail::getComboId));
@@ -83,7 +82,7 @@ public class ProductComboService extends BaseService {
 
         double sellPrice = 0D;
         if (productCombo.getType().equals(DiscountType.PERCENT)) {
-          sellPrice = totalPrice - totalPrice * productCombo.getValue();
+          sellPrice = totalPrice - totalPrice * productCombo.getValue() / 100;
         } else if (productCombo.getType().equals(DiscountType.TOTAL)) {
           sellPrice = totalPrice - productCombo.getValue();
         }
@@ -105,10 +104,10 @@ public class ProductComboService extends BaseService {
       return 0D;
     } else {
       if (price > combo.getMaxDiscount()) {
-        return combo.getMaxDiscount();
+        price = combo.getMaxDiscount();
       }
     }
-    return 0D;
+    return price;
   }
 
   public ComboInfo getComboInfo(String comboId, Double totalPrice, long item) {
