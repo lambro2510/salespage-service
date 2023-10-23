@@ -79,7 +79,6 @@ public class ProductComboService extends BaseService {
       if (Objects.isNull(productCombo)) {
         response.setCanUse(false);
       } else {
-
         double sellPrice = 0D;
         if (productCombo.getType().equals(DiscountType.PERCENT)) {
           sellPrice = totalPrice - totalPrice * productCombo.getValue() / 100;
@@ -93,6 +92,8 @@ public class ProductComboService extends BaseService {
         }
       }
 
+      List<ProductComboDetail> comboDetails = productComboDetailStorage.findByComboId(productCombo.getId().toHexString());
+      response.setProductDetailIds(comboDetails.stream().map(ProductComboDetail::getProductId).collect(Collectors.toList()));
       modelMapper.mapToProductComboDetailResponse(productCombo, response);
       responses.add(response);
     }

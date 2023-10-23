@@ -16,4 +16,8 @@ public class ProductComboDetailStorage extends BaseStorage{
   public void saveAll(List<ProductComboDetail> productComboDetails) {
     productComboDetailRepository.saveAll(productComboDetails);
   }
+
+  public List<ProductComboDetail> findByComboId(String id) {
+    return productComboDetailRepository.findByComboId(id);
+  }
 }

@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface ProductComboDetailRepository extends MongoRepository<ProductComboDetail, ObjectId> {
   List<ProductComboDetail> findByProductIdIn(List<String> ids);
+
+  List<ProductComboDetail> findByComboId(String comboId);
 }
