@@ -87,4 +87,6 @@ public interface ModelMapper {
   ProductComboDetailResponse toProductComboDetailResponse(ProductCombo productCombo);
 
   void mapToProductComboDetailResponse(ProductCombo productCombo, @MappingTarget ProductComboDetailResponse response);
+
+  List<ProductInfoResponse> toListProductInfoResponse(List<Product> products);
 }

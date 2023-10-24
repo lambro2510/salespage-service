@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.responses.ProductComboResponse;
 
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductInfoResponse;
 import com.salespage.salespageservice.domains.entities.types.DiscountType;
 import lombok.Data;
 
@@ -19,7 +20,7 @@ public class ProductComboDetailResponse {
 
   DiscountType type;
 
-  List<String> productDetailIds = new ArrayList<>();
+  List<ProductInfoResponse> products = new ArrayList<>();
 
   Double value;
 

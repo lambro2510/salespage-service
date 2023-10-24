@@ -3,6 +3,8 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.productComboDtos.ComboDto;
 import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductInfoResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductCombo;
 import com.salespage.salespageservice.domains.entities.ProductComboDetail;
@@ -93,7 +95,8 @@ public class ProductComboService extends BaseService {
       }
 
       List<ProductComboDetail> comboDetails = productComboDetailStorage.findByComboId(productCombo.getId().toHexString());
-      response.setProductDetailIds(comboDetails.stream().map(ProductComboDetail::getProductId).collect(Collectors.toList()));
+      List<Product> products = productStorage.findByIdIn(comboDetails.stream().map(ProductComboDetail::getProductId).collect(Collectors.toList()));
+      response.setProducts(modelMapper.toListProductInfoResponse(products));
       modelMapper.mapToProductComboDetailResponse(productCombo, response);
       responses.add(response);
     }
