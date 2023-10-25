@@ -1,10 +1,13 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
+import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
+import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.SizeType;
 import com.salespage.salespageservice.domains.entities.types.WeightType;
@@ -24,6 +27,8 @@ import java.util.List;
 @Data
 public class Product extends BaseEntity {
   @Id
+  @JsonSerialize(using = ObjectIdSerializer.class)
+  @JsonDeserialize(using = ObjectIdDeserializer.class)
   private ObjectId id;
 
   @Field("product_name")

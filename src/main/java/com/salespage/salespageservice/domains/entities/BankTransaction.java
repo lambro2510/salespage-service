@@ -1,9 +1,12 @@
 package com.salespage.salespageservice.domains.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.responses.BankResponse.MbBankTransaction;
+import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
+import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.Helper;
 import lombok.Data;
@@ -19,7 +22,8 @@ import java.time.LocalDateTime;
 public class BankTransaction {
 
   @Id
-  @JsonSerialize(using = ToStringSerializer.class)
+  @JsonSerialize(using = ObjectIdSerializer.class)
+  @JsonDeserialize(using = ObjectIdDeserializer.class)
   private ObjectId id;
 
   @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")

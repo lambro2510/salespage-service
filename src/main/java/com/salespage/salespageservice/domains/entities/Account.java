@@ -1,6 +1,10 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
+import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
+import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.entities.types.UserState;
 import lombok.AllArgsConstructor;
@@ -19,6 +23,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 public class Account {
 
   @Id
+  @JsonSerialize(using = ObjectIdSerializer.class)
+  @JsonDeserialize(using = ObjectIdDeserializer.class)
   private ObjectId id;
 
   @Field("username")

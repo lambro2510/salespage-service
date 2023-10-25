@@ -98,7 +98,13 @@ public class ProductStorage extends BaseStorage {
   }
 
   public List<Product> findTop10ByIsHotOrderByUpdatedAtDesc() {
-    return productRepository.findTop10ByIsHotOrderByUpdatedAtDesc(true);
+    String key = CacheKey.genHotProduct();
+    List<Product> products = remoteCacheManager.getList(key, Product.class);
+    if(products == null){
+      products = productRepository.findTop10ByIsHotOrderByUpdatedAtDesc(true);
+      remoteCacheManager.set(key, products);
+    }
+    return products;
   }
 
   public List<Product> findTop10ByIsHotOrderByUpdatedAt() {

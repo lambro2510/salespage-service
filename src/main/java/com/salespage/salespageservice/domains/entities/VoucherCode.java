@@ -1,6 +1,10 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.salespage.salespageservice.app.responses.voucherResponse.VoucherCodeResponse;
+import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
+import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import lombok.Data;
@@ -20,6 +24,8 @@ import java.util.Objects;
 public class VoucherCode extends BaseEntity {
 
   @Id
+  @JsonSerialize(using = ObjectIdSerializer.class)
+  @JsonDeserialize(using = ObjectIdDeserializer.class)
   private ObjectId id;
 
   @Field("voucher_store_id")

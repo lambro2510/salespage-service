@@ -1,6 +1,10 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
+import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
+import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.status.ProductTypeDetailStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +20,8 @@ import javax.persistence.Id;
 @Document("product_type_detail")
 public class ProductTypeDetail extends BaseEntity {
   @Id
+  @JsonSerialize(using = ObjectIdSerializer.class)
+  @JsonDeserialize(using = ObjectIdDeserializer.class)
   private ObjectId id;
 
   @Field("type_name")

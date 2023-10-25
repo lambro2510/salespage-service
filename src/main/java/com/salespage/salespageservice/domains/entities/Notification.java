@@ -1,7 +1,11 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.salespage.salespageservice.app.responses.notificationResponse.NotificationDetailResponse;
 import com.salespage.salespageservice.app.responses.notificationResponse.NotificationResponse;
+import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
+import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.status.NotificationStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import lombok.Data;
@@ -16,6 +20,8 @@ import java.util.Date;
 @Document("notification")
 public class Notification extends BaseEntity {
   @Id
+  @JsonSerialize(using = ObjectIdSerializer.class)
+  @JsonDeserialize(using = ObjectIdDeserializer.class)
   private ObjectId id;
 
   @Field("username")

@@ -1,5 +1,9 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
+import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.info.TpBankTransactionData;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +19,8 @@ import javax.persistence.Id;
 public class TpBankTransaction extends BaseEntity {
 
   @Id
+  @JsonSerialize(using = ObjectIdSerializer.class)
+  @JsonDeserialize(using = ObjectIdDeserializer.class)
   private ObjectId id;
 
   @Field("trans_id")

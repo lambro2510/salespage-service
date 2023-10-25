@@ -103,4 +103,8 @@ public class CacheKey {
   public static String genProductComboByIdAndState(String comboId, ActiveState activeState) {
     return prefix + ":product:combo:id:" + comboId + ":state:" + activeState;
   }
+
+  public static String genHotProduct() {
+    return prefix + ":product:hot";
+  }
 }

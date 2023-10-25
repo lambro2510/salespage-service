@@ -1,10 +1,13 @@
 package com.salespage.salespageservice.domains.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
+import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
+import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
@@ -27,7 +30,8 @@ import java.util.List;
 public class ProductTransaction extends BaseEntity {
 
   @Id
-  @JsonSerialize(using = ToStringSerializer.class)
+  @JsonSerialize(using = ObjectIdSerializer.class)
+  @JsonDeserialize(using = ObjectIdDeserializer.class)
   private ObjectId id;
 
   @Field("buyer_username")
