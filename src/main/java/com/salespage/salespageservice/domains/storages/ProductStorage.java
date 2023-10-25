@@ -78,6 +78,7 @@ public class ProductStorage extends BaseStorage {
   }
 
   public List<Product> findByIdIn(List<String> productIds) {
+
     return productRepository.findByIdIn(Helper.convertListStringToListObjectId(productIds));
   }
 

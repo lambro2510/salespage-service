@@ -3,6 +3,9 @@ package com.salespage.salespageservice.app.responses.CartResponse;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class CartResponse {
 
@@ -43,4 +46,6 @@ public class CartResponse {
   VoucherInfo voucherInfo;
 
   Double totalPrice = 0D;
+
+  List<String> comboIds = new ArrayList<>();
 }

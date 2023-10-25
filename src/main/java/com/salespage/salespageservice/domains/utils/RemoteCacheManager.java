@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 public class RemoteCacheManager {
 
-
+  public static final int FIVE_MIN = 60 * 5; //1h
   public static final int HOUR = 3600; //1h
 
   public static final int DAY = 3600 * 24; //1h
@@ -33,6 +33,10 @@ public class RemoteCacheManager {
 
   public void set(String key, String value) {
     redisTemplate.opsForValue().set(key, value);
+  }
+
+  public void set(String key, Object value) {
+    redisTemplate.opsForValue().set(key, JsonParser.toJson(value));
   }
 
   public void setList(String key, Object o, Integer expireTime) {

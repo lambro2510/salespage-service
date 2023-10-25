@@ -142,7 +142,6 @@ public class CartService extends BaseService {
 
     return cartMap.entrySet().stream()
         .map(entry -> {
-
           List<String> distinctProductIds = entry.getValue().stream()
               .map(CartResponse::getProductId)
               .distinct()
@@ -152,12 +151,15 @@ public class CartService extends BaseService {
           double totalSellPrice = entry.getValue().stream()
               .mapToDouble(CartResponse::getSellPrice)
               .sum();
-
+          List<CartResponse> cartResponses = entry.getValue();
+          cartResponses.forEach(k -> {
+            k.setComboIds(productComboService.findComboIdOfProduct(k.getProductId()));
+          });
 
           CartByStoreResponse cartByStoreResponse = new CartByStoreResponse();
           cartByStoreResponse.setStoreId(entry.getKey());
           cartByStoreResponse.setStoreName(entry.getValue().get(0).getStoreName());
-          cartByStoreResponse.setCartResponses(entry.getValue());
+          cartByStoreResponse.setCartResponses(cartResponses);
           cartByStoreResponse.setCombos(productComboService.findAllComboByProductIds(distinctProductIds, totalSellPrice));
           cartByStoreResponse.setBestCombo();
 

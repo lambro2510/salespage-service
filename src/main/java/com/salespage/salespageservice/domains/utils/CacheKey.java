@@ -1,6 +1,9 @@
 package com.salespage.salespageservice.domains.utils;
 
 import com.salespage.salespageservice.domains.entities.types.FavoriteType;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 public class CacheKey {
   public static final int HOUR = 3600;
@@ -45,6 +48,22 @@ public class CacheKey {
   }
 
   public static String getTpBankToken() {
-    return prefix + "tp-bank:token";
+    return prefix + "tp-bank:token:";
+  }
+
+  public static String genProductComboDetailProductId(String productId) {
+    return prefix + ":product:combo:detail:productId:" + productId;
+  }
+
+  public static String genProductComboDetailComboId(String comboId) {
+    return prefix + ":product:combo:detail:comboId:" + comboId;
+  }
+
+  public static String genProductComboDetailProductIdIn(List<String> ids) {
+    return prefix + ":product:combo:detail:productIds:" + StringUtils.join(ids, ',');
+  }
+
+  public static String genListCartByUsername(String username) {
+    return prefix + ":cart:username:" + username;
   }
 }
