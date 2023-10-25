@@ -4,6 +4,7 @@ import com.salespage.salespageservice.domains.entities.ProductCategory;
 import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.bson.types.ObjectId;
+import com.salespage.salespageservice.domains.utils.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -39,5 +40,15 @@ public class ProductCategoryStorage extends BaseStorage {
 
   public List<ProductCategory> findByCategoryName(String categoryName) {
     return productCategoryRepository.findByCategoryName(categoryName);
+  }
+
+  public List<ProductCategory> findByIdIn(List<String> ids) {
+    String key = CacheKey.genProductCategoryByIdIn(ids);
+    List<ProductCategory> productCategories = remoteCacheManager.getList(key, ProductCategory.class);
+    if(productCategories == null){
+      productCategories = productCategoryRepository.findByIdIn((Helper.convertListStringToListObjectId(ids)));
+      remoteCacheManager.set(key, productCategories);
+    }
+    return productCategories;
   }
 }

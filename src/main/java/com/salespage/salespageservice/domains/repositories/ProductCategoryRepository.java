@@ -14,4 +14,6 @@ public interface ProductCategoryRepository extends MongoRepository<ProductCatego
   ProductCategory findByCreatedByAndId(String username, ObjectId id);
 
   List<ProductCategory> findByCategoryName(String categoryName);
+
+  List<ProductCategory> findByIdIn(List<ObjectId> ids);
 }

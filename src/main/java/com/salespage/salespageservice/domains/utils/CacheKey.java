@@ -107,4 +107,20 @@ public class CacheKey {
   public static String genHotProduct() {
     return prefix + ":product:hot";
   }
+
+  public static String genProductDetailByIdIn(List<String> ids) {
+    return prefix + ":product:detail:ids" + StringUtils.join(ids, ',');
+  }
+
+  public static String genProductByIdIn(List<String> ids) {
+    return prefix + ":product:ids" + StringUtils.join(ids, ',');
+  }
+
+  public static String genProductCategoryByIdIn(List<String> ids) {
+    return prefix + ":product:category:ids" + StringUtils.join(ids, ',');
+  }
+
+  public static String genSellerStoreByIdIn(List<String> ids) {
+    return prefix + ":product:store:ids" + StringUtils.join(ids, ',');
+  }
 }

@@ -14,7 +14,6 @@ import com.salespage.salespageservice.domains.entities.types.NotificationMessage
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
-import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import com.salespage.salespageservice.domains.utils.RequestUtil;

@@ -14,6 +14,7 @@ import com.salespage.salespageservice.domains.entities.types.WeightType;
 import com.salespage.salespageservice.domains.info.ProductInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.minidev.json.annotate.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -60,7 +61,6 @@ public class Product extends BaseEntity {
 
   @Field("is_hot")
   private Boolean isHot;
-
 
   public ProductDetailResponse assignToProductDetailResponse() {
     ProductDetailResponse response = new ProductDetailResponse();

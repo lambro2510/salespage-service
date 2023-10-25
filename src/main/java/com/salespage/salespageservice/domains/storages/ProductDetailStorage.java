@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.storages;
 import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.bson.types.ObjectId;
+import com.salespage.salespageservice.domains.utils.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -37,5 +38,15 @@ public class ProductDetailStorage extends BaseStorage{
   public void delete(ProductDetail productDetail) {
     remoteCacheManager.del(CacheKey.genProductDetail(productDetail.getId().toHexString()));
     productDetailRepository.delete(productDetail);
+  }
+
+  public List<ProductDetail> findByIdIn(List<String> ids) {
+    String key = CacheKey.genProductDetailByIdIn(ids);
+    List<ProductDetail> productDetails = remoteCacheManager.getList(key, ProductDetail.class);
+    if(productDetails == null){
+      productDetails = productDetailRepository.findByIdIn((Helper.convertListStringToListObjectId(ids)));
+      remoteCacheManager.set(key, productDetails);
+    }
+    return productDetails;
   }
 }

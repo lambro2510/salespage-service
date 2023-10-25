@@ -3,7 +3,6 @@ package com.salespage.salespageservice.domains.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.app.responses.BankResponse.MbBankTransaction;
 import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
 import com.salespage.salespageservice.domains.config.ObjectIdSerializer;

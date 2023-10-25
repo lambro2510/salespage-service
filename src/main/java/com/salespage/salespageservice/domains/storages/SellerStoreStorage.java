@@ -1,8 +1,10 @@
 package com.salespage.salespageservice.domains.storages;
 
+import com.salespage.salespageservice.domains.entities.ProductCategory;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.bson.types.ObjectId;
+import com.salespage.salespageservice.domains.utils.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -55,12 +57,18 @@ public class SellerStoreStorage extends BaseStorage {
     return sellerStoreRepository.findAll(newPageable);
   }
 
-  public List<SellerStore> findByIdIn(List<ObjectId> ids) {
-    return sellerStoreRepository.findByIdIn(ids);
+  public List<SellerStore> findByIdIn(List<String> ids) {
+    return sellerStoreRepository.findByIdIn((Helper.convertListStringToListObjectId(ids)));
   }
 
   public List<SellerStore> findSellerStoreByIdIn(List<String> ids) {
-    return sellerStoreRepository.findByIdIn(ids.stream().map(k -> new ObjectId(k)).collect(Collectors.toList()));
+    String key = CacheKey.genSellerStoreByIdIn(ids);
+    List<SellerStore> sellerStores = remoteCacheManager.getList(key, SellerStore.class);
+    if(sellerStores == null){
+      sellerStores = sellerStoreRepository.findByIdIn((Helper.convertListStringToListObjectId(ids)));
+      remoteCacheManager.set(key, sellerStores);
+    }
+    return sellerStores;
   }
 
   public boolean isExistByStoreId(String refId) {

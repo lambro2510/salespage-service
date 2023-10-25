@@ -5,15 +5,11 @@ import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductCategory;
-import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
-import com.salespage.salespageservice.domains.entities.types.SizeType;
-import com.salespage.salespageservice.domains.entities.types.WeightType;
 import com.salespage.salespageservice.domains.info.ProductInfo;
 import com.salespage.salespageservice.domains.utils.Helper;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 import java.util.List;

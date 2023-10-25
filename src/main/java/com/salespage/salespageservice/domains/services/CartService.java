@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,15 +73,47 @@ public class CartService extends BaseService {
 
   public List<CartByStoreResponse> findCartByUsername(String username) {
     List<Cart> carts = cartStorage.findByUsername(username);
+    List<ProductDetail> productDetails = productDetailStorage.findByIdIn(
+        carts.stream()
+            .map(Cart::getProductDetailId)
+            .collect(Collectors.toList()));
+    Map<String, ProductDetail> mapProductDetail = productDetails.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+
+    List<Product> products = productStorage.findByIdIn(
+        productDetails.stream()
+            .map(ProductDetail::getProductId)
+            .collect(Collectors.toList()));
+    Map<String, Product> mapProduct = products.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+
+    List<ProductCategory> productCategories = productCategoryStorage.findByIdIn(
+        products.stream()
+            .map(Product::getCategoryId)
+            .collect(Collectors.toList()));
+    Map<String, ProductCategory> mapProductCategory = productCategories.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+
+    List<SellerStore> sellerStores = sellerStoreStorage.findByIdIn(
+        carts.stream()
+            .map(Cart::getStoreId)
+            .collect(Collectors.toList()));
+    Map<String, SellerStore> sellerStoresMap = sellerStores.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+
+    List<ProductComboDetail> comboDetails = productComboDetailStorage.findByProductIdIn(
+        products.stream()
+            .map(k -> k.getId().toHexString())
+            .collect(Collectors.toList())
+    );
+
+    Map<String, List<ProductComboDetail>> mapComboDetail = comboDetails.stream()
+        .collect(Collectors.groupingBy(ProductComboDetail::getProductId));
+
     List<CartResponse> responses = new ArrayList<>();
     for (Cart cart : carts) {
       CartResponse response = new CartResponse();
       response.setCartId(cart.getId().toHexString());
       response.setProductId(cart.getProductDetailId());
-
       response.setQuantity(cart.getQuantity());
 
-      SellerStore store = sellerStoreStorage.findById(cart.getStoreId());
+      SellerStore store = sellerStoresMap.get(cart.getStoreId());
       if (store == null) {
         response.setStoreName("Cửa hàng đã bị xóa");
       } else {
@@ -89,7 +122,7 @@ public class CartService extends BaseService {
       }
 
       Product product = null;
-      ProductDetail productDetail = productDetailStorage.findById(cart.getProductDetailId());
+      ProductDetail productDetail = mapProductDetail.get(cart.getProductDetailId());
       if (productDetail == null) {
         productDetail = new ProductDetail();
         response.setProductName(cart.getProductName());
@@ -97,7 +130,7 @@ public class CartService extends BaseService {
         response.setCanPayment(false);
       } else {
         response.setLimit(productDetail.getQuantity());
-        product = productStorage.findProductById(productDetail.getProductId());
+        product = mapProduct.get(productDetail.getProductId());
         if (product == null) {
           response.setProductName(cart.getProductName());
           response.setProductNote("Sản phẩm không còn được bán");
@@ -107,7 +140,7 @@ public class CartService extends BaseService {
           response.setProductName(product.getProductName());
           response.setCategoryId(product.getCategoryId());
           response.setImageUrl(product.getDefaultImageUrl());
-          ProductCategory productCategory = productCategoryStorage.findById(product.getCategoryId());
+          ProductCategory productCategory = mapProductCategory.get(product.getCategoryId());
           if (Objects.nonNull(productCategory)) {
             response.setCategoryName(productCategory.getCategoryName());
           }
@@ -152,8 +185,13 @@ public class CartService extends BaseService {
               .mapToDouble(CartResponse::getSellPrice)
               .sum();
           List<CartResponse> cartResponses = entry.getValue();
+
           cartResponses.forEach(k -> {
-            k.setComboIds(productComboService.findComboIdOfProduct(k.getProductId()));
+            List<ProductComboDetail> comboOfProduct = mapComboDetail.get(k.getProductId());
+            if(comboOfProduct == null){
+              comboOfProduct = new ArrayList<>();
+            }
+            k.setComboIds(comboOfProduct.stream().map(ProductComboDetail::getComboId).collect(Collectors.toList()));
           });
 
           CartByStoreResponse cartByStoreResponse = new CartByStoreResponse();

@@ -36,7 +36,7 @@ public class RemoteCacheManager {
   }
 
   public void set(String key, Object value) {
-    redisTemplate.opsForValue().set(key, JsonParser.toJson(value));
+    redisTemplate.opsForValue().set(key, JsonParser.toJson(value), 5, TimeUnit.MINUTES);
   }
 
   public void setList(String key, Object o, Integer expireTime) {
