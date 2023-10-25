@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.VoucherCode;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
+import com.salespage.salespageservice.domains.utils.CacheKey;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,7 @@ public class VoucherCodeStorage extends BaseStorage {
 
   public void save(VoucherCode voucherCode) {
     voucherCodeRepository.save(voucherCode);
+    remoteCacheManager.del(CacheKey.genVoucherCodeById(voucherCode.getId().toHexString()));
   }
 
   public Page<VoucherCode> findAll(Query query, Pageable pageable) {
@@ -40,6 +42,12 @@ public class VoucherCodeStorage extends BaseStorage {
   }
 
   public VoucherCode findById(String voucherCodeId) {
-    return voucherCodeRepository.findById(new ObjectId(voucherCodeId)).get();
+    String key = CacheKey.genVoucherCodeById(voucherCodeId);
+    VoucherCode voucherCode = remoteCacheManager.get(key, VoucherCode.class);
+    if(voucherCode == null){
+      voucherCode = voucherCodeRepository.findById(new ObjectId(voucherCodeId)).get();
+      remoteCacheManager.set(key,voucherCode);
+    }
+    return voucherCode;
   }
 }

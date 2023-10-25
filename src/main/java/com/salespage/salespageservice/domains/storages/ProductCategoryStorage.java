@@ -1,6 +1,8 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductCategory;
+import com.salespage.salespageservice.domains.entities.ProductDetail;
+import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +20,17 @@ public class ProductCategoryStorage extends BaseStorage {
 
   public void save(ProductCategory productCategory) {
     productCategoryRepository.save(productCategory);
+    remoteCacheManager.get(CacheKey.genProductCategoryById(productCategory.getId().toHexString()));
   }
 
   public ProductCategory findById(String id) {
-    return productCategoryRepository.findById(new ObjectId(id)).get();
+    String key = CacheKey.genProductCategoryById(id);
+    ProductCategory productCategory = remoteCacheManager.get(key, ProductCategory.class);
+    if(productCategory == null){
+      productCategory = productCategoryRepository.findById(new ObjectId(id)).get();
+      remoteCacheManager.set(key, productCategory);
+    }
+    return productCategory;
   }
 
   public void delete(ProductCategory productCategory) {

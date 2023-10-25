@@ -22,7 +22,13 @@ public class ProductStorage extends BaseStorage {
   }
 
   public Product findProductById(String productId) {
-    return productRepository.findProductById(new ObjectId(productId));
+    String key = CacheKey.genProductByProductId(productId);
+    Product product = remoteCacheManager.get(key, Product.class);
+    if(product == null){
+      product = productRepository.findProductById(new ObjectId(productId));
+      remoteCacheManager.set(key, product);
+    }
+    return product;
   }
 
   public Page<Product> findAll(Query query, Pageable pageable) {

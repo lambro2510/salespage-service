@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductDetail;
+import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -9,18 +10,32 @@ import java.util.List;
 @Component
 public class ProductDetailStorage extends BaseStorage{
   public List<ProductDetail> findByProductId(String productId) {
-    return productDetailRepository.findByProductId(productId);
+    String key = CacheKey.genProductDetailByProductId(productId);
+    List<ProductDetail> productDetails = remoteCacheManager.getList(key, ProductDetail.class);
+    if(productDetails == null){
+      productDetails = productDetailRepository.findByProductId(productId);
+      remoteCacheManager.set(key, productDetails);
+    }
+    return productDetails;
   }
 
   public ProductDetail findById(String detailId) {
-    return productDetailRepository.findById(new ObjectId(detailId)).get();
+    String key = CacheKey.genProductDetail(detailId);
+    ProductDetail productDetail = remoteCacheManager.get(key, ProductDetail.class);
+    if(productDetail == null){
+      productDetail = productDetailRepository.findById(new ObjectId(detailId)).get();
+      remoteCacheManager.set(key, productDetail);
+    }
+    return productDetail;
   }
 
   public void save(ProductDetail productDetail) {
     productDetailRepository.save(productDetail);
+    remoteCacheManager.del(CacheKey.genProductDetail(productDetail.getId().toHexString()));
   }
 
   public void delete(ProductDetail productDetail) {
+    remoteCacheManager.del(CacheKey.genProductDetail(productDetail.getId().toHexString()));
     productDetailRepository.delete(productDetail);
   }
 }

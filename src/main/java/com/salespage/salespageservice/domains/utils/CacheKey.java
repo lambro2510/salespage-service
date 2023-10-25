@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.utils;
 
+import com.salespage.salespageservice.domains.entities.types.ActiveState;
 import com.salespage.salespageservice.domains.entities.types.FavoriteType;
 import org.apache.commons.lang3.StringUtils;
 
@@ -65,5 +66,41 @@ public class CacheKey {
 
   public static String genListCartByUsername(String username) {
     return prefix + ":cart:username:" + username;
+  }
+
+  public static String genSellerStoreId(String storeId) {
+    return prefix + ":store:storeId:" + storeId;
+  }
+
+  public static String genSellerStoreName(String storeName) {
+    return prefix + ":store:storeName:" + storeName;
+  }
+
+  public static String genProductDetail(String detailId) {
+    return prefix + ":product:productDetail:detailId:" + detailId;
+  }
+
+  public static String genProductDetailByProductId(String productId) {
+    return prefix + ":product:productDetail:detailId:" + productId;
+  }
+
+  public static String genProductByProductId(String productId) {
+    return prefix + ":product:productId:" + productId;
+  }
+
+  public static String genProductCategoryById(String id) {
+    return prefix + ":category:categoryId:" + id;
+  }
+
+  public static String genVoucherCodeById(String voucherCodeId) {
+    return prefix + ":voucher:code:voucherCodeId:" + voucherCodeId;
+  }
+
+  public static String genVoucherStoreById(String voucherStoreId) {
+    return prefix + ":voucher:store:voucherStoreId:" + voucherStoreId;
+  }
+
+  public static String genProductComboByIdAndState(String comboId, ActiveState activeState) {
+    return prefix + ":product:combo:id:" + comboId + ":state:" + activeState;
   }
 }
