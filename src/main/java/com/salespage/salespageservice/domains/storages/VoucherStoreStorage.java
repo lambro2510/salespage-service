@@ -4,6 +4,7 @@ import com.salespage.salespageservice.domains.entities.VoucherCode;
 import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import com.salespage.salespageservice.domains.utils.CacheKey;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,5 +44,9 @@ public class VoucherStoreStorage extends BaseStorage {
   public Page<VoucherStore> findVoucherStoreByCreatedBy(String username, Pageable pageable) {
     return voucherStoreRepository.findVoucherStoreByCreatedBy(username, pageable);
 
+  }
+
+  public List<VoucherStore> findByProductIdIn(List<String> productIds) {
+    return voucherStoreRepository.findByVoucherStoreTypeAndRefIdIn(VoucherStoreType.PRODUCT, Helper.convertListStringToListObjectId(productIds));
   }
 }

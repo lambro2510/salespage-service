@@ -21,4 +21,6 @@ public interface VoucherStoreRepository extends MongoRepository<VoucherStore, Ob
   List<VoucherStore> findByVoucherStoreTypeAndRefId(VoucherStoreType voucherStoreType, String productId);
 
   Page<VoucherStore> findVoucherStoreByCreatedBy(String username, Pageable pageable);
+
+  List<VoucherStore> findByVoucherStoreTypeAndRefIdIn(VoucherStoreType voucherStoreType, List<ObjectId> ids);
 }

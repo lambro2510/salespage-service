@@ -199,7 +199,36 @@ public class VoucherCodeService extends BaseService {
           throw new BadRequestException("Mã không hợp lệ");
         }
       }
-      return new VoucherInfo();
+      return new VoucherInfo(voucherCode, voucherStore, sellPrice);
+    } catch (Exception ex) {
+      if (isThrowErr) {
+        throw new BadRequestException(ex.getMessage());
+      }
+    }
+    return null;
+  }
+
+  public VoucherInfo getVoucherInfo(VoucherCode voucherCode, VoucherStore voucherStore, String username, Product product,Double sellPrice, boolean isThrowErr) {
+    try {
+      if (voucherCode == null) {
+        throw new ResourceNotFoundException("Mã không tồn tại");
+      }
+      if (!voucherCode.checkVoucher(username)) {
+        throw new BadRequestException("Mã không hợp lệ");
+      }
+      if (voucherStore == null) {
+        throw new ResourceNotFoundException("Cửa hàng không tồn tại");
+      }
+      if (voucherStore.getVoucherStoreType().equals(VoucherStoreType.PRODUCT)) {
+        if (!product.getId().toHexString().equals(voucherStore.getRefId())) {
+          throw new BadRequestException("Mã không hợp lệ");
+        }
+      } else {
+        if (!product.getSellerStoreIds().contains(voucherStore.getRefId())) {
+          throw new BadRequestException("Mã không hợp lệ");
+        }
+      }
+      return new VoucherInfo(voucherCode, voucherStore, sellPrice);
     } catch (Exception ex) {
       if (isThrowErr) {
         throw new BadRequestException(ex.getMessage());
