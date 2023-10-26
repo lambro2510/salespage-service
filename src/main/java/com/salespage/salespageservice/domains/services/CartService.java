@@ -106,6 +106,14 @@ public class CartService extends BaseService {
     Map<String, List<ProductComboDetail>> mapComboDetail = comboDetails.stream()
         .collect(Collectors.groupingBy(ProductComboDetail::getProductId));
 
+    List<VoucherStore> voucherStores = voucherStoreStorage.findByProductIdIn(products.stream().map(p -> p.getId().toHexString()).collect(Collectors.toList()));
+    Map<String, VoucherStore> mapVoucherStore = voucherStores.stream()
+        .collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+
+    List<VoucherCode> voucherCodes = voucherCodeStorage.findByVoucherStoreIdInAndUserName(voucherStores.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList()), username);
+    Map<String, VoucherCode> mapVoucherCode = voucherCodes.stream()
+        .collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+
     List<CartResponse> responses = new ArrayList<>();
     for (Cart cart : carts) {
       CartResponse response = new CartResponse();
@@ -158,8 +166,12 @@ public class CartService extends BaseService {
           response.setCanPayment(false);
         }
       }
-
-      VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(cart.getVoucherCodeId(), username, product, productDetail.getSellPrice(),  false);
+      VoucherCode voucherCode = mapVoucherCode.get(cart.getVoucherCodeId());
+      VoucherStore voucherStore = null;
+      if (voucherCode != null) {
+        voucherStore = mapVoucherStore.get(voucherCode.getVoucherStoreId());
+      }
+      VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(voucherCode, voucherStore, username, product, productDetail.getSellPrice(), false);
       if (voucherInfo == null) {
         response.setVoucherNote("Chưa chọn mã giảm giá");
       }
@@ -171,8 +183,7 @@ public class CartService extends BaseService {
       responses.add(response);
     }
 
-    Map<String, List<CartResponse>> cartMap = responses.stream()
-        .collect(Collectors.groupingBy(CartResponse::getStoreId));
+    Map<String, List<CartResponse>> cartMap = responses.stream().collect(Collectors.groupingBy(CartResponse::getStoreId));
 
     return cartMap.entrySet().stream()
         .map(entry -> {
@@ -189,7 +200,7 @@ public class CartService extends BaseService {
 
           cartResponses.forEach(k -> {
             List<ProductComboDetail> comboOfProduct = mapComboDetail.get(k.getProductId());
-            if(comboOfProduct == null){
+            if (comboOfProduct == null) {
               comboOfProduct = new ArrayList<>();
             }
             k.setComboIds(comboOfProduct.stream().map(ProductComboDetail::getComboId).collect(Collectors.toList()));

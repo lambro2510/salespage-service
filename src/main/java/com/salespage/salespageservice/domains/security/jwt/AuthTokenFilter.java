@@ -3,8 +3,10 @@ package com.salespage.salespageservice.domains.security.jwt;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.domains.security.services.UserDetailsServiceImpl;
+import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.JwtUtils;
 import lombok.extern.log4j.Log4j2;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +23,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
 @Component
@@ -38,6 +42,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request,
                                   HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
+    Instant start = Instant.now();
     try {
 
       String jwt = getJwtFromRequest(request);
@@ -70,6 +75,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     filterChain.doFilter(request, response);
+    long duration = Duration.between(start, Instant.now()).toMillis();
+    MDC.put("duration", duration + "");
+    if (duration > 200) {
+      log.warn("end request ==> {}  {}", request.getMethod(), Helper.getPath(request));
+    } else {
+      log.debug("end request ==> {}  {}", request.getMethod(), Helper.getPath(request));
+    }
+
+    MDC.remove("duration");
   }
 
   private String getLngFromRequest(HttpServletRequest request) {

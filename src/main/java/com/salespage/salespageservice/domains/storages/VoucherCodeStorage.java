@@ -4,6 +4,7 @@ import com.salespage.salespageservice.domains.entities.VoucherCode;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import com.salespage.salespageservice.domains.utils.DateUtils;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,5 +50,15 @@ public class VoucherCodeStorage extends BaseStorage {
       remoteCacheManager.set(key,voucherCode);
     }
     return voucherCode;
+  }
+
+  public List<VoucherCode> findByVoucherStoreIdInAndUserName(List<String> ids, String username) {
+    String key = CacheKey.genVoucherCodeByIdInAndUsername(ids, username);
+    List<VoucherCode> voucherCodes = remoteCacheManager.getList(key, VoucherCode.class);
+    if(voucherCodes == null){
+      voucherCodes = voucherCodeRepository.findByVoucherStoreIdInAndUsername(Helper.convertListStringToListObjectId(ids), username);
+      remoteCacheManager.set(key,voucherCodes);
+    }
+    return voucherCodes;
   }
 }

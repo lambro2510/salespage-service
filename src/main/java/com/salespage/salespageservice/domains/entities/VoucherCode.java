@@ -8,6 +8,7 @@ import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
+@EqualsAndHashCode(callSuper = true)
 @Document("voucher_code")
 @Data
 @CompoundIndex(name = "code_owner_status_index", def = "{'code' : 1, 'ownerId' : 1, 'voucherCodeStatus' : 1}", unique = true)

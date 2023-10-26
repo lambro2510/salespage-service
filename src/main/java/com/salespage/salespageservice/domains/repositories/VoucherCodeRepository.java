@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface VoucherCodeRepository extends MongoRepository<VoucherCode, ObjectId> {
@@ -24,4 +25,6 @@ public interface VoucherCodeRepository extends MongoRepository<VoucherCode, Obje
   VoucherCode findFirstByUsernameAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, Date now);
 
   VoucherCode findFirstByUsernameAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, LocalDate expireTime);
+
+  List<VoucherCode> findByVoucherStoreIdInAndUsername(List<ObjectId> objectIds, String username);
 }
