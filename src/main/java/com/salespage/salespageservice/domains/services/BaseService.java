@@ -29,6 +29,8 @@ public class BaseService{
   @Value("${goong.api-key}")
   private String goongApiKey;
 
+  @Autowired protected GoogleDriver driver;
+
   @Autowired protected ModelMapper modelMapper;
 
   @Autowired

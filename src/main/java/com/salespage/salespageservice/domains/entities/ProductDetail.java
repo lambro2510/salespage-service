@@ -35,6 +35,9 @@ public class ProductDetail extends BaseEntity{
   @Field("quantity")
   Integer quantity;
 
+  @Field("image_ure")
+  String imageUrl;
+
   @Field("origin_price")
   Double originPrice;
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "Seller product detail", description = "Quản lý sản phẩm được bán")
 @CrossOrigin
@@ -25,6 +26,15 @@ public class SellerProductDetail extends BaseController {
   public ResponseEntity<BaseResponse> getProductDetail(Authentication authentication, @PathVariable String productId) {
     try {
       return successApi(productDetailService.getProductDetail(getUsername(authentication), productId));
+    } catch (Exception ex) {
+      return errorApi(ex.getMessage());
+    }
+  }
+
+  @GetMapping("{productId}/upload")
+  public ResponseEntity<BaseResponse> uploadImageForProductDetai(Authentication authentication, @PathVariable String productId, @RequestBody MultipartFile file) {
+    try {
+      return successApi(productDetailService.uploadImageUrl(getUsername(authentication), productId, file));
     } catch (Exception ex) {
       return errorApi(ex.getMessage());
     }

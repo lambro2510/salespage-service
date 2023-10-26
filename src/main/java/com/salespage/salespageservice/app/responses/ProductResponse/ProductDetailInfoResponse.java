@@ -11,6 +11,8 @@ public class ProductDetailInfoResponse {
 
   ProductDetail.ProductDetailType type;
 
+  String imageUrl;
+
   Integer quantity;
 
   Double originPrice;

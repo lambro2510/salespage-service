@@ -129,6 +129,7 @@ public class CartService extends BaseService {
         response.setProductNote("Sản phẩm không còn được bán");
         response.setCanPayment(false);
       } else {
+        response.setProductDetailName(productDetail.getType().getType());
         response.setLimit(productDetail.getQuantity());
         product = mapProduct.get(productDetail.getProductId());
         if (product == null) {
