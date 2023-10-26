@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.utils;
 import org.bson.types.ObjectId;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -143,4 +144,9 @@ public class Helper {
     return phoneNumber;
   }
 
+  public static String getPath(HttpServletRequest request) {
+    StringBuilder requestURL = new StringBuilder(request.getRequestURI());
+    String queryString = request.getQueryString();
+    return queryString == null ? requestURL.toString() : requestURL.append('?').append(queryString).toString();
+  }
 }
