@@ -1,2 +1,3 @@
 singleServerConfig:
-  address: ${REDIS_ADDRESS}
+#  address: ${REDIS_ADDRESS}
+  address: redis://:banhmy09@tcp.appengine.bfcplatform.vn:13437
