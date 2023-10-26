@@ -33,6 +33,7 @@ public class ProductDetailStorage extends BaseStorage{
   public void save(ProductDetail productDetail) {
     productDetailRepository.save(productDetail);
     remoteCacheManager.del(CacheKey.genProductDetail(productDetail.getId().toHexString()));
+    remoteCacheManager.del(CacheKey.genProductDetailByProductId(productDetail.getProductId()));
   }
 
   public void delete(ProductDetail productDetail) {
