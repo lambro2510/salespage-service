@@ -23,7 +23,7 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
 
   List<Product> findTop11ByCategoryIdIn(List<String> productIds);
 
-  List<Product> findTop10ByCategoryIdOrderByCreatedAtDesc(String typeName);
+  List<Product> findTop12ByCategoryIdOrderByCreatedAtDesc(String typeName);
 
   List<Product> findByCategoryId(String categoryId);
 
@@ -31,13 +31,13 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
 
   List<Product> findTopNByIdIn(Collection<ObjectId> id, @Param("limit") int limit);
 
-  List<Product> findTop10ByIdIn(List<ObjectId> objectIds);
+  List<Product> findTop12ByIdIn(List<ObjectId> objectIds);
 
   List<Product> findByIdInAndCreatedBy(List<ObjectId> objectIds, String username);
 
-  List<Product> findTop10ByIsHotOrderByUpdatedAtDesc(boolean b);
+  List<Product> findTop12ByIsHotOrderByUpdatedAtDesc(boolean b);
 
-  List<Product> findTop10ByIsHotOrderByUpdatedAt(boolean b);
+  List<Product> findTop12ByIsHotOrderByUpdatedAt(boolean b);
 
-  List<Product> findTop10ByIdInAndIsHotOrderByUpdatedAt(List<ObjectId> objectIds);
+  List<Product> findTop12ByIdInAndIsHotOrderByUpdatedAt(List<ObjectId> objectIds);
 }

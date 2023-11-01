@@ -344,6 +344,7 @@
                                 <pattern>com.salespage.salespageservice.app.responses.notificationResponse.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.responses.ProductResponse.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.responses.CartResponse.*</pattern>
+                                <pattern>com.salespage.salespageservice.app.responses.ProductComboResponse.*</pattern>
                                 <pattern>com.salespage.salespageservice.app.responses.*</pattern>
                             </classPatterns>
                             <excludeClasses>

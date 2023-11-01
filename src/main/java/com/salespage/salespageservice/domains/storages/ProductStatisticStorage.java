@@ -2,12 +2,12 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductStatistic;
 import com.salespage.salespageservice.domains.utils.DateUtils;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,18 +32,18 @@ public class ProductStatisticStorage extends BaseStorage {
 
   }
 
-  public ProductStatistic findByProductIdToday(String productId) {
+  public List<ProductStatistic> findByProductIdToday(String productId) {
     LocalDate now = DateUtils.now().toLocalDate();
     return productStatisticRepository.findByProductIdAndDaily(productId, now);
 
   }
 
-  public List<ProductStatistic> findTop10ByOrderByTotalBuyDesc() {
-    return productStatisticRepository.findTop10ByOrderByTotalBuyDesc();
+  public List<ProductStatistic> findTop12ByOrderByTotalBuyDesc() {
+    return productStatisticRepository.findTop12ByOrderByTotalBuyDesc();
   }
 
-  public List<ProductStatistic> findTop10ByProductIdInOrderByTotalBuyDesc(List<String> productIds) {
-    return productStatisticRepository.findTop10ByProductIdInOrderByTotalBuyDesc(productIds);
+  public List<ProductStatistic> findTop12ByProductIdInOrderByTotalBuyDesc(List<String> productIds) {
+    return productStatisticRepository.findTop12ByProductIdInOrderByTotalBuyDesc(productIds);
 
   }
 
@@ -52,8 +52,8 @@ public class ProductStatisticStorage extends BaseStorage {
 
   }
 
-  public List<ProductStatistic> findTop10ByProductIdInOrderByTotalViewDesc(List<String> productIds) {
-    return productStatisticRepository.findTop10ByProductIdInOrderByTotalViewDesc(productIds);
+  public List<ProductStatistic> findTop12ByProductIdInOrderByTotalViewDesc(List<String> productIds) {
+    return productStatisticRepository.findTop12ByProductIdInOrderByTotalViewDesc(productIds);
 
   }
 
@@ -62,7 +62,15 @@ public class ProductStatisticStorage extends BaseStorage {
 
   }
 
-  public List<ProductStatistic> findTop10ByOrderByTotalViewDesc() {
-    return productStatisticRepository.findTop10ByOrderByTotalViewDesc();
+  public List<ProductStatistic> findTop12ByOrderByTotalViewDesc() {
+    return productStatisticRepository.findTop12ByOrderByTotalViewDesc();
+  }
+
+  public void saveAll(List<ProductStatistic> statistics) {
+    productStatisticRepository.saveAll(statistics);
+  }
+
+  public List<ProductStatistic> findByProductIdIn(List<String> productIds) {
+    return productStatisticRepository.findByProductIdIn(productIds);
   }
 }

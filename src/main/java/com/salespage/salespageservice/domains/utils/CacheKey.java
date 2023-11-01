@@ -127,4 +127,8 @@ public class CacheKey {
   public static String genVoucherCodeByIdInAndUsername(List<String> ids, String username) {
     return prefix + ":product:store:username:" + username + ":ids" + StringUtils.join(ids, ',');
   }
+
+  public static String genProductDetailByProductIdIn(List<String> ids) {
+    return prefix + ":product:detail:productIds" + StringUtils.join(ids, ',');
+  }
 }

@@ -71,8 +71,8 @@ public class ProductStorage extends BaseStorage {
     return productRepository.findByCategoryId(categoryId);
   }
 
-  public List<Product> findTop10ByCategoryIdOrderByCreatedAtDesc(String typeName) {
-    return productRepository.findTop10ByCategoryIdOrderByCreatedAtDesc(typeName);
+  public List<Product> findTop12ByCategoryIdOrderByCreatedAtDesc(String typeName) {
+    return productRepository.findTop12ByCategoryIdOrderByCreatedAtDesc(typeName);
   }
 
   public List<Product> findAll() {
@@ -93,8 +93,8 @@ public class ProductStorage extends BaseStorage {
     return products;
   }
 
-  public List<Product> findTop10ByIdIn(List<String> productIds) {
-    return productRepository.findTop10ByIdIn(Helper.convertListStringToListObjectId(productIds));
+  public List<Product> findTop12ByIdIn(List<String> productIds) {
+    return productRepository.findTop12ByIdIn(Helper.convertListStringToListObjectId(productIds));
 
   }
 
@@ -102,21 +102,21 @@ public class ProductStorage extends BaseStorage {
     return productRepository.findByIdInAndCreatedBy(Helper.convertListStringToListObjectId(productIds), username);
   }
 
-  public List<Product> findTop10ByIsHotOrderByUpdatedAtDesc() {
+  public List<Product> findTop12ByIsHotOrderByUpdatedAtDesc() {
     String key = CacheKey.genHotProduct();
     List<Product> products = remoteCacheManager.getList(key, Product.class);
     if(products == null){
-      products = productRepository.findTop10ByIsHotOrderByUpdatedAtDesc(true);
+      products = productRepository.findTop12ByIsHotOrderByUpdatedAtDesc(true);
       remoteCacheManager.set(key, products);
     }
     return products;
   }
 
-  public List<Product> findTop10ByIsHotOrderByUpdatedAt() {
-    return productRepository.findTop10ByIsHotOrderByUpdatedAt(true);
+  public List<Product> findTop12ByIsHotOrderByUpdatedAt() {
+    return productRepository.findTop12ByIsHotOrderByUpdatedAt(true);
   }
 
-  public List<Product> findTop10ByIdInAndIsHotOrderByUpdatedAt(List<String> productIds) {
-    return productRepository.findTop10ByIdInAndIsHotOrderByUpdatedAt(Helper.convertListStringToListObjectId(productIds));
+  public List<Product> findTop12ByIdInAndIsHotOrderByUpdatedAt(List<String> productIds) {
+    return productRepository.findTop12ByIdInAndIsHotOrderByUpdatedAt(Helper.convertListStringToListObjectId(productIds));
   }
 }

@@ -65,7 +65,7 @@ public class Helper {
   }
 
 
-  public static String getPaymentIdInDescription(String description){
+  public static String getPaymentIdInDescription(String description) {
     description = description.replaceAll("\\s", "");
     Pattern pattern = Pattern.compile("xxx(.*?)xxx"); // Regex để tìm giá trị trong xxx
     Matcher matcher = pattern.matcher(description);
@@ -135,10 +135,10 @@ public class Helper {
     return dateFormat.format(date);
   }
 
-  public static String regexPhoneNumber(String phoneNumber){
-    if(phoneNumber.startsWith("0")){
+  public static String regexPhoneNumber(String phoneNumber) {
+    if (phoneNumber.startsWith("0")) {
       phoneNumber = "+84" + phoneNumber.substring(1);
-    }else{
+    } else {
       phoneNumber = "+" + phoneNumber;
     }
     return phoneNumber;

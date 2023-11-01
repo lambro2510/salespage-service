@@ -21,8 +21,8 @@ public class SearchHistoryStorage extends BaseStorage{
     return searchHistoryRepository.findByUsernameOrderByCreatedAtDesc(username);
   }
 
-  public List<SearchHistory> findTop10ByUsernameOrderByCreatedAtDesc(String username) {
-    return searchHistoryRepository.findTop10ByUsernameOrderByCreatedAtDesc(username);
+  public List<SearchHistory> findTop12ByUsernameOrderByCreatedAtDesc(String username) {
+    return searchHistoryRepository.findTop12ByUsernameOrderByCreatedAtDesc(username);
 
   }
 }

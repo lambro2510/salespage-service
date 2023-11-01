@@ -15,12 +15,10 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
 
-@Document("payment_statistic")
+@Document("product_statistic")
 @Data
 public class ProductStatistic {
   @Id
-  @JsonSerialize(using = ObjectIdSerializer.class)
-  @JsonDeserialize(using = ObjectIdDeserializer.class)
   private ObjectId id;
 
   @Field("daily")
@@ -28,11 +26,11 @@ public class ProductStatistic {
   @Indexed(name = "daily_index", unique = true)
   private LocalDate daily;
 
+  @Field("product_detail_id")
+  private String productDetailId;
+
   @Field("product_id")
   private String productId;
-
-  @Field("product_name")
-  private String productName;
 
   @Field("total_user")
   private Long totalUser = 0L;
@@ -49,7 +47,4 @@ public class ProductStatistic {
   @Field("total_shipper_cod")
   private Long totalShipperCod = 0L;
 
-  public void addView(){
-    totalView = totalView == null ? 1 : totalView + 1;
-  }
 }

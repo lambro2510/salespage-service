@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 
@@ -35,16 +37,25 @@ public class StatisticService extends BaseService {
   public void updateView(String productId){
     Product product = productStorage.findProductById(productId);
     if(Objects.isNull(product)) throw new ResourceNotFoundException("Product not found");
-    ProductStatistic statistic = productStatisticStorage.findByProductIdToday(productId);
-    if(statistic == null){
-      statistic = new ProductStatistic();
-      statistic.setDaily(DateUtils.now().toLocalDate());
-      statistic.setProductId(productId);
-      statistic.setProductName(product.getProductName());
-    }
-    statistic.addView();
+    List<ProductStatistic> saveStatistic = new ArrayList<>();
+    List<ProductStatistic> statistics = productStatisticStorage.findByProductIdToday(productId);
+    Map<String, ProductStatistic> productStatisticMap = statistics.stream().collect(Collectors.toMap(ProductStatistic::getProductDetailId, Function.identity()));
+    List<ProductDetail> productDetails = productDetailStorage.findByProductId(productId);
 
-    productStatisticStorage.save(statistic);
+    for (ProductDetail productDetail : productDetails){
+      ProductStatistic statistic = productStatisticMap.get(productDetail.getId().toHexString());
+      if(statistic == null){
+        LocalDate now = DateUtils.now().toLocalDate();
+        statistic = new ProductStatistic();
+        statistic.setProductDetailId(productDetail.getId().toHexString());
+        statistic.setProductId(productDetail.getProductId());
+        statistic.setDaily(now);
+      }
+      statistic.setTotalView(statistic.getTotalView() + 1);
+      saveStatistic.add(statistic);
+    }
+
+    productStatisticStorage.saveAll(saveStatistic);
 
   }
 

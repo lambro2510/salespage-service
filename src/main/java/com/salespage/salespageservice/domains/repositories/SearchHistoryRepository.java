@@ -12,5 +12,5 @@ public interface SearchHistoryRepository extends MongoRepository<SearchHistory, 
 
   List<SearchHistory> findByUsernameOrderByCreatedAtDesc(String username);
 
-  List<SearchHistory> findTop10ByUsernameOrderByCreatedAtDesc(String username);
+  List<SearchHistory> findTop12ByUsernameOrderByCreatedAtDesc(String username);
 }

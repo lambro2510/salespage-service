@@ -50,4 +50,14 @@ public class ProductDetailStorage extends BaseStorage{
     }
     return productDetails;
   }
+
+  public List<ProductDetail> findByProductIdIn(List<String> ids) {
+    String key = CacheKey.genProductDetailByProductIdIn(ids);
+    List<ProductDetail> productDetails = remoteCacheManager.getList(key, ProductDetail.class);
+    if(productDetails == null){
+      productDetails = productDetailRepository.findByProductIdIn((ids));
+      remoteCacheManager.set(key, productDetails);
+    }
+    return productDetails;
+  }
 }

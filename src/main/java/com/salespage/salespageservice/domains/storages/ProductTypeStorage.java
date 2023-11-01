@@ -61,7 +61,7 @@ public class ProductTypeStorage extends BaseStorage {
   }
 
   public List<ProductTypeDetail> getTop10SimilarProduct(List<String> listType) {
-    return productTypeDetailRepository.findTop10ByTypeDetailNameInOrderByCreatedAtDesc(listType);
+    return productTypeDetailRepository.findTop12ByTypeDetailNameInOrderByCreatedAtDesc(listType);
   }
 
 }

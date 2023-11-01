@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -166,12 +167,25 @@ public class ProductService extends BaseService {
 
   private List<ProductDataResponse> toProductDataResponse(List<Product> products) {
     List<ProductDataResponse> responses = products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList());
+    List<String> productIds =products.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList());
+    List<ProductStatistic> productStatistics = productStatisticStorage.findByProductIdIn(productIds);
+    Map<String, List<ProductStatistic>> mapProductStatistic = productStatistics.stream()
+        .collect(Collectors.groupingBy(ProductStatistic::getProductId));
+    List<ProductDetail> productDetails = productDetailStorage.findByProductIdIn(productIds);
+    Map<String, List<ProductDetail>> mapProductDetail = productDetails.stream()
+        .collect(Collectors.groupingBy(ProductDetail::getProductId));
     responses.forEach(product -> {
-      TotalProductStatisticResponse productStatistics = statisticService.getStatisticOfProduct(product.getProductId(), product.getCreatedAt(), DateUtils.nowInMillis());
-      List<ProductDetail> productDetails = productDetailStorage.findByProductId(product.getProductId());
-      product.assignFromListDetail(productDetails);
-      product.setTotalSell(productStatistics.getTotalBuy());
-      product.setTotalView(productStatistics.getTotalView());
+      List<ProductStatistic> statistics = mapProductStatistic.get(product.getProductId());
+      List<ProductDetail> details = mapProductDetail.get(product.getProductId());
+      product.assignFromListDetail(details);
+      Long totalBuy = statistics.stream()
+          .mapToLong(ProductStatistic::getTotalBuy)
+          .sum();
+      Long totalView = statistics.stream()
+          .mapToLong(ProductStatistic::getTotalView)
+          .sum();
+      product.setTotalSell(totalBuy);
+      product.setTotalView(totalView);
     });
     return responses;
   }
@@ -196,21 +210,21 @@ public class ProductService extends BaseService {
   public List<ProductDataResponse> findHotProduct(String username) {
     List<Product> products;
     if (Objects.isNull(username)) {
-      products = productStorage.findTop10ByIsHotOrderByUpdatedAtDesc();
+      products = productStorage.findTop12ByIsHotOrderByUpdatedAtDesc();
     } else {
-      List<SearchHistory> searchHistories = searchHistoryStorage.findTop10ByUsernameOrderByCreatedAtDesc(username);
+      List<SearchHistory> searchHistories = searchHistoryStorage.findTop12ByUsernameOrderByCreatedAtDesc(username);
       List<SearchHistory> searchProductHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.PRODUCT_NAME)).collect(Collectors.toList());
       List<SearchHistory> searchStoreHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.STORE_NAME)).collect(Collectors.toList());
       List<SearchHistory> searchSellerHistories = searchHistories.stream().filter(k -> k.getSearchType().equals(SearchType.SELLER_USERNAME)).collect(Collectors.toList());
       List<ProductStatistic> productStatistics;
       if (searchProductHistories.isEmpty()) {
-        products = productStorage.findTop10ByIsHotOrderByUpdatedAtDesc();
+        products = productStorage.findTop12ByIsHotOrderByUpdatedAtDesc();
       }else{
         List<String> productIds = searchProductHistories.stream().map(SearchHistory::getSearchData).collect(Collectors.toList());
-        products = productStorage.findTop10ByIdInAndIsHotOrderByUpdatedAt(productIds);
+        products = productStorage.findTop12ByIdInAndIsHotOrderByUpdatedAt(productIds);
       }
       if (products.size() < 10) {
-        products = productStorage.findTop10ByIsHotOrderByUpdatedAtDesc();
+        products = productStorage.findTop12ByIsHotOrderByUpdatedAtDesc();
       }
     }
 
@@ -429,7 +443,7 @@ public class ProductService extends BaseService {
 
     if (suggestProduct.size() < 10) {
       List<String> productIds = new ArrayList<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
-      List<Product> anotherProduct = productStorage.findTop10ByIdIn(productIds);
+      List<Product> anotherProduct = productStorage.findTop12ByIdIn(productIds);
       suggestProduct.addAll(anotherProduct);
     }
 

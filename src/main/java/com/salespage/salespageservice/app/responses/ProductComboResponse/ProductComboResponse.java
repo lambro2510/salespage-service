@@ -10,17 +10,17 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ProductComboResponse {
 
-  private String id;
+   String id;
 
-  private String comboName;
+   String comboName;
 
-  private DiscountType type;
+   DiscountType type;
 
-  private ActiveState state;
+   ActiveState state;
 
-  private Double value;
+   Double value;
 
-  private Long quantityToUse;
+   Long quantityToUse;
 
-  private Double maxDiscount;
+   Double maxDiscount;
 }
