@@ -20,7 +20,7 @@ public class ProductTypeStorage extends BaseStorage {
   }
 
   public ProductType findProductTypeById(String typeId) {
-    return productTypeRepository.findById(new ObjectId(typeId)).get();
+    return productTypeRepository.findById(new ObjectId(typeId)).orElse(null);
   }
 
   public List<ProductType> findTop20ByProductTypeNameLikeAndStatus(String typeName, ProductTypeStatus status) {

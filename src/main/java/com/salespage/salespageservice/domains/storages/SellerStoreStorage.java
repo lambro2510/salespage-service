@@ -33,7 +33,7 @@ public class SellerStoreStorage extends BaseStorage {
     String key = CacheKey.genSellerStoreId(storeId);
     SellerStore sellerStore = remoteCacheManager.get(key, SellerStore.class);
     if(sellerStore == null){
-      sellerStore =  sellerStoreRepository.findById(new ObjectId(storeId)).get();
+      sellerStore =  sellerStoreRepository.findById(new ObjectId(storeId)).orElse(null);
       remoteCacheManager.set(key, sellerStore);
     }
     return sellerStore;

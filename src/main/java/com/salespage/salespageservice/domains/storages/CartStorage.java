@@ -25,7 +25,7 @@ public class CartStorage extends BaseStorage{
   }
 
   public Cart findById(String id){
-    return cartRepository.findById(new ObjectId(id)).get();
+    return cartRepository.findById(new ObjectId(id)).orElse(null);
   }
 
   public Long countByUsername(String username) {

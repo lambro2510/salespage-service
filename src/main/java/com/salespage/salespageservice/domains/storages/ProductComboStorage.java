@@ -16,7 +16,7 @@ public class ProductComboStorage extends BaseStorage{
   }
 
   public ProductCombo findById(String comboId) {
-    return productComboRepository.findById(new ObjectId(comboId)).get();
+    return productComboRepository.findById(new ObjectId(comboId)).orElse(null);
   }
 
   public void delete(ProductCombo productCombo) {

@@ -46,7 +46,7 @@ public class VoucherCodeStorage extends BaseStorage {
     String key = CacheKey.genVoucherCodeById(voucherCodeId);
     VoucherCode voucherCode = remoteCacheManager.get(key, VoucherCode.class);
     if(voucherCode == null){
-      voucherCode = voucherCodeRepository.findById(new ObjectId(voucherCodeId)).get();
+      voucherCode = voucherCodeRepository.findById(new ObjectId(voucherCodeId)).orElse(null);
       remoteCacheManager.set(key,voucherCode);
     }
     return voucherCode;

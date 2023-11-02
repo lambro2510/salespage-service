@@ -24,7 +24,7 @@ public class ProductDetailStorage extends BaseStorage{
     String key = CacheKey.genProductDetail(detailId);
     ProductDetail productDetail = remoteCacheManager.get(key, ProductDetail.class);
     if(productDetail == null){
-      productDetail = productDetailRepository.findById(new ObjectId(detailId)).get();
+      productDetail = productDetailRepository.findById(new ObjectId(detailId)).orElse(null);
       remoteCacheManager.set(key, productDetail);
     }
     return productDetail;

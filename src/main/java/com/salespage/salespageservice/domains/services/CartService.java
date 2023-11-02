@@ -137,7 +137,9 @@ public class CartService extends BaseService {
         response.setProductNote("Sản phẩm không còn được bán");
         response.setCanPayment(false);
       } else {
+        response.setProductDetailId(productDetail.getId().toHexString());
         response.setProductDetailName(productDetail.getType().getType());
+        response.setProductDetailImageUrl(productDetail.getImageUrl());
         response.setLimit(productDetail.getQuantity());
         product = mapProduct.get(productDetail.getProductId());
         if (product == null) {
@@ -268,8 +270,6 @@ public class CartService extends BaseService {
 
     for (CartPaymentDto dto : dtos) {
       ObjectId transactionId = new ObjectId();
-      long totalDiscountPrice = 0;
-      long notDiscountPrice = 0;
       List<ProductTransactionDetail> transactionDetails = new ArrayList<>();
       for (ProductTransactionDto transaction : dto.getTransaction()) {
         Cart cart = cartStorage.findById(transaction.getProductDetailId());

@@ -28,7 +28,7 @@ public class ProductCategoryStorage extends BaseStorage {
     String key = CacheKey.genProductCategoryById(id);
     ProductCategory productCategory = remoteCacheManager.get(key, ProductCategory.class);
     if(productCategory == null){
-      productCategory = productCategoryRepository.findById(new ObjectId(id)).get();
+      productCategory = productCategoryRepository.findById(new ObjectId(id)).orElse(null);
       remoteCacheManager.set(key, productCategory);
     }
     return productCategory;
