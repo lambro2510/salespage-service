@@ -16,10 +16,11 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Document("product_transaction_detail")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -79,5 +80,19 @@ public class ProductTransactionDetail extends BaseEntity{
 
     private String content;
 
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof ProductTransactionDetail)) return false;
+    if (!super.equals(o)) return false;
+    ProductTransactionDetail that = (ProductTransactionDetail) o;
+    return Objects.equals(getId(), that.getId());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), getId());
   }
 }

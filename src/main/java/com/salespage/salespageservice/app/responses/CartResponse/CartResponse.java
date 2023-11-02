@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 public class CartResponse {
@@ -52,4 +53,17 @@ public class CartResponse {
   Double totalPrice = 0D;
 
   List<String> comboIds = new ArrayList<>();
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof CartResponse)) return false;
+    CartResponse that = (CartResponse) o;
+    return Objects.equals(getProductId(), that.getProductId());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getProductId());
+  }
 }

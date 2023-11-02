@@ -187,8 +187,7 @@ public class CartService extends BaseService {
 
     return cartMap.entrySet().stream()
         .map(entry -> {
-          List<String> distinctProductIds = entry.getValue().stream()
-              .map(CartResponse::getProductId)
+          List<CartResponse> distinctProductIds = entry.getValue().stream()
               .distinct()
               .collect(Collectors.toList());
 
@@ -296,12 +295,11 @@ public class CartService extends BaseService {
         ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(transactionId.toHexString(), productDetail, info, transaction.getAddress(), cart.getQuantity(), store, transaction.getNote());
         transactionDetails.add(productTransactionDetail);
       }
-      List<String> distinctProduct = transactionDetails.stream().map(k -> k.getProductDetail().getProductId()).distinct().collect(Collectors.toList());
-      Double totalPrice = transactionDetails.stream().mapToDouble(ProductTransactionDetail::getTotalPrice).sum();
-      ComboInfo comboInfo = productComboService.getComboInfo(dto.getComboId(), totalPrice, distinctProduct);
+      List<ProductTransactionDetail> distinctProduct = transactionDetails.stream().distinct().collect(Collectors.toList());
+      ComboInfo comboInfo = productComboService.getComboInfo(dto.getComboId(), distinctProduct);
       ProductTransaction productTransaction = productTransactionService.buildProductTransaction(transactionId, username, dto.getNote(), comboInfo, transactionDetails);
       productTransactionService.saveTransaction(productTransaction, transactionDetails);
-      userService.minusBalance(user, totalPrice);
+      userService.minusBalance(user, comboInfo.getSellPrice());
     }
 
   }
