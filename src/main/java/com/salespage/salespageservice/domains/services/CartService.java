@@ -134,7 +134,7 @@ public class CartService extends BaseService {
       if (productDetail == null) {
         productDetail = new ProductDetail();
         response.setProductName(cart.getProductName());
-        response.setProductNote("Sản phẩm không còn được bán");
+        response.setProductNote("Sản phẩm " + cart.getProductName() + " không còn được bán");
         response.setCanPayment(false);
       } else {
         response.setProductDetailId(productDetail.getId().toHexString());
@@ -144,7 +144,7 @@ public class CartService extends BaseService {
         product = mapProduct.get(productDetail.getProductId());
         if (product == null) {
           response.setProductName(cart.getProductName());
-          response.setProductNote("Sản phẩm không còn được bán");
+          response.setProductNote("Sản phẩm " + cart.getProductName() + " không còn được bán");
           response.setCanPayment(false);
         } else {
           response.setProductId(product.getId().toHexString());
