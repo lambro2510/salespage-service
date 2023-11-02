@@ -37,6 +37,9 @@ public class ProductTransactionDetail extends BaseEntity{
   @Field("product_detail")
   private ProductDetail productDetail;
 
+  @Field("transaction_id")
+  private String transactionId;
+
   @Field("store_id")
   private String storeId;
 

@@ -55,23 +55,6 @@ public class ProductTransactionController extends BaseController {
     }
   }
 
-  @GetMapping("cart")
-  @Operation(summary = "Tìm kiếm lịch sử giao dịch", description = "Tìm kiếm lịch sử giao dịch")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Tìm kiếm giao dịch thành công"),
-      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ"),
-      @ApiResponse(responseCode = "401", description = "Không được phép"),
-      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
-  })
-  public ResponseEntity<BaseResponse> getAllProductTransaction(Authentication authentication) {
-    try {
-//      return successApi(productTransactionService.getTransactionInCart(getUsername(authentication)));
-    } catch (Exception ex) {
-      return errorApi(ex.getMessage());
-    }
-    return null;
-  }
-
   @PutMapping("")
   @Operation(summary = "Cập nhật giao dịch sản phẩm", description = "Cập nhật giao dịch sản phẩm với thông tin đã cho")
   @ApiResponses(value = {

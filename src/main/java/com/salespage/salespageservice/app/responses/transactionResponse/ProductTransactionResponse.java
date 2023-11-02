@@ -2,71 +2,43 @@ package com.salespage.salespageservice.app.responses.transactionResponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
+import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
+import com.salespage.salespageservice.domains.entities.ProductTransactionDetail;
+import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class ProductTransactionResponse {
 
-  @Schema(description = "ID giao dịch sản phẩm")
-  private String transactionId;
+  private String buyerUsername;
 
-  @Schema(description = "ID sản phẩm")
-  private String productId;
+  private Double totalPrice;
 
-  @Schema(description = "Tên sản phẩm")
-  private String productName;
-
-  @Schema(description = "Link ảnh sản phẩm")
-  private String productImageUrl;
-
-  @Schema(description = "Tổng giá")
-  @JsonProperty("total_price")
-  private Long totalPrice;
-
-  @Schema(description = "Giá mỗi sản phẩm")
-  @JsonProperty("price")
-  private Double price;
-
-  @Schema(description = "Tên người bán")
-  private String sellerName;
-
-  @Schema(description = "Tên người mua")
-  private String buyerName;
-
-  @Schema(description = "Id cửa hàng")
-  private String storeId;
-
-  @Schema(description = "Tên cửa hàng")
-  private String storeName;
-
-  @Schema(description = "Địa chỉ")
-  private String address;
-
-  @Schema(description = "Ghi chú")
   private String note;
 
-  @Schema(description = "Số lượng")
-  private Long quantity;
+  private ComboInfo comboInfo;
 
-  @Schema(description = "Sử dụng voucher")
-  private Boolean isUseVoucher;
+  List<ProductTransactionDetailResponse> details = new ArrayList<>();
 
-  @Schema(description = "Trạng thái giao dịch sản phẩm")
-  private ProductTransactionState productTransactionState;
-
-  @Schema(description = "Thông tin voucher")
-  private VoucherInfo voucherInfo;
-
-  @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
-  @Schema(description = "Ngày tạo")
-  @JsonProperty("created_at")
-  private Date createdAt;
-
-
+  public void partnerFromProductTransaction(ProductTransaction transaction){
+    buyerUsername = transaction.getBuyerUsername();
+    totalPrice = transaction.getTotalPrice();
+    note = transaction.getNote();
+    comboInfo = transaction.getComboInfo();
+  }
 }

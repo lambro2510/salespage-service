@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.dtos.productTransactionDto.ListTransac
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
+import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionDetailResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
@@ -62,14 +63,23 @@ public class ProductTransactionService extends BaseService {
     }
 
     Page<ProductTransaction> productTransactions = productTransactionStorage.findAll(query, pageable);
+    List<String> tranIds = productTransactions.getContent().stream().map(k -> k.getId().toHexString()).collect(Collectors.toList());
+    List<ProductTransactionDetail> transactionDetails = productTransactionDetailStorage.findByTransactionIdIn(tranIds);
+    Map<String, List<ProductTransactionDetail>> tranDetailsMap = transactionDetails.stream().collect(Collectors.groupingBy(ProductTransactionDetail::getTransactionId));
+
     List<ProductTransactionResponse> productTransactionResponses = new ArrayList<>();
+    for(ProductTransaction productTransaction : productTransactions){
+      ProductTransactionResponse transactionResponse = new ProductTransactionResponse();
+      transactionResponse.partnerFromProductTransaction(productTransaction);
+      List<ProductTransactionDetail> details = tranDetailsMap.get(productTransaction.getId().toHexString());
+      List<ProductTransactionDetailResponse> detailResponse = modelMapper.ProductTransactionDetailResponse(details);
+      transactionResponse.setDetails(detailResponse);
+      productTransactionResponses.add(transactionResponse);
+
+    }
     Page<ProductTransactionResponse> pageResponse = new PageImpl<>(productTransactionResponses, pageable, productTransactions.getTotalElements());
     return PageResponse.createFrom(pageResponse);
   }
-
-
-
-
 
   public void updateUserBalance(User user, Long amount){
     if (!user.updateBalance(false, amount))
@@ -132,8 +142,9 @@ public class ProductTransactionService extends BaseService {
     productTransactionDetailStorage.saveAll(transactionDetails);
   }
 
-  public ProductTransactionDetail buildProductTransactionDetail( ProductDetail productDetail, VoucherInfo voucher, String address, Long quantity, SellerStore store, String note) {
+  public ProductTransactionDetail buildProductTransactionDetail(String transactionId, ProductDetail productDetail, VoucherInfo voucher, String address, Long quantity, SellerStore store, String note) {
     return ProductTransactionDetail.builder()
+        .transactionId(transactionId)
         .address(address)
         .quantity(quantity)
         .store(store)

@@ -10,4 +10,8 @@ public class ProductTransactionDetailStorage extends BaseStorage{
   public void saveAll(List<ProductTransactionDetail> transactionDetails) {
     productTransactionDetailRepository.saveAll(transactionDetails);
   }
+
+  public List<ProductTransactionDetail> findByTransactionIdIn(List<String> tranIds) {
+    return productTransactionDetailRepository.findByTransactionIdIn(tranIds);
+  }
 }

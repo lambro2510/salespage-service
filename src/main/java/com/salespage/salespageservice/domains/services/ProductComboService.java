@@ -119,12 +119,12 @@ public class ProductComboService extends BaseService {
     return price;
   }
 
-  public ComboInfo getComboInfo(String comboId, Double totalPrice, long item) {
+  public ComboInfo getComboInfo(String comboId, Double totalPrice, List<String> productIds) {
     ProductCombo productCombo = productComboStorage.findById(comboId);
     if (productCombo == null) {
       throw new ResourceNotFoundException("Không tồn tại combo này");
     }
-    Double priceAfterUse = checkDiscountPrice(productCombo, totalPrice, item);
+    Double priceAfterUse = checkDiscountPrice(productCombo, totalPrice, productIds.size());
 
     return new ComboInfo(productCombo, totalPrice - priceAfterUse, priceAfterUse);
   }

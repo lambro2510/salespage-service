@@ -269,7 +269,8 @@ public class CartService extends BaseService {
 
     for (CartPaymentDto dto : dtos) {
       ObjectId transactionId = new ObjectId();
-
+      long totalDiscountPrice = 0;
+      long notDiscountPrice = 0;
       List<ProductTransactionDetail> transactionDetails = new ArrayList<>();
       for (ProductTransactionDto transaction : dto.getTransaction()) {
         Cart cart = cartStorage.findById(transaction.getProductDetailId());
@@ -292,10 +293,10 @@ public class CartService extends BaseService {
         if (StringUtils.isNotBlank(transaction.getVoucherCodeId())) {
           info = voucherCodeService.getVoucherInfoAndUse(transaction.getVoucherCodeId(), username, product, productDetail.getSellPrice());
         }
-        ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(productDetail, info, transaction.getAddress(), cart.getQuantity(), store, transaction.getNote());
+        ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(transactionId.toHexString(), productDetail, info, transaction.getAddress(), cart.getQuantity(), store, transaction.getNote());
         transactionDetails.add(productTransactionDetail);
       }
-      long distinctProduct = transactionDetails.stream().map(ProductTransactionDetail::getProductDetailId).distinct().count();
+      List<String> distinctProduct = transactionDetails.stream().map(k -> k.getProductDetail().getProductId()).distinct().collect(Collectors.toList());
       Double totalPrice = transactionDetails.stream().mapToDouble(ProductTransactionDetail::getTotalPrice).sum();
       ComboInfo comboInfo = productComboService.getComboInfo(dto.getComboId(), totalPrice, distinctProduct);
       ProductTransaction productTransaction = productTransactionService.buildProductTransaction(transactionId, username, dto.getNote(), comboInfo, transactionDetails);
