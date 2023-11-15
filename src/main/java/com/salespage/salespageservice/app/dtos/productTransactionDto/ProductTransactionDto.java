@@ -8,6 +8,10 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ProductTransactionDto {
 
+  @NotBlank(message = "ID")
+  @Schema(description = "ID", required = true)
+  private String cartId;
+
   @NotBlank(message = "ID chi tiết sản phẩm là bắt buộc")
   @Schema(description = "ID chi tiết sản phẩm", required = true)
   private String productDetailId;

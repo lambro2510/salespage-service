@@ -12,6 +12,7 @@ import com.salespage.salespageservice.domains.exceptions.NotEnoughMoneyException
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.*;
+import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Service
+@Log4j2
 public class UserService extends BaseService {
 
 
@@ -84,6 +86,7 @@ public class UserService extends BaseService {
   }
 
   public void minusBalance(User user, Double totalPrice) {
+    log.debug("=====>minusBalance: username: {} balance: {} price: {}", user.getUsername(), user.getBalance(), totalPrice);
     if(user.getBalance().getMoney() < totalPrice){
       throw new NotEnoughMoneyException();
     }

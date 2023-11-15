@@ -267,12 +267,15 @@ public class CartService extends BaseService {
     if (user == null) {
       throw new ResourceNotFoundException("Không tồn tài người dùng này");
     }
-
     for (CartPaymentDto dto : dtos) {
       ObjectId transactionId = new ObjectId();
       List<ProductTransactionDetail> transactionDetails = new ArrayList<>();
+      if(dto.getTransaction().isEmpty()){
+        continue;
+      }
+      List<Cart> deleteCard = new ArrayList<>();
       for (ProductTransactionDto transaction : dto.getTransaction()) {
-        Cart cart = cartStorage.findById(transaction.getProductDetailId());
+        Cart cart = cartStorage.findById(transaction.getCartId());
         if (cart == null) {
           throw new ResourceNotFoundException("Không thấy sản phẩm trong giỏ hàng");
         }
@@ -291,16 +294,23 @@ public class CartService extends BaseService {
         VoucherInfo info = new VoucherInfo();
         if (StringUtils.isNotBlank(transaction.getVoucherCodeId())) {
           info = voucherCodeService.getVoucherInfoAndUse(transaction.getVoucherCodeId(), username, product, productDetail.getSellPrice());
+        }else{
+          info.setIsUse(false);
+          info.setPriceAfter(productDetail.getSellPrice() * cart.getQuantity());
         }
+
         ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(transactionId.toHexString(), productDetail, info, transaction.getAddress(), cart.getQuantity(), store, transaction.getNote());
         transactionDetails.add(productTransactionDetail);
+        deleteCard.add(cart);
       }
       List<ProductTransactionDetail> distinctProduct = transactionDetails.stream().distinct().collect(Collectors.toList());
       ComboInfo comboInfo = productComboService.getComboInfo(dto.getComboId(), distinctProduct);
-      ProductTransaction productTransaction = productTransactionService.buildProductTransaction(transactionId, username, dto.getNote(), comboInfo, transactionDetails);
-      productTransactionService.saveTransaction(productTransaction, transactionDetails);
       userService.minusBalance(user, comboInfo.getSellPrice());
-    }
+      ProductTransaction productTransaction = productTransactionService.buildProductTransaction(transactionId, user, dto.getNote(), comboInfo, transactionDetails);
+      productTransactionService.saveTransaction(productTransaction, transactionDetails);
+      cartStorage.deleteAll(deleteCard);
 
+    }
+    userStorage.save(user);
   }
 }
