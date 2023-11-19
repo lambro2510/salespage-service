@@ -176,7 +176,13 @@ public class ProductService extends BaseService {
         .collect(Collectors.groupingBy(ProductDetail::getProductId));
     responses.forEach(product -> {
       List<ProductStatistic> statistics = mapProductStatistic.get(product.getProductId());
+      if(statistics == null){
+        statistics = new ArrayList<>();
+      }
       List<ProductDetail> details = mapProductDetail.get(product.getProductId());
+      if(details == null){
+        details = new ArrayList<>();
+      }
       product.assignFromListDetail(details);
       Long totalBuy = statistics.stream()
           .mapToLong(ProductStatistic::getTotalBuy)
