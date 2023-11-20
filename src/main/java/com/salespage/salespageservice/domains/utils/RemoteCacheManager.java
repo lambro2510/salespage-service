@@ -53,7 +53,9 @@ public class RemoteCacheManager {
 
   public <T> T get(String key, Class<T> tClass) {
     try {
+      long t1 = System.currentTimeMillis();
       String value = redisTemplate.opsForValue().get(key);
+      log.debug("=======>get {} : {}", key, System.currentTimeMillis() - t1);
       return JsonParser.entity(value, tClass);
     } catch (Exception ex) {
       return null;
@@ -62,8 +64,9 @@ public class RemoteCacheManager {
 
   public <T> ArrayList<T> getList(String key, Class<T> tClass) {
     try {
-
+      long t1 = System.currentTimeMillis();
       String value = redisTemplate.opsForValue().get(key);
+      log.debug("=======>get {} : {}", key, System.currentTimeMillis() - t1);
       return JsonParser.arrayList(value, tClass);
 
     } catch (Exception e) {
