@@ -4,16 +4,15 @@ import com.salespage.salespageservice.app.dtos.bankDtos.BankAccountInfoRequest;
 import com.salespage.salespageservice.app.dtos.bankDtos.GenQrCodeDto;
 import com.salespage.salespageservice.app.responses.BankResponse.*;
 import com.salespage.salespageservice.domains.Constants;
-import com.salespage.salespageservice.domains.entities.BankAccount;
-import com.salespage.salespageservice.domains.entities.BankTransaction;
-import com.salespage.salespageservice.domains.entities.Config;
-import com.salespage.salespageservice.domains.entities.PaymentTransaction;
+import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.info.TpBankTransactionData;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.Helper;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
@@ -30,6 +29,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +68,12 @@ public class BankService extends BaseService {
 
   @Value("${mb-bank.token}")
   private String MB_BANK_TOKEN;
+
+  @Value("${tp-bank.account-no}")
+  private String TPBANKACCOUNTNO;
+
+  @Value("${tp-bank.api.url}")
+  private String TPBANKURL;
 
   public List<BankTransaction> getAllTransaction() {
     return bankTransactionStorage.findAll();
@@ -195,4 +201,65 @@ public class BankService extends BaseService {
       }
     }
   }
+
+  public TpBankTransactionData getBankTransaction(String fromDate, String toDate) throws Exception {
+    String token = bankAccountStorage.getTokenFromRemoteCache();
+    Map<String, String> header = new HashMap<>();
+    header.put("Authorization", "Bearer " + token);
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("accountNo", TPBANKACCOUNTNO);
+    jsonObject.put("currency", "VND");
+    jsonObject.put("fromDate", fromDate);
+    jsonObject.put("keyword", "");
+    jsonObject.put("toDate", toDate);
+    return RequestUtil.request(HttpMethod.POST,
+        TPBANKURL + "/api/smart-search-presentation-service/v1/account-transactions/find",
+        TpBankTransactionData.class,
+        jsonObject,
+        header
+    );
+  }
+
+  public void saveTpBankTransactionToday() throws Exception {
+    LocalDate now = LocalDate.now();
+    String fromDate = DateUtils.convertLocalDateToString(now.minusDays(1), "yyyyMMdd");
+    String toDate = DateUtils.convertLocalDateToString(now, "yyyyMMdd");
+    TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
+    log.info(tpBankTransactionData);
+    for (TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()) {
+      TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByTransId(info.getId());
+      if (Objects.isNull(tpBankTransaction)) {
+        tpBankTransaction = new TpBankTransaction();
+        tpBankTransaction.fromTpBankTransactionInfo(info);
+      }
+      tpBankTransactionStorage.save(tpBankTransaction);
+    }
+  }
+
+  public void saveTpBankTransactionPeriodDay() throws Exception {
+    StatisticCheckpoint statisticCheckpoint = statisticCheckpointStorage.findById(Constants.TRANSACTION_CHECKPOINT_ID);
+    if (Objects.isNull(statisticCheckpoint)) {
+      statisticCheckpoint = new StatisticCheckpoint();
+      statisticCheckpoint.setId(Constants.TRANSACTION_CHECKPOINT_ID);
+      statisticCheckpoint.setCheckPoint(LocalDate.now().minusDays(64));
+    }
+    LocalDate currentDate = statisticCheckpoint.getCheckPoint();
+    while (currentDate.isBefore(LocalDate.now())) {
+      String fromDate = DateUtils.convertLocalDateToString(currentDate, "yyyyMMdd");
+      String toDate = DateUtils.convertLocalDateToString(currentDate.plusDays(1), "yyyyMMdd");
+      TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
+      for (TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()) {
+        TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByTransId(info.getId());
+        if (Objects.isNull(tpBankTransaction)) {
+          tpBankTransaction = new TpBankTransaction();
+          tpBankTransaction.fromTpBankTransactionInfo(info);
+        }
+        tpBankTransactionStorage.save(tpBankTransaction);
+      }
+      currentDate = currentDate.plusDays(1);
+      statisticCheckpoint.setCheckPoint(currentDate);
+      statisticCheckpointStorage.save(statisticCheckpoint);
+    }
+  }
+
 }
