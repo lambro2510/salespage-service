@@ -35,4 +35,8 @@ public class CartStorage extends BaseStorage{
   public void delete(Cart cart) {
     cartRepository.delete(cart);
   }
+
+  public void deleteAll(List<Cart> deleteCard) {
+    cartRepository.deleteAll(deleteCard);
+  }
 }

@@ -5,6 +5,7 @@ import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.UnauthorizedException;
 import com.salespage.salespageservice.domains.security.services.UserDetailsImpl;
 import com.salespage.salespageservice.domains.utils.JwtUtils;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Log4j2
 public class BaseController {
   @Autowired
   JwtUtils jwtUtils;

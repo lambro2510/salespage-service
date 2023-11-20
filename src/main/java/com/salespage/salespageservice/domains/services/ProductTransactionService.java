@@ -125,10 +125,11 @@ public class ProductTransactionService extends BaseService {
 
 
 
-  public ProductTransaction buildProductTransaction(ObjectId id, String buyerUsername, String note, ComboInfo comboInfo, List<ProductTransactionDetail> transactionDetails){
+  public ProductTransaction buildProductTransaction(ObjectId id, User user, String note, ComboInfo comboInfo, List<ProductTransactionDetail> transactionDetails){
     return ProductTransaction.builder()
         .id(id)
-        .buyerUsername(buyerUsername)
+        .buyerUsername(user.getUsername())
+        .balance(user.getBalance().getMoney())
         .note(note)
         .comboInfo(comboInfo)
         .totalPrice(comboInfo.getSellPrice())

@@ -41,6 +41,9 @@ public class ProductTransaction extends BaseEntity {
   @Field("total_price")
   private Double totalPrice;
 
+  @Field("balance")
+  private Double balance;
+
   @Field("product_transaction_details")
   private List<ProductTransactionDetail> productTransactionDetails;
 

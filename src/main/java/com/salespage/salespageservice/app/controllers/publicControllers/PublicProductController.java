@@ -52,6 +52,7 @@ public class PublicProductController extends BaseController {
       return successApi(productService.findProduct(productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
 
     } catch (Exception ex) {
+      log.error("=========>getAllProduct: ", ex);
       return errorApi(ex.getMessage());
     }
   }
