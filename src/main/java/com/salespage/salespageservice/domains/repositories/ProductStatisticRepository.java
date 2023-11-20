@@ -36,4 +36,6 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
 
   List<ProductStatistic> findTop12ByOrderByTotalViewDesc();
   List<ProductStatistic> findByProductIdIn(List<String> ids);
+
+  ProductStatistic findByDailyAndProductDetailId(LocalDate current, String id);
 }

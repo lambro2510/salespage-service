@@ -47,4 +47,10 @@ public class ProductStatistic {
   @Field("total_shipper_cod")
   private Long totalShipperCod = 0L;
 
+  public void partnerFromStatistic(TotalProductStatisticResponse statisticResponse) {
+    totalUser = statisticResponse.getTotalUser() != null ?  statisticResponse.getTotalUser() : 0;
+    totalBuy = statisticResponse.getTotalBuy()  != null ?  statisticResponse.getTotalBuy() : 0;;
+    totalPurchase = statisticResponse.getTotalPurchase()  != null ?  statisticResponse.getTotalPurchase() : 0;;
+    totalShipperCod = statisticResponse.getTotalShipCod()  != null ?  statisticResponse.getTotalShipCod() : 0;;
+  }
 }

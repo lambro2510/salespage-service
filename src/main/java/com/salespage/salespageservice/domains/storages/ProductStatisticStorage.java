@@ -2,7 +2,6 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductStatistic;
 import com.salespage.salespageservice.domains.utils.DateUtils;
-import com.salespage.salespageservice.domains.utils.Helper;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -19,6 +18,7 @@ public class ProductStatisticStorage extends BaseStorage {
   public void update(ProductStatistic ProductStatistic) {
     productStatisticRepository.save(ProductStatistic);
   }
+
   public List<ProductStatistic> findByDailyBetween(LocalDate startDate, LocalDate endDate) {
     return productStatisticRepository.findByDailyBetween(startDate, endDate);
   }
@@ -72,5 +72,9 @@ public class ProductStatisticStorage extends BaseStorage {
 
   public List<ProductStatistic> findByProductIdIn(List<String> productIds) {
     return productStatisticRepository.findByProductIdIn(productIds);
+  }
+
+  public ProductStatistic findByDailyAndProductDetailId(LocalDate current, String id) {
+    return productStatisticRepository.findByDailyAndProductDetailId(current, id);
   }
 }

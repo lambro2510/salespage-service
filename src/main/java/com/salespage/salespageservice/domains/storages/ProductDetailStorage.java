@@ -60,4 +60,8 @@ public class ProductDetailStorage extends BaseStorage{
     }
     return productDetails;
   }
+
+  public List<ProductDetail> findAll() {
+    return productDetailRepository.findAll();
+  }
 }
