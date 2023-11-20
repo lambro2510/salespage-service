@@ -78,16 +78,26 @@ public class StatisticService extends BaseService {
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Product not found");
     List<ProductDetail> productDetails = productDetailStorage.findByProductId(productId);
     for(ProductDetail productDetail : productDetails){
-      List<ProductStatistic> productStatistics = productStatisticStorage.findByProductIdAndDailyBetween(productId, startDate, endDate);
+      List<ProductStatistic> productStatistics = productStatisticStorage.findByProductDetailIdAndDailyBetween(productDetail.getId().toHexString(), startDate, endDate);
+      if(productStatistics.isEmpty()){
+        ProductStatistic productStatistic = new ProductStatistic();
+        productStatistic.setProductId(productId);
+        productStatistic.setProductDetailId(productDetail.getId().toHexString());
+        productStatistic.setDaily(DateUtils.now().toLocalDate());
+        productStatisticStorage.save(productStatistic);
+        productStatistics.add(productStatistic);
+      }
       for (ProductStatistic productStatistic : productStatistics) {
-        partnerToResponse(statistic, productStatistic, productDetail);
+        partnerToResponse(statistic, productStatistic, productDetail, product);
       }
     }
     return statistic;
   }
 
-  private void partnerToResponse(TotalProductStatisticResponse statistic, ProductStatistic productStatistic, ProductDetail productDetail) {
+  private void partnerToResponse(TotalProductStatisticResponse statistic, ProductStatistic productStatistic, ProductDetail productDetail, Product product) {
     Integer totalView = Math.toIntExact(productStatistic.getTotalView() == null ? 0 : productStatistic.getTotalView());
+    statistic.setProductId(product.getId().toHexString());
+    statistic.setProductName(product.getProductName());
     statistic.setTotalBuy(statistic.getTotalBuy() + productStatistic.getTotalBuy());
     statistic.setTotalPurchase(statistic.getTotalPurchase() + productStatistic.getTotalPurchase());
     statistic.setTotalUser(statistic.getTotalUser() + productStatistic.getTotalUser());
@@ -101,6 +111,7 @@ public class StatisticService extends BaseService {
 
     TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic= new TotalProductStatisticResponse.ProductDetailStatistic();
     productDetailStatistic.setProductDetailId(productDetail.getId().toHexString());
+    productDetailStatistic.setDaily(productStatistic.getDaily());
     productDetailStatistic.setTotalBuy(productDetailStatistic.getTotalBuy() + productStatistic.getTotalBuy());
     productDetailStatistic.setTotalPurchase(productDetailStatistic.getTotalPurchase() + productStatistic.getTotalPurchase());
     productDetailStatistic.setTotalUser(productDetailStatistic.getTotalUser() + productStatistic.getTotalUser());
