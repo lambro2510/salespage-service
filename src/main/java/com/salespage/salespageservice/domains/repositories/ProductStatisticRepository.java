@@ -20,7 +20,8 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
 
   List<ProductStatistic> findByProductDetailIdAndDailyBetween(String productId, LocalDate startDate, LocalDate endDate);
 
-  List<ProductStatistic> findByProductIdAndDaily(String productId, LocalDate now);
+  ProductStatistic findFirstByProductIdAndDailyBetweenOrderByTotalViewAsc(String productId, LocalDate start, LocalDate end);
+  List<ProductStatistic> findByProductIdAndDailyBetweenOrderByTotalViewAsc(String productId, LocalDate start, LocalDate end);
 
   List<ProductStatistic> findTop12ByOrderByTotalBuyDesc();
 
@@ -38,4 +39,8 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
   List<ProductStatistic> findByProductIdIn(List<String> ids);
 
   ProductStatistic findByDailyAndProductDetailId(LocalDate current, String id);
+
+  ProductStatistic findFirstByProductId(String productId);
+
+  ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewAsc(String productId, LocalDate now);
 }

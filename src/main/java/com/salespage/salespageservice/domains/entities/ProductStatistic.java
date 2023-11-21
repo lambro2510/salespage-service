@@ -9,6 +9,8 @@ import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -17,13 +19,14 @@ import java.time.LocalDate;
 
 @Document("product_statistic")
 @Data
+@CompoundIndexes({
+    @CompoundIndex(name = "unique_product_detail_id_daily", def = "{'product_detail_id' : 1, 'daily' : 2}", unique = true)
+})
 public class ProductStatistic {
   @Id
   private ObjectId id;
 
   @Field("daily")
-  @JsonFormat(pattern = "dd-MM-yyyy")
-  @Indexed(name = "daily_index", unique = true)
   private LocalDate daily;
 
   @Field("product_detail_id")

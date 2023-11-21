@@ -32,9 +32,9 @@ public class ProductStatisticStorage extends BaseStorage {
 
   }
 
-  public List<ProductStatistic> findByProductIdToday(String productId) {
+  public ProductStatistic findTopByProductIdAndDailyOrderByTotalViewAsc(String productId) {
     LocalDate now = DateUtils.now().toLocalDate();
-    return productStatisticRepository.findByProductIdAndDaily(productId, now);
+    return productStatisticRepository.findFirstByProductIdAndDailyOrderByTotalViewAsc(productId, now);
 
   }
 

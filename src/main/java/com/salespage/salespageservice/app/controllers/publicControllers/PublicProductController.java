@@ -96,6 +96,7 @@ public class PublicProductController extends BaseController {
       productService.getRating(username, response);
       return successApi(response);
     } catch (Exception ex) {
+      log.error(ex);
       return errorApi(ex.getMessage());
     }
   }
