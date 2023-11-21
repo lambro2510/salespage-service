@@ -15,13 +15,11 @@ import java.util.Set;
 public interface ProductStatisticRepository extends MongoRepository<ProductStatistic, ObjectId> {
 
   List<ProductStatistic> findByDailyBetween(LocalDate startDate, LocalDate endDate);
+  List<ProductStatistic> findByDailyBetweenOrderByTotalViewDesc(LocalDate startDate, LocalDate endDate);
 
   ProductStatistic findByDailyAndProductId(LocalDate daily, String productId);
 
   List<ProductStatistic> findByProductDetailIdAndDailyBetween(String productId, LocalDate startDate, LocalDate endDate);
-
-  ProductStatistic findFirstByProductIdAndDailyBetweenOrderByTotalViewAsc(String productId, LocalDate start, LocalDate end);
-  List<ProductStatistic> findByProductIdAndDailyBetweenOrderByTotalViewAsc(String productId, LocalDate start, LocalDate end);
 
   List<ProductStatistic> findTop12ByOrderByTotalBuyDesc();
 
@@ -31,8 +29,6 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
 
   List<ProductStatistic> findTop12ByProductIdInOrderByTotalViewDesc(List<String> productIds);
 
-  HashSet<String> findDistinctTop10ProductIdByProductIdInOrderByTotalViewDesc(List<String> productIds);
-
   HashSet<ProductStatistic> findDistinctTop10ProductIdByOrderByTotalViewDesc();
 
   List<ProductStatistic> findTop12ByOrderByTotalViewDesc();
@@ -40,7 +36,6 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
 
   ProductStatistic findByDailyAndProductDetailId(LocalDate current, String id);
 
-  ProductStatistic findFirstByProductId(String productId);
-
   ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewAsc(String productId, LocalDate now);
+
 }

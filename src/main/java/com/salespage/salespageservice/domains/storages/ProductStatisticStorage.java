@@ -23,6 +23,10 @@ public class ProductStatisticStorage extends BaseStorage {
     return productStatisticRepository.findByDailyBetween(startDate, endDate);
   }
 
+  public List<ProductStatistic> findByDailyBetweenOrderByTotalViewDesc(LocalDate startDate, LocalDate endDate) {
+    return productStatisticRepository.findByDailyBetweenOrderByTotalViewDesc(startDate, endDate);
+  }
+
   public ProductStatistic findByDailyAndProductId(LocalDate daily, String productId) {
     return productStatisticRepository.findByDailyAndProductId(daily, productId);
   }

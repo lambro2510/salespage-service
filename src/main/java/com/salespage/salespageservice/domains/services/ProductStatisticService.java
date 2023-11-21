@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 
@@ -103,25 +105,23 @@ public class ProductStatisticService extends BaseService{
     LocalDate now = DateUtils.now().toLocalDate();
     LocalDate preWeek = now.minusWeeks(1);
     LocalDate nextDay = now.plusDays(1);
-    List<ProductStatistic> productStatistics = productStatisticStorage.findByDailyBetween(preWeek, nextDay);
-    Map<Long, ProductStatistic> topViewProduct = new HashMap<>();
+    List<ProductStatistic> productStatistics = productStatisticStorage.findByDailyBetweenOrderByTotalViewDesc(preWeek, nextDay);
+    Map<String, ProductStatistic> topViewProduct = new HashMap<>();
     for(ProductStatistic productStatistic : productStatistics){
-      topViewProduct.put(productStatistic.getTotalView(), productStatistic);
+      topViewProduct.putIfAbsent(productStatistic.getProductId(), productStatistic);
     }
     int count = 0;
     List<ProductStatistic> statistics = new ArrayList<>(topViewProduct.values());
-    Map<String, Product> productMap = new HashMap<>();
+    List<Product> products = productStorage.findAll();
+    Map<String, Product> productMap = products.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
     for(ProductStatistic statistic: statistics){
       if(count >= 10){
         break;
       }
       Product product = productMap.get(statistic.getProductId());
       if(product != null){
-        continue;
+        product.setIsHot(true);
       }
-
-      product = productStorage.findProductById(statistic.getProductId());
-      productMap.put(product.getId().toHexString(), product);
       count++;
     }
     productStorage.saveAll(new ArrayList<>(productMap.values()));
