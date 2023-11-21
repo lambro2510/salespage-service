@@ -7,6 +7,7 @@ import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.entities.ProductStatistic;
 import com.salespage.salespageservice.domains.entities.StatisticCheckpoint;
 import com.salespage.salespageservice.domains.utils.DateUtils;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -23,8 +24,10 @@ import java.util.*;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 
 @Service
+@Log4j2
 public class ProductStatisticService extends BaseService{
   public void asyncStatisticPreDay() {
+    log.info("=====>asyncStatisticPreDay");
     List<ProductDetail> productDetails = productDetailStorage.findAll();
     StatisticCheckpoint statisticCheckpoint = statisticCheckpointStorage.findById(Constants.PAYMENT_STATISTIC_CHECKPOINT);
     if (Objects.isNull(statisticCheckpoint)) {
@@ -54,6 +57,7 @@ public class ProductStatisticService extends BaseService{
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public void asyncStatisticToday() {
+    log.info("=====>asyncStatisticToday");
     LocalDate startDay = DateUtils.startOfDay().toLocalDate();
     LocalDate endDay = startDay.plusDays(1);
     List<ProductDetail> productDetails = productDetailStorage.findAll();
@@ -66,9 +70,6 @@ public class ProductStatisticService extends BaseService{
         paymentStatistic.setProductDetailId(productDetail.getId().toHexString());
         paymentStatistic.setProductId(productDetail.getProductId());
       }else{
-        if(paymentStatistic.getId().toHexString().equals("655b88b2c1001b2f6b0b67eb")){
-          System.out.println(123);
-        }
         TotalProductStatisticResponse totalPaymentStatisticResponse = lookupAggregation(productDetail.getId().toHexString(), startDay, endDay);
         paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
       }
@@ -98,6 +99,7 @@ public class ProductStatisticService extends BaseService{
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public void updateToHotProduct(){
+    log.info("=====>updateToHotProduct");
     LocalDate now = DateUtils.now().toLocalDate();
     LocalDate preWeek = now.minusWeeks(1);
     LocalDate nextDay = now.plusDays(1);
