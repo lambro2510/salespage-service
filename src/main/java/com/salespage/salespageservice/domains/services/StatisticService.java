@@ -22,7 +22,7 @@ public class StatisticService extends BaseService {
   @Retryable(maxAttempts = 5, backoff = @Backoff(delay = 1000))
   @Async("threadPoolTaskExecutor")
   public void updateView(String productId) {
-    ProductStatistic statistic = productStatisticStorage.findTopByProductIdAndDailyOrderByTotalViewAsc(productId);
+    ProductStatistic statistic = productStatisticStorage.findFirstByProductIdAndDailyOrderByTotalViewAsc(productId);
     statistic.setTotalView(statistic.getTotalView() + 1);
     productStatisticStorage.save(statistic);
   }
