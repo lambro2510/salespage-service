@@ -21,6 +21,7 @@ public class TotalProductStatisticResponse {
   @Data
   public static class ProductDetailStatistic {
     private String productDetailId;
+    private String productDetailName;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate daily;
     private Long totalUser = 0L;

@@ -86,4 +86,7 @@ public class ProductStatisticStorage extends BaseStorage {
     return productStatisticRepository.findByDailyAndProductDetailId(current, id);
   }
 
+  public List<ProductStatistic> findByProductIdAndDailyBetweenOrderByTotalViewAsc(String id, LocalDate startDate, LocalDate endDate) {
+    return productStatisticRepository.findByProductIdAndDailyBetweenOrderByTotalViewAsc(id, startDate, endDate);
+  }
 }

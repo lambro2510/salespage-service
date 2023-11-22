@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.domains.services;
 
+import com.salespage.salespageservice.app.responses.Statistic.ChartDataResponse;
 import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductDetail;
@@ -12,9 +13,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class StatisticService extends BaseService {
@@ -27,37 +28,76 @@ public class StatisticService extends BaseService {
     productStatisticStorage.save(statistic);
   }
 
-  public List<TotalProductStatisticResponse> getStatistic(Long gte, Long lte) {
+  public List<ChartDataResponse> getStatistic(Long gte, Long lte) {
     List<TotalProductStatisticResponse> responses = new ArrayList<>();
     List<Product> products = productStorage.findAll();
+    LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
+    LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
     for (Product product : products) {
-      TotalProductStatisticResponse response = getStatisticOfProduct(product.getId().toHexString(), gte, lte);
+      TotalProductStatisticResponse response = getStatisticOfProduct(product.getId().toHexString(), startDate, endDate);
       responses.add(response);
     }
 
-    return responses;
+
+
+    List<ChartDataResponse> charts = new ArrayList<>();
+    for(TotalProductStatisticResponse response : responses){
+      ChartDataResponse chartDataResponse = new ChartDataResponse();
+      chartDataResponse.setProductId(response.getProductId());
+      chartDataResponse.setProductName(response.getProductName());
+      chartDataResponse.setTotalShipCod(response.getTotalShipCod());
+      chartDataResponse.setTotalView(response.getTotalView());
+      chartDataResponse.setTotalBuy(response.getTotalBuy());
+      chartDataResponse.setTotalPurchase(response.getTotalPurchase());
+      chartDataResponse.setTotalUser(response.getTotalUser());
+      List<String> labels = new ArrayList<>();
+      Map<String, List<Long>> dataSetMap = new HashMap<>();
+      for(LocalDate current = startDate; current.isBefore(endDate.plusDays(1)); current = current.plusDays(1)){
+        labels.add(current.toString());
+        for(TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic : response.getProductDetails()){
+          for(TotalProductStatisticResponse.Daily daily : productDetailStatistic.getDailies()){
+            if(daily.getDaily().equals(current)){
+              List<Long> dailies = dataSetMap.get(productDetailStatistic.getProductDetailName());
+              if(dailies == null){
+                dailies = new ArrayList<>();
+              }
+              dailies.add(daily.getTotalView());
+              dataSetMap.put(productDetailStatistic.getProductDetailName(), dailies);
+            }
+          }
+        }
+      }
+
+
+
+
+      List<ChartDataResponse.DataSets> dataSets = new ArrayList<>();
+      for(Map.Entry<String, List<Long>> entry : dataSetMap.entrySet()){
+        ChartDataResponse.DataSets data = new ChartDataResponse.DataSets();
+        data.setLabel(entry.getKey());
+        data.setData(entry.getValue());
+        dataSets.add(data);
+      }
+      chartDataResponse.setLabels(labels);
+      chartDataResponse.setDatasets(dataSets);
+      charts.add(chartDataResponse);
+
+    }
+    return charts;
   }
 
-  public TotalProductStatisticResponse getStatisticOfProduct(String productId, Long gte, Long lte) {
+  public TotalProductStatisticResponse getStatisticOfProduct(String productId, LocalDate startDate, LocalDate endDate) {
     TotalProductStatisticResponse statistic = new TotalProductStatisticResponse();
-    LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
-    LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
+
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Product not found");
     List<ProductDetail> productDetails = productDetailStorage.findByProductId(productId);
-    for (ProductDetail productDetail : productDetails) {
-      List<ProductStatistic> productStatistics = productStatisticStorage.findByProductDetailIdAndDailyBetween(productDetail.getId().toHexString(), startDate, endDate);
-      if (productStatistics.isEmpty()) {
-        ProductStatistic productStatistic = new ProductStatistic();
-        productStatistic.setProductId(productId);
-        productStatistic.setProductDetailId(productDetail.getId().toHexString());
-        productStatistic.setDaily(DateUtils.now().toLocalDate());
-        productStatisticStorage.save(productStatistic);
-        productStatistics.add(productStatistic);
-      }
-      for (ProductStatistic productStatistic : productStatistics) {
-        partnerToResponse(statistic, productStatistic, productDetail, product);
-      }
+    Map<String, ProductDetail> detailMap = productDetails.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+    List<ProductStatistic> productStatistics = productStatisticStorage.findByProductIdAndDailyBetweenOrderByTotalViewAsc(productId, startDate, endDate);
+
+    for (ProductStatistic productStatistic : productStatistics) {
+      partnerToResponse(statistic, productStatistic, detailMap.get(productStatistic.getProductDetailId()), product);
+
     }
     return statistic;
   }
@@ -78,14 +118,16 @@ public class StatisticService extends BaseService {
     daily.setTotalView(Long.valueOf(totalView));
 
     TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic = new TotalProductStatisticResponse.ProductDetailStatistic();
-    productDetailStatistic.setProductDetailId(productDetail.getId().toHexString());
-    productDetailStatistic.setDaily(productStatistic.getDaily());
-    productDetailStatistic.setTotalBuy(productDetailStatistic.getTotalBuy() + productStatistic.getTotalBuy());
-    productDetailStatistic.setTotalPurchase(productDetailStatistic.getTotalPurchase() + productStatistic.getTotalPurchase());
-    productDetailStatistic.setTotalUser(productDetailStatistic.getTotalUser() + productStatistic.getTotalUser());
-    productDetailStatistic.setTotalView(productDetailStatistic.getTotalView() + productStatistic.getTotalView());
-    productDetailStatistic.getDailies().add(daily);
-
-    statistic.getProductDetails().add(productDetailStatistic);
+    if (productDetail != null) {
+      productDetailStatistic.setProductDetailId(productDetail.getId().toHexString());
+      productDetailStatistic.setProductDetailName(productDetail.getType().getType());
+      productDetailStatistic.setDaily(productStatistic.getDaily());
+      productDetailStatistic.setTotalBuy(productDetailStatistic.getTotalBuy() + productStatistic.getTotalBuy());
+      productDetailStatistic.setTotalPurchase(productDetailStatistic.getTotalPurchase() + productStatistic.getTotalPurchase());
+      productDetailStatistic.setTotalUser(productDetailStatistic.getTotalUser() + productStatistic.getTotalUser());
+      productDetailStatistic.setTotalView(productDetailStatistic.getTotalView() + productStatistic.getTotalView());
+      productDetailStatistic.getDailies().add(daily);
+      statistic.getProductDetails().add(productDetailStatistic);
+    }
   }
 }

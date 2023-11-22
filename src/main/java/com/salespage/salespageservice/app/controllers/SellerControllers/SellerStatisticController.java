@@ -3,12 +3,15 @@ package com.salespage.salespageservice.app.controllers.SellerControllers;
 import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.StatisticService;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @Tag(name = "Seller statistic", description = "Thống kê bán hàng")
 @CrossOrigin
@@ -33,7 +36,9 @@ public class SellerStatisticController extends BaseController {
                                                                  @RequestParam Long lte,
                                                                  @RequestParam Long gte){
     try{
-      return successApi(statisticService.getStatisticOfProduct(productId,gte, lte));
+      LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
+      LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
+      return successApi(statisticService.getStatisticOfProduct(productId,startDate, endDate));
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }
