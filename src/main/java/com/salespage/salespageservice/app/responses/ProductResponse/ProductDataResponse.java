@@ -40,6 +40,9 @@ public class ProductDataResponse {
   @Schema(description = "Tiền trước giảm giá lớn nhất")
   protected Double maxOriginPrice;
 
+  @Schema(description = "Phần trăm giảm lớn nhất")
+  protected Double maxDiscountPercent;
+
   @Schema(description = "Số sản phẩm bán đươc")
   protected Long totalSell;
 
@@ -71,34 +74,45 @@ public class ProductDataResponse {
 
   public void assignFromListDetail(List<ProductDetail> productDetails) {
     if (productDetails != null && !productDetails.isEmpty()) {
-      Double minSellPrice = null;
-      Double maxSellPrice = null;
-      Double minOriginPrice = null;
-      Double maxOriginPrice = null;
+      double maxDiscountPercent = 0D;
+      double minSellPrice = 0D;
+      double maxSellPrice = 0D;
+      double minOriginPrice = 0D;
+      double maxOriginPrice = 0D;
 
       for (ProductDetail productDetail : productDetails) {
         Double sellPrice = productDetail.getSellPrice();
         Double originPrice = productDetail.getOriginPrice();
 
         if (sellPrice != null) {
-          if (minSellPrice == null || sellPrice < minSellPrice) {
+          if (sellPrice < minSellPrice) {
             minSellPrice = sellPrice;
           }
-          if (maxSellPrice == null || sellPrice > maxSellPrice) {
+          if (sellPrice > maxSellPrice) {
             maxSellPrice = sellPrice;
           }
         }
 
         if (originPrice != null) {
-          if (minOriginPrice == null || originPrice < minOriginPrice) {
+          if (originPrice < minOriginPrice) {
             minOriginPrice = originPrice;
           }
-          if (maxOriginPrice == null || originPrice > maxOriginPrice) {
+          if (originPrice > maxOriginPrice) {
             maxOriginPrice = originPrice;
           }
         }
+
+        if(sellPrice != null && originPrice != null){
+          double discountPercent = 100 - (sellPrice/originPrice) * 100;
+          if(discountPercent > maxDiscountPercent){
+            maxDiscountPercent = discountPercent;
+          }
+
+        }
+
       }
 
+      this.maxDiscountPercent = maxDiscountPercent;
       this.minSellPrice = minSellPrice;
       this.maxSellPrice = maxSellPrice;
       this.minOriginPrice = minOriginPrice;
