@@ -75,29 +75,29 @@ public class ProductDataResponse {
   public void assignFromListDetail(List<ProductDetail> productDetails) {
     if (productDetails != null && !productDetails.isEmpty()) {
       double maxDiscountPercent = 0D;
-      double minSellPrice = 0D;
-      double maxSellPrice = 0D;
-      double minOriginPrice = 0D;
-      double maxOriginPrice = 0D;
+      Double minSellPrice = null;
+      Double maxSellPrice = null;
+      Double minOriginPrice = null;
+      Double maxOriginPrice = null;
 
       for (ProductDetail productDetail : productDetails) {
         Double sellPrice = productDetail.getSellPrice();
         Double originPrice = productDetail.getOriginPrice();
 
         if (sellPrice != null) {
-          if (sellPrice < minSellPrice) {
+          if (minSellPrice == null || sellPrice < minSellPrice) {
             minSellPrice = sellPrice;
           }
-          if (sellPrice > maxSellPrice) {
+          if (maxSellPrice == null || sellPrice > maxSellPrice) {
             maxSellPrice = sellPrice;
           }
         }
 
         if (originPrice != null) {
-          if (originPrice < minOriginPrice) {
+          if (minOriginPrice == null || originPrice < minOriginPrice) {
             minOriginPrice = originPrice;
           }
-          if (originPrice > maxOriginPrice) {
+          if (maxOriginPrice == null || originPrice > maxOriginPrice) {
             maxOriginPrice = originPrice;
           }
         }
@@ -107,9 +107,7 @@ public class ProductDataResponse {
           if(discountPercent > maxDiscountPercent){
             maxDiscountPercent = discountPercent;
           }
-
         }
-
       }
 
       this.maxDiscountPercent = maxDiscountPercent;
