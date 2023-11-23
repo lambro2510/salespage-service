@@ -67,7 +67,10 @@ public class ProductTransactionDetail extends BaseEntity{
 
   @Field("address")
   private String address;
-  
+
+  @Field("user_id")
+  private String userId;
+
   @Field("message")
   private List<Message> messages = new ArrayList<>();
 

@@ -13,6 +13,7 @@ public class TotalProductStatisticResponse {
   private String productName;
   private Long totalUser = 0L;
   private Long totalPurchase = 0L;
+  private Long totalProduct = 0L;
   private Long totalView = 0L;
   private Long totalBuy = 0L;
   private Long totalShipCod = 0L;
@@ -27,6 +28,7 @@ public class TotalProductStatisticResponse {
     private Long totalUser = 0L;
     private Long totalPurchase = 0L;
     private Long totalView = 0L;
+    private Long totalProduct = 0L;
     private Long totalBuy = 0L;
     private Long totalShipCod = 0L;
     private List<Daily> dailies = new ArrayList<>();
@@ -39,6 +41,7 @@ public class TotalProductStatisticResponse {
     private Long totalUser = 0L;
     private Long totalPurchase = 0L;
     private Long totalView = 0L;
+    private Long totalProduct = 0L;
     private Long totalBuy = 0L;
     private Long totalShipCod = 0L;
   }

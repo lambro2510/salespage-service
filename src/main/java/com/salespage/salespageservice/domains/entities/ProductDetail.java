@@ -47,6 +47,9 @@ public class ProductDetail extends BaseEntity{
   @Field("discount_percent")
   Double discountPercent;
 
+  @Field("user_id")
+  String userId;
+
   @Data
   @NoArgsConstructor
   @AllArgsConstructor

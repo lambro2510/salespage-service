@@ -47,6 +47,10 @@ public class ProductStatisticService extends BaseService{
           paymentStatistic.setProductId(productDetail.getProductId());
         }else{
           TotalProductStatisticResponse totalPaymentStatisticResponse = lookupAggregation(productDetail.getId().toHexString(), current, current.plusDays(1));
+          long totalUser = productTransactionDetailStorage.countDistinctUserIdByCreatedAtBetween(DateUtils.convertLocalDateToLong(current), DateUtils.convertLocalDateToLong(current.plusDays(1)));
+          long totalProduct = productTransactionDetailStorage.countByCreatedAtBetween(DateUtils.convertLocalDateToLong(current), DateUtils.convertLocalDateToLong(current.plusDays(1)));
+          totalPaymentStatisticResponse.setTotalProduct(totalProduct);
+          totalPaymentStatisticResponse.setTotalUser(totalUser);
           paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
         }
         productStatisticStorage.save(paymentStatistic);
@@ -73,6 +77,10 @@ public class ProductStatisticService extends BaseService{
         paymentStatistic.setProductId(productDetail.getProductId());
       }else{
         TotalProductStatisticResponse totalPaymentStatisticResponse = lookupAggregation(productDetail.getId().toHexString(), startDay, endDay);
+        long totalUser = productTransactionDetailStorage.countDistinctUserIdByCreatedAtBetween(DateUtils.convertLocalDateToLong(startDay), DateUtils.convertLocalDateToLong(endDay));
+        long totalProduct = productTransactionDetailStorage.countByCreatedAtBetween(DateUtils.convertLocalDateToLong(startDay), DateUtils.convertLocalDateToLong(endDay));
+        totalPaymentStatisticResponse.setTotalProduct(totalProduct);
+        totalPaymentStatisticResponse.setTotalUser(totalUser);
         paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
       }
       productStatisticStorage.save(paymentStatistic);

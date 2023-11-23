@@ -41,6 +41,9 @@ public class ProductStatistic {
   @Field("total_buy")
   private Long totalBuy = 0L;
 
+  @Field("total_product")
+  private Long totalProduct = 0L;
+
   @Field("total_view")
   private Long totalView = 0L;
 
@@ -52,6 +55,7 @@ public class ProductStatistic {
 
   public void partnerFromStatistic(TotalProductStatisticResponse statisticResponse) {
     totalUser = statisticResponse.getTotalUser() != null ?  statisticResponse.getTotalUser() : 0;
+    totalProduct = statisticResponse.getTotalProduct() != null ?  statisticResponse.getTotalProduct() : 0;
     totalBuy = statisticResponse.getTotalBuy()  != null ?  statisticResponse.getTotalBuy() : 0;;
     totalPurchase = statisticResponse.getTotalPurchase()  != null ?  statisticResponse.getTotalPurchase() : 0;;
     totalShipperCod = statisticResponse.getTotalShipCod()  != null ?  statisticResponse.getTotalShipCod() : 0;;
