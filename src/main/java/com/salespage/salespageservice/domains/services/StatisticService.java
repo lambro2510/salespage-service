@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.responses.Statistic.ChartDataResponse;
 import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
+import com.salespage.salespageservice.domains.Constants;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.entities.ProductStatistic;
@@ -50,10 +51,10 @@ public class StatisticService extends BaseService {
       chartDataResponse.setTotalBuy(response.getTotalBuy());
       chartDataResponse.setTotalPurchase(response.getTotalPurchase());
       chartDataResponse.setTotalUser(response.getTotalUser());
-      List<String> labels = new ArrayList<>();
+      List<Integer> labels = new ArrayList<>();
       Map<String, List<Long>> dataSetMap = new HashMap<>();
       for(LocalDate current = startDate; current.isBefore(endDate.plusDays(1)); current = current.plusDays(1)){
-        labels.add(current.toString());
+        labels.add(current.getDayOfMonth());
         for(TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic : response.getProductDetails()){
           for(TotalProductStatisticResponse.Daily daily : productDetailStatistic.getDailies()){
             if(daily.getDaily().equals(current)){
@@ -70,12 +71,13 @@ public class StatisticService extends BaseService {
 
 
 
-
+      int i = 0;
       List<ChartDataResponse.DataSets> dataSets = new ArrayList<>();
       for(Map.Entry<String, List<Long>> entry : dataSetMap.entrySet()){
         ChartDataResponse.DataSets data = new ChartDataResponse.DataSets();
         data.setLabel(entry.getKey());
         data.setData(entry.getValue());
+        data.setBorderColor(Constants.COLOR.get(i++));
         dataSets.add(data);
       }
       chartDataResponse.setLabels(labels);

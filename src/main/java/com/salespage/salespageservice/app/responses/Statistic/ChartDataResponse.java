@@ -14,7 +14,7 @@ public class ChartDataResponse {
   private Long totalView = 0L;
   private Long totalBuy = 0L;
   private Long totalShipCod = 0L;
-  List<String> labels = new ArrayList<>();
+  List<Integer> labels = new ArrayList<>();
 
   List<DataSets> datasets = new ArrayList<>();
 
@@ -22,6 +22,8 @@ public class ChartDataResponse {
   public static class DataSets {
     List<Long> data = new ArrayList<>();
     String label;
+    Boolean fill = true;
+    Integer borderWidth = 1;
 
     String borderColor;
   }
