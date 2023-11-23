@@ -28,6 +28,15 @@ public class CartController extends BaseController{
     }
   }
 
+  @GetMapping("v1")
+  public ResponseEntity<?> getProductCartV1(Authentication authentication){
+    try{
+      return successApi(cartService.findCartByUsernameV1(getUsername(authentication)));
+    }catch (Exception ex){
+      return errorApi(ex.getMessage());
+    }
+  }
+
   @PostMapping("")
   public ResponseEntity<?> createCart(Authentication authentication, @RequestBody @Valid CartDto dto){
     try{

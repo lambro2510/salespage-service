@@ -14,4 +14,6 @@ public interface ProductComboRepository extends MongoRepository<ProductCombo, Ob
   List<ProductCombo> findByCreatedBy(String username);
 
   ProductCombo findByIdAndState(ObjectId objectId, ActiveState activeState);
+
+  List<ProductCombo> findByIdIn(List<ObjectId> objectIds);
 }

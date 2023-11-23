@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.storages;
 import com.salespage.salespageservice.domains.entities.ProductCombo;
 import com.salespage.salespageservice.domains.entities.types.ActiveState;
 import com.salespage.salespageservice.domains.utils.CacheKey;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
@@ -35,5 +36,15 @@ public class ProductComboStorage extends BaseStorage{
       remoteCacheManager.set(key, productCombo);
     }
     return productCombo;
+  }
+
+  public List<ProductCombo> findByIdIn(List<String> comboIds) {
+    String key = CacheKey.genProductComboByIds(comboIds);
+    List<ProductCombo> productCombos = remoteCacheManager.getList(key, ProductCombo.class);
+    if(productCombos == null){
+      productCombos = productComboRepository.findByIdIn(Helper.convertListStringToListObjectId(comboIds));
+      remoteCacheManager.set(key, productCombos);
+    }
+    return productCombos;
   }
 }

@@ -3,8 +3,8 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.CartDtos.CartDto;
 import com.salespage.salespageservice.app.dtos.CartDtos.CartPaymentDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
-import com.salespage.salespageservice.app.responses.CartResponse.CartByStoreResponse;
-import com.salespage.salespageservice.app.responses.CartResponse.CartResponse;
+import com.salespage.salespageservice.app.responses.CartResponse.*;
+import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
@@ -312,5 +312,91 @@ public class CartService extends BaseService {
 
     }
     userStorage.save(user);
+  }
+
+  public List<CartDataResponse> findCartByUsernameV1(String username) {
+    List<CartDataResponse> responses = new ArrayList<>();
+    User user = userStorage.findByUsername(username);
+    if (user == null) {
+      throw new ResourceNotFoundException("Không tồn tài người dùng này");
+    }
+    List<Cart> carts = cartStorage.findByUsername(username);
+    List<String> storeIds = carts.stream().map(Cart::getStoreId).collect(Collectors.toList());
+    List<String> productDetailIds = carts.stream().map(Cart::getProductDetailId).collect(Collectors.toList());
+    List<SellerStore> sellerStores = sellerStoreStorage.findByIdIn(storeIds);
+    List<ProductDetail> productDetails = productDetailStorage.findByIdIn(productDetailIds);
+
+    List<String> productIds = productDetails.stream().map(ProductDetail::getProductId).collect(Collectors.toList());
+    List<Product> products = productStorage.findByIdIn(productIds);
+
+    Map<String, SellerStore> sellerStoreMap = sellerStores.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+    Map<String, ProductDetail> productDetailMap = productDetails.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+    Map<String, Product> productMap = products.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+    List<ProductComboDetail> comboDetails = productComboDetailStorage.findByProductIdIn(productIds);
+    List<String> comboIds = comboDetails.stream().map(ProductComboDetail::getComboId).collect(Collectors.toList());
+
+    List<ProductCombo> combos = productComboStorage.findByIdIn(comboIds);
+    Map<String, List<ProductComboDetail>> comboDetailsMap = comboDetails.stream().collect(Collectors.groupingBy(ProductComboDetail::getProductId));
+    Map<String, ProductCombo> combosMap = combos.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+
+    for(Cart cart : carts){
+      CartDataResponse response = new CartDataResponse();
+      response.setCartId(cart.getId().toHexString());
+      response.setProductDetailId(cart.getProductDetailId());
+      response.setProductQuantity(cart.getQuantity());
+      response.setProductName(cart.getProductName());
+      response.setStoreId(cart.getStoreId());
+      SellerStore sellerStore = sellerStoreMap.get(cart.getStoreId());
+      if(sellerStore != null){
+        response.setStoreName(sellerStore.getStoreName());
+      }
+
+      ProductDetail productDetail = productDetailMap.get(cart.getProductDetailId());
+      if(productDetail != null){
+        response.setQuantity(productDetail.getQuantity());
+        response.setSellPrice(productDetail.getSellPrice());
+        response.setType(productDetail.getType().getType());
+        Product product = productMap.get(productDetail.getId().toHexString());
+        if(product != null){
+          response.setImageUrl(product.getDefaultImageUrl());
+          response.setProductName(product.getProductName());
+          response.setProductId(product.getId().toHexString());
+          List<ProductComboDetail> details = comboDetailsMap.get(product.getId().toHexString());
+          List<ComboInfo> comboOfProduct = new ArrayList<>();
+          for(ProductComboDetail comboDetail : details){
+            ProductCombo combo = combosMap.get(comboDetail.getComboId());
+            if(combo != null){
+              ComboInfo comboInfo = new ComboInfo(combo, 0D, productDetail.getSellPrice());
+              comboOfProduct.add(comboInfo);
+            }
+          }
+          response.setComboInfos(comboOfProduct);
+        }
+      }
+      responses.add(response);
+    }
+
+    for(CartDataResponse response : responses){
+      List<ListProductCartResponse> cartResponses = new ArrayList<>();
+
+      List<ProductComboDetail> productComboDetails = comboDetailsMap.get(response.getProductId());
+      List<String> ids = productComboDetails.stream().map(ProductComboDetail::getProductId).collect(Collectors.toList());
+      List<Product> refProducts = productStorage.findByIdIn(ids);
+      Map<String, Product> refProductMap = refProducts.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+
+      ProductCombo combo = combosMap.get(productComboDetails.get(0).getComboId());
+      if(combo != null){
+        ListProductCartResponse listProductCartResponse = new ListProductCartResponse(combo);
+      for(ProductComboDetail comboDetail : productComboDetails){
+          Product product = refProductMap.get(comboDetail.getProductId());
+          if(product != null){
+            ProductInCartResponse productInCartResponse = new ProductInCartResponse(product);
+            listProductCartResponse.getProducts().add(productInCartResponse);
+          }
+        }
+      }
+      response.setRefCarts(cartResponses);
+    }
+    return responses;
   }
 }
