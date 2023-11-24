@@ -14,7 +14,7 @@ public class ChartDataResponse {
   private Long totalView = 0L;
   private Long totalBuy = 0L;
   private Long totalShipCod = 0L;
-  List<Integer> labels = new ArrayList<>();
+  List<String> labels = new ArrayList<>();
 
   List<DataSets> datasets = new ArrayList<>();
 

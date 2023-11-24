@@ -51,10 +51,10 @@ public class StatisticService extends BaseService {
       chartDataResponse.setTotalBuy(response.getTotalBuy());
       chartDataResponse.setTotalPurchase(response.getTotalPurchase());
       chartDataResponse.setTotalUser(response.getTotalUser());
-      List<Integer> labels = new ArrayList<>();
+      List<String> labels = new ArrayList<>();
       Map<String, List<Long>> dataSetMap = new HashMap<>();
       for(LocalDate current = startDate; current.isBefore(endDate.plusDays(1)); current = current.plusDays(1)){
-        labels.add(current.getDayOfMonth());
+        labels.add(current.toString());
         for(TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic : response.getProductDetails()){
           for(TotalProductStatisticResponse.Daily daily : productDetailStatistic.getDailies()){
             if(daily.getDaily().equals(current)){
