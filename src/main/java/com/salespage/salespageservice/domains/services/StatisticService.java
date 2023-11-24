@@ -128,8 +128,11 @@ public class StatisticService extends BaseService {
         daily.setTotalView(productStatistic.getTotalView());
         productDetailStatistic.getDailies().add(daily);
       }
-
       statistic.getProductDetails().add(productDetailStatistic);
+//    }
+
+//    for(ProductStatistic productStatistic : productStatistics){
+//      partnerToResponse(statistic, productStatistic, detailMap.get(productStatistic.getProductDetailId()), product);
     }
     return statistic;
   }
