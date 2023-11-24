@@ -8,6 +8,7 @@ import com.salespage.salespageservice.domains.entities.status.NotificationStatus
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +45,7 @@ public class NotificationService extends BaseService {
     if (!notification.getUsername().equals(username))
       throw new AuthorizationException("Bạn không có quyền xem thông tin này");
     notification.setNotificationStatus(NotificationStatus.SEEN);
-    notification.setUpdatedAt(System.currentTimeMillis());
+    notification.setUpdatedAt(DateUtils.nowInMillis());
     notificationStorage.save(notification);
     return notification.partnerToNotificationDetailResponse();
   }

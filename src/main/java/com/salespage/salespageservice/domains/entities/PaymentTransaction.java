@@ -8,6 +8,7 @@ import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
 import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import com.salespage.salespageservice.domains.entities.types.PaymentType;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -54,6 +55,6 @@ public class PaymentTransaction extends BaseEntity {
   }
 
   public boolean createdOneDayPeriod() {
-    return createdAt < (System.currentTimeMillis() - 24 * 60 * 60 * 1000);
+    return createdAt < (DateUtils.nowInMillis() - 24 * 60 * 60 * 1000);
   }
 }

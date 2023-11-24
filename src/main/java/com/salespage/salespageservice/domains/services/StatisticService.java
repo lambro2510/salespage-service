@@ -36,11 +36,12 @@ public class StatisticService extends BaseService {
     List<Product> products = productStorage.findAll();
     LocalDateTime startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate().atStartOfDay();
     LocalDateTime endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate().plusDays(1).atStartOfDay();
+    LocalDateTime startDateAtVn = DateUtils.convertUtcToVietnamTime(startDate);
+    LocalDateTime endDateAtVn = DateUtils.convertUtcToVietnamTime(endDate);
     for (Product product : products) {
-      TotalProductStatisticResponse response = getStatisticOfProduct(product.getId().toHexString(), startDate, endDate);
+      TotalProductStatisticResponse response = getStatisticOfProduct(product.getId().toHexString(), startDateAtVn, endDateAtVn);
       responses.add(response);
     }
-    responses = Arrays.asList(responses.get(10));
 
 
     List<ChartDataResponse> charts = new ArrayList<>();

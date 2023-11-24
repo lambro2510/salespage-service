@@ -9,6 +9,7 @@ import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -45,7 +46,7 @@ public class VoucherStoreService extends BaseService {
     }
 
     voucherStore.updatedVoucherStore(updateVoucherStoreDto);
-    voucherStore.setUpdatedAt(System.currentTimeMillis());
+    voucherStore.setUpdatedAt(DateUtils.nowInMillis());
     voucherStoreStorage.save(voucherStore);
     return ResponseEntity.ok(ResponseType.UPDATED);
   }

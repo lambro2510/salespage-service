@@ -24,15 +24,16 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.newA
 @Log4j2
 public class ProductStatisticService extends BaseService{
   public void asyncStatisticPreDay() {
+    LocalDateTime now = DateUtils.nowAtVn();
     log.info("=====>asyncStatisticPreDay");
     List<ProductDetail> productDetails = productDetailStorage.findAll();
     StatisticCheckpoint statisticCheckpoint = statisticCheckpointStorage.findById(Constants.PAYMENT_STATISTIC_CHECKPOINT);
     if (Objects.isNull(statisticCheckpoint)) {
       statisticCheckpoint = new StatisticCheckpoint();
-      statisticCheckpoint.setCheckPoint(DateUtils.startOfDay().minusDays(64));
+      statisticCheckpoint.setCheckPoint(now.minusDays(64));
       statisticCheckpoint.setId(Constants.PAYMENT_STATISTIC_CHECKPOINT);
     }
-    for (LocalDateTime current = statisticCheckpoint.getCheckPoint(); current.isBefore(DateUtils.startOfDay()); current = current.plusDays(1)) {
+    for (LocalDateTime current = statisticCheckpoint.getCheckPoint(); current.isBefore(now); current = current.plusDays(1)) {
       for (ProductDetail productDetail : productDetails) {
         ProductStatistic paymentStatistic = productStatisticStorage.findByDailyAndProductDetailId(current, productDetail.getId().toHexString());
         if (paymentStatistic == null) {

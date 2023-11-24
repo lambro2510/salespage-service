@@ -24,6 +24,13 @@ public class DateUtils {
     return dateTime.format(formatter);
   }
 
+  public static LocalDateTime convertUtcToVietnamTime(LocalDateTime utcDateTime) {
+    ZonedDateTime utcZonedDateTime = utcDateTime.atZone(ZONE_ID_UTC);
+    ZonedDateTime vietnamZonedDateTime = utcZonedDateTime.withZoneSameInstant(DEFAULT_ZONE_ID);
+
+    return vietnamZonedDateTime.toLocalDateTime();
+  }
+
   public static String nowString(String pattern) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
     LocalDateTime dateTime = LocalDateTime.now(ZONE_ID_UTC);
@@ -45,8 +52,7 @@ public class DateUtils {
   }
 
   public static long nowInMillis() {
-    ZoneId vnZone = ZoneId.of("Asia/Ho_Chi_Minh");
-    Instant instant = Instant.now().atZone(vnZone).toInstant();
+    Instant instant = Instant.now().atZone(DEFAULT_ZONE_ID).toInstant();
     return instant.toEpochMilli();
   }
 
@@ -65,5 +71,9 @@ public class DateUtils {
   public static LocalDateTime convertLongToLocalDateTime(Long timestamp) {
     Instant instant = Instant.ofEpochMilli(timestamp);
     return instant.atZone(DEFAULT_ZONE_ID).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
+  }
+
+  public static LocalDateTime nowAtVn() {
+    return LocalDateTime.now(DEFAULT_ZONE_ID);
   }
 }

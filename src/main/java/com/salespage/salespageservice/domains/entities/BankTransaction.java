@@ -67,7 +67,7 @@ public class BankTransaction {
   private String benAccountNo;
 
   @Field("created_at")
-  private Long createdAt = System.currentTimeMillis();
+  private Long createdAt = DateUtils.nowInMillis();
 
   public void partnerFromTransactionData(MbBankTransaction.Transaction transaction) {
     setPostingDate(DateUtils.convertToLocalDateTime(transaction.getPostingDate(), "dd/MM/yyyy HH:mm:ss"));

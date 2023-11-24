@@ -371,7 +371,7 @@ public class ProductService extends BaseService {
 
     productTypeDetail.setStatus(dto.getStatus());
     productTypeDetail.setUpdatedBy(username);
-    productTypeDetail.setUpdatedAt(System.currentTimeMillis());
+    productTypeDetail.setUpdatedAt(DateUtils.nowInMillis());
 
     productTypeStorage.save(productTypeDetail);
   }
