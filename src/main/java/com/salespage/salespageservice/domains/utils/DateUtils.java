@@ -41,6 +41,9 @@ public class DateUtils {
     return LocalDateTime.now(ZONE_ID_UTC).with(LocalTime.MIN);
   }
 
+  public static LocalDateTime startOfDayAtVn() {
+    return LocalDateTime.now(DEFAULT_ZONE_ID).with(LocalTime.MIN);
+  }
 
   public static Date toDate(final LocalDateTime localDateTime) {
     return Date.from(localDateTime.atZone(ZONE_ID_UTC).toInstant());

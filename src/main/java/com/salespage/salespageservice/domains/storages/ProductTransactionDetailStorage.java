@@ -41,7 +41,7 @@ public class ProductTransactionDetailStorage extends BaseStorage{
     // Lấy số lượng giá trị duy nhất
     return resultList.size();
   }
-  public long countByCreatedAtBetween(Long startDay, Long endDay) {
-    return productTransactionDetailRepository.countByCreatedAtBetween(startDay,endDay);
+  public long countByProductDetailIdAndCreatedAtBetween(String id, Long startDay, Long endDay) {
+    return productTransactionDetailRepository.countByProductDetailIdAndCreatedAtBetween(id, startDay,endDay);
   }
 }

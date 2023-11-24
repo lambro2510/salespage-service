@@ -13,5 +13,5 @@ public interface ProductTransactionDetailRepository extends MongoRepository<Prod
   List<ProductTransactionDetail> findByTransactionIdIn(List<String> tranIds);
 
   long countDistinctUsernameByCreatedAtBetween(Long createdAt, Long createdAt2);
-  long countByCreatedAtBetween(Long createdAt, Long createdAt2);
+  long countByProductDetailIdAndCreatedAtBetween(String id, Long createdAt, Long createdAt2);
 }
