@@ -61,15 +61,12 @@ public class ProductStatisticService extends BaseService{
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public void asyncStatisticToday() {
     log.info("=====>asyncStatisticToday");
-    LocalDateTime startDay = DateUtils.startOfDay().toLocalDate().atStartOfDay();
+    LocalDateTime startDay = DateUtils.startOfDayAtVn();
     LocalDateTime endDay = startDay.plusDays(1);
     List<ProductDetail> productDetails = productDetailStorage.findAll();
 
     for (ProductDetail productDetail : productDetails) {
       ProductStatistic paymentStatistic = productStatisticStorage.findByDailyAndProductDetailId(startDay, productDetail.getId().toHexString());
-      if(productDetail.getId().toHexString().equals("6532bc72fae6d41599929249")){
-        log.info(123);
-      }
       if (paymentStatistic == null) {
         paymentStatistic = new ProductStatistic();
         paymentStatistic.setDaily(startDay);
