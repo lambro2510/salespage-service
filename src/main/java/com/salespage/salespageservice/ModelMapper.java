@@ -85,6 +85,7 @@ public interface ModelMapper {
   ProductDetailInfoResponse toProductDetailInfo(ProductDetail productDetails);
 
   List<ProductDetailInfoResponse> toListProductDetailInfo(List<ProductDetail> productDetails);
+
   @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
   ProductComboDetailResponse toProductComboDetailResponse(ProductCombo productCombo);
 
