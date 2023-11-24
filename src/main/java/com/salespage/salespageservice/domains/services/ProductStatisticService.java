@@ -2,16 +2,10 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
 import com.salespage.salespageservice.domains.Constants;
-import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.ProductDetail;
-import com.salespage.salespageservice.domains.entities.ProductStatistic;
-import com.salespage.salespageservice.domains.entities.StatisticCheckpoint;
+import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -48,7 +42,7 @@ public class ProductStatisticService extends BaseService{
           paymentStatistic.setProductId(productDetail.getProductId());
         }else{
           TotalProductStatisticResponse totalPaymentStatisticResponse = lookupAggregation(productDetail.getId().toHexString(), current, current.plusDays(1));
-          long totalUser = productTransactionDetailStorage.countDistinctUsernameByCreatedAtBetween(DateUtils.convertLocalDateTimeToLong(current), DateUtils.convertLocalDateTimeToLong(current.plusDays(1)));
+          long totalUser = productTransactionDetailStorage.countDistinctUsernameByProductDetailIdAndCreatedAtBetween(productDetail.getId().toHexString(), DateUtils.convertLocalDateTimeToLong(current), DateUtils.convertLocalDateTimeToLong(current.plusDays(1)));
           long totalProduct = productTransactionDetailStorage.countByCreatedAtBetween(DateUtils.convertLocalDateTimeToLong(current), DateUtils.convertLocalDateTimeToLong(current.plusDays(1)));
           totalPaymentStatisticResponse.setTotalProduct(totalProduct);
           totalPaymentStatisticResponse.setTotalUser(totalUser);
@@ -81,7 +75,7 @@ public class ProductStatisticService extends BaseService{
         paymentStatistic.setProductId(productDetail.getProductId());
       }else{
         TotalProductStatisticResponse totalPaymentStatisticResponse = lookupAggregation(productDetail.getId().toHexString(), startDay, endDay);
-        long totalUser = productTransactionDetailStorage.countDistinctUsernameByCreatedAtBetween(DateUtils.convertLocalDateTimeToLong(startDay), DateUtils.convertLocalDateTimeToLong(endDay));
+        long totalUser = productTransactionDetailStorage.countDistinctUsernameByProductDetailIdAndCreatedAtBetween(productDetail.getId().toHexString(), DateUtils.convertLocalDateTimeToLong(startDay), DateUtils.convertLocalDateTimeToLong(endDay));
         long totalProduct = productTransactionDetailStorage.countByCreatedAtBetween(DateUtils.convertLocalDateTimeToLong(startDay), DateUtils.convertLocalDateTimeToLong(endDay));
         totalPaymentStatisticResponse.setTotalProduct(totalProduct);
         totalPaymentStatisticResponse.setTotalUser(totalUser);
@@ -93,7 +87,6 @@ public class ProductStatisticService extends BaseService{
   }
 
   public TotalProductStatisticResponse lookupAggregation(String productId, LocalDateTime gte, LocalDateTime lte) {
-
     Criteria criteria = Criteria.where("product_detail_id").is(productId)
         .andOperator(Criteria.where("created_at").gte(DateUtils.convertLocalDateTimeToLong(gte)), Criteria.where("created_at").lte(DateUtils.convertLocalDateTimeToLong(lte)));
     AggregationOperation match = Aggregation.match(criteria);
@@ -111,6 +104,7 @@ public class ProductStatisticService extends BaseService{
     }
     return response;
   }
+
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public void updateToHotProduct(){
