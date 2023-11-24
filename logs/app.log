@@ -1,207 +1,207 @@
-24/11/23 22:21:38.413 | INFO  | sale_service | 0 | Version.java: HV000001: Hibernate Validator 6.2.5.Final
-24/11/23 22:21:38.457 | INFO  | sale_service | 0 | StartupInfoLogger.java: Starting SalesPageAdminServiceApplication using Java 11.0.20.1 on DESKTOP-NSE63D9 with PID 2364 (D:\salespage-service\target\classes started by Admin in D:\salespage-service)
-24/11/23 22:21:38.460 | INFO  | sale_service | 0 | SpringApplication.java: No active profile set, falling back to 1 default profile: "default"
-24/11/23 22:21:38.460 | DEBUG | sale_service | 0 | SpringApplication.java: Loading source class com.salespage.salespageservice.SalesPageAdminServiceApplication
-24/11/23 22:21:38.505 | DEBUG | sale_service | 0 | AbstractApplicationContext.java: Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@54dcbb9f
-24/11/23 22:21:39.085 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Multiple Spring Data modules found, entering strict repository configuration mode
-24/11/23 22:21:39.086 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
-24/11/23 22:21:39.212 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Finished Spring Data repository scanning in 122 ms. Found 33 MongoDB repository interfaces.
-24/11/23 22:21:39.412 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Multiple Spring Data modules found, entering strict repository configuration mode
-24/11/23 22:21:39.413 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-24/11/23 22:21:39.419 | DEBUG | sale_service | 0 | AutoConfigurationPackages.java: @EnableAutoConfiguration was declared on a class in the package 'com.salespage.salespageservice'. Automatic @Repository and @Entity scanning is enabled.
-24/11/23 22:21:39.434 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.AccountRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.434 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.BankAccountRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.434 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.BankTransactionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.435 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.CartRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.435 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.CheckInDailyRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.435 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.CheckInDailyStatisticRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.436 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.436 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.NotificationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.436 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.OtpRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.437 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.PaymentTransactionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.437 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.437 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductComboDetailRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.438 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductComboRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.438 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductDetailRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.439 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.440 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductStatisticRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.440 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductTransactionDetailRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.441 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductTransactionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.441 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductTypeDetailRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.441 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductTypeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.442 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.RatingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.442 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.SearchHistoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.442 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.SellerStoreRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.442 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ShipperRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.443 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.StatisticCheckpointRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.443 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.SystemLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.443 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.TpBankTransactionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.444 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.TransactionStatisticRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.444 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.UserFavoriteRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.444 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.445 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.VoucherCodeLimitRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.445 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.VoucherCodeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.445 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.VoucherStoreRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-24/11/23 22:21:39.446 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Finished Spring Data repository scanning in 27 ms. Found 0 Redis repository interfaces.
-24/11/23 22:21:39.824 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'PORT' in PropertySource 'systemEnvironment' with value of type String
-24/11/23 22:21:39.842 | INFO  | sale_service | 0 | Log.java: Logging initialized @3178ms to org.eclipse.jetty.util.log.Slf4jLog
-24/11/23 22:21:39.922 | DEBUG | sale_service | 0 | DocumentRoot.java: Code archive: C:\Users\Admin\.m2\repository\org\springframework\boot\spring-boot\2.7.5\spring-boot-2.7.5.jar
-24/11/23 22:21:39.922 | DEBUG | sale_service | 0 | DocumentRoot.java: Code archive: C:\Users\Admin\.m2\repository\org\springframework\boot\spring-boot\2.7.5\spring-boot-2.7.5.jar
-24/11/23 22:21:39.922 | DEBUG | sale_service | 0 | DocumentRoot.java: None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
-24/11/23 22:21:39.964 | INFO  | sale_service | 0 | JettyServletWebServerFactory.java: Server initialized with port: 8080
-24/11/23 22:21:39.966 | INFO  | sale_service | 0 | Server.java: jetty-9.4.49.v20220914; built: 2022-09-14T01:07:36.601Z; git: 4231a3b2e4cb8548a412a789936d640a97b1aa0a; jvm 11.0.20.1+9-LTS
-24/11/23 22:21:39.986 | INFO  | sale_service | 0 | ContextHandler.java: Initializing Spring embedded WebApplicationContext
-24/11/23 22:21:39.986 | DEBUG | sale_service | 0 | ServletWebServerApplicationContext.java: Published root WebApplicationContext as ServletContext attribute with name [org.springframework.web.context.WebApplicationContext.ROOT]
-24/11/23 22:21:39.987 | INFO  | sale_service | 0 | ServletWebServerApplicationContext.java: Root WebApplicationContext: initialization completed in 1482 ms
-24/11/23 22:21:40.038 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'MONGODB_URI' in PropertySource 'systemEnvironment' with value of type String
-24/11/23 22:21:40.244 | INFO  | sale_service | 0 | SLF4JLogger.java: MongoClient with metadata {"driver": {"name": "mongo-java-driver|sync|spring-boot", "version": "4.6.1"}, "os": {"type": "Windows", "name": "Windows 10", "architecture": "amd64", "version": "10.0"}, "platform": "Java/Amazon.com Inc./11.0.20.1+9-LTS"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=MongoCredential{mechanism=null, userName='lam', source='admin', password=<hidden>, mechanismProperties=<hidden>}, streamFactoryFactory=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.Jep395RecordCodecProvider@3386c206]}, clusterSettings={hosts=[127.0.0.1:27017], srvHost=db-salespage.h9186rq.mongodb.net, srvServiceName=mongodb, mode=MULTIPLE, requiredClusterType=REPLICA_SET, requiredReplicaSetName='atlas-qi6936-shard-0', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='30000 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, sendBufferSize=0}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, sendBufferSize=0}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=true, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, contextProvider=null}
-24/11/23 22:21:40.352 | INFO  | sale_service | 0 | SLF4JLogger.java: Adding discovered server ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017 to client view of cluster
-24/11/23 22:21:40.372 | INFO  | sale_service | 0 | SLF4JLogger.java: Adding discovered server ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017 to client view of cluster
-24/11/23 22:21:40.373 | INFO  | sale_service | 0 | SLF4JLogger.java: Adding discovered server ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017 to client view of cluster
-24/11/23 22:21:40.827 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:5, serverValue:41829}] to ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017
-24/11/23 22:21:40.827 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:4, serverValue:41829}] to ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017
-24/11/23 22:21:40.827 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:2, serverValue:45748}] to ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
-24/11/23 22:21:40.827 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:3, serverValue:47360}] to ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017
-24/11/23 22:21:40.827 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:1, serverValue:45740}] to ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
-24/11/23 22:21:40.827 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:6, serverValue:47360}] to ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017
-24/11/23 22:21:40.828 | INFO  | sale_service | 0 | SLF4JLogger.java: Monitor thread successfully connected to server with description ServerDescription{address=ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017, type=REPLICA_SET_SECONDARY, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=292711400, setName='atlas-qi6936-shard-0', canonicalAddress=ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017, hosts=[ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017], passives=[], arbiters=[], primary='ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017', tagSet=TagSet{[Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=1, topologyVersion=TopologyVersion{processId=655e0f2614652ab70a9591d9, counter=3}, lastWriteDate=Fri Nov 24 22:22:57 ICT 2023, lastUpdateTimeNanos=1661990941395400}
-24/11/23 22:21:40.828 | INFO  | sale_service | 0 | SLF4JLogger.java: Monitor thread successfully connected to server with description ServerDescription{address=ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, type=REPLICA_SET_SECONDARY, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=292645200, setName='atlas-qi6936-shard-0', canonicalAddress=ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, hosts=[ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017], passives=[], arbiters=[], primary='ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017', tagSet=TagSet{[Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=1, topologyVersion=TopologyVersion{processId=655e0b71ba0d980df87a488d, counter=4}, lastWriteDate=Fri Nov 24 22:22:57 ICT 2023, lastUpdateTimeNanos=1661990941334400}
-24/11/23 22:21:40.828 | INFO  | sale_service | 0 | SLF4JLogger.java: Monitor thread successfully connected to server with description ServerDescription{address=ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, type=REPLICA_SET_PRIMARY, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=292645200, setName='atlas-qi6936-shard-0', canonicalAddress=ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, hosts=[ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017], passives=[], arbiters=[], primary='ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017', tagSet=TagSet{[Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=7fffffff0000000000000065, setVersion=1, topologyVersion=TopologyVersion{processId=655e0d46c036f776cda5bccc, counter=6}, lastWriteDate=Fri Nov 24 22:22:57 ICT 2023, lastUpdateTimeNanos=1661990941334000}
-24/11/23 22:21:40.832 | INFO  | sale_service | 0 | SLF4JLogger.java: Setting max election id to 7fffffff0000000000000065 from replica set primary ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
-24/11/23 22:21:40.832 | INFO  | sale_service | 0 | SLF4JLogger.java: Setting max set version to 1 from replica set primary ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
-24/11/23 22:21:40.833 | INFO  | sale_service | 0 | SLF4JLogger.java: Discovered replica set primary ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
-24/11/23 22:21:41.251 | INFO  | sale_service | 0 | Version.java: Redisson 3.19.1
-24/11/23 22:21:41.704 | INFO  | sale_service | 0 | ConnectionPool.java: 1 connections initialized for tcp.appengine.bfcplatform.vn/103.69.194.195:13437
-24/11/23 22:21:42.021 | INFO  | sale_service | 0 | ConnectionPool.java: 24 connections initialized for tcp.appengine.bfcplatform.vn/103.69.194.195:13437
-24/11/23 22:21:42.137 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_BOOTSTRAP_SERVERS' in PropertySource 'systemEnvironment' with value of type String
-24/11/23 22:21:42.143 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_USERNAME' in PropertySource 'systemEnvironment' with value of type String
-24/11/23 22:21:42.144 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_PASSWORD' in PropertySource 'systemEnvironment' with value of type String
-24/11/23 22:21:42.144 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_USERNAME' in PropertySource 'systemEnvironment' with value of type String
-24/11/23 22:21:42.144 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_PASSWORD' in PropertySource 'systemEnvironment' with value of type String
-24/11/23 22:21:42.497 | DEBUG | sale_service | 0 | ServletContextInitializerBeans.java: Mapping filters: springSecurityFilterChain urls=[/*] order=-100, filterRegistrationBean urls=[/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105, authTokenFilter urls=[/*] order=2147483647, authenticationJwtTokenFilter urls=[/*] order=2147483647
-24/11/23 22:21:42.497 | DEBUG | sale_service | 0 | ServletContextInitializerBeans.java: Mapping servlets: dispatcherServlet urls=[/]
-24/11/23 22:21:42.545 | INFO  | sale_service | 0 | DefaultSessionIdManager.java: DefaultSessionIdManager workerName=node0
-24/11/23 22:21:42.545 | INFO  | sale_service | 0 | DefaultSessionIdManager.java: No SessionScavenger set, using defaults
-24/11/23 22:21:42.546 | INFO  | sale_service | 0 | HouseKeeper.java: node0 Scavenging every 660000ms
-24/11/23 22:21:42.553 | INFO  | sale_service | 0 | ContextHandler.java: Started o.s.b.w.e.j.JettyEmbeddedWebAppContext@5cc152f9{application,/,[file:///C:/Users/Admin/AppData/Local/Temp/jetty-docbase.8080.5898383483534577272/, jar:file:/C:/Users/Admin/.m2/repository/org/webjars/swagger-ui/4.17.1/swagger-ui-4.17.1.jar!/META-INF/resources, jar:file:/C:/Users/Admin/.m2/repository/org/webjars/jquery/3.6.1/jquery-3.6.1.jar!/META-INF/resources],AVAILABLE}
-24/11/23 22:21:42.553 | INFO  | sale_service | 0 | Server.java: Started @5890ms
-24/11/23 22:21:42.579 | DEBUG | sale_service | 0 | SpringApplicationAdminMXBeanRegistrar.java: Application Admin MBean registered with name 'org.springframework.boot:type=Admin,name=SpringApplication'
-24/11/23 22:21:42.621 | WARN  | sale_service | 0 | AbstractGoogleClient.java: Application name is not set. Call Builder#setApplicationName.
-24/11/23 22:21:42.938 | DEBUG | sale_service | 0 | SimpleUrlHandlerMapping.java: Patterns [/ws/**] in 'stompWebSocketHandlerMapping'
-24/11/23 22:21:42.986 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:20.445 | INFO  | sale_service | 0 | Version.java: HV000001: Hibernate Validator 6.2.5.Final
+25/11/23 00:00:20.484 | INFO  | sale_service | 0 | StartupInfoLogger.java: Starting SalesPageAdminServiceApplication using Java 11.0.20.1 on DESKTOP-NSE63D9 with PID 20644 (D:\salespage-service\target\classes started by Admin in D:\salespage-service)
+25/11/23 00:00:20.486 | INFO  | sale_service | 0 | SpringApplication.java: No active profile set, falling back to 1 default profile: "default"
+25/11/23 00:00:20.487 | DEBUG | sale_service | 0 | SpringApplication.java: Loading source class com.salespage.salespageservice.SalesPageAdminServiceApplication
+25/11/23 00:00:20.531 | DEBUG | sale_service | 0 | AbstractApplicationContext.java: Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@648ee871
+25/11/23 00:00:21.098 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Multiple Spring Data modules found, entering strict repository configuration mode
+25/11/23 00:00:21.099 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+25/11/23 00:00:21.228 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Finished Spring Data repository scanning in 124 ms. Found 33 MongoDB repository interfaces.
+25/11/23 00:00:21.438 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Multiple Spring Data modules found, entering strict repository configuration mode
+25/11/23 00:00:21.439 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25/11/23 00:00:21.445 | DEBUG | sale_service | 0 | AutoConfigurationPackages.java: @EnableAutoConfiguration was declared on a class in the package 'com.salespage.salespageservice'. Automatic @Repository and @Entity scanning is enabled.
+25/11/23 00:00:21.462 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.AccountRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.462 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.BankAccountRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.462 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.BankTransactionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.463 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.CartRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.464 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.CheckInDailyRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.464 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.CheckInDailyStatisticRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.464 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.465 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.NotificationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.465 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.OtpRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.465 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.PaymentTransactionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.466 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.466 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductComboDetailRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.467 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductComboRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.467 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductDetailRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.467 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.469 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductStatisticRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.469 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductTransactionDetailRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.469 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductTransactionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.470 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductTypeDetailRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.470 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ProductTypeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.471 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.RatingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.471 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.SearchHistoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.471 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.SellerStoreRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.472 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.ShipperRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.472 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.StatisticCheckpointRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.472 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.SystemLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.473 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.TpBankTransactionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.474 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.TransactionStatisticRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.474 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.UserFavoriteRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.474 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.475 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.VoucherCodeLimitRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.475 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.VoucherCodeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.475 | INFO  | sale_service | 0 | RepositoryConfigurationExtensionSupport.java: Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.salespage.salespageservice.domains.repositories.VoucherStoreRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+25/11/23 00:00:21.475 | INFO  | sale_service | 0 | RepositoryConfigurationDelegate.java: Finished Spring Data repository scanning in 30 ms. Found 0 Redis repository interfaces.
+25/11/23 00:00:21.858 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'PORT' in PropertySource 'systemEnvironment' with value of type String
+25/11/23 00:00:21.876 | INFO  | sale_service | 0 | Log.java: Logging initialized @2730ms to org.eclipse.jetty.util.log.Slf4jLog
+25/11/23 00:00:21.961 | DEBUG | sale_service | 0 | DocumentRoot.java: Code archive: C:\Users\Admin\.m2\repository\org\springframework\boot\spring-boot\2.7.5\spring-boot-2.7.5.jar
+25/11/23 00:00:21.961 | DEBUG | sale_service | 0 | DocumentRoot.java: Code archive: C:\Users\Admin\.m2\repository\org\springframework\boot\spring-boot\2.7.5\spring-boot-2.7.5.jar
+25/11/23 00:00:21.961 | DEBUG | sale_service | 0 | DocumentRoot.java: None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+25/11/23 00:00:22.004 | INFO  | sale_service | 0 | JettyServletWebServerFactory.java: Server initialized with port: 8080
+25/11/23 00:00:22.006 | INFO  | sale_service | 0 | Server.java: jetty-9.4.49.v20220914; built: 2022-09-14T01:07:36.601Z; git: 4231a3b2e4cb8548a412a789936d640a97b1aa0a; jvm 11.0.20.1+9-LTS
+25/11/23 00:00:22.025 | INFO  | sale_service | 0 | ContextHandler.java: Initializing Spring embedded WebApplicationContext
+25/11/23 00:00:22.025 | DEBUG | sale_service | 0 | ServletWebServerApplicationContext.java: Published root WebApplicationContext as ServletContext attribute with name [org.springframework.web.context.WebApplicationContext.ROOT]
+25/11/23 00:00:22.026 | INFO  | sale_service | 0 | ServletWebServerApplicationContext.java: Root WebApplicationContext: initialization completed in 1495 ms
+25/11/23 00:00:22.078 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'MONGODB_URI' in PropertySource 'systemEnvironment' with value of type String
+25/11/23 00:00:22.292 | INFO  | sale_service | 0 | SLF4JLogger.java: MongoClient with metadata {"driver": {"name": "mongo-java-driver|sync|spring-boot", "version": "4.6.1"}, "os": {"type": "Windows", "name": "Windows 10", "architecture": "amd64", "version": "10.0"}, "platform": "Java/Amazon.com Inc./11.0.20.1+9-LTS"} created with settings MongoClientSettings{readPreference=primary, writeConcern=WriteConcern{w=null, wTimeout=null ms, journal=null}, retryWrites=true, retryReads=true, readConcern=ReadConcern{level=null}, credential=MongoCredential{mechanism=null, userName='lam', source='admin', password=<hidden>, mechanismProperties=<hidden>}, streamFactoryFactory=null, commandListeners=[], codecRegistry=ProvidersCodecRegistry{codecProviders=[ValueCodecProvider{}, BsonValueCodecProvider{}, DBRefCodecProvider{}, DBObjectCodecProvider{}, DocumentCodecProvider{}, IterableCodecProvider{}, MapCodecProvider{}, GeoJsonCodecProvider{}, GridFSFileCodecProvider{}, Jsr310CodecProvider{}, JsonObjectCodecProvider{}, BsonCodecProvider{}, EnumCodecProvider{}, com.mongodb.Jep395RecordCodecProvider@3a3ad8e7]}, clusterSettings={hosts=[127.0.0.1:27017], srvHost=db-salespage.h9186rq.mongodb.net, srvServiceName=mongodb, mode=MULTIPLE, requiredClusterType=REPLICA_SET, requiredReplicaSetName='atlas-qi6936-shard-0', serverSelector='null', clusterListeners='[]', serverSelectionTimeout='30000 ms', localThreshold='30000 ms'}, socketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=0, receiveBufferSize=0, sendBufferSize=0}, heartbeatSocketSettings=SocketSettings{connectTimeoutMS=10000, readTimeoutMS=10000, receiveBufferSize=0, sendBufferSize=0}, connectionPoolSettings=ConnectionPoolSettings{maxSize=100, minSize=0, maxWaitTimeMS=120000, maxConnectionLifeTimeMS=0, maxConnectionIdleTimeMS=0, maintenanceInitialDelayMS=0, maintenanceFrequencyMS=60000, connectionPoolListeners=[], maxConnecting=2}, serverSettings=ServerSettings{heartbeatFrequencyMS=10000, minHeartbeatFrequencyMS=500, serverListeners='[]', serverMonitorListeners='[]'}, sslSettings=SslSettings{enabled=true, invalidHostNameAllowed=false, context=null}, applicationName='null', compressorList=[], uuidRepresentation=JAVA_LEGACY, serverApi=null, autoEncryptionSettings=null, contextProvider=null}
+25/11/23 00:00:22.409 | INFO  | sale_service | 0 | SLF4JLogger.java: Adding discovered server ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017 to client view of cluster
+25/11/23 00:00:22.429 | INFO  | sale_service | 0 | SLF4JLogger.java: Adding discovered server ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017 to client view of cluster
+25/11/23 00:00:22.430 | INFO  | sale_service | 0 | SLF4JLogger.java: Adding discovered server ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017 to client view of cluster
+25/11/23 00:00:22.974 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:1, serverValue:47225}] to ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
+25/11/23 00:00:22.974 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:3, serverValue:47242}] to ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
+25/11/23 00:00:22.974 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:5, serverValue:48853}] to ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017
+25/11/23 00:00:22.974 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:4, serverValue:43316}] to ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017
+25/11/23 00:00:22.974 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:2, serverValue:43316}] to ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017
+25/11/23 00:00:22.974 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:6, serverValue:48852}] to ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017
+25/11/23 00:00:22.975 | INFO  | sale_service | 0 | SLF4JLogger.java: Monitor thread successfully connected to server with description ServerDescription{address=ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, type=REPLICA_SET_PRIMARY, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=251514600, setName='atlas-qi6936-shard-0', canonicalAddress=ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, hosts=[ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017], passives=[], arbiters=[], primary='ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017', tagSet=TagSet{[Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=7fffffff0000000000000065, setVersion=1, topologyVersion=TopologyVersion{processId=655e0d46c036f776cda5bccc, counter=6}, lastWriteDate=Sat Nov 25 00:01:39 ICT 2023, lastUpdateTimeNanos=1667913088520200}
+25/11/23 00:00:22.975 | INFO  | sale_service | 0 | SLF4JLogger.java: Monitor thread successfully connected to server with description ServerDescription{address=ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, type=REPLICA_SET_SECONDARY, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=232684200, setName='atlas-qi6936-shard-0', canonicalAddress=ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, hosts=[ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017], passives=[], arbiters=[], primary='ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017', tagSet=TagSet{[Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=1, topologyVersion=TopologyVersion{processId=655e0b71ba0d980df87a488d, counter=4}, lastWriteDate=Sat Nov 25 00:01:39 ICT 2023, lastUpdateTimeNanos=1667913088523700}
+25/11/23 00:00:22.975 | INFO  | sale_service | 0 | SLF4JLogger.java: Monitor thread successfully connected to server with description ServerDescription{address=ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017, type=REPLICA_SET_SECONDARY, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=17, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=232787000, setName='atlas-qi6936-shard-0', canonicalAddress=ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017, hosts=[ac-jh96ukw-shard-00-00.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017, ac-jh96ukw-shard-00-01.h9186rq.mongodb.net:27017], passives=[], arbiters=[], primary='ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017', tagSet=TagSet{[Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='AP_EAST_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=1, topologyVersion=TopologyVersion{processId=655e0f2614652ab70a9591d9, counter=3}, lastWriteDate=Sat Nov 25 00:01:39 ICT 2023, lastUpdateTimeNanos=1667913088523500}
+25/11/23 00:00:22.979 | INFO  | sale_service | 0 | SLF4JLogger.java: Setting max election id to 7fffffff0000000000000065 from replica set primary ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
+25/11/23 00:00:22.979 | INFO  | sale_service | 0 | SLF4JLogger.java: Setting max set version to 1 from replica set primary ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
+25/11/23 00:00:22.979 | INFO  | sale_service | 0 | SLF4JLogger.java: Discovered replica set primary ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
+25/11/23 00:00:23.291 | INFO  | sale_service | 0 | Version.java: Redisson 3.19.1
+25/11/23 00:00:23.817 | INFO  | sale_service | 0 | ConnectionPool.java: 1 connections initialized for tcp.appengine.bfcplatform.vn/103.69.194.195:13437
+25/11/23 00:00:24.196 | INFO  | sale_service | 0 | ConnectionPool.java: 24 connections initialized for tcp.appengine.bfcplatform.vn/103.69.194.195:13437
+25/11/23 00:00:24.313 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_BOOTSTRAP_SERVERS' in PropertySource 'systemEnvironment' with value of type String
+25/11/23 00:00:24.318 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_USERNAME' in PropertySource 'systemEnvironment' with value of type String
+25/11/23 00:00:24.318 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_PASSWORD' in PropertySource 'systemEnvironment' with value of type String
+25/11/23 00:00:24.318 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_USERNAME' in PropertySource 'systemEnvironment' with value of type String
+25/11/23 00:00:24.318 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'KAFKA_PASSWORD' in PropertySource 'systemEnvironment' with value of type String
+25/11/23 00:00:24.593 | DEBUG | sale_service | 0 | ServletContextInitializerBeans.java: Mapping filters: springSecurityFilterChain urls=[/*] order=-100, filterRegistrationBean urls=[/*] order=2147483647, characterEncodingFilter urls=[/*] order=-2147483648, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105, authTokenFilter urls=[/*] order=2147483647, authenticationJwtTokenFilter urls=[/*] order=2147483647
+25/11/23 00:00:24.593 | DEBUG | sale_service | 0 | ServletContextInitializerBeans.java: Mapping servlets: dispatcherServlet urls=[/]
+25/11/23 00:00:24.633 | INFO  | sale_service | 0 | DefaultSessionIdManager.java: DefaultSessionIdManager workerName=node0
+25/11/23 00:00:24.633 | INFO  | sale_service | 0 | DefaultSessionIdManager.java: No SessionScavenger set, using defaults
+25/11/23 00:00:24.634 | INFO  | sale_service | 0 | HouseKeeper.java: node0 Scavenging every 660000ms
+25/11/23 00:00:24.640 | INFO  | sale_service | 0 | ContextHandler.java: Started o.s.b.w.e.j.JettyEmbeddedWebAppContext@297454f7{application,/,[file:///C:/Users/Admin/AppData/Local/Temp/jetty-docbase.8080.7865778986396268748/, jar:file:/C:/Users/Admin/.m2/repository/org/webjars/swagger-ui/4.17.1/swagger-ui-4.17.1.jar!/META-INF/resources, jar:file:/C:/Users/Admin/.m2/repository/org/webjars/jquery/3.6.1/jquery-3.6.1.jar!/META-INF/resources],AVAILABLE}
+25/11/23 00:00:24.640 | INFO  | sale_service | 0 | Server.java: Started @5494ms
+25/11/23 00:00:24.694 | DEBUG | sale_service | 0 | SpringApplicationAdminMXBeanRegistrar.java: Application Admin MBean registered with name 'org.springframework.boot:type=Admin,name=SpringApplication'
+25/11/23 00:00:24.731 | WARN  | sale_service | 0 | AbstractGoogleClient.java: Application name is not set. Call Builder#setApplicationName.
+25/11/23 00:00:25.053 | DEBUG | sale_service | 0 | SimpleUrlHandlerMapping.java: Patterns [/ws/**] in 'stompWebSocketHandlerMapping'
+25/11/23 00:00:25.094 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.AccountController:
 	
-24/11/23 22:21:42.987 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.095 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.A.AdminShipperController:
 	
-24/11/23 22:21:42.987 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.095 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.A.ConfigController:
 	
-24/11/23 22:21:42.987 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.095 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.A.OtpController:
 	
-24/11/23 22:21:42.987 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.095 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.A.ProductTypeController:
 	
-24/11/23 22:21:42.988 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.096 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.BankController:
 	
-24/11/23 22:21:42.988 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.096 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.CartController:
 	
-24/11/23 22:21:42.988 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.096 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.FavoriteProductController:
 	
-24/11/23 22:21:42.988 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.096 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.HeathCheckController:
 	
-24/11/23 22:21:42.988 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.096 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.NotificationController:
 	
-24/11/23 22:21:42.988 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.097 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.PaymentController:
 	
-24/11/23 22:21:42.988 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.097 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.PrivateProductController:
 	
-24/11/23 22:21:42.989 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.097 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.ProductTransactionController:
 	
-24/11/23 22:21:42.989 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.097 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.S.SellerProductCategoryController:
 	
-24/11/23 22:21:42.989 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.097 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.S.SellerProductComboController:
 	
-24/11/23 22:21:42.989 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.097 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.S.SellerProductController:
 	
-24/11/23 22:21:42.989 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.098 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.S.SellerProductDetail:
 	
-24/11/23 22:21:42.990 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.098 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.S.SellerProductTransactionController:
 	
-24/11/23 22:21:42.990 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.098 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.S.SellerStatisticController:
 	
-24/11/23 22:21:42.990 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.098 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.S.SellerStoreController:
 	
-24/11/23 22:21:42.990 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.098 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.S.SellerVoucherController:
 	
-24/11/23 22:21:42.990 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.098 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.ShipperController:
 	
-24/11/23 22:21:42.990 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.099 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.StoreController:
 	
-24/11/23 22:21:42.991 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.099 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.UserController:
 	
-24/11/23 22:21:42.991 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.099 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.VoucherController:
 	
-24/11/23 22:21:42.991 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.099 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.p.PublicMapController:
 	
-24/11/23 22:21:42.991 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.099 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.p.PublicProductController:
 	
-24/11/23 22:21:42.992 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.099 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.p.PublicSellerStoreController:
 	
-24/11/23 22:21:42.992 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.100 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.c.p.PublicUserController:
 	
-24/11/23 22:21:42.992 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.100 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.s.BankPaymentScheduleController:
 	
-24/11/23 22:21:42.992 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.100 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.s.StatisticScheduleController:
 	
-24/11/23 22:21:42.995 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.102 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	c.s.s.a.s.NotificationSocket:
 	{[MESSAGE],[/secured/room]}: sendSpecific(Message,Principal,String)
-24/11/23 22:21:42.998 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.105 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	o.s.b.a.w.s.e.BasicErrorController:
 	
-24/11/23 22:21:43.003 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.110 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	o.s.w.a.OpenApiWebMvcResource:
 	
-24/11/23 22:21:43.003 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.110 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	o.s.w.u.SwaggerWelcomeWebMvc:
 	
-24/11/23 22:21:43.003 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
+25/11/23 00:00:25.111 | DEBUG | sale_service | 0 | AbstractMethodMessageHandler.java: 
 	o.s.w.u.SwaggerConfigResource:
 	
-24/11/23 22:21:43.189 | DEBUG | sale_service | 0 | AbstractHandlerMethodMapping.java: 117 mappings in 'requestMappingHandlerMapping'
-24/11/23 22:21:43.684 | DEBUG | sale_service | 0 | SimpleUrlHandlerMapping.java: Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
-24/11/23 22:21:43.699 | INFO  | sale_service | 0 | DefaultSecurityFilterChain.java: Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@490f2fad, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3ed3e66d, org.springframework.security.web.context.SecurityContextPersistenceFilter@5f5fb335, org.springframework.security.web.header.HeaderWriterFilter@4ae435a3, org.springframework.web.filter.CorsFilter@e9947af, org.springframework.security.web.authentication.logout.LogoutFilter@554a2f3, com.salespage.salespageservice.domains.security.jwt.AuthTokenFilter@720c0996, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@299cddbf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@36e9794c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@d60aa4, org.springframework.security.web.session.SessionManagementFilter@701bd6e8, org.springframework.security.web.access.ExceptionTranslationFilter@39ee07a9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@282079b9]
-24/11/23 22:21:43.745 | DEBUG | sale_service | 0 | RequestMappingHandlerAdapter.java: ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-24/11/23 22:21:43.774 | DEBUG | sale_service | 0 | ExceptionHandlerExceptionResolver.java: ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
-24/11/23 22:21:44.056 | INFO  | sale_service | 0 | AbstractConfig.java: ConsumerConfig values: 
+25/11/23 00:00:25.297 | DEBUG | sale_service | 0 | AbstractHandlerMethodMapping.java: 117 mappings in 'requestMappingHandlerMapping'
+25/11/23 00:00:25.827 | DEBUG | sale_service | 0 | SimpleUrlHandlerMapping.java: Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+25/11/23 00:00:25.842 | INFO  | sale_service | 0 | DefaultSecurityFilterChain.java: Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4ed90b04, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@686ace1f, org.springframework.security.web.context.SecurityContextPersistenceFilter@46f597f1, org.springframework.security.web.header.HeaderWriterFilter@108d59b6, org.springframework.web.filter.CorsFilter@7dd92a36, org.springframework.security.web.authentication.logout.LogoutFilter@48a2b492, com.salespage.salespageservice.domains.security.jwt.AuthTokenFilter@7320750c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1067192a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@247d44b4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@531ed68e, org.springframework.security.web.session.SessionManagementFilter@3f7a7ce6, org.springframework.security.web.access.ExceptionTranslationFilter@615b1baf, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1e834a5b]
+25/11/23 00:00:25.893 | DEBUG | sale_service | 0 | RequestMappingHandlerAdapter.java: ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+25/11/23 00:00:25.922 | DEBUG | sale_service | 0 | ExceptionHandlerExceptionResolver.java: ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+25/11/23 00:00:26.243 | INFO  | sale_service | 0 | AbstractConfig.java: ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.offset.reset = earliest
@@ -294,12 +294,12 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-24/11/23 22:21:44.160 | INFO  | sale_service | 0 | AbstractLogin.java: Successfully logged in.
-24/11/23 22:21:44.205 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka version: 3.1.2
-24/11/23 22:21:44.205 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka commitId: f8c67dc3ae0a3265
-24/11/23 22:21:44.205 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka startTimeMs: 1700839304203
-24/11/23 22:21:44.206 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Subscribed to topic(s): bizfly-7-453-CheckInTopic
-24/11/23 22:21:44.212 | INFO  | sale_service | 0 | AbstractConfig.java: ConsumerConfig values: 
+25/11/23 00:00:26.360 | INFO  | sale_service | 0 | AbstractLogin.java: Successfully logged in.
+25/11/23 00:00:26.404 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka version: 3.1.2
+25/11/23 00:00:26.405 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka commitId: f8c67dc3ae0a3265
+25/11/23 00:00:26.405 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka startTimeMs: 1700845226403
+25/11/23 00:00:26.406 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Subscribed to topic(s): bizfly-7-453-CheckInTopic
+25/11/23 00:00:26.411 | INFO  | sale_service | 0 | AbstractConfig.java: ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.offset.reset = earliest
@@ -392,11 +392,11 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-24/11/23 22:21:44.219 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka version: 3.1.2
-24/11/23 22:21:44.219 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka commitId: f8c67dc3ae0a3265
-24/11/23 22:21:44.219 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka startTimeMs: 1700839304219
-24/11/23 22:21:44.220 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Subscribed to topic(s): bizfly-7-453-LikeTopic
-24/11/23 22:21:44.222 | INFO  | sale_service | 0 | AbstractConfig.java: ConsumerConfig values: 
+25/11/23 00:00:26.418 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka version: 3.1.2
+25/11/23 00:00:26.418 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka commitId: f8c67dc3ae0a3265
+25/11/23 00:00:26.418 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka startTimeMs: 1700845226418
+25/11/23 00:00:26.419 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Subscribed to topic(s): bizfly-7-453-LikeTopic
+25/11/23 00:00:26.421 | INFO  | sale_service | 0 | AbstractConfig.java: ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.offset.reset = earliest
@@ -489,35 +489,35 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-24/11/23 22:21:44.229 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka version: 3.1.2
-24/11/23 22:21:44.229 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka commitId: f8c67dc3ae0a3265
-24/11/23 22:21:44.230 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka startTimeMs: 1700839304229
-24/11/23 22:21:44.230 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Subscribed to topic(s): bizfly-7-453-PaymentTransaction
-24/11/23 22:21:44.235 | DEBUG | sale_service | 0 | GenericFilterBean.java: Filter 'characterEncodingFilter' configured for use
-24/11/23 22:21:44.235 | DEBUG | sale_service | 0 | GenericFilterBean.java: Filter 'formContentFilter' configured for use
-24/11/23 22:21:44.235 | DEBUG | sale_service | 0 | GenericFilterBean.java: Filter 'requestContextFilter' configured for use
-24/11/23 22:21:44.235 | DEBUG | sale_service | 0 | GenericFilterBean.java: Filter 'springSecurityFilterChain' configured for use
-24/11/23 22:21:44.238 | INFO  | sale_service | 0 | ContextHandler.java: Initializing Spring DispatcherServlet 'dispatcherServlet'
-24/11/23 22:21:44.239 | INFO  | sale_service | 0 | FrameworkServlet.java: Initializing Servlet 'dispatcherServlet'
-24/11/23 22:21:44.239 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected StandardServletMultipartResolver
-24/11/23 22:21:44.239 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected AcceptHeaderLocaleResolver
-24/11/23 22:21:44.239 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected FixedThemeResolver
-24/11/23 22:21:44.240 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@74fd5fb0
-24/11/23 22:21:44.241 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected org.springframework.web.servlet.support.SessionFlashMapManager@79c4454
-24/11/23 22:21:44.242 | DEBUG | sale_service | 0 | FrameworkServlet.java: enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
-24/11/23 22:21:44.242 | INFO  | sale_service | 0 | FrameworkServlet.java: Completed initialization in 3 ms
-24/11/23 22:21:44.250 | INFO  | sale_service | 0 | AbstractConnector.java: Started ServerConnector@7ea42c82{HTTP/1.1, (http/1.1)}{0.0.0.0:8080}
-24/11/23 22:21:44.251 | INFO  | sale_service | 0 | JettyWebServer.java: Jetty started on port(s) 8080 (http/1.1) with context path '/'
-24/11/23 22:21:44.252 | DEBUG | sale_service | 0 | CompositeLog.java: clientOutboundChannel added SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
-24/11/23 22:21:44.254 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel added WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
-24/11/23 22:21:44.255 | INFO  | sale_service | 0 | CompositeLog.java: Starting...
-24/11/23 22:21:44.255 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel added SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]
-24/11/23 22:21:44.255 | DEBUG | sale_service | 0 | CompositeLog.java: brokerChannel added SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]
-24/11/23 22:21:44.255 | INFO  | sale_service | 0 | CompositeLog.java: BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]]
-24/11/23 22:21:44.256 | INFO  | sale_service | 0 | CompositeLog.java: Started.
-24/11/23 22:21:44.256 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
-24/11/23 22:21:44.256 | DEBUG | sale_service | 0 | CompositeLog.java: brokerChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
-24/11/23 22:21:44.273 | DEBUG | sale_service | 0 | ConditionEvaluationReportLoggingListener.java: 
+25/11/23 00:00:26.426 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka version: 3.1.2
+25/11/23 00:00:26.426 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka commitId: f8c67dc3ae0a3265
+25/11/23 00:00:26.426 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka startTimeMs: 1700845226426
+25/11/23 00:00:26.427 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Subscribed to topic(s): bizfly-7-453-PaymentTransaction
+25/11/23 00:00:26.429 | DEBUG | sale_service | 0 | GenericFilterBean.java: Filter 'characterEncodingFilter' configured for use
+25/11/23 00:00:26.430 | DEBUG | sale_service | 0 | GenericFilterBean.java: Filter 'formContentFilter' configured for use
+25/11/23 00:00:26.430 | DEBUG | sale_service | 0 | GenericFilterBean.java: Filter 'requestContextFilter' configured for use
+25/11/23 00:00:26.430 | DEBUG | sale_service | 0 | GenericFilterBean.java: Filter 'springSecurityFilterChain' configured for use
+25/11/23 00:00:26.432 | INFO  | sale_service | 0 | ContextHandler.java: Initializing Spring DispatcherServlet 'dispatcherServlet'
+25/11/23 00:00:26.432 | INFO  | sale_service | 0 | FrameworkServlet.java: Initializing Servlet 'dispatcherServlet'
+25/11/23 00:00:26.433 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected StandardServletMultipartResolver
+25/11/23 00:00:26.433 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected AcceptHeaderLocaleResolver
+25/11/23 00:00:26.433 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected FixedThemeResolver
+25/11/23 00:00:26.434 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@54c1878b
+25/11/23 00:00:26.434 | DEBUG | sale_service | 0 | DispatcherServlet.java: Detected org.springframework.web.servlet.support.SessionFlashMapManager@31f4fdc5
+25/11/23 00:00:26.434 | DEBUG | sale_service | 0 | FrameworkServlet.java: enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+25/11/23 00:00:26.434 | INFO  | sale_service | 0 | FrameworkServlet.java: Completed initialization in 1 ms
+25/11/23 00:00:26.443 | INFO  | sale_service | 0 | AbstractConnector.java: Started ServerConnector@5122e4bf{HTTP/1.1, (http/1.1)}{0.0.0.0:8080}
+25/11/23 00:00:26.443 | INFO  | sale_service | 0 | JettyWebServer.java: Jetty started on port(s) 8080 (http/1.1) with context path '/'
+25/11/23 00:00:26.444 | DEBUG | sale_service | 0 | CompositeLog.java: clientOutboundChannel added SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+25/11/23 00:00:26.447 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel added WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+25/11/23 00:00:26.447 | INFO  | sale_service | 0 | CompositeLog.java: Starting...
+25/11/23 00:00:26.448 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel added SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]
+25/11/23 00:00:26.448 | DEBUG | sale_service | 0 | CompositeLog.java: brokerChannel added SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]
+25/11/23 00:00:26.448 | INFO  | sale_service | 0 | CompositeLog.java: BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]]
+25/11/23 00:00:26.448 | INFO  | sale_service | 0 | CompositeLog.java: Started.
+25/11/23 00:00:26.449 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+25/11/23 00:00:26.449 | DEBUG | sale_service | 0 | CompositeLog.java: brokerChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+25/11/23 00:00:26.460 | DEBUG | sale_service | 0 | ConditionEvaluationReportLoggingListener.java: 
 
 
 ============================
@@ -1437,7 +1437,7 @@ Negative matches:
 
    MongoRepositoriesAutoConfiguration:
       Did not match:
-         - @ConditionalOnMissingBean (types: org.springframework.data.mongodb.repository.support.MongoRepositoryFactoryBean,org.springframework.data.mongodb.repository.config.MongoRepositoryConfigurationExtension; SearchStrategy: all) found beans of type 'org.springframework.data.mongodb.repository.support.MongoRepositoryFactoryBean' &voucherCodeLimitRepository, &cartRepository, &productTransactionRepository, &accountRepository, &checkInDailyRepository, &voucherStoreRepository, &userFavoriteRepository, &shipperRepository, &voucherCodeRepository, &otpRepository, &productCategoryRepository, &userRepository, &configRepository, &systemLogRepository, &bankAccountRepository, &bankTransactionRepository, &productComboDetailRepository, &productComboRepository, &searchHistoryRepository, &productTypeDetailRepository, &productRepository, &statisticCheckpointRepository, &productTransactionDetailRepository, &paymentTransactionRepository, &productTypeRepository, &notificationRepository, &checkInDailyStatisticRepository, &productStatisticRepository, &sellerStoreRepository, &transactionStatisticRepository, &ratingRepository, &tpBankTransactionRepository, &productDetailRepository and found beans of type 'org.springframework.data.mongodb.repository.config.MongoRepositoryConfigurationExtension' org.springframework.data.mongodb.repository.config.MongoRepositoryConfigurationExtension#0 (OnBeanCondition)
+         - @ConditionalOnMissingBean (types: org.springframework.data.mongodb.repository.support.MongoRepositoryFactoryBean,org.springframework.data.mongodb.repository.config.MongoRepositoryConfigurationExtension; SearchStrategy: all) found beans of type 'org.springframework.data.mongodb.repository.support.MongoRepositoryFactoryBean' &productTypeRepository, &shipperRepository, &ratingRepository, &paymentTransactionRepository, &productRepository, &tpBankTransactionRepository, &voucherCodeLimitRepository, &statisticCheckpointRepository, &notificationRepository, &searchHistoryRepository, &userFavoriteRepository, &voucherStoreRepository, &userRepository, &cartRepository, &checkInDailyRepository, &productCategoryRepository, &transactionStatisticRepository, &systemLogRepository, &accountRepository, &productTypeDetailRepository, &configRepository, &otpRepository, &bankAccountRepository, &productDetailRepository, &sellerStoreRepository, &bankTransactionRepository, &checkInDailyStatisticRepository, &productTransactionDetailRepository, &productComboRepository, &productComboDetailRepository, &productStatisticRepository, &voucherCodeRepository, &productTransactionRepository and found beans of type 'org.springframework.data.mongodb.repository.config.MongoRepositoryConfigurationExtension' org.springframework.data.mongodb.repository.config.MongoRepositoryConfigurationExtension#0 (OnBeanCondition)
       Matched:
          - @ConditionalOnClass found required classes 'com.mongodb.client.MongoClient', 'org.springframework.data.mongodb.repository.MongoRepository' (OnClassCondition)
          - @ConditionalOnRepositoryType configured type of 'AUTO' matched required type (OnRepositoryTypeCondition)
@@ -1790,93 +1790,378 @@ Unconditional classes:
 
 
 
-24/11/23 22:21:44.281 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'spring.liveBeansView.mbeanDomain' in PropertySource 'systemProperties' with value of type String
-24/11/23 22:21:44.283 | INFO  | sale_service | 0 | StartupInfoLogger.java: Started SalesPageAdminServiceApplication in 6.268 seconds (JVM running for 7.62)
-24/11/23 22:21:44.285 | DEBUG | sale_service | 0 | ApplicationAvailabilityBean.java: Application availability state LivenessState changed to CORRECT
-24/11/23 22:21:44.288 | DEBUG | sale_service | 0 | ApplicationAvailabilityBean.java: Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-24/11/23 22:21:44.678 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Resetting the last seen epoch of partition bizfly-7-453-PaymentTransaction-0 to 0 since the associated topicId changed from null to IVIwtkJ1TFa2furVZr4RuA
-24/11/23 22:21:44.678 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Resetting the last seen epoch of partition bizfly-7-453-CheckInTopic-0 to 0 since the associated topicId changed from null to DfCruMDBRSKVMDM2Nqz2EA
-24/11/23 22:21:44.678 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Resetting the last seen epoch of partition bizfly-7-453-LikeTopic-0 to 0 since the associated topicId changed from null to k5hnNIYpTxqBxxNP0OV7-A
-24/11/23 22:21:44.681 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Cluster ID: QMB_mhHDRDu7Hwe9wGbv2w
-24/11/23 22:21:44.681 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Cluster ID: QMB_mhHDRDu7Hwe9wGbv2w
-24/11/23 22:21:44.681 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Cluster ID: QMB_mhHDRDu7Hwe9wGbv2w
-24/11/23 22:21:44.682 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Discovered group coordinator 123.31.11.247:9094 (id: 2147483643 rack: null)
-24/11/23 22:21:44.682 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Discovered group coordinator 123.31.11.247:9094 (id: 2147483643 rack: null)
-24/11/23 22:21:44.682 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Discovered group coordinator 123.31.11.247:9094 (id: 2147483643 rack: null)
-24/11/23 22:21:45.035 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
-24/11/23 22:21:45.035 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
-24/11/23 22:21:45.035 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
-24/11/23 22:21:45.184 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: need to re-join with the given member-id
-24/11/23 22:21:45.184 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: need to re-join with the given member-id
-24/11/23 22:21:45.185 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
-24/11/23 22:21:45.185 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
-24/11/23 22:21:45.194 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: need to re-join with the given member-id
-24/11/23 22:21:45.194 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
-24/11/23 22:21:45.401 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Successfully joined group with generation Generation{generationId=1383, memberId='consumer-bizfly-7-453-PaymentTransaction-2-7b34b884-5918-407f-ba49-ace9c19c1b06', protocol='range'}
-24/11/23 22:21:45.401 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Successfully joined group with generation Generation{generationId=1383, memberId='consumer-bizfly-7-453-PaymentTransaction-1-c7beb60f-51ee-4bd9-9be6-f5b10ccd2c58', protocol='range'}
-24/11/23 22:21:45.401 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Successfully joined group with generation Generation{generationId=1383, memberId='consumer-bizfly-7-453-PaymentTransaction-3-e0ca1cdb-8f8b-43b6-ba12-0ad533eeee05', protocol='range'}
-24/11/23 22:21:45.765 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Successfully synced group in generation Generation{generationId=1383, memberId='consumer-bizfly-7-453-PaymentTransaction-3-e0ca1cdb-8f8b-43b6-ba12-0ad533eeee05', protocol='range'}
-24/11/23 22:21:45.765 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Successfully synced group in generation Generation{generationId=1383, memberId='consumer-bizfly-7-453-PaymentTransaction-2-7b34b884-5918-407f-ba49-ace9c19c1b06', protocol='range'}
-24/11/23 22:21:45.765 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Successfully synced group in generation Generation{generationId=1383, memberId='consumer-bizfly-7-453-PaymentTransaction-1-c7beb60f-51ee-4bd9-9be6-f5b10ccd2c58', protocol='range'}
-24/11/23 22:21:45.769 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Notifying assignor about the new Assignment(partitions=[])
-24/11/23 22:21:45.769 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Notifying assignor about the new Assignment(partitions=[bizfly-7-453-CheckInTopic-0])
-24/11/23 22:21:45.769 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Notifying assignor about the new Assignment(partitions=[])
-24/11/23 22:21:45.769 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Adding newly assigned partitions: 
-24/11/23 22:21:45.769 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Adding newly assigned partitions: 
-24/11/23 22:21:45.770 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: partitions assigned: []
-24/11/23 22:21:45.770 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: partitions assigned: []
-24/11/23 22:21:45.773 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Adding newly assigned partitions: bizfly-7-453-CheckInTopic-0
-24/11/23 22:21:45.792 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Setting offset for partition bizfly-7-453-CheckInTopic-0 to the committed offset FetchPosition{offset=13272, offsetEpoch=Optional[0], currentLeader=LeaderAndEpoch{leader=Optional[123.31.11.150:9094 (id: 6 rack: null)], epoch=0}}
-24/11/23 22:21:46.135 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: partitions assigned: [bizfly-7-453-CheckInTopic-0]
-24/11/23 22:22:42.963 | INFO  | sale_service | 0 | WebSocketMessageBrokerStats.java: WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
-24/11/23 22:22:45.915 | DEBUG | sale_service | 0 | ApplicationAvailabilityBean.java: Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC
-24/11/23 22:22:45.916 | DEBUG | sale_service | 0 | AbstractApplicationContext.java: Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@54dcbb9f, started on Fri Nov 24 22:21:38 ICT 2023
-24/11/23 22:22:45.916 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'spring.liveBeansView.mbeanDomain' in PropertySource 'systemProperties' with value of type String
-24/11/23 22:22:45.919 | DEBUG | sale_service | 0 | CompositeLog.java: clientOutboundChannel removed SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
-24/11/23 22:22:45.919 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel removed WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
-24/11/23 22:22:45.919 | INFO  | sale_service | 0 | CompositeLog.java: Stopping...
-24/11/23 22:22:45.919 | INFO  | sale_service | 0 | CompositeLog.java: BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]]
-24/11/23 22:22:45.919 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel removed SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]
-24/11/23 22:22:45.920 | DEBUG | sale_service | 0 | CompositeLog.java: brokerChannel removed SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]
-24/11/23 22:22:45.920 | INFO  | sale_service | 0 | CompositeLog.java: Stopped.
-24/11/23 22:22:45.920 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
-24/11/23 22:22:45.920 | DEBUG | sale_service | 0 | CompositeLog.java: brokerChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
-24/11/23 22:22:45.926 | INFO  | sale_service | 0 | AbstractConnector.java: Stopped ServerConnector@7ea42c82{HTTP/1.1, (http/1.1)}{0.0.0.0:8080}
-24/11/23 22:22:45.927 | INFO  | sale_service | 0 | HouseKeeper.java: node0 Stopped scavenging
-24/11/23 22:22:45.928 | INFO  | sale_service | 0 | ContextHandler.java: Destroying Spring FrameworkServlet 'dispatcherServlet'
-24/11/23 22:22:45.929 | INFO  | sale_service | 0 | ContextHandler.java: Stopped o.s.b.w.e.j.JettyEmbeddedWebAppContext@5cc152f9{application,/,[file:///C:/Users/Admin/AppData/Local/Temp/jetty-docbase.8080.5898383483534577272/, jar:file:/C:/Users/Admin/.m2/repository/org/webjars/swagger-ui/4.17.1/swagger-ui-4.17.1.jar!/META-INF/resources, jar:file:/C:/Users/Admin/.m2/repository/org/webjars/jquery/3.6.1/jquery-3.6.1.jar!/META-INF/resources],STOPPED}
-24/11/23 22:22:45.937 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Member consumer-bizfly-7-453-PaymentTransaction-2-7b34b884-5918-407f-ba49-ace9c19c1b06 sending LeaveGroup request to coordinator 123.31.11.247:9094 (id: 2147483643 rack: null) due to the consumer unsubscribed from all topics
-24/11/23 22:22:45.937 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Member consumer-bizfly-7-453-PaymentTransaction-3-e0ca1cdb-8f8b-43b6-ba12-0ad533eeee05 sending LeaveGroup request to coordinator 123.31.11.247:9094 (id: 2147483643 rack: null) due to the consumer unsubscribed from all topics
-24/11/23 22:22:45.937 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Revoke previously assigned partitions bizfly-7-453-CheckInTopic-0
-24/11/23 22:22:45.938 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: partitions revoked: [bizfly-7-453-CheckInTopic-0]
-24/11/23 22:22:45.939 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Member consumer-bizfly-7-453-PaymentTransaction-1-c7beb60f-51ee-4bd9-9be6-f5b10ccd2c58 sending LeaveGroup request to coordinator 123.31.11.247:9094 (id: 2147483643 rack: null) due to the consumer unsubscribed from all topics
-24/11/23 22:22:45.940 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.940 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.940 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.940 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.940 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.940 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.940 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Unsubscribed all topics or patterns and assigned partitions
-24/11/23 22:22:45.940 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Unsubscribed all topics or patterns and assigned partitions
-24/11/23 22:22:45.940 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Unsubscribed all topics or patterns and assigned partitions
-24/11/23 22:22:45.941 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.941 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.941 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.941 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.941 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.941 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
-24/11/23 22:22:45.951 | INFO  | sale_service | 0 | Metrics.java: Metrics scheduler closed
-24/11/23 22:22:45.952 | INFO  | sale_service | 0 | Metrics.java: Metrics scheduler closed
-24/11/23 22:22:45.952 | INFO  | sale_service | 0 | Metrics.java: Metrics scheduler closed
-24/11/23 22:22:45.952 | INFO  | sale_service | 0 | Metrics.java: Closing reporter org.apache.kafka.common.metrics.JmxReporter
-24/11/23 22:22:45.952 | INFO  | sale_service | 0 | Metrics.java: Closing reporter org.apache.kafka.common.metrics.JmxReporter
-24/11/23 22:22:45.952 | INFO  | sale_service | 0 | Metrics.java: Closing reporter org.apache.kafka.common.metrics.JmxReporter
-24/11/23 22:22:45.952 | INFO  | sale_service | 0 | Metrics.java: Metrics reporters closed
-24/11/23 22:22:45.952 | INFO  | sale_service | 0 | Metrics.java: Metrics reporters closed
-24/11/23 22:22:45.952 | INFO  | sale_service | 0 | Metrics.java: Metrics reporters closed
-24/11/23 22:22:45.959 | INFO  | sale_service | 0 | AppInfoParser.java: App info kafka.consumer for consumer-bizfly-7-453-PaymentTransaction-2 unregistered
-24/11/23 22:22:45.960 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: Consumer stopped
-24/11/23 22:22:45.960 | INFO  | sale_service | 0 | AppInfoParser.java: App info kafka.consumer for consumer-bizfly-7-453-PaymentTransaction-1 unregistered
-24/11/23 22:22:45.960 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: Consumer stopped
-24/11/23 22:22:45.960 | INFO  | sale_service | 0 | AppInfoParser.java: App info kafka.consumer for consumer-bizfly-7-453-PaymentTransaction-3 unregistered
-24/11/23 22:22:45.961 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: Consumer stopped
+25/11/23 00:00:26.466 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'spring.liveBeansView.mbeanDomain' in PropertySource 'systemProperties' with value of type String
+25/11/23 00:00:26.468 | INFO  | sale_service | 0 | StartupInfoLogger.java: Started SalesPageAdminServiceApplication in 6.402 seconds (JVM running for 7.323)
+25/11/23 00:00:26.470 | DEBUG | sale_service | 0 | ApplicationAvailabilityBean.java: Application availability state LivenessState changed to CORRECT
+25/11/23 00:00:26.472 | DEBUG | sale_service | 0 | ApplicationAvailabilityBean.java: Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+25/11/23 00:00:26.902 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Resetting the last seen epoch of partition bizfly-7-453-LikeTopic-0 to 0 since the associated topicId changed from null to k5hnNIYpTxqBxxNP0OV7-A
+25/11/23 00:00:26.902 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Resetting the last seen epoch of partition bizfly-7-453-CheckInTopic-0 to 0 since the associated topicId changed from null to DfCruMDBRSKVMDM2Nqz2EA
+25/11/23 00:00:26.902 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Resetting the last seen epoch of partition bizfly-7-453-PaymentTransaction-0 to 0 since the associated topicId changed from null to IVIwtkJ1TFa2furVZr4RuA
+25/11/23 00:00:26.904 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Cluster ID: QMB_mhHDRDu7Hwe9wGbv2w
+25/11/23 00:00:26.904 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Cluster ID: QMB_mhHDRDu7Hwe9wGbv2w
+25/11/23 00:00:26.904 | INFO  | sale_service | 0 | Metadata.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Cluster ID: QMB_mhHDRDu7Hwe9wGbv2w
+25/11/23 00:00:26.905 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Discovered group coordinator 123.31.11.247:9094 (id: 2147483643 rack: null)
+25/11/23 00:00:26.905 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Discovered group coordinator 123.31.11.247:9094 (id: 2147483643 rack: null)
+25/11/23 00:00:26.905 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Discovered group coordinator 123.31.11.247:9094 (id: 2147483643 rack: null)
+25/11/23 00:00:27.161 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
+25/11/23 00:00:27.171 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
+25/11/23 00:00:27.178 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
+25/11/23 00:00:27.481 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: need to re-join with the given member-id
+25/11/23 00:00:27.482 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
+25/11/23 00:00:27.537 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: need to re-join with the given member-id
+25/11/23 00:00:27.537 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: need to re-join with the given member-id
+25/11/23 00:00:27.538 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
+25/11/23 00:00:27.538 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] (Re-)joining group
+25/11/23 00:00:29.230 | INFO  | sale_service | 0 | DNSMonitor.java: Detected DNS change. Master redis://tcp.appengine.bfcplatform.vn:13437 has changed ip from 103.69.194.195 to 103.69.194.5
+25/11/23 00:00:29.275 | INFO  | sale_service | 0 | ConnectionPool.java: 1 connections initialized for tcp.appengine.bfcplatform.vn/103.69.194.5:13437
+25/11/23 00:00:29.702 | INFO  | sale_service | 0 | MasterSlaveEntry.java: master tcp.appengine.bfcplatform.vn/103.69.194.195:13437 has changed to tcp.appengine.bfcplatform.vn/103.69.194.5:13437
+25/11/23 00:00:29.702 | INFO  | sale_service | 0 | ConnectionPool.java: 24 connections initialized for tcp.appengine.bfcplatform.vn/103.69.194.5:13437
+25/11/23 00:00:30.033 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Successfully joined group with generation Generation{generationId=1433, memberId='consumer-bizfly-7-453-PaymentTransaction-1-3ed6cf56-94fb-41fe-b2c1-48fb6e7a2522', protocol='range'}
+25/11/23 00:00:30.035 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Successfully joined group with generation Generation{generationId=1433, memberId='consumer-bizfly-7-453-PaymentTransaction-3-a0605602-2dbe-481b-8ca2-02db813d26e1', protocol='range'}
+25/11/23 00:00:30.035 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Successfully joined group with generation Generation{generationId=1433, memberId='consumer-bizfly-7-453-PaymentTransaction-2-4ad2d5f2-0eb5-42d8-9541-5ad6ca3ecdd2', protocol='range'}
+25/11/23 00:00:30.167 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Successfully synced group in generation Generation{generationId=1433, memberId='consumer-bizfly-7-453-PaymentTransaction-3-a0605602-2dbe-481b-8ca2-02db813d26e1', protocol='range'}
+25/11/23 00:00:30.167 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Successfully synced group in generation Generation{generationId=1433, memberId='consumer-bizfly-7-453-PaymentTransaction-2-4ad2d5f2-0eb5-42d8-9541-5ad6ca3ecdd2', protocol='range'}
+25/11/23 00:00:30.167 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Successfully synced group in generation Generation{generationId=1433, memberId='consumer-bizfly-7-453-PaymentTransaction-1-3ed6cf56-94fb-41fe-b2c1-48fb6e7a2522', protocol='range'}
+25/11/23 00:00:30.171 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Notifying assignor about the new Assignment(partitions=[])
+25/11/23 00:00:30.171 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Notifying assignor about the new Assignment(partitions=[])
+25/11/23 00:00:30.171 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Notifying assignor about the new Assignment(partitions=[bizfly-7-453-CheckInTopic-0])
+25/11/23 00:00:30.171 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Adding newly assigned partitions: 
+25/11/23 00:00:30.171 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Adding newly assigned partitions: 
+25/11/23 00:00:30.172 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: partitions assigned: []
+25/11/23 00:00:30.172 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: partitions assigned: []
+25/11/23 00:00:30.175 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Adding newly assigned partitions: bizfly-7-453-CheckInTopic-0
+25/11/23 00:00:30.212 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Setting offset for partition bizfly-7-453-CheckInTopic-0 to the committed offset FetchPosition{offset=13452, offsetEpoch=Optional[0], currentLeader=LeaderAndEpoch{leader=Optional[123.31.11.150:9094 (id: 6 rack: null)], epoch=0}}
+25/11/23 00:00:30.803 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: partitions assigned: [bizfly-7-453-CheckInTopic-0]
+25/11/23 00:00:48.916 | DEBUG | sale_service | 0 | AbstractHandlerMapping.java: Mapped to com.salespage.salespageservice.app.schedule.StatisticScheduleController#updatePaymentPre()
+25/11/23 00:00:49.125 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "username" : "taikhoanbanhang"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.Account in collection: account
+25/11/23 00:00:49.751 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:7, serverValue:47256}] to ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
+25/11/23 00:00:49.956 | INFO  | sale_service | 0 | AbstractConfig.java: ProducerConfig values: 
+	acks = -1
+	batch.size = 16384
+	bootstrap.servers = [cluster001.kas.bfcplatform.vn:9094]
+	buffer.memory = 33554432
+	client.dns.lookup = use_all_dns_ips
+	client.id = producer-1
+	compression.type = none
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = true
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 0
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.class = class org.apache.kafka.clients.producer.internals.DefaultPartitioner
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = [hidden]
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = SCRAM-SHA-512
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = SASL_PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.StringSerializer
+
+25/11/23 00:00:49.964 | INFO  | sale_service | 0 | KafkaProducer.java: [Producer clientId=producer-1] Instantiated an idempotent producer.
+25/11/23 00:00:49.973 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka version: 3.1.2
+25/11/23 00:00:49.973 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka commitId: f8c67dc3ae0a3265
+25/11/23 00:00:49.973 | INFO  | sale_service | 0 | AppInfoParser.java: Kafka startTimeMs: 1700845249973
+25/11/23 00:00:50.172 | INFO  | sale_service | 0 | Metadata.java: [Producer clientId=producer-1] Resetting the last seen epoch of partition bizfly-7-453-CheckInTopic-0 to 0 since the associated topicId changed from null to DfCruMDBRSKVMDM2Nqz2EA
+25/11/23 00:00:50.172 | INFO  | sale_service | 0 | Metadata.java: [Producer clientId=producer-1] Cluster ID: QMB_mhHDRDu7Hwe9wGbv2w
+25/11/23 00:00:50.173 | INFO  | sale_service | 0 | TransactionManager.java: [Producer clientId=producer-1] ProducerId set to 10046 with epoch 0
+25/11/23 00:00:50.187 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "username" : "taikhoanbanhang"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.Account in collection: account
+25/11/23 00:00:50.287 | DEBUG | sale_service | 0 | LogFormatUtils.java: POST "/api/v1/it/statistic/pre", parameters={}
+25/11/23 00:00:50.289 | DEBUG | sale_service | 0 | AbstractHandlerMapping.java: Mapped to com.salespage.salespageservice.app.schedule.StatisticScheduleController#updatePaymentPre()
+25/11/23 00:00:50.300 | INFO  | sale_service | 0 | ProductStatisticService.java: =====>asyncStatisticPreDay
+25/11/23 00:00:50.303 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: {} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductDetail in collection: product_detail
+25/11/23 00:00:50.415 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "username" : "taikhoanbanhang"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.Account in collection: account
+25/11/23 00:00:50.421 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "_id" : "payment_checkpoint_id"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.StatisticCheckpoint in collection: statistic_checkpoint
+25/11/23 00:00:50.454 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "username" : "taikhoanbanhang"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.Account in collection: account
+25/11/23 00:00:50.620 | INFO  | sale_service | 0 | SLF4JLogger.java: Opened connection [connectionId{localValue:8, serverValue:47265}] to ac-jh96ukw-shard-00-02.h9186rq.mongodb.net:27017
+25/11/23 00:00:50.660 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "6532bc2ffae6d41599929247"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:50.705 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:50.798 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "6532bc53fae6d41599929248"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:50.839 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:50.885 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "6532bd83fae6d4159992924d"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:50.926 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:50.971 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "65300a62fae6d4159992923a"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.060 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:51.104 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "65300a63fae6d4159992923b"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.137 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:51.223 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "6532bd67fae6d4159992924c"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.280 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:51.322 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "6532bc72fae6d41599929249"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.356 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:51.400 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "6532bc91fae6d4159992924a"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.436 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:51.474 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "6532bce9fae6d4159992924b"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.522 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:51.562 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "653536948d69bd44723ba6fc"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.598 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:51.635 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "653536f18d69bd44723ba6fd"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.676 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:51.735 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "65360b8ee14dd822b9121ad6"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.820 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:51.906 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "65360b9ae14dd822b9121ad7"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:51.996 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.069 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "65360bace14dd822b9121ad8"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.133 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.190 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "65360bbfe14dd822b9121ad9"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.268 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.312 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "65360be0e14dd822b9121ada"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.347 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.389 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "653a7688a4b25b73765c1cdb"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.426 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.470 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "653a774ea4b25b73765c1cdc"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.507 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.546 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "653a775aa4b25b73765c1cdd"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.579 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.622 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "653a7766a4b25b73765c1cde"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.662 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.703 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "653a7773a4b25b73765c1cdf"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.742 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.799 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655cdfe9524e3f7af0d0b843"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.832 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.872 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655cdff8524e3f7af0d0b844"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.911 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:52.951 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce01f524e3f7af0d0b847"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:52.985 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.025 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce02e524e3f7af0d0b848"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.057 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.098 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce03a524e3f7af0d0b849"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.132 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.169 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce13a524e3f7af0d0b84e"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.202 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.240 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce1a7524e3f7af0d0b851"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.272 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.311 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce1b4524e3f7af0d0b852"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.355 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.396 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce1c2524e3f7af0d0b853"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.431 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.467 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce21b524e3f7af0d0b858"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.501 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.541 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce227524e3f7af0d0b859"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.574 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.615 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce22c524e3f7af0d0b85b"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.649 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.690 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce408524e3f7af0d0b85f"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.723 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.765 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce412524e3f7af0d0b860"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.801 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.843 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce433524e3f7af0d0b861"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.878 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.919 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce6b7524e3f7af0d0b865"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:53.951 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:53.987 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-20T17:00:00Z"}, "product_detail_id" : "655ce6d0524e3f7af0d0b866"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:00:54.026 | DEBUG | sale_service | 0 | MongoTemplate.java: Inserting Document containing fields: [daily, product_detail_id, product_id, total_user, total_buy, total_product, total_view, total_purchase, total_shipper_cod, _class] in collection: product_statistic
+25/11/23 00:00:54.070 | DEBUG | sale_service | 0 | MongoTemplate.java: Saving Document containing fields: [_id, check_point, _class]
+25/11/23 00:01:17.527 | DEBUG | sale_service | 0 | MongoTemplate.java: find using query: { "daily" : { "$date" : "2023-09-21T17:00:00Z"}, "product_detail_id" : "6532bc2ffae6d41599929247"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.ProductStatistic in collection: product_statistic
+25/11/23 00:01:17.555 | DEBUG | sale_service | 0 | ApplicationAvailabilityBean.java: Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC
+25/11/23 00:01:17.555 | DEBUG | sale_service | 0 | AbstractApplicationContext.java: Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@648ee871, started on Sat Nov 25 00:00:20 ICT 2023
+25/11/23 00:01:17.555 | DEBUG | sale_service | 0 | PropertySourcesPropertyResolver.java: Found key 'spring.liveBeansView.mbeanDomain' in PropertySource 'systemProperties' with value of type String
+25/11/23 00:01:17.557 | DEBUG | sale_service | 0 | CompositeLog.java: clientOutboundChannel removed SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+25/11/23 00:01:17.557 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel removed WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+25/11/23 00:01:17.557 | INFO  | sale_service | 0 | CompositeLog.java: Stopping...
+25/11/23 00:01:17.557 | INFO  | sale_service | 0 | CompositeLog.java: BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]]
+25/11/23 00:01:17.558 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel removed SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]
+25/11/23 00:01:17.558 | DEBUG | sale_service | 0 | CompositeLog.java: brokerChannel removed SimpleBrokerMessageHandler [DefaultSubscriptionRegistry[cache[0 destination(s)], registry[0 sessions]]]
+25/11/23 00:01:17.558 | INFO  | sale_service | 0 | CompositeLog.java: Stopped.
+25/11/23 00:01:17.558 | DEBUG | sale_service | 0 | CompositeLog.java: clientInboundChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+25/11/23 00:01:17.558 | DEBUG | sale_service | 0 | CompositeLog.java: brokerChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+25/11/23 00:01:17.563 | INFO  | sale_service | 0 | AbstractConnector.java: Stopped ServerConnector@5122e4bf{HTTP/1.1, (http/1.1)}{0.0.0.0:8080}
+25/11/23 00:01:17.563 | INFO  | sale_service | 0 | HouseKeeper.java: node0 Stopped scavenging
+25/11/23 00:01:17.564 | INFO  | sale_service | 0 | ContextHandler.java: Destroying Spring FrameworkServlet 'dispatcherServlet'
+25/11/23 00:01:17.565 | INFO  | sale_service | 0 | ContextHandler.java: Stopped o.s.b.w.e.j.JettyEmbeddedWebAppContext@297454f7{application,/,[file:///C:/Users/Admin/AppData/Local/Temp/jetty-docbase.8080.7865778986396268748/, jar:file:/C:/Users/Admin/.m2/repository/org/webjars/swagger-ui/4.17.1/swagger-ui-4.17.1.jar!/META-INF/resources, jar:file:/C:/Users/Admin/.m2/repository/org/webjars/jquery/3.6.1/jquery-3.6.1.jar!/META-INF/resources],STOPPED}
+25/11/23 00:01:17.570 | INFO  | sale_service | 0 | ConsumerCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Revoke previously assigned partitions bizfly-7-453-CheckInTopic-0
+25/11/23 00:01:17.570 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Member consumer-bizfly-7-453-PaymentTransaction-3-a0605602-2dbe-481b-8ca2-02db813d26e1 sending LeaveGroup request to coordinator 123.31.11.247:9094 (id: 2147483643 rack: null) due to the consumer unsubscribed from all topics
+25/11/23 00:01:17.570 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Member consumer-bizfly-7-453-PaymentTransaction-2-4ad2d5f2-0eb5-42d8-9541-5ad6ca3ecdd2 sending LeaveGroup request to coordinator 123.31.11.247:9094 (id: 2147483643 rack: null) due to the consumer unsubscribed from all topics
+25/11/23 00:01:17.571 | INFO  | sale_service | 0 | LogAccessor.java: bizfly-7-453-PaymentTransaction: partitions revoked: [bizfly-7-453-CheckInTopic-0]
+25/11/23 00:01:17.571 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Member consumer-bizfly-7-453-PaymentTransaction-1-3ed6cf56-94fb-41fe-b2c1-48fb6e7a2522 sending LeaveGroup request to coordinator 123.31.11.247:9094 (id: 2147483643 rack: null) due to the consumer unsubscribed from all topics
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Unsubscribed all topics or patterns and assigned partitions
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Unsubscribed all topics or patterns and assigned partitions
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | KafkaConsumer.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Unsubscribed all topics or patterns and assigned partitions
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Resetting generation due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-2, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-1, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.572 | INFO  | sale_service | 0 | AbstractCoordinator.java: [Consumer clientId=consumer-bizfly-7-453-PaymentTransaction-3, groupId=bizfly-7-453-PaymentTransaction] Request joining group due to: consumer pro-actively leaving the group
+25/11/23 00:01:17.605 | DEBUG | sale_service | 0 | ExceptionHandlerExceptionResolver.java: Using @ExceptionHandler com.salespage.salespageservice.domains.exceptions.GlobalExceptionHandler#handleException(BaseException, WebRequest)
+25/11/23 00:01:17.606 | WARN  | sale_service | 0 | ExceptionHandlerExceptionResolver.java: Failure in @ExceptionHandler com.salespage.salespageservice.domains.exceptions.GlobalExceptionHandler#handleException(BaseException, WebRequest)
+java.lang.IllegalStateException: Could not resolve parameter [0] in public org.springframework.http.ResponseEntity<java.lang.Object> com.salespage.salespageservice.domains.exceptions.GlobalExceptionHandler.handleException(com.salespage.salespageservice.domains.exceptions.info.BaseException,org.springframework.web.context.request.WebRequest): No suitable resolver
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:176) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:146) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(ExceptionHandlerExceptionResolver.java:428) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver.doResolveException(AbstractHandlerMethodExceptionResolver.java:75) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.resolveException(AbstractHandlerExceptionResolver.java:142) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(HandlerExceptionResolverComposite.java:80) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.DispatcherServlet.processHandlerException(DispatcherServlet.java:1331) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1142) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1088) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:517) ~[jakarta.servlet-api-4.0.4.jar:4.0.4]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.23.jar:5.3.23]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:584) ~[jakarta.servlet-api-4.0.4.jar:4.0.4]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:799) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1656) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.websocket.server.WebSocketUpgradeFilter.doFilter(WebSocketUpgradeFilter.java:292) ~[websocket-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1626) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:111) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1626) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at com.salespage.salespageservice.domains.security.jwt.AuthTokenFilter.doFilterInternal(AuthTokenFilter.java:77) ~[classes/:?]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1626) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:337) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:122) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:116) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:109) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at com.salespage.salespageservice.domains.security.jwt.AuthTokenFilter.doFilterInternal(AuthTokenFilter.java:77) ~[classes/:?]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:112) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:82) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:346) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:221) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:186) ~[spring-security-web-5.7.4.jar:5.7.4]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:354) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:267) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1626) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1626) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1626) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117) ~[spring-web-5.3.23.jar:5.3.23]
+	at org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1626) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:552) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:600) ~[jetty-security-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1440) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:505) ~[jetty-servlet-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1355) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.Server.handle(Server.java:516) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:487) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:732) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:479) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:277) ~[jetty-server-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311) ~[jetty-io-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105) ~[jetty-io-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104) ~[jetty-io-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:883) ~[jetty-util-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1034) ~[jetty-util-9.4.49.v20220914.jar:9.4.49.v20220914]
+	at java.lang.Thread.run(Thread.java:829) ~[?:?]
+25/11/23 00:01:17.613 | DEBUG | sale_service | 0 | FrameworkServlet.java: Failed to complete request: org.springframework.data.mongodb.UncategorizedMongoDbException: nested exception is com.mongodb.MongoInterruptedException

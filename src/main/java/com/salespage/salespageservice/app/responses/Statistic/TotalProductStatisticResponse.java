@@ -23,8 +23,6 @@ public class TotalProductStatisticResponse {
   public static class ProductDetailStatistic {
     private String productDetailId;
     private String productDetailName;
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate daily;
     private Long totalUser = 0L;
     private Long totalPurchase = 0L;
     private Long totalView = 0L;

@@ -16,6 +16,5 @@ public class StatisticCheckpoint {
   private String id;
 
   @Field("check_point")
-  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate checkPoint;
 }

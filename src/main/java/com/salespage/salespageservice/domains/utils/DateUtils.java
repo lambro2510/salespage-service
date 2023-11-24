@@ -11,7 +11,12 @@ public class DateUtils {
   private static final ZoneId ZONE_ID_UTC = ZoneId.of("UTC");
 
   public static LocalDateTime now() {
-    return LocalDateTime.now(ZONE_ID_UTC).atZone(ZONE_ID_UTC).toLocalDateTime();
+    return LocalDateTime.now(ZONE_ID_UTC);
+  }
+
+  public static LocalDate nowDate() {
+    ZonedDateTime utcDateTime = ZonedDateTime.now(ZONE_ID_UTC);
+    return utcDateTime.toLocalDate();
   }
 
   public static String nowString() {
@@ -60,9 +65,7 @@ public class DateUtils {
   }
 
   public static LocalDateTime convertLongToLocalDateTime(Long timestamp) {
-
     Instant instant = Instant.ofEpochMilli(timestamp);
-
-    return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+    return instant.atZone(DEFAULT_ZONE_ID).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
   }
 }

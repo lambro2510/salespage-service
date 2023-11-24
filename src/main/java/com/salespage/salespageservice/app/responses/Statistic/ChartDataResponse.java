@@ -20,7 +20,7 @@ public class ChartDataResponse {
 
   @Data
   public static class DataSets {
-    List<Long> data = new ArrayList<>();
+    List<DailyDataResponse> data = new ArrayList<>();
     String label;
     Boolean fill = true;
     Integer borderWidth = 1;

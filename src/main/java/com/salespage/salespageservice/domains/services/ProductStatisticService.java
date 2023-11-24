@@ -34,10 +34,10 @@ public class ProductStatisticService extends BaseService{
     StatisticCheckpoint statisticCheckpoint = statisticCheckpointStorage.findById(Constants.PAYMENT_STATISTIC_CHECKPOINT);
     if (Objects.isNull(statisticCheckpoint)) {
       statisticCheckpoint = new StatisticCheckpoint();
-      statisticCheckpoint.setCheckPoint(DateUtils.now().toLocalDate().minusDays(64));
+      statisticCheckpoint.setCheckPoint(DateUtils.nowDate().minusDays(64));
       statisticCheckpoint.setId(Constants.PAYMENT_STATISTIC_CHECKPOINT);
     }
-    for (LocalDate current = statisticCheckpoint.getCheckPoint(); current.isBefore(DateUtils.now().toLocalDate()); current = current.plusDays(1)) {
+    for (LocalDate current = statisticCheckpoint.getCheckPoint(); current.isBefore(DateUtils.nowDate()); current = current.plusDays(1)) {
       for (ProductDetail productDetail : productDetails) {
         ProductStatistic paymentStatistic = productStatisticStorage.findByDailyAndProductDetailId(current, productDetail.getId().toHexString());
         if (paymentStatistic == null) {
