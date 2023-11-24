@@ -146,6 +146,7 @@ public class ProductTransactionService extends BaseService {
   public ProductTransactionDetail buildProductTransactionDetail(String transactionId, ProductDetail productDetail, VoucherInfo voucher, String address, Long quantity, SellerStore store, String note) {
     return ProductTransactionDetail.builder()
         .transactionId(transactionId)
+        .productDetailId(productDetail.getId().toHexString())
         .address(address)
         .quantity(quantity)
         .store(store)
