@@ -35,7 +35,7 @@ public class StatisticService extends BaseService {
     List<TotalProductStatisticResponse> responses = new ArrayList<>();
     List<Product> products = productStorage.findAll();
     LocalDateTime startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate().atStartOfDay();
-    LocalDateTime endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate().plusDays(1).atStartOfDay();
+    LocalDateTime endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate().atStartOfDay();
 //    LocalDateTime startDateAtVn = DateUtils.convertUtcToVietnamTime(startDate);
 //    LocalDateTime endDateAtVn = DateUtils.convertUtcToVietnamTime(endDate);
     for (Product product : products) {
