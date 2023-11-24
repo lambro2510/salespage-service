@@ -2,7 +2,6 @@ package com.salespage.salespageservice.domains.utils;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
 public class DateUtils {
@@ -40,9 +39,9 @@ public class DateUtils {
     return Date.from(localDateTime.atZone(ZONE_ID_UTC).toInstant());
   }
 
-  public static String convertLocalDateToString(LocalDate date, String pattern) {
+  public static String convertLocalDateTimeToString(LocalDateTime date, String pattern) {
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
-    return date.format(dateTimeFormatter);
+    return date.toLocalDate().format(dateTimeFormatter);
   }
 
   public static long nowInMillis() {
@@ -56,10 +55,9 @@ public class DateUtils {
     return LocalDateTime.parse(dateString, formatter);
   }
 
-  public static Long convertLocalDateToLong(LocalDate current) {
-    LocalDateTime localDateTime = current.atStartOfDay();
+  public static Long convertLocalDateTimeToLong(LocalDateTime current) {
 
-    Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+    Instant instant = current.atZone(ZONE_ID_UTC).toInstant();
 
     return instant.toEpochMilli();
   }

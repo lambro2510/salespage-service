@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -34,10 +35,10 @@ public class ProductStatisticService extends BaseService{
     StatisticCheckpoint statisticCheckpoint = statisticCheckpointStorage.findById(Constants.PAYMENT_STATISTIC_CHECKPOINT);
     if (Objects.isNull(statisticCheckpoint)) {
       statisticCheckpoint = new StatisticCheckpoint();
-      statisticCheckpoint.setCheckPoint(DateUtils.nowDate().minusDays(64));
+      statisticCheckpoint.setCheckPoint(DateUtils.startOfDay().minusDays(64));
       statisticCheckpoint.setId(Constants.PAYMENT_STATISTIC_CHECKPOINT);
     }
-    for (LocalDate current = statisticCheckpoint.getCheckPoint(); current.isBefore(DateUtils.nowDate()); current = current.plusDays(1)) {
+    for (LocalDateTime current = statisticCheckpoint.getCheckPoint(); current.isBefore(DateUtils.startOfDay()); current = current.plusDays(1)) {
       for (ProductDetail productDetail : productDetails) {
         ProductStatistic paymentStatistic = productStatisticStorage.findByDailyAndProductDetailId(current, productDetail.getId().toHexString());
         if (paymentStatistic == null) {
@@ -47,8 +48,8 @@ public class ProductStatisticService extends BaseService{
           paymentStatistic.setProductId(productDetail.getProductId());
         }else{
           TotalProductStatisticResponse totalPaymentStatisticResponse = lookupAggregation(productDetail.getId().toHexString(), current, current.plusDays(1));
-          long totalUser = productTransactionDetailStorage.countDistinctUserIdByCreatedAtBetween(DateUtils.convertLocalDateToLong(current), DateUtils.convertLocalDateToLong(current.plusDays(1)));
-          long totalProduct = productTransactionDetailStorage.countByCreatedAtBetween(DateUtils.convertLocalDateToLong(current), DateUtils.convertLocalDateToLong(current.plusDays(1)));
+          long totalUser = productTransactionDetailStorage.countDistinctUsernameByCreatedAtBetween(DateUtils.convertLocalDateTimeToLong(current), DateUtils.convertLocalDateTimeToLong(current.plusDays(1)));
+          long totalProduct = productTransactionDetailStorage.countByCreatedAtBetween(DateUtils.convertLocalDateTimeToLong(current), DateUtils.convertLocalDateTimeToLong(current.plusDays(1)));
           totalPaymentStatisticResponse.setTotalProduct(totalProduct);
           totalPaymentStatisticResponse.setTotalUser(totalUser);
           paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
@@ -64,12 +65,15 @@ public class ProductStatisticService extends BaseService{
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public void asyncStatisticToday() {
     log.info("=====>asyncStatisticToday");
-    LocalDate startDay = DateUtils.startOfDay().toLocalDate();
-    LocalDate endDay = startDay.plusDays(1);
+    LocalDateTime startDay = DateUtils.startOfDay().toLocalDate().atStartOfDay();
+    LocalDateTime endDay = startDay.plusDays(1);
     List<ProductDetail> productDetails = productDetailStorage.findAll();
 
     for (ProductDetail productDetail : productDetails) {
       ProductStatistic paymentStatistic = productStatisticStorage.findByDailyAndProductDetailId(startDay, productDetail.getId().toHexString());
+      if(productDetail.getId().toHexString().equals("6532bc72fae6d41599929249")){
+        log.info(123);
+      }
       if (paymentStatistic == null) {
         paymentStatistic = new ProductStatistic();
         paymentStatistic.setDaily(startDay);
@@ -77,8 +81,8 @@ public class ProductStatisticService extends BaseService{
         paymentStatistic.setProductId(productDetail.getProductId());
       }else{
         TotalProductStatisticResponse totalPaymentStatisticResponse = lookupAggregation(productDetail.getId().toHexString(), startDay, endDay);
-        long totalUser = productTransactionDetailStorage.countDistinctUserIdByCreatedAtBetween(DateUtils.convertLocalDateToLong(startDay), DateUtils.convertLocalDateToLong(endDay));
-        long totalProduct = productTransactionDetailStorage.countByCreatedAtBetween(DateUtils.convertLocalDateToLong(startDay), DateUtils.convertLocalDateToLong(endDay));
+        long totalUser = productTransactionDetailStorage.countDistinctUsernameByCreatedAtBetween(DateUtils.convertLocalDateTimeToLong(startDay), DateUtils.convertLocalDateTimeToLong(endDay));
+        long totalProduct = productTransactionDetailStorage.countByCreatedAtBetween(DateUtils.convertLocalDateTimeToLong(startDay), DateUtils.convertLocalDateTimeToLong(endDay));
         totalPaymentStatisticResponse.setTotalProduct(totalProduct);
         totalPaymentStatisticResponse.setTotalUser(totalUser);
         paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
@@ -88,9 +92,10 @@ public class ProductStatisticService extends BaseService{
 
   }
 
-  public TotalProductStatisticResponse lookupAggregation(String productId, LocalDate gte, LocalDate lte) {
+  public TotalProductStatisticResponse lookupAggregation(String productId, LocalDateTime gte, LocalDateTime lte) {
+
     Criteria criteria = Criteria.where("product_detail_id").is(productId)
-        .andOperator(Criteria.where("created_at").gte(DateUtils.convertLocalDateToLong(gte)), Criteria.where("created_at").lte(DateUtils.convertLocalDateToLong(lte)));
+        .andOperator(Criteria.where("created_at").gte(DateUtils.convertLocalDateTimeToLong(gte)), Criteria.where("created_at").lte(DateUtils.convertLocalDateTimeToLong(lte)));
     AggregationOperation match = Aggregation.match(criteria);
     GroupOperation groupOperation = Aggregation.group()
         .sum("total_price").as("totalPurchase")

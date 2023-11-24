@@ -12,6 +12,6 @@ import java.util.List;
 public interface ProductTransactionDetailRepository extends MongoRepository<ProductTransactionDetail, ObjectId> {
   List<ProductTransactionDetail> findByTransactionIdIn(List<String> tranIds);
 
-  long countDistinctUserIdByCreatedAtBetween(Long createdAt, Long createdAt2);
+  long countDistinctUsernameByCreatedAtBetween(Long createdAt, Long createdAt2);
   long countByCreatedAtBetween(Long createdAt, Long createdAt2);
 }

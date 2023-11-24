@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -33,8 +34,8 @@ public class StatisticService extends BaseService {
   public List<ChartDataResponse> getStatistic(Long gte, Long lte) {
     List<TotalProductStatisticResponse> responses = new ArrayList<>();
     List<Product> products = productStorage.findAll();
-    LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
-    LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate().plusDays(1);
+    LocalDateTime startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate().atStartOfDay();
+    LocalDateTime endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate().plusDays(1).atStartOfDay();
     for (Product product : products) {
       TotalProductStatisticResponse response = getStatisticOfProduct(product.getId().toHexString(), startDate, endDate);
       responses.add(response);
@@ -54,7 +55,7 @@ public class StatisticService extends BaseService {
       chartDataResponse.setTotalUser(response.getTotalUser());
       List<String> labels = new ArrayList<>();
       Map<String, List<DailyDataResponse>> dataSetMap = new HashMap<>();
-      for(LocalDate current = startDate; current.isBefore(endDate.plusDays(1)); current = current.plusDays(1)){
+      for(LocalDateTime current = startDate; current.isBefore(endDate.plusDays(1)); current = current.plusDays(1)){
         labels.add(current.toString());
         for(TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic : response.getProductDetails()){
           for(TotalProductStatisticResponse.Daily daily : productDetailStatistic.getDailies()){
@@ -89,7 +90,7 @@ public class StatisticService extends BaseService {
     return charts;
   }
 
-  public TotalProductStatisticResponse getStatisticOfProduct(String productId, LocalDate startDate, LocalDate endDate) {
+  public TotalProductStatisticResponse getStatisticOfProduct(String productId, LocalDateTime startDate, LocalDateTime endDate) {
     TotalProductStatisticResponse statistic = new TotalProductStatisticResponse();
 
     Product product = productStorage.findProductById(productId);

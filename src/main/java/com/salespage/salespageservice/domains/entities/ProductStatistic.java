@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Document("product_statistic")
 @Data
@@ -27,7 +28,7 @@ public class ProductStatistic {
   private ObjectId id;
 
   @Field("daily")
-  private LocalDate daily;
+  private LocalDateTime daily;
 
   @Field("product_detail_id")
   private String productDetailId;

@@ -5,6 +5,7 @@ import com.salespage.salespageservice.domains.utils.DateUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,12 +38,12 @@ public class ProductStatisticStorage extends BaseStorage {
   }
 
   public ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewAsc(String productId) {
-    LocalDate now = DateUtils.now().toLocalDate();
+    LocalDateTime now = DateUtils.now().toLocalDate().atStartOfDay();
     return productStatisticRepository.findFirstByProductIdAndDailyOrderByTotalViewAsc(productId, now);
   }
 
   public ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewDesc(String productId) {
-    LocalDate now = DateUtils.now().toLocalDate();
+    LocalDateTime now = DateUtils.now().toLocalDate().atStartOfDay();
     return productStatisticRepository.findFirstByProductIdAndDailyOrderByTotalViewDesc(productId, now);
   }
 
@@ -82,11 +83,11 @@ public class ProductStatisticStorage extends BaseStorage {
     return productStatisticRepository.findByProductIdIn(productIds);
   }
 
-  public ProductStatistic findByDailyAndProductDetailId(LocalDate current, String id) {
+  public ProductStatistic findByDailyAndProductDetailId(LocalDateTime current, String id) {
     return productStatisticRepository.findByDailyAndProductDetailId(current, id);
   }
 
-  public List<ProductStatistic> findByProductIdAndDailyBetweenOrderByTotalViewAsc(String id, LocalDate startDate, LocalDate endDate) {
+  public List<ProductStatistic> findByProductIdAndDailyBetweenOrderByTotalViewAsc(String id, LocalDateTime startDate, LocalDateTime endDate) {
     return productStatisticRepository.findByProductIdAndDailyBetweenOrderByTotalViewAsc(id, startDate, endDate);
   }
 }

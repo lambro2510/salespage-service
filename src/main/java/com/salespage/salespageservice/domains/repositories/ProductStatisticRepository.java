@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,11 +35,11 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
   List<ProductStatistic> findTop12ByOrderByTotalViewDesc();
   List<ProductStatistic> findByProductIdIn(List<String> ids);
 
-  ProductStatistic findByDailyAndProductDetailId(LocalDate current, String id);
+  ProductStatistic findByDailyAndProductDetailId(LocalDateTime current, String id);
 
-  ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewAsc(String productId, LocalDate now);
+  ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewAsc(String productId, LocalDateTime now);
 
-  ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewDesc(String productId, LocalDate now);
+  ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewDesc(String productId, LocalDateTime now);
 
-  List<ProductStatistic> findByProductIdAndDailyBetweenOrderByTotalViewAsc(String id, LocalDate startDate, LocalDate endDate);
+  List<ProductStatistic> findByProductIdAndDailyBetweenOrderByTotalViewAsc(String id, LocalDateTime startDate, LocalDateTime endDate);
 }

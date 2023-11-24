@@ -16,8 +16,8 @@ public class ProductTransactionDetailStorage extends BaseStorage{
     return productTransactionDetailRepository.findByTransactionIdIn(tranIds);
   }
 
-  public long countDistinctUserIdByCreatedAtBetween(Long startDay, Long endDay) {
-    return productTransactionDetailRepository.countDistinctUserIdByCreatedAtBetween(startDay,endDay);
+  public long countDistinctUsernameByCreatedAtBetween(Long startDay, Long endDay) {
+    return productTransactionDetailRepository.countDistinctUsernameByCreatedAtBetween(startDay,endDay);
   }
 
   public long countByCreatedAtBetween(Long startDay, Long endDay) {

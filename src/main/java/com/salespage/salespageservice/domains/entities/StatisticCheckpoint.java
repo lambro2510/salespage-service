@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Document("statistic_checkpoint")
 @Data
@@ -16,5 +17,5 @@ public class StatisticCheckpoint {
   private String id;
 
   @Field("check_point")
-  private LocalDate checkPoint;
+  private LocalDateTime checkPoint;
 }

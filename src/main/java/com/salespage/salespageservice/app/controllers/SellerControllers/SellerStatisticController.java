@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Tag(name = "Seller statistic", description = "Thống kê bán hàng")
 @CrossOrigin
@@ -36,8 +37,8 @@ public class SellerStatisticController extends BaseController {
                                                                  @RequestParam Long lte,
                                                                  @RequestParam Long gte){
     try{
-      LocalDate startDate = DateUtils.convertLongToLocalDateTime(gte).toLocalDate();
-      LocalDate endDate = DateUtils.convertLongToLocalDateTime(lte).toLocalDate();
+      LocalDateTime startDate = DateUtils.convertLongToLocalDateTime(gte);
+      LocalDateTime endDate = DateUtils.convertLongToLocalDateTime(lte);
       return successApi(statisticService.getStatisticOfProduct(productId,startDate, endDate));
     }catch (Exception ex){
       return errorApi(ex.getMessage());

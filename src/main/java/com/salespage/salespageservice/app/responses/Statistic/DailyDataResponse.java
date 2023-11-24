@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class DailyDataResponse {
   @JsonFormat(pattern = "dd-MM-yyyy")
-  private LocalDate daily;
+  private LocalDateTime daily;
   private Long totalUser = 0L;
   private Long totalPurchase = 0L;
   private Long totalView = 0L;

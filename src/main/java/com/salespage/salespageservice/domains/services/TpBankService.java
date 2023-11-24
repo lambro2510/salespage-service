@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -46,9 +47,9 @@ public class TpBankService extends BaseService {
   }
 
   public void saveTpBankTransactionToday() throws Exception {
-    LocalDate now = LocalDate.now();
-    String fromDate = DateUtils.convertLocalDateToString(now.minusDays(1), "yyyyMMdd");
-    String toDate = DateUtils.convertLocalDateToString(now, "yyyyMMdd");
+    LocalDateTime now = DateUtils.startOfDay();
+    String fromDate = DateUtils.convertLocalDateTimeToString(now.minusDays(1), "yyyyMMdd");
+    String toDate = DateUtils.convertLocalDateTimeToString(now, "yyyyMMdd");
     TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
     log.info(tpBankTransactionData);
     for (TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()) {
@@ -66,12 +67,12 @@ public class TpBankService extends BaseService {
     if (Objects.isNull(statisticCheckpoint)) {
       statisticCheckpoint = new StatisticCheckpoint();
       statisticCheckpoint.setId(Constants.TRANSACTION_CHECKPOINT_ID);
-      statisticCheckpoint.setCheckPoint(LocalDate.now().minusDays(64));
+      statisticCheckpoint.setCheckPoint(DateUtils.startOfDay().minusDays(64));
     }
-    LocalDate currentDate = statisticCheckpoint.getCheckPoint();
-    while (currentDate.isBefore(LocalDate.now())) {
-      String fromDate = DateUtils.convertLocalDateToString(currentDate, "yyyyMMdd");
-      String toDate = DateUtils.convertLocalDateToString(currentDate.plusDays(1), "yyyyMMdd");
+    LocalDateTime currentDate = statisticCheckpoint.getCheckPoint();
+    while (currentDate.isBefore((DateUtils.startOfDay()))) {
+      String fromDate = DateUtils.convertLocalDateTimeToString(currentDate, "yyyyMMdd");
+      String toDate = DateUtils.convertLocalDateTimeToString(currentDate.plusDays(1), "yyyyMMdd");
       TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
       for (TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()) {
         TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByTransId(info.getId());

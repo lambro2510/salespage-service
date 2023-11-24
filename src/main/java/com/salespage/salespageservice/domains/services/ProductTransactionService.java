@@ -143,7 +143,7 @@ public class ProductTransactionService extends BaseService {
     productTransactionDetailStorage.saveAll(transactionDetails);
   }
 
-  public ProductTransactionDetail buildProductTransactionDetail(String transactionId, ProductDetail productDetail, VoucherInfo voucher, String address, Long quantity, SellerStore store, String note) {
+  public ProductTransactionDetail buildProductTransactionDetail(String transactionId, ProductDetail productDetail, VoucherInfo voucher, String address, Long quantity, SellerStore store, String note, String username) {
     return ProductTransactionDetail.builder()
         .transactionId(transactionId)
         .productDetailId(productDetail.getId().toHexString())
@@ -154,6 +154,7 @@ public class ProductTransactionService extends BaseService {
         .state(ProductTransactionState.WAITING_STORE)
         .note(note)
         .voucherInfo(voucher)
+        .username(username)
         .productDetail(productDetail)
         .totalPrice(voucher.getPriceAfter())
         .build();
