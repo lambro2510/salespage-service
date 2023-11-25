@@ -14,12 +14,13 @@ public class DateUtils {
   }
 
   public static LocalDate nowDate() {
-    ZonedDateTime utcDateTime = ZonedDateTime.now(DEFAULT_ZONE_ID);
+    ZonedDateTime utcDateTime = ZonedDateTime.now(ZONE_ID_UTC).withZoneSameInstant(DEFAULT_ZONE_ID);
     return utcDateTime.toLocalDate();
   }
 
   public static void main(String[] args) {
-    System.out.println(nowDate());
+    System.out.println(nowDate().atStartOfDay().atZone(DEFAULT_ZONE_ID));
+    System.out.println( ZonedDateTime.now(ZONE_ID_UTC));
   }
   public static String nowString() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
