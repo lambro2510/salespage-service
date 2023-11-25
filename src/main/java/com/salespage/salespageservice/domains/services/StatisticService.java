@@ -116,11 +116,13 @@ public class StatisticService extends BaseService {
         statistic.setTotalBuy(statistic.getTotalBuy() + productStatistic.getTotalBuy());
         statistic.setTotalPurchase(statistic.getTotalPurchase() + productStatistic.getTotalPurchase());
         statistic.setTotalView(statistic.getTotalView() + productStatistic.getTotalView());
+        statistic.setTotalProduct(statistic.getTotalProduct() + productStatistic.getTotalProduct());
 
         productDetailStatistic.setTotalBuy(productDetailStatistic.getTotalBuy() + productStatistic.getTotalBuy());
         productDetailStatistic.setTotalPurchase(productDetailStatistic.getTotalPurchase() + productStatistic.getTotalPurchase());
         productDetailStatistic.setTotalUser(productDetailStatistic.getTotalUser() + productStatistic.getTotalUser());
         productDetailStatistic.setTotalView(productDetailStatistic.getTotalView() + productStatistic.getTotalView());
+        productDetailStatistic.setTotalProduct(productDetailStatistic.getTotalProduct() + productStatistic.getTotalProduct());
 
         TotalProductStatisticResponse.Daily daily = new TotalProductStatisticResponse.Daily();
         daily.setDaily(productStatistic.getDaily());
@@ -128,7 +130,10 @@ public class StatisticService extends BaseService {
         daily.setTotalPurchase(productStatistic.getTotalPurchase());
         daily.setTotalUser(productStatistic.getTotalUser());
         daily.setTotalView(productStatistic.getTotalView());
+        daily.setTotalProduct(productStatistic.getTotalProduct());
+
         productDetailStatistic.getDailies().add(daily);
+
       }
       statistic.getProductDetails().add(productDetailStatistic);
     }
