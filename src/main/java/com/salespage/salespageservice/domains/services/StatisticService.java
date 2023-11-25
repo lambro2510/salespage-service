@@ -39,10 +39,9 @@ public class StatisticService extends BaseService {
 //    LocalDate startDateAtVn = DateUtils.convertUtcToVietnamTime(startDate);
 //    LocalDate endDateAtVn = DateUtils.convertUtcToVietnamTime(endDate);
     for (Product product : products) {
-      TotalProductStatisticResponse response = getStatisticOfProduct(product.getId().toHexString(), startDate, endDate);
+      TotalProductStatisticResponse response = getStatisticOfProduct(product.getId().toHexString(), gte, lte);
       responses.add(response);
     }
-
 
     List<ChartDataResponse> charts = new ArrayList<>();
     for(TotalProductStatisticResponse response : responses){
@@ -91,7 +90,9 @@ public class StatisticService extends BaseService {
     return charts;
   }
 
-  public TotalProductStatisticResponse getStatisticOfProduct(String productId, LocalDate startDate, LocalDate endDate) {
+  public TotalProductStatisticResponse getStatisticOfProduct(String productId, long gte, long lte) {
+    LocalDate startDate = DateUtils.convertLongToLocalDate(gte);
+    LocalDate endDate = DateUtils.convertLongToLocalDate(lte);
     TotalProductStatisticResponse statistic = new TotalProductStatisticResponse();
 
     Product product = productStorage.findProductById(productId);
@@ -99,7 +100,8 @@ public class StatisticService extends BaseService {
     List<ProductDetail> productDetails = productDetailStorage.findByProductId(productId);
     Map<String, ProductDetail> detailMap = productDetails.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
     List<ProductStatistic> productStatistics = productStatisticStorage.findByProductIdAndDailyBetweenOrderByTotalViewAsc(productId, startDate, endDate);
-
+    long totalUser = productTransactionDetailStorage.countDistinctUsernameByProductIdAndCreatedAtBetween(productId, gte, lte);
+    statistic.setTotalUser(totalUser);
     Map<String, List<ProductStatistic>> productStatisticByDetailMap = productStatistics.stream().collect(Collectors.groupingBy(ProductStatistic::getProductDetailId));
     for(Map.Entry<String, List<ProductStatistic>> entry : productStatisticByDetailMap.entrySet()){
       TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic = new TotalProductStatisticResponse.ProductDetailStatistic();
@@ -112,7 +114,6 @@ public class StatisticService extends BaseService {
         statistic.setProductName(product.getProductName());
         statistic.setTotalBuy(statistic.getTotalBuy() + productStatistic.getTotalBuy());
         statistic.setTotalPurchase(statistic.getTotalPurchase() + productStatistic.getTotalPurchase());
-        statistic.setTotalUser(statistic.getTotalUser() + productStatistic.getTotalUser());
         statistic.setTotalView(statistic.getTotalView() + productStatistic.getTotalView());
 
         productDetailStatistic.setTotalBuy(productDetailStatistic.getTotalBuy() + productStatistic.getTotalBuy());
@@ -129,10 +130,6 @@ public class StatisticService extends BaseService {
         productDetailStatistic.getDailies().add(daily);
       }
       statistic.getProductDetails().add(productDetailStatistic);
-//    }
-
-//    for(ProductStatistic productStatistic : productStatistics){
-//      partnerToResponse(statistic, productStatistic, detailMap.get(productStatistic.getProductDetailId()), product);
     }
     return statistic;
   }

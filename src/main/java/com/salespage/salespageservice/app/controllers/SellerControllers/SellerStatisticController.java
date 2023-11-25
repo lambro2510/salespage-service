@@ -34,12 +34,13 @@ public class SellerStatisticController extends BaseController {
   @GetMapping("{productId}")
   public ResponseEntity<BaseResponse> getTotalStatisticOfProduct(Authentication authentication,
                                                                  @PathVariable String productId,
-                                                                 @RequestParam Long lte,
-                                                                 @RequestParam Long gte){
+                                                                 @RequestParam Long gte,
+                                                                 @RequestParam Long lte
+                                                                 ){
     try{
       LocalDate startDate = DateUtils.convertLongToLocalDate(gte);
       LocalDate endDate = DateUtils.convertLongToLocalDate(lte);
-      return successApi(statisticService.getStatisticOfProduct(productId,startDate, endDate));
+      return successApi(statisticService.getStatisticOfProduct(productId,gte, lte));
     }catch (Exception ex){
       return errorApi(ex.getMessage());
     }

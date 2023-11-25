@@ -49,8 +49,12 @@ public class JsonParser {
    * @return mapped T class instance
    * @throws IOException
    */
-  public static <T> T entity(String json, Class<T> tClass) throws IOException {
-    return getMapper().readValue(json, tClass);
+  public static <T> T entity(String json, Class<T> tClass) {
+    try{
+      return getMapper().readValue(json, tClass);
+    }catch (Exception ex){
+      return null;
+    }
   }
 
   /**
