@@ -13,6 +13,7 @@ public class DailyDataResponse {
   private Long totalUser = 0L;
   private Long totalPurchase = 0L;
   private Long totalView = 0L;
+  private Long totalProduct = 0L;
   private Long totalBuy = 0L;
   private Long totalShipCod = 0L;
 
@@ -20,6 +21,7 @@ public class DailyDataResponse {
     this.daily = daily.getDaily();
     totalUser = daily.getTotalUser();
     totalPurchase = daily.getTotalPurchase();
+    totalProduct = daily.getTotalProduct();
     totalView = daily.getTotalView();
     totalBuy = daily.getTotalBuy();
     totalShipCod = daily.getTotalShipCod();
