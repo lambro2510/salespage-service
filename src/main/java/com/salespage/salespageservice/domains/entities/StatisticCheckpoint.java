@@ -17,5 +17,5 @@ public class StatisticCheckpoint {
   private String id;
 
   @Field("check_point")
-  private LocalDateTime checkPoint;
+  private LocalDate checkPoint;
 }

@@ -242,12 +242,12 @@ public class BankService extends BaseService {
     if (Objects.isNull(statisticCheckpoint)) {
       statisticCheckpoint = new StatisticCheckpoint();
       statisticCheckpoint.setId(Constants.TRANSACTION_CHECKPOINT_ID);
-      statisticCheckpoint.setCheckPoint(DateUtils.startOfDay().minusDays(64));
+      statisticCheckpoint.setCheckPoint(DateUtils.nowDate().minusDays(64));
     }
-    LocalDateTime currentDate = statisticCheckpoint.getCheckPoint();
-    while (currentDate.isBefore(DateUtils.startOfDay())) {
-      String fromDate = DateUtils.convertLocalDateTimeToString(currentDate, "yyyyMMdd");
-      String toDate = DateUtils.convertLocalDateTimeToString(currentDate.plusDays(1), "yyyyMMdd");
+    LocalDate currentDate = statisticCheckpoint.getCheckPoint();
+    while (currentDate.isBefore(DateUtils.nowDate())) {
+      String fromDate = DateUtils.convertLocalDateToString(currentDate, "yyyyMMdd");
+      String toDate = DateUtils.convertLocalDateToString(currentDate.plusDays(1), "yyyyMMdd");
       TpBankTransactionData tpBankTransactionData = getBankTransaction(fromDate, toDate);
       for (TpBankTransactionData.TpBankTransactionInfo info : tpBankTransactionData.getTransactionInfos()) {
         TpBankTransaction tpBankTransaction = tpBankTransactionStorage.findByTransId(info.getId());

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class DailyDataResponse {
   @JsonFormat(pattern = "dd-MM-yyyy")
-  private LocalDateTime daily;
+  private LocalDate daily;
   private Long totalUser = 0L;
   private Long totalPurchase = 0L;
   private Long totalView = 0L;

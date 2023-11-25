@@ -36,7 +36,7 @@ public class TotalProductStatisticResponse {
   @Data
   public static class Daily {
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDateTime daily;
+    private LocalDate daily;
     private Long totalUser = 0L;
     private Long totalPurchase = 0L;
     private Long totalView = 0L;

@@ -37,8 +37,8 @@ public class SellerStatisticController extends BaseController {
                                                                  @RequestParam Long lte,
                                                                  @RequestParam Long gte){
     try{
-      LocalDateTime startDate = DateUtils.convertLongToLocalDateTime(gte);
-      LocalDateTime endDate = DateUtils.convertLongToLocalDateTime(lte);
+      LocalDate startDate = DateUtils.convertLongToLocalDate(gte);
+      LocalDate endDate = DateUtils.convertLongToLocalDate(lte);
       return successApi(statisticService.getStatisticOfProduct(productId,startDate, endDate));
     }catch (Exception ex){
       return errorApi(ex.getMessage());

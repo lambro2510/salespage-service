@@ -35,11 +35,11 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
   List<ProductStatistic> findTop12ByOrderByTotalViewDesc();
   List<ProductStatistic> findByProductIdIn(List<String> ids);
 
-  ProductStatistic findByDailyAndProductDetailId(LocalDateTime current, String id);
+  ProductStatistic findByDailyAndProductDetailId(LocalDate current, String id);
 
   ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewAsc(String productId, LocalDateTime now);
 
   ProductStatistic findFirstByProductIdAndDailyOrderByTotalViewDesc(String productId, LocalDateTime now);
 
-  List<ProductStatistic> findByProductIdAndDailyBetweenOrderByTotalViewAsc(String id, LocalDateTime startDate, LocalDateTime endDate);
+  List<ProductStatistic> findByProductIdAndDailyBetweenOrderByTotalViewAsc(String id, LocalDate startDate, LocalDate endDate);
 }

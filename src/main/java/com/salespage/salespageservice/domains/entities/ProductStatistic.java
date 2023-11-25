@@ -28,7 +28,8 @@ public class ProductStatistic {
   private ObjectId id;
 
   @Field("daily")
-  private LocalDateTime daily;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+  private LocalDate daily;
 
   @Field("product_detail_id")
   private String productDetailId;
