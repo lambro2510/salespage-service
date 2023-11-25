@@ -3,6 +3,7 @@ package com.salespage.salespageservice.app.controllers;// package com.salespage.
 import com.salespage.salespageservice.domains.datas.ExchangeMoney;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import com.salespage.salespageservice.domains.utils.RequestUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,9 @@ public class HeathCheckController {
   @Value("${url.exchange}")
   private String ExchangeUrl;
 
-  private final GitProperties gitProperties;
+//  @Autowired
+//  private GitProperties gitProperties;
 
-  public HeathCheckController(GitProperties gitProperties) {
-    this.gitProperties = gitProperties;
-  }
 
 //  @GetMapping("")
 //  public ResponseEntity<?> checkExchangeMoney() throws IOException {
@@ -33,9 +32,9 @@ public class HeathCheckController {
 //    return ResponseEntity.ok(JsonParser.arrayList(data, ExchangeMoney.class));
 //  }
 
-  @GetMapping("")
-  public ResponseEntity<?> checkExchangeMoney() throws IOException {
-    String gitVersion = gitProperties.getShortCommitId();
-    return ResponseEntity.ok("Git Version: " + gitVersion);
-  }
+//  @GetMapping("")
+//  public ResponseEntity<?> checkExchangeMoney() throws IOException {
+//    String gitVersion = gitProperties.getShortCommitId();
+//    return ResponseEntity.ok("Git Version: " + gitVersion);
+//  }
 }
