@@ -42,7 +42,7 @@ public class DateUtils {
   }
 
   public static LocalDateTime startOfDayAtVn() {
-    return LocalDateTime.now(DEFAULT_ZONE_ID).with(LocalTime.MIN);
+    return LocalDateTime.now(ZONE_ID_UTC).with(LocalTime.MIN);
   }
 
   public static Date toDate(final LocalDateTime localDateTime) {
