@@ -27,7 +27,7 @@ public class SellerProductDetail extends BaseController {
     try {
       return successApi(productDetailService.getProductDetail(getUsername(authentication), productId));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -36,7 +36,7 @@ public class SellerProductDetail extends BaseController {
     try {
       return successApi(productDetailService.uploadImageUrl(getUsername(authentication), productId, file));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -46,7 +46,7 @@ public class SellerProductDetail extends BaseController {
       productDetailService.createProductDetail(getUsername(authentication), dto);
       return successApi("Tạo thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -56,7 +56,7 @@ public class SellerProductDetail extends BaseController {
       productDetailService.updateProductDetail(getUsername(authentication), detailId, dto);
       return successApi("Cập nhật thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -66,7 +66,7 @@ public class SellerProductDetail extends BaseController {
       productDetailService.deleteProductDetail(getUsername(authentication), detailId);
       return successApi("Xóa thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

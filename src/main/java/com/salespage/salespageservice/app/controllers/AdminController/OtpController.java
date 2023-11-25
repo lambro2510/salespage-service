@@ -22,7 +22,7 @@ public class OtpController extends BaseController {
     try{
       return successApi(otpService.getWaitingOtp());
     }catch (Exception ex){
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

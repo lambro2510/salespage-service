@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -82,7 +83,9 @@ public class RemoteCacheManager {
   public void del(String key) {
     redisTemplate.delete(key);
   }
-
+  public void del(List<String> keys) {
+    redisTemplate.delete(keys);
+  }
 
   public void saveConfig(String key, String value) {
     String configKey = CacheKey.getConfigKey(key);

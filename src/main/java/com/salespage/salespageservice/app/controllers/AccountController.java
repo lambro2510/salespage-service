@@ -38,7 +38,7 @@ public class AccountController extends BaseController {
     try {
       return successApi("Đăng ký thành công", accountService.signUp(dto));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -53,7 +53,7 @@ public class AccountController extends BaseController {
     try {
       return successApi("Tạo tài khoản thành công", accountService.createdAdminRole());
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -69,7 +69,7 @@ public class AccountController extends BaseController {
     try {
       return successApi("Đăng nhập thành công", accountService.signIn(dto));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -86,7 +86,7 @@ public class AccountController extends BaseController {
       accountService.createVerifyCode(getUsername(authentication));
       return successApi("Tạo mã xác nhận thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -103,7 +103,7 @@ public class AccountController extends BaseController {
       accountService.verifyCode(username, code);
       return successApi("Xác minh thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

@@ -24,7 +24,7 @@
 //    try{
 //      return successApi(productComboService.getProductCombo(getUsername(authentication)));
 //    }catch (Exception ex){
-//      return errorApi(ex.getMessage());
+//      return errorApi(ex);
 //    }
 //  }
 //
@@ -34,7 +34,7 @@
 //      productComboService.createProductCombo(getUsername(authentication), dto);
 //      return successApi("Thêm vào giỏ hàng thành công");
 //    }catch (Exception ex){
-//      return errorApi(ex.getMessage());
+//      return errorApi(ex);
 //    }
 //  }
 //
@@ -44,7 +44,7 @@
 //      productComboService.updateProductCombo(getUsername(authentication), id, dto);
 //      return successApi("Cập nhật thành công");
 //    }catch (Exception ex){
-//      return errorApi(ex.getMessage());
+//      return errorApi(ex);
 //    }
 //  }
 //
@@ -54,7 +54,7 @@
 //      productComboService.deleteProductCombo(getUsername(authentication), id);
 //      return successApi("Xóa thành công");
 //    }catch (Exception ex){
-//      return errorApi(ex.getMessage());
+//      return errorApi(ex);
 //    }
 //  }
 //}

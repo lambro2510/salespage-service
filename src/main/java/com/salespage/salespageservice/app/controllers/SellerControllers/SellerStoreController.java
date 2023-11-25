@@ -41,7 +41,7 @@ public class SellerStoreController extends BaseController {
     try {
       return successApi(sellerStoreService.getAllSellerStore(getUsername(authentication), pageable));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -58,7 +58,7 @@ public class SellerStoreController extends BaseController {
     try {
       return successApi(sellerStoreService.getStoreDetail(getUsername(authentication), id));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -75,7 +75,7 @@ public class SellerStoreController extends BaseController {
       sellerStoreService.createStore(getUsername(authentication), dto);
       return successApi("Tạo cửa hàng thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -92,7 +92,7 @@ public class SellerStoreController extends BaseController {
       sellerStoreService.updateStore(getUsername(authentication),id, dto);
       return successApi("Cập nhật cửa hàng thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -109,7 +109,7 @@ public class SellerStoreController extends BaseController {
       sellerStoreService.deleteStore(getUsername(authentication), storeId);
       return successApi("Xóa cửa hàng thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -125,7 +125,7 @@ public class SellerStoreController extends BaseController {
     try {
       return successApi("Tải ảnh lên thành công", sellerStoreService.uploadImage(getUsername(authentication), storeId, file));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

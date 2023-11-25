@@ -32,7 +32,7 @@ public class FavoriteProductController extends BaseController {
       userFavoriteService.createAndUpdateUserFavorite(getUsername(authentication), dto.getRefId(), dto.getFavoriteType(), dto.getIsLike());
       return successApi("Thêm vào danh sách yêu thích thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -48,7 +48,7 @@ public class FavoriteProductController extends BaseController {
     try {
       return successApi(userFavoriteService.getListFavorite(getUsername(authentication), favoriteType));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

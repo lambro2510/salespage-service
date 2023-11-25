@@ -36,7 +36,7 @@ public class SellerProductCategoryController extends BaseController {
     try {
       return successApi(productCategoryService.getProductCategory(getUsername(authentication)));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -51,7 +51,7 @@ public class SellerProductCategoryController extends BaseController {
     try {
       return successApi(productCategoryService.getDetailProductCategory(getUsername(authentication), id));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -67,7 +67,7 @@ public class SellerProductCategoryController extends BaseController {
       productCategoryService.createProductCategory(getUsername(authentication), dto);
       return successApi("Tạo danh mục sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -83,7 +83,7 @@ public class SellerProductCategoryController extends BaseController {
       productCategoryService.updateProductCategory(getUsername(authentication),id, dto);
       return successApi("Cập nhật danh mục sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -99,7 +99,7 @@ public class SellerProductCategoryController extends BaseController {
       productCategoryService.deleteProductCategory(getUsername(authentication), id);
       return successApi("Xóa danh mục sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

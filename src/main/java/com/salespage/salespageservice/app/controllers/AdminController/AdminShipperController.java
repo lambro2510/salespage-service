@@ -25,7 +25,7 @@ public class AdminShipperController extends BaseController {
 
       return successApi(shipperService.getAllShipper(getUsername(authentication), pageable));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -35,7 +35,7 @@ public class AdminShipperController extends BaseController {
       shipperService.createShipperUser(getUsername(authentication), username);
       return successApi("Xác minh người giao hàng thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -45,7 +45,7 @@ public class AdminShipperController extends BaseController {
       shipperService.updateShipper(getUsername(authentication), username, status);
       return successApi("Xác minh người giao hàng thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

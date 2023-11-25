@@ -53,7 +53,7 @@ public class PublicProductController extends BaseController {
 
     } catch (Exception ex) {
       log.error("=========>getAllProduct: ", ex);
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -69,7 +69,7 @@ public class PublicProductController extends BaseController {
       return successApi(productService.findHotProduct(username));
 
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -78,7 +78,7 @@ public class PublicProductController extends BaseController {
     try {
       return successApi(productService.getSuggestProduct(productId));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -97,7 +97,7 @@ public class PublicProductController extends BaseController {
       return successApi(response);
     } catch (Exception ex) {
       log.error(ex);
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

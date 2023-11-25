@@ -44,7 +44,7 @@ public class SellerVoucherController extends BaseController {
       voucherStoreService.createVoucherStore(getUsername(authentication), updateVoucherStoreDto);
       return successApi("Tạo kho voucher mới thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -62,7 +62,7 @@ public class SellerVoucherController extends BaseController {
       voucherStoreService.updateVoucherStore(getUsername(authentication), updateVoucherStoreDto, voucherStoreId);
       return successApi("Cập nhật kho voucher thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -79,7 +79,7 @@ public class SellerVoucherController extends BaseController {
       voucherStoreService.deleteVoucherStore(getUsername(authentication), voucherStoreId);
       return successApi("Xóa kho voucher thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -94,7 +94,7 @@ public class SellerVoucherController extends BaseController {
     try {
       return successApi(voucherStoreService.getAllVoucherStore(getUsername(authentication), pageable));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -114,7 +114,7 @@ public class SellerVoucherController extends BaseController {
       voucherCodeService.generateVoucherCode(getUsername(authentication), voucherStoreId, numberVoucher, expireTime);
       return successApi("Tạo mã voucher mới thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -130,7 +130,7 @@ public class SellerVoucherController extends BaseController {
     try {
       return successApi(voucherCodeService.getAllVoucherCodeInStore(getUsername(authentication), voucherStoreId, voucherCodeStatus, pageable));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

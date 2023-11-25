@@ -33,7 +33,7 @@ public class PublicUserController extends BaseController {
     try {
       return successApi(null, userService.getUserDetail(username));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

@@ -24,7 +24,7 @@ public class ConfigController extends BaseController {
       configService.updateConfig(key, value);
       return successApi("Cập nhật  thiết lập thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -34,7 +34,7 @@ public class ConfigController extends BaseController {
       configService.createConfig(new ConfigDto(key, value));
       return successApi("Tạo thiết lập thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -43,7 +43,7 @@ public class ConfigController extends BaseController {
     try {
       return successApi(configService.getConfigDetail(key));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -53,7 +53,7 @@ public class ConfigController extends BaseController {
       configService.deleteConfig(key);
       return successApi("Xóa thiết lập thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

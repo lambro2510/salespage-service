@@ -303,10 +303,10 @@ public class CartService extends BaseService {
         transactionDetails.add(productTransactionDetail);
         deleteCard.add(cart);
       }
-      List<ProductTransactionDetail> distinctProduct = transactionDetails.stream().distinct().collect(Collectors.toList());
-      ComboInfo comboInfo = productComboService.getComboInfo(dto.getComboId(), distinctProduct);
+      List<ProductTransactionDetail> transactionDetails1 = transactionDetails.stream().distinct().collect(Collectors.toList());
+      ComboInfo comboInfo = productComboService.getComboInfo(dto.getComboId(), transactionDetails1);
       userService.minusBalance(user, comboInfo.getSellPrice());
-      ProductTransaction productTransaction = productTransactionService.buildProductTransaction(transactionId, user, dto.getNote(), comboInfo, transactionDetails);
+      ProductTransaction productTransaction = productTransactionService.buildProductTransaction(transactionId, user, dto.getNote(), comboInfo, transactionDetails1);
       productTransactionService.saveTransaction(productTransaction, transactionDetails);
       cartStorage.deleteAll(deleteCard);
 

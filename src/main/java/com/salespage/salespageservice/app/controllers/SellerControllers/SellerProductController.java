@@ -47,7 +47,7 @@ public class SellerProductController extends BaseController {
     try {
       return successApi(productService.getAllProduct(getUsername(authentication),storeId, storeName,productName, pageable));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -56,7 +56,7 @@ public class SellerProductController extends BaseController {
     try {
       return successApi(productService.getSellerProductDetail(productId));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -72,7 +72,7 @@ public class SellerProductController extends BaseController {
     try {
       return successApi("Tạo sản phẩm thành công", productService.createProduct(getUsername(authentication), dto));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -91,7 +91,7 @@ public class SellerProductController extends BaseController {
     try {
       return ResponseEntity.ok(productService.uploadProductImage(getUsername(authentication), productId, file));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -109,7 +109,7 @@ public class SellerProductController extends BaseController {
     try {
       return successApi(productService.getImage(getUsername(authentication), productId));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -126,7 +126,7 @@ public class SellerProductController extends BaseController {
     try {
       return successApi("Xóa ảnh thành công", productService.deleteProductImages(getUsername(authentication), productId, imageIds));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -144,7 +144,7 @@ public class SellerProductController extends BaseController {
     try {
       return successApi("Xóa sản phẩm thành công", productService.deleteProduct(getUsername(authentication), productId));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -161,7 +161,7 @@ public class SellerProductController extends BaseController {
     try {
       return successApi("Cập nhật sản phẩm thành công", productService.updateProduct(getUsername(authentication),productId, dto));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -179,7 +179,7 @@ public class SellerProductController extends BaseController {
       productService.updateDefaultImage(getUsername(authentication), productId, imageUrl);
       return successApi("Cập nhật ảnh đại diện sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

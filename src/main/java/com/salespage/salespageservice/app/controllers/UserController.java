@@ -40,7 +40,7 @@ public class UserController extends BaseController {
     try {
       return successApi(null, userService.getUserDetail(getUsername(authentication)));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -57,7 +57,7 @@ public class UserController extends BaseController {
     try {
       return successApi("Cập nhật thông tin người dùng thành công", userService.updateUser(getUsername(authentication), dto));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -74,7 +74,7 @@ public class UserController extends BaseController {
       userService.uploadImage(getUsername(authentication), file);
       return successApi("Tải ảnh người dùng lên thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -91,7 +91,7 @@ public class UserController extends BaseController {
 
       return successApi("Đánh giá người dùng thành công", userService.voting(getUsername(authentication), userId, point));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

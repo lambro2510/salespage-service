@@ -20,7 +20,7 @@ public class ShipperController extends BaseController {
       accountService.changeShipMode(getUsername(authentication), getUserRoles(authentication), dto);
       return successApi("Chuyển trạng thái thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -30,7 +30,7 @@ public class ShipperController extends BaseController {
       accountService.acceptProductTransaction(getUsername(authentication), getUserRoles(authentication), transactionId);
       return successApi("Tiếp nhận đơn hàng thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

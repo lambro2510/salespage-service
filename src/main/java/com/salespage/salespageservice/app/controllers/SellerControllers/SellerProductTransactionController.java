@@ -37,7 +37,7 @@ public class SellerProductTransactionController extends BaseController {
     try {
       return successApi(productTransactionService.getAllTransactionByUser(getUsername(authentication), productId,productName,buyerName,sellerStoreId,sellerStoreName, state, lte, gte, pageable));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -50,7 +50,7 @@ public class SellerProductTransactionController extends BaseController {
 //      productTransactionService.acceptTransactionByStore(getUsername(authentication), id);
       return successApi("Đơn hàng đã được bạn nhận thành công.");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

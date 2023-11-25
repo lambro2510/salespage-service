@@ -27,7 +27,7 @@ public class SellerProductComboController extends BaseController {
     try {
       return successApi(productComboService.getProductCombo(getUsername(authentication)));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -37,7 +37,7 @@ public class SellerProductComboController extends BaseController {
       productComboService.createProductCombo(getUsername(authentication), dto);
       return successApi("Tạo thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -47,7 +47,7 @@ public class SellerProductComboController extends BaseController {
       productComboService.updateProductCombo(getUsername(authentication), id, dto);
       return successApi("Cập nhật thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -57,7 +57,7 @@ public class SellerProductComboController extends BaseController {
       productComboService.deleteProductCombo(getUsername(authentication), id);
       return successApi("Xóa thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -67,7 +67,7 @@ public class SellerProductComboController extends BaseController {
       productComboService.addProductToCombo(getUsername(authentication), id, ids);
       return successApi("Cập nhật thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

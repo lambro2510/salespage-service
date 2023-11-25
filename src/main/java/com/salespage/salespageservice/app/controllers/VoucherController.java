@@ -45,7 +45,7 @@ public class VoucherController extends BaseController {
     try {
       return successApi("Nhận mã voucher thành công", voucherCodeService.receiveVoucher(getUsername(authentication), voucherStoreId));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -56,7 +56,7 @@ public class VoucherController extends BaseController {
     try {
       return successApi(voucherCodeService.getUserVoucher(getUsername(authentication), productId));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

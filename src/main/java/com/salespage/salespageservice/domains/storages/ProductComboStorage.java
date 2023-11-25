@@ -17,6 +17,9 @@ public class ProductComboStorage extends BaseStorage{
   }
 
   public ProductCombo findById(String comboId) {
+    if(comboId == null){
+      return null;
+    }
     return productComboRepository.findById(new ObjectId(comboId)).orElse(null);
   }
 

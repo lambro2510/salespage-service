@@ -34,7 +34,7 @@ public class PrivateProductController extends BaseController {
       productService.updateRatingAsync(getUsername(authentication), productId, point);
       return successApi("Đánh giá sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

@@ -3,6 +3,7 @@ package com.salespage.salespageservice.app.controllers;
 import com.salespage.salespageservice.app.dtos.CartDtos.CartDto;
 import com.salespage.salespageservice.app.dtos.CartDtos.CartPaymentDto;
 import com.salespage.salespageservice.domains.services.CartService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("api/v1/cart")
+@Log4j2
 public class CartController extends BaseController{
 
   @Autowired
@@ -24,7 +26,7 @@ public class CartController extends BaseController{
     try{
       return successApi(cartService.findCartByUsername(getUsername(authentication)));
     }catch (Exception ex){
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -33,7 +35,7 @@ public class CartController extends BaseController{
     try{
       return successApi(cartService.findCartByUsernameV1(getUsername(authentication)));
     }catch (Exception ex){
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -43,7 +45,7 @@ public class CartController extends BaseController{
       cartService.createCart(getUsername(authentication), dto);
       return successApi("Thêm vào giỏ hàng thành công");
     }catch (Exception ex){
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -53,7 +55,8 @@ public class CartController extends BaseController{
       cartService.paymentProductInCart(getUsername(authentication), dto);
       return successApi("Thanh toán thành công, đơn hàng đang được kiểm duyệt");
     }catch (Exception ex){
-      return errorApi(ex.getMessage());
+      log.error("=====>paymentProductInCart ", ex);
+      return errorApi(ex);
     }
   }
 
@@ -63,7 +66,7 @@ public class CartController extends BaseController{
       cartService.updateCart(getUsername(authentication), id, quantity, voucherCodeId);
       return successApi("Cập nhật thành công");
     }catch (Exception ex){
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -73,7 +76,7 @@ public class CartController extends BaseController{
       cartService.deleteCart(getUsername(authentication), id);
       return successApi("Xóa thành công");
     }catch (Exception ex){
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

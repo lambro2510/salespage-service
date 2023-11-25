@@ -35,7 +35,7 @@ public class PublicSellerStoreController extends BaseController {
     try {
       return successApi(sellerStoreService.getAllStore(storeId, storeName, pageable));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -49,7 +49,7 @@ public class PublicSellerStoreController extends BaseController {
     try {
       return successApi(sellerStoreService.getStoreDetail(storeId));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

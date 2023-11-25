@@ -63,6 +63,11 @@ public class BaseController {
     return ResponseEntity.ok(new BaseResponse(0, true, message, null));
   }
 
+  protected ResponseEntity<BaseResponse> errorApi(Exception ex) {
+    log.error(ex);
+    return ResponseEntity.ok(new BaseResponse(0, true, ex.getMessage(), null));
+  }
+
   protected ResponseEntity<BaseResponse> errorApi(String message, Object data) {
     return ResponseEntity.ok(new BaseResponse(0, true, message, data));
   }

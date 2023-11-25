@@ -33,7 +33,7 @@ public class BankController extends BaseController {
     try {
       return successApi(bankService.getAllTransaction());
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -47,7 +47,7 @@ public class BankController extends BaseController {
     try {
       return successApi(bankService.getMbBankTransaction());
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -62,7 +62,7 @@ public class BankController extends BaseController {
     try {
       return successApi(null, bankService.genTransactionQr(getUsername(authentication), bin, bankAccountId, paymentId));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -76,7 +76,7 @@ public class BankController extends BaseController {
     try {
       return successApi(null, bankService.getListBank());
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -90,7 +90,7 @@ public class BankController extends BaseController {
     try {
       return successApi(null, bankService.getBankAccountData(bin, accountNo));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -105,7 +105,7 @@ public class BankController extends BaseController {
       bankService.asyncTransaction();
       return successApi(null, "Đồng bộ dữ liệu thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -120,7 +120,7 @@ public class BankController extends BaseController {
       bankService.linkBankAccount(getUsername(authentication), request);
       return successApi("Liên kết với tài khoản thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -134,7 +134,7 @@ public class BankController extends BaseController {
     try {
       return successApi(bankService.getBankAccount(getUsername(authentication)));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -148,7 +148,7 @@ public class BankController extends BaseController {
     try {
       return successApi(bankService.getPaymentBankAccount());
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

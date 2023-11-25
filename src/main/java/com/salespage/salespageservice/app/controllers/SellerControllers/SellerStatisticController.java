@@ -27,7 +27,7 @@ public class SellerStatisticController extends BaseController {
     try{
       return successApi(statisticService.getStatistic(gte, lte));
     }catch (Exception ex){
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -42,7 +42,7 @@ public class SellerStatisticController extends BaseController {
       LocalDate endDate = DateUtils.convertLongToLocalDate(lte);
       return successApi(statisticService.getStatisticOfProduct(productId,gte, lte));
     }catch (Exception ex){
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

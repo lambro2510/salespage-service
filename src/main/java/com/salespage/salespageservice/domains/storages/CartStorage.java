@@ -5,6 +5,7 @@ import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -38,5 +39,11 @@ public class CartStorage extends BaseStorage{
 
   public void deleteAll(List<Cart> deleteCard) {
     cartRepository.deleteAll(deleteCard);
+    List<String> keys = new ArrayList<>();
+    for(Cart cart : deleteCard){
+      String key = CacheKey.genListCartByUsername(cart.getUsername());
+      keys.add(key);
+    }
+    remoteCacheManager.del(keys);
   }
 }

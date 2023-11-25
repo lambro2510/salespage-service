@@ -39,7 +39,7 @@ public class ProductTypeController extends BaseController {
       productService.createProductType(getUsername(authentication), dto, getUserRoles(authentication));
       return successApi("Tạo loại sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
 
   }
@@ -57,7 +57,7 @@ public class ProductTypeController extends BaseController {
       productService.updateProductType(getUsername(authentication), dto, getUserRoles(authentication));
       return successApi("Cập nhật loại sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -74,7 +74,7 @@ public class ProductTypeController extends BaseController {
       productService.createProductTypeDetail(dto, getUsername(authentication));
       return successApi("Tạo loại chi tiết sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -91,7 +91,7 @@ public class ProductTypeController extends BaseController {
       productService.updateProductTypeDetail(dto, productTypeId, getUsername(authentication));
       return successApi("Cập nhật loại chi tiết sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -108,7 +108,7 @@ public class ProductTypeController extends BaseController {
       productService.updateStatusTypeDetail(dto, getUsername(authentication), getUserRoles(authentication));
       return successApi("Cập nhật trạng thái loại chi tiết sản phẩm thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -117,7 +117,7 @@ public class ProductTypeController extends BaseController {
     try {
       return successApi(null, productService.getAllProductType(getUserRoles(authentication), typeName));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

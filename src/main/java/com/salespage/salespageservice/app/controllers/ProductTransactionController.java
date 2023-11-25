@@ -51,7 +51,7 @@ public class ProductTransactionController extends BaseController {
     } catch (TransactionException ex) {
       return errorApi(ErrorCode.NOT_ENOUGH_MONEY);
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -69,7 +69,7 @@ public class ProductTransactionController extends BaseController {
 //      productTransactionService.updateProductTransaction(getUsername(authentication), dto, transactionId);
       return successApi("Cập nhật giao dịch thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -87,7 +87,7 @@ public class ProductTransactionController extends BaseController {
 //      productTransactionService.cancelProductTransaction(getUsername(authentication), transactionId);
       return successApi("Hủy bỏ giao dịch thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -109,7 +109,7 @@ public class ProductTransactionController extends BaseController {
     try {
       return successApi(productTransactionService.getAllTransaction(getUsername(authentication), sellerUsername, storeName, startDate, endDate, pageable));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 

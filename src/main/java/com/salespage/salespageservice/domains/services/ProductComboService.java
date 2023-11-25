@@ -166,13 +166,13 @@ public class ProductComboService extends BaseService {
     return sellPrice;
   }
 
-  public ComboInfo getComboInfo(String comboId, List<ProductTransactionDetail> products) {
-    double totalPrice = products.stream().mapToDouble(ProductTransactionDetail::getTotalPrice).sum();
+  public ComboInfo getComboInfo(String comboId, List<ProductTransactionDetail> transactions) {
+    double totalPrice = transactions.stream().mapToDouble(ProductTransactionDetail::getTotalPrice).sum();
     ProductCombo productCombo = productComboStorage.findById(comboId);
     if (productCombo == null) {
-      throw new ResourceNotFoundException("Không tồn tại combo này");
+      return new ComboInfo(null, 0D, totalPrice);
     }
-    double priceAfterUse = checkDiscountPriceInTran(productCombo, totalPrice, products);
+    double priceAfterUse = checkDiscountPriceInTran(productCombo, totalPrice, transactions);
 
     return new ComboInfo(productCombo, totalPrice - priceAfterUse, priceAfterUse);
   }

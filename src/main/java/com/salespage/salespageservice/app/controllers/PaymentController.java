@@ -32,7 +32,7 @@ public class PaymentController extends BaseController {
     try {
       return successApi(paymentService.getPayment(getUsername(authentication), pageable));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -46,7 +46,7 @@ public class PaymentController extends BaseController {
     try {
       return successApi("Tạo giao dịch thành công.", paymentService.createPayment(getUsername(authentication), dto));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -68,7 +68,7 @@ public class PaymentController extends BaseController {
       }
 
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
@@ -83,7 +83,7 @@ public class PaymentController extends BaseController {
       paymentService.cancelPayment(getUsername(authentication), paymentId);
       return successApi("Hủy bỏ giao dịch thành công");
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 }

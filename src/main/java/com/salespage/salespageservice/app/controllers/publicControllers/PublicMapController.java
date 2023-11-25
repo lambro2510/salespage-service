@@ -23,7 +23,7 @@ public class PublicMapController extends BaseController {
     try {
       return successApi(mapService.suggestAddress(address));
     } catch (Exception ex) {
-      return errorApi(ex.getMessage());
+      return errorApi(ex);
     }
   }
 
