@@ -52,6 +52,7 @@ public class StatisticService extends BaseService {
       chartDataResponse.setTotalView(response.getTotalView());
       chartDataResponse.setTotalBuy(response.getTotalBuy());
       chartDataResponse.setTotalPurchase(response.getTotalPurchase());
+      chartDataResponse.setTotalProduct(response.getTotalProduct());
       chartDataResponse.setTotalUser(response.getTotalUser());
       List<String> labels = new ArrayList<>();
       Map<String, List<DailyDataResponse>> dataSetMap = new HashMap<>();
