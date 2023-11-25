@@ -14,7 +14,7 @@ public class DateUtils {
   }
 
   public static LocalDate nowDate() {
-    ZonedDateTime utcDateTime = ZonedDateTime.now(ZONE_ID_UTC);
+    ZonedDateTime utcDateTime = ZonedDateTime.now(DEFAULT_ZONE_ID);
     return utcDateTime.toLocalDate();
   }
 
@@ -23,7 +23,7 @@ public class DateUtils {
   }
   public static String nowString() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    LocalDateTime dateTime = LocalDateTime.now(ZONE_ID_UTC);
+    LocalDateTime dateTime = LocalDateTime.now(DEFAULT_ZONE_ID);
     return dateTime.format(formatter);
   }
 
@@ -36,7 +36,7 @@ public class DateUtils {
 
   public static String nowString(String pattern) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-    LocalDateTime dateTime = LocalDateTime.now(ZONE_ID_UTC);
+    LocalDateTime dateTime = LocalDateTime.now(DEFAULT_ZONE_ID);
     return dateTime.format(formatter);
   }
 
@@ -49,7 +49,7 @@ public class DateUtils {
   }
 
   public static Date toDate(final LocalDateTime localDateTime) {
-    return Date.from(localDateTime.atZone(ZONE_ID_UTC).toInstant());
+    return Date.from(localDateTime.atZone(DEFAULT_ZONE_ID).toInstant());
   }
 
   public static String convertLocalDateTimeToString(LocalDateTime date, String pattern) {
@@ -63,7 +63,7 @@ public class DateUtils {
   }
 
   public static long nowInMillis() {
-    Instant instant = Instant.now().atZone(ZONE_ID_UTC).toInstant();
+    Instant instant = Instant.now().atZone(DEFAULT_ZONE_ID).toInstant();
     return instant.toEpochMilli();
   }
 
@@ -74,26 +74,26 @@ public class DateUtils {
 
   public static Long convertLocalDateTimeToLong(LocalDateTime current) {
 
-    Instant instant = current.atZone(ZONE_ID_UTC).toInstant();
+    Instant instant = current.atZone(DEFAULT_ZONE_ID).toInstant();
 
     return instant.toEpochMilli();
   }
 
   public static Long convertLocalDateToLong(LocalDate current) {
     LocalDateTime localDateTime = current.atStartOfDay();
-    Instant instant = localDateTime.atZone(ZONE_ID_UTC).toInstant();
+    Instant instant = localDateTime.atZone(DEFAULT_ZONE_ID).toInstant();
 
     return instant.toEpochMilli();
   }
 
   public static LocalDateTime convertLongToLocalDateTime(Long timestamp) {
     Instant instant = Instant.ofEpochMilli(timestamp);
-    return instant.atZone(ZONE_ID_UTC).toLocalDateTime();
+    return instant.atZone(DEFAULT_ZONE_ID).toLocalDateTime();
   }
 
   public static LocalDate convertLongToLocalDate(Long timestamp) {
     Instant instant = Instant.ofEpochMilli(timestamp);
-    return instant.atZone(ZONE_ID_UTC).toLocalDateTime().toLocalDate();
+    return instant.atZone(DEFAULT_ZONE_ID).toLocalDateTime().toLocalDate();
   }
 
   public static LocalDateTime nowAtVn() {
