@@ -65,7 +65,7 @@ public class ProductStatisticService extends BaseService{
     LocalDate startDay = DateUtils.nowDate();
     LocalDate endDay = startDay.plusDays(1);
     List<ProductDetail> productDetails = productDetailStorage.findAll();
-
+    List<ProductStatistic> saveProductStatistic = new ArrayList<>();
     for (ProductDetail productDetail : productDetails) {
       ProductStatistic paymentStatistic = productStatisticStorage.findByDailyAndProductDetailId(startDay, productDetail.getId().toHexString());
       if (paymentStatistic == null) {
@@ -81,9 +81,9 @@ public class ProductStatisticService extends BaseService{
         totalPaymentStatisticResponse.setTotalUser(totalUser);
         paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
       }
-      productStatisticStorage.save(paymentStatistic);
+      saveProductStatistic.add(paymentStatistic);
     }
-
+    productStatisticStorage.saveAll(saveProductStatistic);
   }
 
   public TotalProductStatisticResponse lookupAggregation(String productId, LocalDate gte, LocalDate lte) {
