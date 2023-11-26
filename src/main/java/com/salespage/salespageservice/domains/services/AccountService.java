@@ -57,7 +57,7 @@ public class AccountService extends BaseService {
 
     userService.createUser(dto);
     createVerifyCode(dto.getUsername());
-    return new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
+    return new JwtResponse(account.getUsername(),null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -76,19 +76,19 @@ public class AccountService extends BaseService {
 
     userService.createUserAdmin(account);
 
-    return new JwtResponse(account.getUsername(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
+    return new JwtResponse(account.getUsername(),null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
   }
 
-  public JwtResponse signIn(LoginDto dto) throws IOException {
+  public JwtResponse signIn(LoginDto dto) {
 
     Account account = accountStorage.findByUsername(dto.getUsername());
     if (account == null || !account.getUsername().equals(dto.getUsername()) || !BCrypt.checkpw(dto.getPassword(), account.getPassword()))
       throw new BadRequestException("Invalid username or password");
-
+    User user = userStorage.findByUsername(dto.getUsername());
     TokenInfo tokenInfo = new TokenInfo(account.getUsername(), account.getRole(), account.getState());
     String token = jwtUtils.generateToken(tokenInfo);
     accountStorage.saveTokenToRemoteCache(account.getUsername(), token);
-    return new JwtResponse(account.getUsername(), token, account.getRole());
+    return new JwtResponse(account.getUsername(),user.getImageUrl(), token, account.getRole());
 
   }
 
