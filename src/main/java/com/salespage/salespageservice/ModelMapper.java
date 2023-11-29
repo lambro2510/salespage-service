@@ -10,7 +10,6 @@ import com.salespage.salespageservice.app.responses.ProductComboResponse.Product
 import com.salespage.salespageservice.app.responses.ProductResponse.*;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionDetailResponse;
-import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import org.bson.types.ObjectId;
 import org.mapstruct.Mapper;
@@ -93,5 +92,9 @@ public interface ModelMapper {
 
   List<ProductInfoResponse> toListProductInfoResponse(List<Product> products);
 
-  List<ProductTransactionDetailResponse> ProductTransactionDetailResponse(List<ProductTransactionDetail> details);
+  @Mapping(source = "id", target = "id", qualifiedByName = "objectIdToString")
+  ProductTransactionDetailResponse toproductTransactionDetailResponse(ProductTransactionDetail detail);
+
+
+  List<ProductTransactionDetailResponse> toListProductTransactionDetailResponse(List<ProductTransactionDetail> details);
 }

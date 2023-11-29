@@ -25,6 +25,8 @@ import java.util.List;
 @Data
 public class ProductTransactionResponse {
 
+  private String id;
+
   private String buyerUsername;
 
   private Double totalPrice;
@@ -33,12 +35,16 @@ public class ProductTransactionResponse {
 
   private ComboInfo comboInfo;
 
+  private Long createdAt;
+
   List<ProductTransactionDetailResponse> details = new ArrayList<>();
 
   public void partnerFromProductTransaction(ProductTransaction transaction){
+    id = transaction.getId().toHexString();
     buyerUsername = transaction.getBuyerUsername();
     totalPrice = transaction.getTotalPrice();
     note = transaction.getNote();
     comboInfo = transaction.getComboInfo();
+    createdAt = transaction.getCreatedAt();
   }
 }

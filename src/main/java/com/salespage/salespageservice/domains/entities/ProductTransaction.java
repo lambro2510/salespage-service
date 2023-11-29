@@ -53,6 +53,4 @@ public class ProductTransaction extends BaseEntity {
   @Field("combo_info")
   private ComboInfo comboInfo;
 
-
-
 }

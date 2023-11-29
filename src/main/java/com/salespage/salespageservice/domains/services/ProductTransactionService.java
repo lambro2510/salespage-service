@@ -1,8 +1,5 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.dtos.productTransactionDto.ListTransactionDto;
-import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
-import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionInfoDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionDetailResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionResponse;
@@ -10,11 +7,7 @@ import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
 import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
-import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
-import com.salespage.salespageservice.domains.exceptions.BadRequestException;
-import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.exceptions.TransactionException;
-import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import com.salespage.salespageservice.domains.producer.Producer;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
@@ -25,12 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -72,7 +63,7 @@ public class ProductTransactionService extends BaseService {
       ProductTransactionResponse transactionResponse = new ProductTransactionResponse();
       transactionResponse.partnerFromProductTransaction(productTransaction);
       List<ProductTransactionDetail> details = tranDetailsMap.get(productTransaction.getId().toHexString());
-      List<ProductTransactionDetailResponse> detailResponse = modelMapper.ProductTransactionDetailResponse(details);
+      List<ProductTransactionDetailResponse> detailResponse = modelMapper.toListProductTransactionDetailResponse(details);
       transactionResponse.setDetails(detailResponse);
       productTransactionResponses.add(transactionResponse);
 
@@ -143,10 +134,11 @@ public class ProductTransactionService extends BaseService {
     productTransactionDetailStorage.saveAll(transactionDetails);
   }
 
-  public ProductTransactionDetail buildProductTransactionDetail(String transactionId, ProductDetail productDetail, VoucherInfo voucher, String address, Long quantity, SellerStore store, String note, String username) {
+  public ProductTransactionDetail buildProductTransactionDetail(String transactionId, ProductDetail productDetail, Product product, VoucherInfo voucher, String address, Long quantity, SellerStore store, String note, String username) {
     return ProductTransactionDetail.builder()
         .transactionId(transactionId)
         .productDetailId(productDetail.getId().toHexString())
+        .productId(product.getId().toHexString())
         .address(address)
         .quantity(quantity)
         .store(store)
@@ -156,6 +148,7 @@ public class ProductTransactionService extends BaseService {
         .voucherInfo(voucher)
         .username(username)
         .productDetail(productDetail)
+        .product(product)
         .totalPrice(voucher.getPriceAfter())
         .build();
   }

@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.responses.transactionResponse;
 
+import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
@@ -10,9 +11,15 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 public class ProductTransactionDetailResponse {
+  private String id;
+
   private String productDetailId;
 
   private ProductDetail productDetail;
+
+  private String productId;
+
+  private Product product;
 
   private String transactionId;
 

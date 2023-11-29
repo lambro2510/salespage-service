@@ -299,7 +299,7 @@ public class CartService extends BaseService {
           info.setPriceAfter(productDetail.getSellPrice() * cart.getQuantity());
         }
 
-        ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(transactionId.toHexString(), productDetail, info, transaction.getAddress(), cart.getQuantity(), store, transaction.getNote(), username);
+        ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(transactionId.toHexString(), productDetail,product, info, transaction.getAddress(), cart.getQuantity(), store, transaction.getNote(), username);
         transactionDetails.add(productTransactionDetail);
         deleteCard.add(cart);
       }
