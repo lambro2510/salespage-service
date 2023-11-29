@@ -8,6 +8,7 @@ import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataR
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
+import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
@@ -40,6 +41,9 @@ public class CartService extends BaseService {
 
   @Autowired
   ProductTransactionService productTransactionService;
+
+  @Autowired
+  NotificationService notificationService;
 
   public void createCart(String username, CartDto dto) {
     Long countCartOfUser = cartStorage.countByUsername(username);
@@ -309,7 +313,10 @@ public class CartService extends BaseService {
       ProductTransaction productTransaction = productTransactionService.buildProductTransaction(transactionId, user, dto.getNote(), comboInfo, transactionDetails1);
       productTransactionService.saveTransaction(productTransaction, transactionDetails);
       cartStorage.deleteAll(deleteCard);
-
+      String title = "Bạn đã thanh toán đơn hàng" + productTransaction.getId().toHexString();
+      String content = "Đơn hàng " + productTransaction.getId().toHexString() + " đã được xác nhận thanh toán thành công. Tài khoản của bạn đã bị trừ " +
+          comboInfo.getSellPrice() + "VND, vui lòng chờ cửa hàng xác nhận giao dịch";
+      notificationService.createNotification(username,title , content, NotificationType.PAYMENT_TRANSACTION, transactionId.toHexString());
     }
     userStorage.save(user);
   }
