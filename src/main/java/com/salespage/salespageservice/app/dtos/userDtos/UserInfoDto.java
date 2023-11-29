@@ -19,6 +19,12 @@ public class UserInfoDto {
   @Schema(description = "Số điện thoại", example = "+84123456789")
   private String phoneNumber;
 
+  private String email;
+  private String firstName;
+  private String lastName;
+  private String dateOfBirth;
+
+
   @NotBlank(message = "Link ảnh là bắt buộc")
   @Schema(description = "Link ảnh", example = "https://example.com/image.jpg")
   private String imageUrl;
