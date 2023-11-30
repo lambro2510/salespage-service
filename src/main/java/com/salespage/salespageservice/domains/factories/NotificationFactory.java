@@ -18,12 +18,12 @@ public class NotificationFactory {
       case PAYMENT_CART_TRANSACTION:
         title = "Bạn đã thanh toán đơn hàng" + refId;
         content = "Đơn hàng " + refId + " đã được xác nhận thanh toán thành công. Tài khoản của bạn đã bị trừ " +
-            value + "VND, vui lòng chờ cửa hàng xác nhận giao dịch";
+            value.intValue() + "VND, vui lòng chờ cửa hàng xác nhận giao dịch";
         notificationService.createNotification(username, title, content, type, refId);
         break;
       case ADD_TO_CART:
-        title = "Bạn đã thêm " + value + " sản phẩm " + name + " vào giỏ hàng";
-        content = "Bạn đã thêm " + value + " sản phẩm " + name + " vào giỏ hàng";
+        title = "Bạn đã thêm " + value.intValue() + " sản phẩm " + name + " vào giỏ hàng";
+        content = "Bạn đã thêm " + value.intValue() + " sản phẩm " + name + " vào giỏ hàng";
         notificationService.createNotification(username, title, content, type, refId);
         break;
     }
