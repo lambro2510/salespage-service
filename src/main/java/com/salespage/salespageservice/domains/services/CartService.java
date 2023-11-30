@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.dtos.CartDtos.CartDto;
 import com.salespage.salespageservice.app.dtos.CartDtos.CartPaymentDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
 import com.salespage.salespageservice.app.responses.CartResponse.*;
+import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
@@ -15,6 +16,8 @@ import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundExcepti
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -405,5 +408,10 @@ public class CartService extends BaseService {
 //      response.setRefCarts(cartResponses);
 //    }
     return responses;
+  }
+
+  public PageResponse<Cart> findCartByUsername(String username, Pageable pageable) {
+    Page<Cart> cartPage = cartStorage.findByUsername(username, pageable);
+    return PageResponse.createFrom(cartPage);
   }
 }

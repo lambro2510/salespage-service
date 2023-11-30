@@ -1,8 +1,11 @@
 package com.salespage.salespageservice.domains.storages;
 
+import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.domains.entities.Cart;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -45,5 +48,9 @@ public class CartStorage extends BaseStorage{
       keys.add(key);
     }
     remoteCacheManager.del(keys);
+  }
+
+  public Page<Cart> findByUsername(String username, Pageable pageable) {
+    return cartRepository.findByUsername(username, pageable);
   }
 }

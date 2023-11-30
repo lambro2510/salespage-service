@@ -5,6 +5,7 @@ import com.salespage.salespageservice.app.dtos.CartDtos.CartPaymentDto;
 import com.salespage.salespageservice.domains.services.CartService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,15 @@ public class CartController extends BaseController{
   public ResponseEntity<?> getProductCart(Authentication authentication){
     try{
       return successApi(cartService.findCartByUsername(getUsername(authentication)));
+    }catch (Exception ex){
+      return errorApi(ex);
+    }
+  }
+
+  @GetMapping("all")
+  public ResponseEntity<?> getAllProductCart(Authentication authentication, Pageable pageable){
+    try{
+      return successApi(cartService.findCartByUsername(getUsername(authentication), pageable));
     }catch (Exception ex){
       return errorApi(ex);
     }
