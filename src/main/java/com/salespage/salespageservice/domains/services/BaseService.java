@@ -4,6 +4,7 @@ import com.salespage.salespageservice.ModelMapper;
 import com.salespage.salespageservice.domains.entities.types.LogType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
+import com.salespage.salespageservice.domains.factories.NotificationFactory;
 import com.salespage.salespageservice.domains.info.AddressResult;
 import com.salespage.salespageservice.domains.info.DistanceMatrixResult;
 import com.salespage.salespageservice.domains.info.OpenStreetMapResponse;
@@ -29,6 +30,7 @@ public class BaseService{
   @Value("${goong.api-key}")
   private String goongApiKey;
 
+  @Autowired @Lazy  protected NotificationFactory notificationFactory;
   @Autowired protected GoogleDriver driver;
 
   @Autowired protected ModelMapper modelMapper;

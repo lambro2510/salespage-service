@@ -46,6 +46,7 @@ public class CartService extends BaseService {
   NotificationService notificationService;
 
   public void createCart(String username, CartDto dto) {
+    ObjectId cardId = new ObjectId();
     Long countCartOfUser = cartStorage.countByUsername(username);
     if (countCartOfUser >= 10) {
       throw new BadRequestException("Vượt quá số lượng sản phẩm trong giỏ hàng.");
@@ -62,8 +63,10 @@ public class CartService extends BaseService {
     if (store == null) {
       throw new ResourceNotFoundException("Không tồn tại cửa hàng này");
     }
+    notificationFactory.createNotify(NotificationType.ADD_TO_CART, product.getProductName(), username, dto.getQuantity().doubleValue(), cardId.toHexString());
     VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(dto.getVoucherId(), username, product, productDetail.getSellPrice(), true);
     Cart cart = Cart.builder()
+        .id(cardId)
         .username(username)
         .productDetailId(dto.getProductDetailId())
         .storeId(dto.getStoreId())
@@ -313,10 +316,7 @@ public class CartService extends BaseService {
       ProductTransaction productTransaction = productTransactionService.buildProductTransaction(transactionId, user, dto.getNote(), comboInfo, transactionDetails1);
       productTransactionService.saveTransaction(productTransaction, transactionDetails);
       cartStorage.deleteAll(deleteCard);
-      String title = "Bạn đã thanh toán đơn hàng" + productTransaction.getId().toHexString();
-      String content = "Đơn hàng " + productTransaction.getId().toHexString() + " đã được xác nhận thanh toán thành công. Tài khoản của bạn đã bị trừ " +
-          comboInfo.getSellPrice() + "VND, vui lòng chờ cửa hàng xác nhận giao dịch";
-      notificationService.createNotification(username,title , content, NotificationType.PAYMENT_TRANSACTION, transactionId.toHexString());
+      notificationFactory.createNotify(NotificationType.PAYMENT_CART_TRANSACTION, null, username, comboInfo.getSellPrice(), transactionId.toHexString());
     }
     userStorage.save(user);
   }
