@@ -16,7 +16,7 @@ public class NotificationFactory {
     String content = "Không có nội dung";
     switch (type) {
       case PAYMENT_CART_TRANSACTION:
-        title = "Bạn đã thanh toán đơn hàng" + refId;
+        title = "Bạn đã thanh toán đơn hàng " + refId;
         content = "Đơn hàng " + refId + " đã được xác nhận thanh toán thành công. Tài khoản của bạn đã bị trừ " +
             value.intValue() + "VND, vui lòng chờ cửa hàng xác nhận giao dịch";
         notificationService.createNotification(username, title, content, type, refId);
