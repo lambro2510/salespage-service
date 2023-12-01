@@ -22,7 +22,7 @@ public class NotificationFactory {
         notificationService.createNotification(username, title, content, type, refId);
         break;
       case ADD_TO_CART:
-        title = "Bạn đã thêm " + value.intValue() + " sản phẩm " + name + " vào giỏ hàng";
+        title = "Bạn đã thêm một sản phẩm mới vào giỏ hàng";
         content = "Bạn đã thêm " + value.intValue() + " sản phẩm " + name + " vào giỏ hàng";
         notificationService.createNotification(username, title, content, type, refId);
         break;
