@@ -33,6 +33,7 @@ public class RequestUtil {
       RestTemplate restTemplate = new RestTemplate();
       HttpHeaders headers = new HttpHeaders();
       headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+      headers.setContentType(MediaType.APPLICATION_JSON);
       if (headerParam != null) {
         for (Map.Entry<String, String> entry : headerParam.entrySet()) {
           headers.add(entry.getKey(), entry.getValue());
