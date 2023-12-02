@@ -3,9 +3,10 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.CartDtos.CartDto;
 import com.salespage.salespageservice.app.dtos.CartDtos.CartPaymentDto;
 import com.salespage.salespageservice.app.dtos.productTransactionDto.ProductTransactionDto;
-import com.salespage.salespageservice.app.responses.CartResponse.*;
+import com.salespage.salespageservice.app.responses.CartResponse.CartByStoreResponse;
+import com.salespage.salespageservice.app.responses.CartResponse.CartDataResponse;
+import com.salespage.salespageservice.app.responses.CartResponse.CartResponse;
 import com.salespage.salespageservice.app.responses.PageResponse;
-import com.salespage.salespageservice.app.responses.ProductResponse.ProductDataResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
@@ -50,10 +51,10 @@ public class CartService extends BaseService {
 
   public void createCart(String username, CartDto dto) {
     ObjectId cardId = new ObjectId();
-    Long countCartOfUser = cartStorage.countByUsername(username);
-    if (countCartOfUser >= 10) {
-      throw new BadRequestException("Vượt quá số lượng sản phẩm trong giỏ hàng.");
-    }
+//    Long countCartOfUser = cartStorage.countByUsername(username);
+//    if (countCartOfUser >= 10) {
+//      throw new BadRequestException("Vượt quá số lượng sản phẩm trong giỏ hàng.");
+//    }
     ProductDetail productDetail = productDetailStorage.findById(dto.getProductDetailId());
     if (productDetail == null) {
       throw new ResourceNotFoundException("Sản phẩm không còn được bán");
@@ -66,18 +67,23 @@ public class CartService extends BaseService {
     if (store == null) {
       throw new ResourceNotFoundException("Không tồn tại cửa hàng này");
     }
-    notificationFactory.createNotify(NotificationType.ADD_TO_CART, product.getProductName(), username, dto.getQuantity().doubleValue(), cardId.toHexString());
     VoucherInfo voucherInfo = voucherCodeService.getVoucherInfo(dto.getVoucherId(), username, product, productDetail.getSellPrice(), true);
-    Cart cart = Cart.builder()
-        .id(cardId)
-        .username(username)
-        .productDetailId(dto.getProductDetailId())
-        .storeId(dto.getStoreId())
-        .productName(product.getProductName())
-        .quantity(dto.getQuantity())
-        .voucherInfo(voucherInfo)
-        .voucherCodeId(dto.getVoucherId())
-        .build();
+    Cart cart = cartStorage.findByUsernameAndProductDetailId(username, dto.getProductDetailId());
+    if (cart == null) {
+      cart = Cart.builder()
+          .id(cardId)
+          .username(username)
+          .productDetailId(dto.getProductDetailId())
+          .storeId(dto.getStoreId())
+          .productName(product.getProductName())
+          .quantity(dto.getQuantity())
+          .voucherInfo(voucherInfo)
+          .voucherCodeId(dto.getVoucherId())
+          .build();
+    } else {
+      cart.addQuantity(dto.getQuantity());
+    }
+    notificationFactory.createNotify(NotificationType.ADD_TO_CART, product.getProductName(), username, dto.getQuantity().doubleValue(), cardId.toHexString());
     cartStorage.save(cart);
   }
 
@@ -280,7 +286,7 @@ public class CartService extends BaseService {
     for (CartPaymentDto dto : dtos) {
       ObjectId transactionId = new ObjectId();
       List<ProductTransactionDetail> transactionDetails = new ArrayList<>();
-      if(dto.getTransaction().isEmpty()){
+      if (dto.getTransaction().isEmpty()) {
         continue;
       }
       List<Cart> deleteCard = new ArrayList<>();
@@ -304,12 +310,12 @@ public class CartService extends BaseService {
         VoucherInfo info = new VoucherInfo();
         if (StringUtils.isNotBlank(transaction.getVoucherCodeId())) {
           info = voucherCodeService.getVoucherInfoAndUse(transaction.getVoucherCodeId(), username, product, productDetail.getSellPrice());
-        }else{
+        } else {
           info.setIsUse(false);
           info.setPriceAfter(productDetail.getSellPrice() * cart.getQuantity());
         }
 
-        ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(transactionId.toHexString(), productDetail,product, info, transaction.getAddress(), cart.getQuantity(), store, transaction.getNote(), username);
+        ProductTransactionDetail productTransactionDetail = productTransactionService.buildProductTransactionDetail(transactionId.toHexString(), productDetail, product, info, transaction.getAddress(), cart.getQuantity(), store, transaction.getNote(), username);
         transactionDetails.add(productTransactionDetail);
         deleteCard.add(cart);
       }

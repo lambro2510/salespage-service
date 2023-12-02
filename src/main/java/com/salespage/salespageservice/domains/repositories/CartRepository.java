@@ -16,4 +16,6 @@ public interface CartRepository extends MongoRepository<Cart, ObjectId> {
   Long countByUsername(String username);
 
   Page<Cart> findByUsername(String username, Pageable pageable);
+
+  Cart findByUsernameAndProductDetailId(String username, String productDetailId);
 }

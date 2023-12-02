@@ -16,6 +16,7 @@ public class CartStorage extends BaseStorage{
   public void save(Cart cart) {
     cartRepository.save(cart);
     remoteCacheManager.del(CacheKey.genListCartByUsername(cart.getUsername()));
+    remoteCacheManager.del(CacheKey.genListCartByUsernameAndProductDetailId(cart.getUsername(), cart.getProductDetailId()));
   }
 
   public List<Cart> findByUsername(String username){
@@ -52,5 +53,15 @@ public class CartStorage extends BaseStorage{
 
   public Page<Cart> findByUsername(String username, Pageable pageable) {
     return cartRepository.findByUsername(username, pageable);
+  }
+
+  public Cart findByUsernameAndProductDetailId(String username, String productDetailId) {
+    String key = CacheKey.genListCartByUsernameAndProductDetailId(username, productDetailId);
+    Cart cart = remoteCacheManager.get(key, Cart.class);
+    if(cart == null){
+      cart = cartRepository.findByUsernameAndProductDetailId(username, productDetailId);
+      remoteCacheManager.set(key, cart);
+    }
+    return cart;
   }
 }

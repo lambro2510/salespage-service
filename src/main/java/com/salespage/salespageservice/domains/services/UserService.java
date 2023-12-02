@@ -2,6 +2,7 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
+import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.entities.Rating;
 import com.salespage.salespageservice.domains.entities.User;
@@ -78,11 +79,12 @@ public class UserService extends BaseService {
 
   }
 
-  public void uploadImage(String username, MultipartFile image) throws IOException {
+  public UploadImageData uploadImage(String username, MultipartFile image) throws IOException {
     String imageUrl = googleDriver.uploadPublicImage("user-image", username, Helper.convertMultiPartToFile(image));
     User user = userStorage.findByUsername(username);
     user.setImageUrl(imageUrl);
     userStorage.save(user);
+    return new UploadImageData(imageUrl);
   }
 
   public void minusBalance(User user, Double totalPrice) {

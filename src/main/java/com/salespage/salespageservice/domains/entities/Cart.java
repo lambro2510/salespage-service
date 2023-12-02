@@ -45,4 +45,8 @@ public class Cart extends BaseEntity{
 
   @Field("quantity")
   Long quantity;
+
+  public void addQuantity(long amount){
+    quantity += quantity + amount;
+  }
 }
