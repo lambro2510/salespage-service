@@ -32,8 +32,8 @@ public class NotificationService extends BaseService {
     notificationStorage.save(notification);
   }
 
-  public PageResponse<NotificationResponse> getNotification(String username, NotificationType type, Pageable pageable) {
-    Page<Notification> notifications = notificationStorage.findByUsernameAndNotificationType(username,type, pageable);
+  public PageResponse<NotificationResponse> getNotification(String username, NotificationStatus status, Pageable pageable) {
+    Page<Notification> notifications = notificationStorage.findByUsernameAndNotificationStatus(username,status, pageable);
     List<NotificationResponse> listNotification = notifications.getContent().stream().map(Notification::partnerToNotificationResponse).collect(Collectors.toList());
     Page<NotificationResponse> responses = new PageImpl<>(listNotification, pageable, notifications.getTotalElements());
     return PageResponse.createFrom(responses);
