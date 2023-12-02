@@ -1,5 +1,6 @@
 package com.salespage.salespageservice.app.controllers;
 
+import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.services.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,9 +26,9 @@ public class NotificationController extends BaseController {
       @ApiResponse(responseCode = "200", description = "Success", content = @Content),
       @ApiResponse(responseCode = "500", description = "Internal Server Error")
   })
-  public ResponseEntity<?> getNotification(Authentication authentication, Pageable pageable) throws Exception {
+  public ResponseEntity<?> getNotification(Authentication authentication, @RequestParam NotificationType type, Pageable pageable) throws Exception {
     try {
-      return successApi(null, notificationService.getNotification(getUsername(authentication), pageable));
+      return successApi(null, notificationService.getNotification(getUsername(authentication),type, pageable));
     } catch (Exception ex) {
       return errorApiStatus500("Không lưu được thông tin giao dịch");
     }

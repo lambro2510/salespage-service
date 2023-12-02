@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.domains.repositories;
 
 import com.salespage.salespageservice.domains.entities.Notification;
+import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,4 +14,6 @@ public interface NotificationRepository extends MongoRepository<Notification, Ob
   Page<Notification> findByUsername(String username, Pageable pageable);
 
   Notification findNotificationById(String notificationId);
+
+  Page<Notification> findByUsernameAndNotificationType(String username, NotificationType type, Pageable pageable);
 }
