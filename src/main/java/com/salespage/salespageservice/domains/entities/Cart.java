@@ -47,6 +47,6 @@ public class Cart extends BaseEntity{
   Long quantity;
 
   public void addQuantity(long amount){
-    quantity += quantity + amount;
+    quantity += amount;
   }
 }
