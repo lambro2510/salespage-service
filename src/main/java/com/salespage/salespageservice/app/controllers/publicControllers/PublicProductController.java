@@ -39,6 +39,7 @@ public class PublicProductController extends BaseController {
       @RequestParam(required = false) Long maxPrice,
       @RequestParam(required = false) String storeName,
       @RequestParam(required = false) String ownerStoreUsername,
+      @RequestParam(required = false) String categoryName,
       @RequestParam(required = false) Long lte,
       @RequestParam(required = false) Long gte,
       Authentication authentication,
@@ -49,7 +50,7 @@ public class PublicProductController extends BaseController {
         searchHistoryService.updateSearchHistory(username, productName, storeName, ownerStoreUsername);
         log.info("getProductDetail with username: {{}}", username);
       }
-      return successApi(productService.findProduct(productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, lte, gte, pageable));
+      return successApi(productService.findProduct(productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername,categoryName, lte, gte, pageable));
 
     } catch (Exception ex) {
       log.error("=========>getAllProduct: ", ex);

@@ -87,7 +87,7 @@ public class ProductService extends BaseService {
     return product;
   }
 
-  public Page<Product> getAllProduct(String username, String productId, String productName, Long minPrice, Long maxPrice, String storeName, String sellerStoreUsername, Long lte, Long gte, Pageable pageable) {
+  public Page<Product> getAllProduct(String username, String productId, String productName, Long minPrice, Long maxPrice, String storeName, String sellerStoreUsername,String categoryName,  Long lte, Long gte, Pageable pageable) {
     Query query = new Query();
     if (StringUtil.isNotBlank(username)) {
       query.addCriteria(Criteria.where("seller_username").is(username));
@@ -113,7 +113,10 @@ public class ProductService extends BaseService {
           .collect(Collectors.toList());
       query.addCriteria(Criteria.where("store_name").in(storeNames));
     }
-
+    if(StringUtils.isNotBlank(categoryName)){
+      List<ProductCategory> productCategories = productCategoryStorage.findByCategoryNameLike(categoryName);
+      query.addCriteria(Criteria.where("category_id").in(productCategories.stream().map(k->k.getId().toHexString()).collect(Collectors.toList())));
+    }
     if (StringUtil.isNotBlank(sellerStoreUsername)) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByOwnerStoreName(sellerStoreUsername);
       List<String> ids = sellerStores.stream()
@@ -157,8 +160,8 @@ public class ProductService extends BaseService {
     return PageResponse.createFrom(itemResponses);
   }
 
-  public PageResponse<ProductDataResponse> findProduct(String productId, String productName, Long minPrice, Long maxPrice, String storeName, String username, Long lte, Long gte, Pageable pageable) {
-    Page<Product> products = getAllProduct(null, productId, productName, minPrice, maxPrice, storeName, username, lte, gte, pageable);
+  public PageResponse<ProductDataResponse> findProduct(String productId, String productName, Long minPrice, Long maxPrice, String storeName, String username,String categoryName, Long lte, Long gte, Pageable pageable) {
+    Page<Product> products = getAllProduct(null, productId, productName, minPrice, maxPrice, storeName, username,categoryName, lte, gte, pageable);
 
     List<ProductDataResponse> responses = toProductDataResponse(products.getContent());
 
@@ -196,7 +199,7 @@ public class ProductService extends BaseService {
     return responses;
   }
 
-  public SellerProductDetailResponse getSellerProductDetail(String productId) throws Exception {
+  public SellerProductDetailResponse getSellerProductDetail(String productId) {
     Product product = productStorage.findProductById(productId);
     SellerProductDetailResponse response = modelMapper.toSellerProductDetailResponse(product);
     List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(product.getSellerStoreIds());
