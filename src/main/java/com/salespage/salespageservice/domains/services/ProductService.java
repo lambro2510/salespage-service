@@ -87,7 +87,7 @@ public class ProductService extends BaseService {
     return product;
   }
 
-  public Page<Product> getAllProduct(String username, String productId, String productName, Long minPrice, Long maxPrice, String storeName, String sellerStoreUsername, String categoryName, Long lte, Long gte, String productInfoLabel, Boolean isHot, Pageable pageable) {
+  public Page<Product> getAllProduct(String username, String productId, String productName, Double minPrice, Double maxPrice, String storeName, String sellerStoreUsername, String categoryName, Long lte, Long gte, String productInfoLabel, Boolean isHot, Pageable pageable) {
     Query query = new Query();
     if (StringUtil.isNotBlank(username)) {
       query.addCriteria(Criteria.where("seller_username").is(username));
@@ -100,13 +100,18 @@ public class ProductService extends BaseService {
       query.addCriteria(Criteria.where("product_name").regex(pattern));
     }
 
-    if(minPrice != null && maxPrice != null)
-      query.addCriteria(Criteria.where("price").lte(maxPrice).andOperator(Criteria.where("price").gte(minPrice)));
-    else if (minPrice != null)
-      query.addCriteria(Criteria.where("price").gte(minPrice));
-    else if (maxPrice != null)
-      query.addCriteria(Criteria.where("price").lte(maxPrice));
-
+    if(minPrice != null && maxPrice != null){
+      List<ProductDetail> productDetails = productDetailStorage.findBySellPriceBetween(minPrice, maxPrice);
+      query.addCriteria(Criteria.where("_id").in(productDetails.stream().map(k->new ObjectId(k.getProductId())).collect(Collectors.toList())));
+    }
+    else if (maxPrice != null){
+      List<ProductDetail> productDetails = productDetailStorage.findBySellPriceLessThanEqual(maxPrice);
+      query.addCriteria(Criteria.where("_id").in(productDetails.stream().map(k->new ObjectId(k.getProductId())).collect(Collectors.toList())));
+    }
+    else if (minPrice != null){
+      List<ProductDetail> productDetails = productDetailStorage.findBySellPriceGreaterThanEqual(minPrice);
+      query.addCriteria(Criteria.where("_id").in(productDetails.stream().map(k->new ObjectId(k.getProductId())).collect(Collectors.toList())));
+    }
     if (Objects.nonNull(lte) && Objects.nonNull(gte)) {
       query.addCriteria(Criteria.where("created_at").lte(gte).andOperator(Criteria.where("created_at").gte(lte)));
     }
@@ -173,7 +178,10 @@ public class ProductService extends BaseService {
     return PageResponse.createFrom(itemResponses);
   }
 
-  public PageResponse<ProductDataResponse> findProduct(String productId, String productName, Long minPrice, Long maxPrice, String storeName, String username,String categoryName,String type, Boolean isHot, Long lte, Long gte, Pageable pageable) {
+  public PageResponse<ProductDataResponse> findProduct(String productId, String productName,
+                                                       Double minPrice, Double maxPrice, String storeName,
+                                                       String username,String categoryName,String type,
+                                                       Boolean isHot, Long lte, Long gte, Pageable pageable) {
     Page<Product> products = getAllProduct(null, productId, productName, minPrice, maxPrice, storeName, username,categoryName, lte, gte,type, isHot, pageable);
 
     List<ProductDataResponse> responses = toProductDataResponse(products.getContent());

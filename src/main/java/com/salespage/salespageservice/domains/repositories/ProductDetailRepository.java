@@ -14,4 +14,10 @@ public interface ProductDetailRepository extends MongoRepository<ProductDetail, 
   List<ProductDetail> findByIdIn(List<ObjectId> ids);
 
   List<ProductDetail> findByProductIdIn(List<String> ids);
+
+  List<ProductDetail> findBySellPriceBetween(Double min, Double max);
+
+  List<ProductDetail> findBySellPriceLessThanEqual(Double maxPrice);
+
+  List<ProductDetail> findBySellPriceGreaterThanEqual(Double minPrice);
 }

@@ -64,4 +64,16 @@ public class ProductDetailStorage extends BaseStorage{
   public List<ProductDetail> findAll() {
     return productDetailRepository.findAll();
   }
+
+  public List<ProductDetail> findBySellPriceBetween(Double min, Double max) {
+    return productDetailRepository.findBySellPriceBetween(min,max);
+  }
+
+  public List<ProductDetail> findBySellPriceLessThanEqual(Double maxPrice) {
+    return productDetailRepository.findBySellPriceLessThanEqual(maxPrice);
+  }
+
+  public List<ProductDetail> findBySellPriceGreaterThanEqual(Double minPrice) {
+    return productDetailRepository.findBySellPriceGreaterThanEqual(minPrice);
+  }
 }

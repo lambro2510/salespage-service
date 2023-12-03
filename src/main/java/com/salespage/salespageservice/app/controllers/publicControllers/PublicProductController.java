@@ -35,8 +35,8 @@ public class PublicProductController extends BaseController {
   public ResponseEntity<BaseResponse> getAllProduct(
       @RequestParam(required = false) String productId,
       @RequestParam(required = false) String productName,
-      @RequestParam(required = false) Long minPrice,
-      @RequestParam(required = false) Long maxPrice,
+      @RequestParam(required = false) Double minPrice,
+      @RequestParam(required = false) Double maxPrice,
       @RequestParam(required = false) String storeName,
       @RequestParam(required = false) String ownerStoreUsername,
       @RequestParam(required = false) String categoryName,
