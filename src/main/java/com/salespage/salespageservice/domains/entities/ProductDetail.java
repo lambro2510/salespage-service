@@ -50,6 +50,13 @@ public class ProductDetail extends BaseEntity{
   @Field("user_id")
   String userId;
 
+  public void minusQuantity(int amount) {
+    quantity = quantity - amount;
+    if(quantity < 0){
+      quantity = 0;
+    }
+  }
+
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
