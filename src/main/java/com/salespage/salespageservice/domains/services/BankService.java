@@ -31,10 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -182,6 +179,16 @@ public class BankService extends BaseService {
 
   public List<BankPaymentResponse> getPaymentBankAccount() throws IOException {
     Config config = configStorage.findByKey(Constants.PAYMENT_BANK_ACCOUNT);
+    List<BankPaymentResponse> responses = new ArrayList<>();
+    if(config == null){
+      BankPaymentResponse response = new BankPaymentResponse();
+      response.setBankAccount("LE DINH LAM");
+      response.setBankName("Ngân hàng TMCP Quân Đội");
+      response.setBin("970422");
+      response.setBankShortName("MB Bank");
+      responses.add(response);
+      return responses;
+    }
     return JsonParser.arrayList(config.getValue(), BankPaymentResponse.class);
   }
 
