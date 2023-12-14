@@ -44,6 +44,21 @@ public class UserController extends BaseController {
     }
   }
 
+  @DeleteMapping("avatar")
+  @Operation(summary = "Xoá ảnh dại diện người dùng", description = "Lấy thông tin hồ sơ cho người dùng đã xác thực")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Thành công"),
+      @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
+      @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
+      @ApiResponse(responseCode = "404", description = "Không tìm thấy người dùng")
+  })
+  public ResponseEntity<BaseResponse> deleteAvatar(Authentication authentication) {
+    try {
+      return successApi(null, userService.deleteAvatar(getUsername(authentication)));
+    } catch (Exception ex) {
+      return errorApi(ex);
+    }
+  }
 
   @PutMapping("")
   @Operation(summary = "Cập nhật thông tin người dùng", description = "Cập nhật thông tin hồ sơ cho người dùng đã xác thực")
@@ -71,8 +86,7 @@ public class UserController extends BaseController {
   })
   public ResponseEntity<BaseResponse> uploadImage(Authentication authentication, @RequestBody @Schema(type = "multipart", format = "binary") MultipartFile file) throws IOException {
     try {
-      userService.uploadImage(getUsername(authentication), file);
-      return successApi("Tải ảnh người dùng lên thành công");
+      return successApi(userService.uploadImage(getUsername(authentication), file));
     } catch (Exception ex) {
       return errorApi(ex);
     }

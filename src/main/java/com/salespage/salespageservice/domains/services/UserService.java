@@ -6,10 +6,7 @@ import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.RatingType;
-import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
-import com.salespage.salespageservice.domains.exceptions.NotEnoughMoneyException;
-import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
-import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.exceptions.*;
 import com.salespage.salespageservice.domains.utils.*;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
@@ -98,6 +95,16 @@ public class UserService extends BaseService {
     List<ProductDetail> productTransactionDetailList = productDetailStorage.findAll();
     productTransactionDetailList.forEach(k -> k.setUsername("taikhoanbanhang"));;
     productDetailStorage.saveAll(productTransactionDetailList);
+    return true;
+  }
+
+  public boolean deleteAvatar(String username) {
+    User user = userStorage.findByUsername(username);
+    if(user == null){
+      throw new BadRequestException("Người dùng không tồn tại");
+    }
+    user.setImageUrl(null);
+    userStorage.save(user);
     return true;
   }
 }
