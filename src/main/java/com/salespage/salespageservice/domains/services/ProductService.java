@@ -154,7 +154,7 @@ public class ProductService extends BaseService {
     if (StringUtil.isNotBlank(storeId) && ObjectId.isValid(storeId)) {
       query.addCriteria(Criteria.where("seller_store_ids").in(List.of(storeId)));
     }
-    if (StringUtil.isNotBlank(productName) && ObjectId.isValid(productName)) {
+    if (StringUtil.isNotBlank(productName)) {
       query.addCriteria(Criteria.where("product_name").is(productName));
     }
     if (StringUtil.isNotBlank(storeName)) {

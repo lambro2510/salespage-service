@@ -4,11 +4,14 @@ import com.salespage.salespageservice.domains.entities.ProductTransactionDetail;
 import com.salespage.salespageservice.domains.info.AggregationInfo;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import com.salespage.salespageservice.domains.utils.JsonParser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -81,5 +84,9 @@ public class ProductTransactionDetailStorage extends BaseStorage {
 
   public long countByProductDetailIdAndCreatedAtBetween(String id, Long startDay, Long endDay) {
     return productTransactionDetailRepository.countByProductDetailIdAndCreatedAtBetween(id, startDay, endDay);
+  }
+
+  public Page<ProductTransactionDetail> findAll(Query query, Pageable pageable) {
+    return productTransactionDetailRepository.findAll(query, pageable);
   }
 }

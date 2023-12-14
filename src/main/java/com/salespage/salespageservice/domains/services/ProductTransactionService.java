@@ -78,7 +78,7 @@ public class ProductTransactionService extends BaseService {
   }
 
 
-  public PageResponse<ProductTransactionResponse> getAllTransactionByUser(String username, String productId, String productName, String buyerName, String sellerStoreId, String sellerStoreName, ProductTransactionState state, Long lte, Long gte, Pageable pageable) {
+  public PageResponse<ProductTransactionDetailResponse> getAllTransactionByUser(String username, String productId, String productName, String buyerName, String sellerStoreId, String sellerStoreName, ProductTransactionState state, Long lte, Long gte, Pageable pageable) {
     Query query = new Query();
     query.addCriteria(Criteria.where("seller_username").is(username));
     if (StringUtils.isNotBlank(productId)) {
@@ -94,7 +94,7 @@ public class ProductTransactionService extends BaseService {
       query.addCriteria(Criteria.where("state").is(state));
     }
     if (StringUtils.isNotBlank(sellerStoreId)) {
-      query.addCriteria(Criteria.where("store_id").is(new ObjectId(sellerStoreId)));
+      query.addCriteria(Criteria.where("store_id").is(sellerStoreId));
     }
     if (StringUtils.isNotBlank(sellerStoreName)) {
       query.addCriteria(Criteria.where("store.storeName").is(sellerStoreName));
@@ -110,8 +110,10 @@ public class ProductTransactionService extends BaseService {
     } else if (Objects.nonNull(lte)) {
       query.addCriteria(Criteria.where("created_at").lte(lte));
     }
-
-    return null;
+    Page<ProductTransactionDetail> transactionDetails = productTransactionDetailStorage.findAll(query, pageable);
+    List<ProductTransactionDetailResponse> responses = modelMapper.toListProductTransactionDetailResponse(transactionDetails.getContent());
+    Page<ProductTransactionDetailResponse> pages = new PageImpl<>(responses, pageable, transactionDetails.getTotalElements());
+    return PageResponse.createFrom(pages);
   }
 
 
