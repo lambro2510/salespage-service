@@ -151,6 +151,7 @@ public class ProductTransactionService extends BaseService {
         .username(username)
         .productDetail(productDetail)
         .product(product)
+        .sellerUsername(productDetail.getUsername())
         .totalPrice(voucher.getPriceAfter())
         .build();
   }

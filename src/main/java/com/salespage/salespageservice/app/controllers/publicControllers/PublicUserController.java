@@ -36,4 +36,5 @@ public class PublicUserController extends BaseController {
       return errorApi(ex);
     }
   }
+
 }

@@ -30,7 +30,7 @@ public class ProductDetailService extends BaseService{
     }
     ProductDetail productDetail = modelMapper.toProductDetail(dto);
     productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * (productDetail.getDiscountPercent()/100));
-
+    productDetail.setUsername(username);
     productDetailStorage.save(productDetail);
   }
 
@@ -41,6 +41,7 @@ public class ProductDetailService extends BaseService{
     }
     modelMapper.mapToProductDetailDto(dto, productDetail);
     productDetail.setSellPrice(productDetail.getOriginPrice() - productDetail.getOriginPrice() * (productDetail.getDiscountPercent()/100));
+    productDetail.setUsername(username);
     productDetailStorage.save(productDetail);
   }
 

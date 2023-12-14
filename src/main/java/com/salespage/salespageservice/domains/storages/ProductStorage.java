@@ -119,4 +119,5 @@ public class ProductStorage extends BaseStorage {
   public List<Product> findTop12ByIdInAndIsHotOrderByUpdatedAt(List<String> productIds) {
     return productRepository.findTop12ByIdInAndIsHotOrderByUpdatedAt(Helper.convertListStringToListObjectId(productIds));
   }
+
 }

@@ -77,6 +77,9 @@ public class ProductTransactionDetail extends BaseEntity{
   @Field("username")
   private String username;
 
+  @Field("seller_username")
+  private String sellerUsername;
+
   @Field("message")
   private List<Message> messages = new ArrayList<>();
 

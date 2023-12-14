@@ -62,6 +62,9 @@ public class Product extends BaseEntity {
   @Field("is_hot")
   private Boolean isHot;
 
+  @Field("seller_username")
+  private String sellerUsername;
+
   public ProductDetailResponse assignToProductDetailResponse() {
     ProductDetailResponse response = new ProductDetailResponse();
     response.assignFromProduct(this);

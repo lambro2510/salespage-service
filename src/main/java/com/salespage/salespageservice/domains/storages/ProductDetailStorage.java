@@ -76,4 +76,8 @@ public class ProductDetailStorage extends BaseStorage{
   public List<ProductDetail> findBySellPriceGreaterThanEqual(Double minPrice) {
     return productDetailRepository.findBySellPriceGreaterThanEqual(minPrice);
   }
+
+  public void saveAll(List<ProductDetail> productTransactionDetailList) {
+    productDetailRepository.saveAll(productTransactionDetailList);
+  }
 }

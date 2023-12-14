@@ -3,9 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
 import com.salespage.salespageservice.app.responses.UploadImageData;
-import com.salespage.salespageservice.domains.entities.Account;
-import com.salespage.salespageservice.domains.entities.Rating;
-import com.salespage.salespageservice.domains.entities.User;
+import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.RatingType;
 import com.salespage.salespageservice.domains.exceptions.AccountNotExistsException;
@@ -19,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -93,5 +92,12 @@ public class UserService extends BaseService {
       throw new NotEnoughMoneyException();
     }
     user.getBalance().minusMoney(totalPrice);
+  }
+
+  public boolean updateTransaction() {
+    List<ProductDetail> productTransactionDetailList = productDetailStorage.findAll();
+    productTransactionDetailList.forEach(k -> k.setUsername("taikhoanbanhang"));;
+    productDetailStorage.saveAll(productTransactionDetailList);
+    return true;
   }
 }

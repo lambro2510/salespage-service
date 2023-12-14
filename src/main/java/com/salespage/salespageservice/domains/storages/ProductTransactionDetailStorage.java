@@ -89,4 +89,8 @@ public class ProductTransactionDetailStorage extends BaseStorage {
   public Page<ProductTransactionDetail> findAll(Query query, Pageable pageable) {
     return productTransactionDetailRepository.findAll(query, pageable);
   }
+
+  public List<ProductTransactionDetail> findAll() {
+    return productTransactionDetailRepository.findAll();
+  }
 }

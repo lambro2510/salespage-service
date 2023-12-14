@@ -47,8 +47,8 @@ public class ProductDetail extends BaseEntity{
   @Field("discount_percent")
   Double discountPercent;
 
-  @Field("user_id")
-  String userId;
+  @Field("username")
+  String username;
 
   public void minusQuantity(int amount) {
     quantity = quantity - amount;

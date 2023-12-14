@@ -40,4 +40,5 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
   List<Product> findTop12ByIsHotOrderByUpdatedAt(boolean b);
 
   List<Product> findTop12ByIdInAndIsHotOrderByUpdatedAt(List<ObjectId> objectIds);
+
 }
