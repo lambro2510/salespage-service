@@ -39,6 +39,9 @@ public class ProductTransactionDetailResponse {
 
   private Double shipCod;
 
-  @Field("address")
+  private String username;
+
+  private Long createdAt;
+
   private String address;
 }
