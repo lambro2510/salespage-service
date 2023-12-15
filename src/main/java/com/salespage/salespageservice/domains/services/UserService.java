@@ -61,8 +61,7 @@ public class UserService extends BaseService {
 
     Rate rate = user.getRate();
     if (Objects.isNull(rating)) {
-      rating = new Rating(new ObjectId(), username, user.getId().toHexString(), RatingType.USER, point);
-
+      rating = new Rating(new ObjectId(), username, user.getId().toHexString(), RatingType.USER, point, "");
       rate.processAddRatePoint(point);
     } else {
       rate.processUpdateRatePoint(rating.getPoint(), point);

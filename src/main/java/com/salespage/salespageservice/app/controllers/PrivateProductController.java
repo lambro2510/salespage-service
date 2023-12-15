@@ -29,9 +29,9 @@ public class PrivateProductController extends BaseController {
   private ProductService productService;
 
   @PostMapping("rating")
-  public ResponseEntity<BaseResponse> updateRating(Authentication authentication, @RequestParam String productId, @RequestParam Float point) {
+  public ResponseEntity<BaseResponse> updateRating(Authentication authentication, @RequestParam String productId, @RequestParam Float point, @RequestParam String comment) {
     try {
-      productService.updateRatingAsync(getUsername(authentication), productId, point);
+      productService.updateRatingAsync(getUsername(authentication), productId, point, comment);
       return successApi("Đánh giá sản phẩm thành công");
     } catch (Exception ex) {
       return errorApi(ex);

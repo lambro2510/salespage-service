@@ -37,4 +37,6 @@ public class Rating extends BaseEntity {
   @Field("point")
   private Float point;
 
+  @Field("comment")
+  private String comment;
 }

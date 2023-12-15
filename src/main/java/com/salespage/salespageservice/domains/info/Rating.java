@@ -13,4 +13,6 @@ public class Rating {
   String productId;
 
   Float point;
+
+  String comment;
 }

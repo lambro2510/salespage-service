@@ -1,9 +1,11 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.dtos.productDtos.*;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
+import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
+import com.salespage.salespageservice.app.dtos.productDtos.UpdateTypeDetailStatusDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.*;
-import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
 import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.domains.entities.*;
@@ -27,6 +29,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,7 +38,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -100,17 +102,15 @@ public class ProductService extends BaseService {
       query.addCriteria(Criteria.where("product_name").regex(pattern));
     }
 
-    if(minPrice != null && maxPrice != null){
+    if (minPrice != null && maxPrice != null) {
       List<ProductDetail> productDetails = productDetailStorage.findBySellPriceBetween(minPrice, maxPrice);
-      query.addCriteria(Criteria.where("_id").in(productDetails.stream().map(k->new ObjectId(k.getProductId())).collect(Collectors.toList())));
-    }
-    else if (maxPrice != null){
+      query.addCriteria(Criteria.where("_id").in(productDetails.stream().map(k -> new ObjectId(k.getProductId())).collect(Collectors.toList())));
+    } else if (maxPrice != null) {
       List<ProductDetail> productDetails = productDetailStorage.findBySellPriceLessThanEqual(maxPrice);
-      query.addCriteria(Criteria.where("_id").in(productDetails.stream().map(k->new ObjectId(k.getProductId())).collect(Collectors.toList())));
-    }
-    else if (minPrice != null){
+      query.addCriteria(Criteria.where("_id").in(productDetails.stream().map(k -> new ObjectId(k.getProductId())).collect(Collectors.toList())));
+    } else if (minPrice != null) {
       List<ProductDetail> productDetails = productDetailStorage.findBySellPriceGreaterThanEqual(minPrice);
-      query.addCriteria(Criteria.where("_id").in(productDetails.stream().map(k->new ObjectId(k.getProductId())).collect(Collectors.toList())));
+      query.addCriteria(Criteria.where("_id").in(productDetails.stream().map(k -> new ObjectId(k.getProductId())).collect(Collectors.toList())));
     }
     if (Objects.nonNull(lte) && Objects.nonNull(gte)) {
       query.addCriteria(Criteria.where("created_at").lte(gte).andOperator(Criteria.where("created_at").gte(lte)));
@@ -122,9 +122,9 @@ public class ProductService extends BaseService {
           .collect(Collectors.toList());
       query.addCriteria(Criteria.where("store_name").in(storeNames));
     }
-    if(StringUtils.isNotBlank(categoryName)){
+    if (StringUtils.isNotBlank(categoryName)) {
       List<ProductCategory> productCategories = productCategoryStorage.findByCategoryNameLike(categoryName);
-      query.addCriteria(Criteria.where("category_id").in(productCategories.stream().map(k->k.getId().toHexString()).collect(Collectors.toList())));
+      query.addCriteria(Criteria.where("category_id").in(productCategories.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList())));
     }
     if (StringUtil.isNotBlank(sellerStoreUsername)) {
       List<SellerStore> sellerStores = sellerStoreService.findIdsByOwnerStoreName(sellerStoreUsername);
@@ -162,7 +162,7 @@ public class ProductService extends BaseService {
       List<String> storeIds = sellerStores.stream()
           .map(k -> k.getId().toHexString())
           .collect(Collectors.toList());
-        query.addCriteria(Criteria.where("seller_store_ids").in(storeIds));
+      query.addCriteria(Criteria.where("seller_store_ids").in(storeIds));
 
     }
     Page<Product> products = productStorage.findAll(query, pageable);
@@ -180,9 +180,9 @@ public class ProductService extends BaseService {
 
   public PageResponse<ProductDataResponse> findProduct(String productId, String productName,
                                                        Double minPrice, Double maxPrice, String storeName,
-                                                       String username,String categoryName,String type,
+                                                       String username, String categoryName, String type,
                                                        Boolean isHot, Long lte, Long gte, Pageable pageable) {
-    Page<Product> products = getAllProduct(null, productId, productName, minPrice, maxPrice, storeName, username,categoryName, lte, gte,type, isHot, pageable);
+    Page<Product> products = getAllProduct(null, productId, productName, minPrice, maxPrice, storeName, username, categoryName, lte, gte, type, isHot, pageable);
 
     List<ProductDataResponse> responses = toProductDataResponse(products.getContent());
 
@@ -191,7 +191,7 @@ public class ProductService extends BaseService {
 
   private List<ProductDataResponse> toProductDataResponse(List<Product> products) {
     List<ProductDataResponse> responses = products.stream().map(Product::assignToProductDataResponse).collect(Collectors.toList());
-    List<String> productIds =products.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList());
+    List<String> productIds = products.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList());
     List<ProductStatistic> productStatistics = productStatisticStorage.findByProductIdIn(productIds);
     Map<String, List<ProductStatistic>> mapProductStatistic = productStatistics.stream()
         .collect(Collectors.groupingBy(ProductStatistic::getProductId));
@@ -200,11 +200,11 @@ public class ProductService extends BaseService {
         .collect(Collectors.groupingBy(ProductDetail::getProductId));
     responses.forEach(product -> {
       List<ProductStatistic> statistics = mapProductStatistic.get(product.getProductId());
-      if(statistics == null){
+      if (statistics == null) {
         statistics = new ArrayList<>();
       }
       List<ProductDetail> details = mapProductDetail.get(product.getProductId());
-      if(details == null){
+      if (details == null) {
         details = new ArrayList<>();
       }
       product.assignFromListDetail(details);
@@ -249,7 +249,7 @@ public class ProductService extends BaseService {
       List<ProductStatistic> productStatistics;
       if (searchProductHistories.isEmpty()) {
         products = productStorage.findTop12ByIsHotOrderByUpdatedAtDesc();
-      }else{
+      } else {
         List<String> productIds = searchProductHistories.stream().map(SearchHistory::getSearchData).collect(Collectors.toList());
         products = productStorage.findTop12ByIdInAndIsHotOrderByUpdatedAt(productIds);
       }
@@ -403,28 +403,30 @@ public class ProductService extends BaseService {
   public List<ProductType> getAllProductType(List<UserRole> roles, String typeName) {
     if (!hasUserRole(roles, UserRole.ADMIN) && !hasUserRole(roles, UserRole.OPERATOR))
       throw new AuthorizationException("Bạn không có quyền xem danh sách này");
-    if(StringUtils.isNotBlank(typeName)){
+    if (StringUtils.isNotBlank(typeName)) {
       return productTypeStorage.findTop20ByProductTypeNameLike(typeName);
-    }else{
+    } else {
       return productTypeStorage.findAll();
     }
   }
 
   public List<ProductTypeResponse> getAllActiveProductType(String productTypeName) {
     List<ProductType> productTypes;
-    if(StringUtils.isNotBlank(productTypeName)){
+    if (StringUtils.isNotBlank(productTypeName)) {
       productTypes = productTypeStorage.findTop20ByProductTypeNameLikeAndStatus(productTypeName, ProductTypeStatus.ACTIVE);
-    }else{
+    } else {
       productTypes = productTypeStorage.findByStatus(ProductTypeStatus.ACTIVE);
     }
     return productTypes.stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList());
   }
 
-  public void updateRatingAsync (String username, String productId, Float point){
-    producer.updateRating(new com.salespage.salespageservice.domains.info.Rating(username, productId, point));
+  @Retryable
+  public void updateRatingAsync(String username, String productId, Float point, String comment) {
+    producer.updateRating(new com.salespage.salespageservice.domains.info.Rating(username, productId, point, comment));
   }
-  @Transactional(isolation =  Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
-  public Rate updateRating(String username, String productId, Float point) {
+
+  @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
+  public Rate updateRating(String username, String productId, Float point, String comment) {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) throw new ResourceNotFoundException("Không tồn tại người dùng này");
 
@@ -434,8 +436,7 @@ public class ProductService extends BaseService {
     Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productId, RatingType.PRODUCT);
     Rate rate = product.getRate();
     if (Objects.isNull(rating)) {
-      rating = new Rating(new ObjectId(), username, productId, RatingType.PRODUCT, point);
-
+      rating = new Rating(new ObjectId(), username, productId, RatingType.PRODUCT, point, comment);
       rate.processAddRatePoint(point);
     } else {
       rate.processUpdateRatePoint(rating.getPoint(), point);

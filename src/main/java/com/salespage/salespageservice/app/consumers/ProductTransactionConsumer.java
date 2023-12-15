@@ -58,7 +58,7 @@ public class ProductTransactionConsumer extends BankService {
     log.debug("Received message from " + TopicConfig.LIKE_TOPIC + message);
     try{
       Rating rating = JsonParser.entity(message, Rating.class);
-      productService.updateRating(rating.getUsername(), rating.getProductId(), rating.getPoint());
+      productService.updateRating(rating.getUsername(), rating.getProductId(), rating.getPoint(), rating.getComment());
     }catch (Exception ex){
       log.error("====> receiveMessage error: {} ", ex.getMessage());
     }
