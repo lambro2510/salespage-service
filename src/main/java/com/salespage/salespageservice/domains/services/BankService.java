@@ -212,6 +212,7 @@ public class BankService extends BaseService {
     }
   }
 
+  @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public void processMbPayment () {
     List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByPaymentStatus(PaymentStatus.WAITING);
     for(PaymentTransaction paymentTransaction : paymentTransactions){
@@ -224,6 +225,7 @@ public class BankService extends BaseService {
       if(bankTransaction == null &&  maxTime > now){
         notificationFactory.createNotify(NotificationType.EXPIRE_PAYMENT, null, username, amount, id);
         paymentTransaction.setPaymentStatus(PaymentStatus.EXPIRE);
+        paymentTransactionStorage.save(paymentTransaction);
       }
       if(bankTransaction != null){
         //Loại là nạp tiền
