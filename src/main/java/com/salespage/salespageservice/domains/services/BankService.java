@@ -77,11 +77,11 @@ public class BankService extends BaseService {
     return bankTransactionStorage.findAll();
   }
 
-  public QrData genTransactionQr(String username, String bin, String bankAccountId, String paymentId) throws IOException {
+  public QrData genTransactionQr(String username, String bin, String bankAccountNo, String paymentId) {
     PaymentTransaction paymentTransaction = paymentTransactionStorage.findByIdAndUsername(paymentId, username);
     if (Objects.isNull(paymentTransaction)) throw new ResourceNotFoundException("Không tìm thấy giao dịch");
     GenQrCodeDto genQrCodeDto = new GenQrCodeDto();
-    genQrCodeDto.setAccountNo(bankAccountId);
+    genQrCodeDto.setAccountNo(bankAccountNo);
     genQrCodeDto.setAmount(paymentTransaction.getAmount());
     genQrCodeDto.setFormat("text");
     genQrCodeDto.setTemplate("LDP0k8f");
@@ -182,7 +182,8 @@ public class BankService extends BaseService {
     List<BankPaymentResponse> responses = new ArrayList<>();
     if(config == null){
       BankPaymentResponse response = new BankPaymentResponse();
-      response.setBankAccount("LE DINH LAM");
+      response.setName("LE DINH LAM");
+      response.setBankAccountNo("8400134433008");
       response.setBankName("Ngân hàng TMCP Quân Đội");
       response.setBin("970422");
       response.setBankShortName("MB Bank");

@@ -16,5 +16,8 @@ public class BankPaymentResponse {
   private String bankShortName;
 
   @Schema(description = "Số tài khoản ngân hàng", example = "1234567890")
-  private String bankAccount;
+  private String bankAccountNo;
+
+  @Schema(description = "Tên chủ tài khoản", example = "LE DINH LAM")
+  private String name;
 }
