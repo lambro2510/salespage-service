@@ -8,6 +8,7 @@ import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
 import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.status.NotificationStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
+import com.salespage.salespageservice.domains.utils.DateUtils;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -46,7 +47,7 @@ public class Notification extends BaseEntity {
     NotificationResponse response = new NotificationDetailResponse();
     response.setId(id.toHexString());
     response.setTitle(title);
-    response.setCreated(new Date(createdAt));
+    response.setCreated(createdAt);
     response.setStatus(notificationStatus);
     return response;
   }
@@ -55,7 +56,7 @@ public class Notification extends BaseEntity {
     NotificationDetailResponse response = new NotificationDetailResponse();
     response.setId(id.toHexString());
     response.setTitle(title);
-    response.setCreated(new Date(createdAt));
+    response.setCreated(createdAt);
     response.setStatus(notificationStatus);
     response.setContent(content);
     return response;
