@@ -222,7 +222,7 @@ public class BankService extends BaseService {
       BankTransaction bankTransaction = bankTransactionStorage.findByDescription(paymentTransaction.getId().toHexString());
       long now = DateUtils.nowInMillis();
       long maxTime = paymentTransaction.getCreatedAt() + 1000 * 60 * 5; // Quá 5 phút
-      if(bankTransaction == null &&  maxTime > now){
+      if(bankTransaction == null &&  maxTime < now){
         notificationFactory.createNotify(NotificationType.EXPIRE_PAYMENT, null, username, amount, id);
         paymentTransaction.setPaymentStatus(PaymentStatus.EXPIRE);
         paymentTransactionStorage.save(paymentTransaction);
