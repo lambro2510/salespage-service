@@ -34,9 +34,5 @@ public class BankPaymentScheduleController {
     return ResponseEntity.ok(true);
   }
 
-  @PostMapping("mb/process-payment")
-  public ResponseEntity<Boolean> processMbPayment() throws Exception {
-    bankService.saveBankTransaction();
-    return ResponseEntity.ok(true);
-  }
+
 }
