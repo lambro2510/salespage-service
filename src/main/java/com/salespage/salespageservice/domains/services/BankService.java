@@ -9,6 +9,7 @@ import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
+import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.info.TpBankTransactionData;
@@ -211,6 +212,34 @@ public class BankService extends BaseService {
     }
   }
 
+  public void processMbPayment () {
+    List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByPaymentStatus(PaymentStatus.WAITING);
+    for(PaymentTransaction paymentTransaction : paymentTransactions){
+      String username = paymentTransaction.getUsername();
+      String id = paymentTransaction.getId().toHexString();
+      Double amount = paymentTransaction.getAmount().doubleValue();
+      BankTransaction bankTransaction = bankTransactionStorage.findByDescription(paymentTransaction.getId().toHexString());
+      long now = DateUtils.nowInMillis();
+      long maxTime = paymentTransaction.getCreatedAt() + 1000 * 60 * 5; // Quá 5 phút
+      if(bankTransaction == null &&  maxTime > now){
+        notificationFactory.createNotify(NotificationType.EXPIRE_PAYMENT, null, username, amount, id);
+        paymentTransaction.setPaymentStatus(PaymentStatus.EXPIRE);
+      }
+      if(bankTransaction != null){
+        //Loại là nạp tiền
+        if(paymentTransaction.getType() == PaymentType.IN){
+          if(bankTransaction.getCreditAmount() != 0){
+            paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
+            User user = userStorage.findByUsername(username);
+            user.getBalance().addMoney(bankTransaction.getCreditAmount());
+            userStorage.save(user);
+            paymentTransactionStorage.save(paymentTransaction);
+            notificationFactory.createNotify(NotificationType.PAYMENT_TRANSACTION_IN_SUCCESS, null, username, bankTransaction.getCreditAmount(), id);
+          }
+        }
+      }
+    }
+  }
   public TpBankTransactionData getBankTransaction(String fromDate, String toDate) throws Exception {
     String token = bankAccountStorage.getTokenFromRemoteCache();
     Map<String, String> header = new HashMap<>();

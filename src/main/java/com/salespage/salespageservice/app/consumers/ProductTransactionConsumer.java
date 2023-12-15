@@ -5,6 +5,8 @@ import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.entities.types.PaymentType;
+import com.salespage.salespageservice.domains.exceptions.BadRequestException;
+import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.info.Rating;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.producer.TopicConfig;
@@ -42,9 +44,13 @@ public class ProductTransactionConsumer extends BankService {
     PaymentTransaction paymentTransaction = new PaymentTransaction();
     try {
       paymentTransaction = JsonParser.entity(message, PaymentTransaction.class);
-      if (Objects.nonNull(paymentTransaction)) paymentTransactionStorage.save(paymentTransaction);
+      if(paymentTransaction == null){
+        throw new BadRequestException("==========>createPayment error by json "+ message);
+      }
+      paymentTransactionStorage.save(paymentTransaction);
       if (paymentTransaction.getType().equals(PaymentType.IN)) {
-        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_IN.getTittle(), NotificationMessage.PAYMENT_IN.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
+        notificationFactory.createNotify(NotificationType.NEW_PAYMENT, null, paymentTransaction.getUsername(),
+            paymentTransaction.getAmount().doubleValue(), paymentTransaction.getId().toHexString());
       } else {
         notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_OUT.getTittle(), NotificationMessage.PAYMENT_OUT.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
       }
