@@ -38,7 +38,7 @@ public class NotificationFactory {
         break;
       case NEW_PAYMENT:
         title = "Tạo thanh toán mới";
-        content = "Bạn đang yêu cầu thanh toán " + value + " VNĐ. Vui lòng thanh toán trong vòng 5 phút";
+        content = "Bạn đang yêu cầu thanh toán " + value.intValue() + " VNĐ. Vui lòng thanh toán trong vòng 5 phút";
         notificationService.createNotification(username, title, content, type, refId);
         break;
     }
