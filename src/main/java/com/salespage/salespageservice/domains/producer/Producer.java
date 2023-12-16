@@ -19,7 +19,7 @@ public class Producer {
   public void createPaymentTransaction(PaymentTransaction paymentTransaction) {
     try {
       log.debug("====write createProductTransaction log success" + paymentTransaction);
-      kafkaTemplate.send(TopicConfig.SALE_PAGE_PAYMENT_TRANSACTION, JsonParser.toJson(paymentTransaction));
+      kafkaTemplate.send(TopicConfig.SALE_PAGE_PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString(), JsonParser.toJson(paymentTransaction));
     } catch (Exception e) {
       log.error(String.valueOf(e));
     }
