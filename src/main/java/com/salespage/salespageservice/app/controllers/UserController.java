@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
+import com.salespage.salespageservice.app.responses.UploadImageData;
 import com.salespage.salespageservice.domains.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -84,11 +85,11 @@ public class UserController extends BaseController {
       @ApiResponse(responseCode = "401", description = "Unauthorized access"),
       @ApiResponse(responseCode = "500", description = "Internal server error")
   })
-  public ResponseEntity<BaseResponse> uploadImage(Authentication authentication, @RequestBody @Schema(type = "multipart", format = "binary") MultipartFile file) throws IOException {
+  public ResponseEntity<UploadImageData> uploadImage(Authentication authentication, @RequestBody @Schema(type = "multipart", format = "binary") MultipartFile file) throws IOException {
     try {
-      return successApi(userService.uploadImage(getUsername(authentication), file));
+      return ResponseEntity.ok(userService.uploadImage(getUsername(authentication), file));
     } catch (Exception ex) {
-      return errorApi(ex);
+      return null;
     }
   }
 
