@@ -2,7 +2,6 @@ package com.salespage.salespageservice.app.consumers;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
-import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
@@ -49,7 +48,7 @@ public class ProductTransactionConsumer extends BankService {
         notificationFactory.createNotify(NotificationType.NEW_PAYMENT, null, paymentTransaction.getUsername(),
             paymentTransaction.getAmount().doubleValue(), paymentTransaction.getId().toHexString());
       } else {
-        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.PAYMENT_OUT.getTittle(), NotificationMessage.PAYMENT_OUT.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
+
       }
     } catch (Exception e) {
       log.error("====> createPayment error: {} ", paymentTransaction);

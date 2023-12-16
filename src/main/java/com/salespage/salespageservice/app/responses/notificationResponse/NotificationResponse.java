@@ -21,6 +21,9 @@ public class NotificationResponse {
   @Schema(description = "Ngày tạo thông báo")
   private long createdAt;
 
+  @Schema(description = "Ảnh thông báo")
+  private String imgUrl;
+
   @Schema(description = "Trạng thái thông báo")
   private NotificationStatus status;
 

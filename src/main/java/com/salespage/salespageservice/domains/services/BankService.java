@@ -7,7 +7,6 @@ import com.salespage.salespageservice.domains.Constants;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.status.BankStatus;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
-import com.salespage.salespageservice.domains.entities.types.NotificationMessage;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
@@ -137,10 +136,8 @@ public class BankService extends BaseService {
       if (paymentTransaction.createdOneDayPeriod()) {
         paymentTransaction.setPaymentStatus(PaymentStatus.PENDING);
         paymentTransaction.setDescription("Giao dịch không được xử lý");
-        notificationService.createNotification(paymentTransaction.getUsername(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getTittle(), NotificationMessage.CHANGE_STATUS_PAYMENT_PENDING.getMessage(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
         paymentTransactionStorage.save(paymentTransaction);
       }
-      paymentService.confirmPayment(paymentTransaction.getUsername(), paymentTransaction.getId().toHexString());
     }
   }
 

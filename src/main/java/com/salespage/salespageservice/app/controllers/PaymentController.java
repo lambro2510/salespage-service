@@ -2,7 +2,6 @@ package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.PaymentDtos.CreatePaymentDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
-import com.salespage.salespageservice.app.responses.InfoResponse;
 import com.salespage.salespageservice.domains.services.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -58,14 +57,7 @@ public class PaymentController extends BaseController {
   })
   public ResponseEntity<?> confirmPayment(Authentication authentication, @RequestParam String paymentId) {
     try {
-      InfoResponse response = paymentService.confirmPayment(getUsername(authentication), paymentId);
-      if (response.getCode() == 0) {
-        return successApi(null, response.getMessage());
-      } else if (response.getCode() == 1) {
-        return errorApi(response.getCode(), response.getMessage());
-      } else {
-        return errorApi(response.getCode(), response.getMessage());
-      }
+      return null;
 
     } catch (Exception ex) {
       return errorApi(ex);
