@@ -1,13 +1,9 @@
 package com.salespage.salespageservice.app.responses.notificationResponse;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.salespage.salespageservice.domains.entities.status.NotificationStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 public class NotificationResponse {

@@ -83,6 +83,7 @@ public class RemoteCacheManager {
   public void del(String key) {
     redisTemplate.delete(key);
   }
+
   public void del(List<String> keys) {
     redisTemplate.delete(keys);
   }

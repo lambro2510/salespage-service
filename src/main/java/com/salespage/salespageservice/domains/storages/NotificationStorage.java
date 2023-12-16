@@ -13,14 +13,15 @@ import java.util.List;
 @Component
 public class NotificationStorage extends BaseStorage {
   public Page<Notification> findByUsernameAndNotificationType(String username, NotificationType type, Pageable pageable) {
-    return notificationRepository.findByUsernameAndNotificationType(username,type, pageable);
+    return notificationRepository.findByUsernameAndNotificationType(username, type, pageable);
   }
+
   public Page<Notification> findByUsernameAndNotificationStatus(String username, NotificationStatus status, Pageable pageable) {
-    return notificationRepository.findByUsernameAndNotificationStatus(username,status, pageable);
+    return notificationRepository.findByUsernameAndNotificationStatus(username, status, pageable);
   }
 
   public List<Notification> findByUsernameAndNotificationStatus(String username, NotificationStatus status) {
-    return notificationRepository.findByUsernameAndNotificationStatus(username,status);
+    return notificationRepository.findByUsernameAndNotificationStatus(username, status);
   }
 
   public Notification findNotificationById(String notificationId) {

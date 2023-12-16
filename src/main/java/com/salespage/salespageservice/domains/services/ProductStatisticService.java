@@ -2,10 +2,16 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
 import com.salespage.salespageservice.domains.Constants;
-import com.salespage.salespageservice.domains.entities.*;
+import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.ProductDetail;
+import com.salespage.salespageservice.domains.entities.ProductStatistic;
+import com.salespage.salespageservice.domains.entities.StatisticCheckpoint;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.mongodb.core.aggregation.*;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,9 +19,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -24,7 +27,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.newA
 
 @Service
 @Log4j2
-public class ProductStatisticService extends BaseService{
+public class ProductStatisticService extends BaseService {
   public void asyncStatisticPreDay() {
     LocalDate now = DateUtils.nowDate();
     log.info("=====>asyncStatisticPreDay");
@@ -43,10 +46,10 @@ public class ProductStatisticService extends BaseService{
           paymentStatistic.setDaily(LocalDate.from(current));
           paymentStatistic.setProductDetailId(productDetail.getId().toHexString());
           paymentStatistic.setProductId(productDetail.getProductId());
-        }else{
+        } else {
           TotalProductStatisticResponse totalPaymentStatisticResponse = lookupAggregation(productDetail.getId().toHexString(), current, current.plusDays(1));
           long totalUser = productTransactionDetailStorage.countDistinctUsernameByProductDetailIdAndCreatedAtBetween(productDetail.getId().toHexString(), DateUtils.convertLocalDateToLong(current), DateUtils.convertLocalDateToLong(current.plusDays(1)));
-          long totalProduct = productTransactionDetailStorage.countByProductDetailIdAndCreatedAtBetween(productDetail.getId().toHexString(),DateUtils.convertLocalDateToLong(current), DateUtils.convertLocalDateToLong(current.plusDays(1)));
+          long totalProduct = productTransactionDetailStorage.countByProductDetailIdAndCreatedAtBetween(productDetail.getId().toHexString(), DateUtils.convertLocalDateToLong(current), DateUtils.convertLocalDateToLong(current.plusDays(1)));
           totalPaymentStatisticResponse.setTotalProduct(totalProduct);
           totalPaymentStatisticResponse.setTotalUser(totalUser);
           paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
@@ -73,10 +76,10 @@ public class ProductStatisticService extends BaseService{
         paymentStatistic.setDaily(startDay);
         paymentStatistic.setProductDetailId(productDetail.getId().toHexString());
         paymentStatistic.setProductId(productDetail.getProductId());
-      }else{
+      } else {
         TotalProductStatisticResponse totalPaymentStatisticResponse = lookupAggregation(productDetail.getId().toHexString(), startDay, endDay);
         long totalUser = productTransactionDetailStorage.countDistinctUsernameByProductDetailIdAndCreatedAtBetween(productDetail.getId().toHexString(), DateUtils.convertLocalDateToLong(startDay), DateUtils.convertLocalDateToLong(endDay));
-        long totalProduct = productTransactionDetailStorage.countByProductDetailIdAndCreatedAtBetween(productDetail.getId().toHexString(),DateUtils.convertLocalDateToLong(startDay), DateUtils.convertLocalDateToLong(endDay.plusDays(1)));
+        long totalProduct = productTransactionDetailStorage.countByProductDetailIdAndCreatedAtBetween(productDetail.getId().toHexString(), DateUtils.convertLocalDateToLong(startDay), DateUtils.convertLocalDateToLong(endDay.plusDays(1)));
         totalPaymentStatisticResponse.setTotalProduct(totalProduct);
         totalPaymentStatisticResponse.setTotalUser(totalUser);
         paymentStatistic.partnerFromStatistic(totalPaymentStatisticResponse);
@@ -107,26 +110,26 @@ public class ProductStatisticService extends BaseService{
 
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
-  public void updateToHotProduct(){
+  public void updateToHotProduct() {
     log.info("=====>updateToHotProduct");
     LocalDate now = DateUtils.now().toLocalDate();
     LocalDate preWeek = now.minusWeeks(1);
     LocalDate nextDay = now.plusDays(1);
     List<ProductStatistic> productStatistics = productStatisticStorage.findByDailyBetweenOrderByTotalViewDesc(preWeek, nextDay);
     Map<String, ProductStatistic> topViewProduct = new HashMap<>();
-    for(ProductStatistic productStatistic : productStatistics){
+    for (ProductStatistic productStatistic : productStatistics) {
       topViewProduct.putIfAbsent(productStatistic.getProductId(), productStatistic);
     }
     int count = 0;
     List<ProductStatistic> statistics = new ArrayList<>(topViewProduct.values());
     List<Product> products = productStorage.findAll();
     Map<String, Product> productMap = products.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
-    for(ProductStatistic statistic: statistics){
-      if(count >= 10){
+    for (ProductStatistic statistic : statistics) {
+      if (count >= 10) {
         break;
       }
       Product product = productMap.get(statistic.getProductId());
-      if(product != null){
+      if (product != null) {
         product.setIsHot(true);
       }
       count++;

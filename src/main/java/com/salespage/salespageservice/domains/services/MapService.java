@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MapService extends BaseService{
+public class MapService extends BaseService {
 
   public List<String> suggestAddress(String address) {
     List<String> response = new ArrayList<>();
     AddressResult addressResults = suggestAddressByAddress(address);
-    for (AddressResult.Result result : addressResults.getResults()){
+    for (AddressResult.Result result : addressResults.getResults()) {
       response.add(result.getFormattedAddress());
     }
     return response;

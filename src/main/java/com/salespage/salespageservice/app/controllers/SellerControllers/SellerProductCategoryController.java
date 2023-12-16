@@ -2,8 +2,6 @@ package com.salespage.salespageservice.app.controllers.SellerControllers;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.dtos.ProductCategories.ProductCategoryDto;
-import com.salespage.salespageservice.app.dtos.productDtos.CreateProductCategoryTypeDto;
-import com.salespage.salespageservice.app.dtos.productDtos.UpdateProductCategoryTypeDto;
 import com.salespage.salespageservice.domains.services.ProductCategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,7 +22,9 @@ import javax.validation.Valid;
 @SecurityRequirement(name = "bearerAuth")
 public class SellerProductCategoryController extends BaseController {
 
-  @Autowired private ProductCategoryService productCategoryService;
+  @Autowired
+  private ProductCategoryService productCategoryService;
+
   @GetMapping("")
   @Operation(summary = "Lấy danh sách danh mục sản phẩm", description = "Lấy danh sách danh mục sản phẩm của người dùng hiện tại")
   @ApiResponses(value = {
@@ -78,9 +78,9 @@ public class SellerProductCategoryController extends BaseController {
       @ApiResponse(responseCode = "401", description = "Không được phép"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  private ResponseEntity<?> updateProductCategory(Authentication authentication,@PathVariable String id, @RequestBody @Valid ProductCategoryDto dto) {
+  private ResponseEntity<?> updateProductCategory(Authentication authentication, @PathVariable String id, @RequestBody @Valid ProductCategoryDto dto) {
     try {
-      productCategoryService.updateProductCategory(getUsername(authentication),id, dto);
+      productCategoryService.updateProductCategory(getUsername(authentication), id, dto);
       return successApi("Cập nhật danh mục sản phẩm thành công");
     } catch (Exception ex) {
       return errorApi(ex);

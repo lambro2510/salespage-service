@@ -50,9 +50,9 @@ public class JsonParser {
    * @throws IOException
    */
   public static <T> T entity(String json, Class<T> tClass) {
-    try{
+    try {
       return getMapper().readValue(json, tClass);
-    }catch (Exception ex){
+    } catch (Exception ex) {
       return null;
     }
   }

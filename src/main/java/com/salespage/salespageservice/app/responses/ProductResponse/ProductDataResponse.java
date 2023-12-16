@@ -1,17 +1,13 @@
 package com.salespage.salespageservice.app.responses.ProductResponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class ProductDataResponse {
@@ -55,12 +51,10 @@ public class ProductDataResponse {
   @Schema(description = "Trạng thái sản phẩm hot")
   @JsonProperty("isHot")
   protected Boolean isHot = false;
-
-  @Schema(description = "ID danh mục sản phẩm")
-  String categoryId;
-
   @Schema(description = "Ngày bắt đầu bán")
   protected Long createdAt;
+  @Schema(description = "ID danh mục sản phẩm")
+  String categoryId;
 
   public void assignFromProduct(Product product) {
     productId = product.getId().toHexString();
@@ -102,9 +96,9 @@ public class ProductDataResponse {
           }
         }
 
-        if(sellPrice != null && originPrice != null){
-          double discountPercent = 100 - (sellPrice/originPrice) * 100;
-          if(discountPercent > maxDiscountPercent){
+        if (sellPrice != null && originPrice != null) {
+          double discountPercent = 100 - (sellPrice / originPrice) * 100;
+          if (discountPercent > maxDiscountPercent) {
             maxDiscountPercent = discountPercent;
           }
         }

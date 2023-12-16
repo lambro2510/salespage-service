@@ -19,7 +19,7 @@ public class ListProductCartResponse {
 
   List<ProductInCartResponse> products = new ArrayList<>();
 
-  public ListProductCartResponse(ProductCombo combo){
+  public ListProductCartResponse(ProductCombo combo) {
     comboId = combo.getId().toHexString();
     comboName = combo.getComboName();
     discountType = combo.getType();

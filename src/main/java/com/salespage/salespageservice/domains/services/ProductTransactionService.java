@@ -59,7 +59,7 @@ public class ProductTransactionService extends BaseService {
     Map<String, List<ProductTransactionDetail>> tranDetailsMap = transactionDetails.stream().collect(Collectors.groupingBy(ProductTransactionDetail::getTransactionId));
 
     List<ProductTransactionResponse> productTransactionResponses = new ArrayList<>();
-    for(ProductTransaction productTransaction : productTransactions){
+    for (ProductTransaction productTransaction : productTransactions) {
       ProductTransactionResponse transactionResponse = new ProductTransactionResponse();
       transactionResponse.partnerFromProductTransaction(productTransaction);
       List<ProductTransactionDetail> details = tranDetailsMap.get(productTransaction.getId().toHexString());
@@ -72,7 +72,7 @@ public class ProductTransactionService extends BaseService {
     return PageResponse.createFrom(pageResponse);
   }
 
-  public void updateUserBalance(User user, Long amount){
+  public void updateUserBalance(User user, Long amount) {
     if (!user.updateBalance(false, amount))
       throw new TransactionException("Tài khoản của bạn không đủ tiền để thành toán. Vui lòng nạp thêm.");
   }
@@ -117,8 +117,7 @@ public class ProductTransactionService extends BaseService {
   }
 
 
-
-  public ProductTransaction buildProductTransaction(ObjectId id, User user, String note, ComboInfo comboInfo, List<ProductTransactionDetail> transactionDetails){
+  public ProductTransaction buildProductTransaction(ObjectId id, User user, String note, ComboInfo comboInfo, List<ProductTransactionDetail> transactionDetails) {
     return ProductTransaction.builder()
         .id(id)
         .buyerUsername(user.getUsername())
@@ -131,7 +130,7 @@ public class ProductTransactionService extends BaseService {
   }
 
   @Transactional(propagation = Propagation.MANDATORY)
-  public void saveTransaction(ProductTransaction productTransaction, List<ProductTransactionDetail> transactionDetails){
+  public void saveTransaction(ProductTransaction productTransaction, List<ProductTransactionDetail> transactionDetails) {
     productTransactionStorage.save(productTransaction);
     productTransactionDetailStorage.saveAll(transactionDetails);
   }

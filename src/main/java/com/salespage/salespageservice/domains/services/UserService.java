@@ -3,11 +3,14 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.dtos.userDtos.UserInfoDto;
 import com.salespage.salespageservice.app.responses.UploadImageData;
-import com.salespage.salespageservice.domains.entities.*;
+import com.salespage.salespageservice.domains.entities.Account;
+import com.salespage.salespageservice.domains.entities.ProductDetail;
+import com.salespage.salespageservice.domains.entities.Rating;
+import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.RatingType;
 import com.salespage.salespageservice.domains.exceptions.*;
-import com.salespage.salespageservice.domains.utils.*;
+import com.salespage.salespageservice.domains.utils.Helper;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -84,7 +87,7 @@ public class UserService extends BaseService {
 
   public void minusBalance(User user, Double totalPrice) {
     log.debug("=====>minusBalance: username: {} balance: {} price: {}", user.getUsername(), user.getBalance(), totalPrice);
-    if(user.getBalance().getMoney() < totalPrice){
+    if (user.getBalance().getMoney() < totalPrice) {
       throw new NotEnoughMoneyException();
     }
     user.getBalance().minusMoney(totalPrice);
@@ -92,14 +95,14 @@ public class UserService extends BaseService {
 
   public boolean updateTransaction() {
     List<ProductDetail> productTransactionDetailList = productDetailStorage.findAll();
-    productTransactionDetailList.forEach(k -> k.setUsername("taikhoanbanhang"));;
+    productTransactionDetailList.forEach(k -> k.setUsername("taikhoanbanhang"));
     productDetailStorage.saveAll(productTransactionDetailList);
     return true;
   }
 
   public boolean deleteAvatar(String username) {
     User user = userStorage.findByUsername(username);
-    if(user == null){
+    if (user == null) {
       throw new BadRequestException("Người dùng không tồn tại");
     }
     user.setImageUrl(null);

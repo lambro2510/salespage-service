@@ -1,10 +1,9 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductCategory;
-import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.utils.CacheKey;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
-import com.salespage.salespageservice.domains.utils.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class ProductCategoryStorage extends BaseStorage {
   public ProductCategory findById(String id) {
     String key = CacheKey.genProductCategoryById(id);
     ProductCategory productCategory = remoteCacheManager.get(key, ProductCategory.class);
-    if(productCategory == null){
+    if (productCategory == null) {
       productCategory = productCategoryRepository.findById(new ObjectId(id)).orElse(null);
       remoteCacheManager.set(key, productCategory);
     }
@@ -45,7 +44,7 @@ public class ProductCategoryStorage extends BaseStorage {
   public List<ProductCategory> findByIdIn(List<String> ids) {
     String key = CacheKey.genProductCategoryByIdIn(ids);
     List<ProductCategory> productCategories = remoteCacheManager.getList(key, ProductCategory.class);
-    if(productCategories == null){
+    if (productCategories == null) {
       productCategories = productCategoryRepository.findByIdIn((Helper.convertListStringToListObjectId(ids)));
       remoteCacheManager.set(key, productCategories);
     }

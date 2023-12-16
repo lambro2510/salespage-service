@@ -28,8 +28,10 @@ import java.time.LocalDate;
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Seller voucher", description = "Quản lý voucher của người dùng")
 public class SellerVoucherController extends BaseController {
-  @Autowired private VoucherStoreService voucherStoreService;
-  @Autowired private VoucherCodeService voucherCodeService;
+  @Autowired
+  private VoucherStoreService voucherStoreService;
+  @Autowired
+  private VoucherCodeService voucherCodeService;
 
   @PostMapping("voucher-store")
   @Operation(summary = "Tạo mới một Voucher Store", description = "Tạo mới một Voucher Store với thông tin được cung cấp")

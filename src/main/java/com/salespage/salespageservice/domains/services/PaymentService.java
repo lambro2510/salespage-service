@@ -1,15 +1,12 @@
 package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.PaymentDtos.CreatePaymentDto;
-import com.salespage.salespageservice.app.responses.InfoResponse;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.PaymentTransactionResponse;
-import com.salespage.salespageservice.domains.entities.*;
-import com.salespage.salespageservice.domains.entities.status.BankStatus;
+import com.salespage.salespageservice.domains.entities.BankAccount;
+import com.salespage.salespageservice.domains.entities.PaymentTransaction;
 import com.salespage.salespageservice.domains.entities.status.PaymentStatus;
-import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.entities.types.PaymentType;
-import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceExitsException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.producer.Producer;
@@ -19,11 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -58,9 +51,6 @@ public class PaymentService extends BaseService {
 //    paymentTransactionStorage.save(paymentTransaction);
     return id.toHexString();
   }
-
-
-
 
 
   public PageResponse<PaymentTransactionResponse> getPayment(String username, Pageable pageable) {

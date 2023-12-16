@@ -1,18 +1,9 @@
 package com.salespage.salespageservice.app.controllers;// package com.salespage.salespageservice.app.controllers;
 
-import com.salespage.salespageservice.domains.datas.ExchangeMoney;
-import com.salespage.salespageservice.domains.utils.JsonParser;
-import com.salespage.salespageservice.domains.utils.RequestUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.info.GitProperties;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
 
 @CrossOrigin
 @RestController

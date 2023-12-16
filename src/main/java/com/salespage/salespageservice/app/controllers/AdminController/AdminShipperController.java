@@ -1,7 +1,6 @@
 package com.salespage.salespageservice.app.controllers.AdminController;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
-import com.salespage.salespageservice.app.dtos.ConfigDto;
 import com.salespage.salespageservice.domains.entities.status.ShipperStatus;
 import com.salespage.salespageservice.domains.services.ShipperService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/admin/config")
 public class AdminShipperController extends BaseController {
 
-  @Autowired private ShipperService shipperService;
+  @Autowired
+  private ShipperService shipperService;
 
   @GetMapping("")
   public ResponseEntity<?> getAllShipper(Authentication authentication, Pageable pageable) {

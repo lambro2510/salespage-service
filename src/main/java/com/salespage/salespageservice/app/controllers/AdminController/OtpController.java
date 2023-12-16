@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RequestMapping("api/v1/otp")
 public class OtpController extends BaseController {
-  @Autowired private OtpService otpService;
+  @Autowired
+  private OtpService otpService;
+
   @GetMapping("")
-  public ResponseEntity<BaseResponse> getWaitingOtp(){
-    try{
+  public ResponseEntity<BaseResponse> getWaitingOtp() {
+    try {
       return successApi(otpService.getWaitingOtp());
-    }catch (Exception ex){
+    } catch (Exception ex) {
       return errorApi(ex);
     }
   }

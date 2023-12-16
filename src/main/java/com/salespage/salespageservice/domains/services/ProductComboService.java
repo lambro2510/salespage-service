@@ -117,7 +117,7 @@ public class ProductComboService extends BaseService {
     for (ProductTransactionDetail transactionDetail : products) {
       if (productInCombo.contains(transactionDetail.getProductDetail().getProductId())) {
         sellPrice += transactionDetail.getTotalPrice();
-      }else{
+      } else {
         notSalePrice += transactionDetail.getTotalPrice();
       }
     }

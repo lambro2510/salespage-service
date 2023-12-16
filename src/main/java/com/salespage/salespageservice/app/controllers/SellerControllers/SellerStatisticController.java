@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Tag(name = "Seller statistic", description = "Thống kê bán hàng")
 @CrossOrigin
@@ -21,12 +20,14 @@ import java.time.LocalDateTime;
 @SecurityRequirement(name = "bearerAuth")
 public class SellerStatisticController extends BaseController {
 
-  @Autowired private StatisticService statisticService;
+  @Autowired
+  private StatisticService statisticService;
+
   @GetMapping("")
-  public ResponseEntity<BaseResponse> getTotalStatistic(Authentication authentication, @RequestParam Long lte, @RequestParam Long gte){
-    try{
+  public ResponseEntity<BaseResponse> getTotalStatistic(Authentication authentication, @RequestParam Long lte, @RequestParam Long gte) {
+    try {
       return successApi(statisticService.getStatistic(gte, lte));
-    }catch (Exception ex){
+    } catch (Exception ex) {
       return errorApi(ex);
     }
   }
@@ -36,12 +37,12 @@ public class SellerStatisticController extends BaseController {
                                                                  @PathVariable String productId,
                                                                  @RequestParam Long gte,
                                                                  @RequestParam Long lte
-                                                                 ){
-    try{
+  ) {
+    try {
       LocalDate startDate = DateUtils.convertLongToLocalDate(gte);
       LocalDate endDate = DateUtils.convertLongToLocalDate(lte);
-      return successApi(statisticService.getStatisticOfProduct(productId,gte, lte));
-    }catch (Exception ex){
+      return successApi(statisticService.getStatisticOfProduct(productId, gte, lte));
+    } catch (Exception ex) {
       return errorApi(ex);
     }
   }

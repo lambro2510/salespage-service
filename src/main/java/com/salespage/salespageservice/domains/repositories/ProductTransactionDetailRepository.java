@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -16,6 +15,7 @@ public interface ProductTransactionDetailRepository extends MongoRepository<Prod
   List<ProductTransactionDetail> findByTransactionIdIn(List<String> tranIds);
 
   long countDistinctUsernameByCreatedAtBetween(Long createdAt, Long createdAt2);
+
   long countByProductDetailIdAndCreatedAtBetween(String id, Long createdAt, Long createdAt2);
 
   Page<ProductTransactionDetail> findAll(Query query, Pageable pageable);

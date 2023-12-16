@@ -35,7 +35,7 @@ public class SellerProductTransactionController extends BaseController {
       Pageable pageable
   ) {
     try {
-      return successApi(productTransactionService.getAllTransactionByUser(getUsername(authentication), productId,productName,buyerName,sellerStoreId,sellerStoreName, state, lte, gte, pageable));
+      return successApi(productTransactionService.getAllTransactionByUser(getUsername(authentication), productId, productName, buyerName, sellerStoreId, sellerStoreName, state, lte, gte, pageable));
     } catch (Exception ex) {
       return errorApi(ex);
     }

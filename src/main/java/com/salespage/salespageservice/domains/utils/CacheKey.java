@@ -67,9 +67,11 @@ public class CacheKey {
   public static String genListCartByUsername(String username) {
     return prefix + ":cart:username:" + username;
   }
+
   public static String genListCartByUsernameAndProductDetailId(String username, String productDetailId) {
     return prefix + ":cart:username:" + username + ":productId:" + productDetailId;
   }
+
   public static String genSellerStoreId(String storeId) {
     return prefix + ":store:storeId:" + storeId;
   }
@@ -139,6 +141,6 @@ public class CacheKey {
   }
 
   public static String genListUserOfProductDetail(String productDetailId, Long start, Long end) {
-    return prefix + ":statistic:pd:id:" + productDetailId + ":s:" + start + ":e:" + end ;
+    return prefix + ":statistic:pd:id:" + productDetailId + ":s:" + start + ":e:" + end;
   }
 }

@@ -1,6 +1,5 @@
 package com.salespage.salespageservice.domains.storages;
 
-import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.domains.entities.Cart;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import org.bson.types.ObjectId;
@@ -12,24 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CartStorage extends BaseStorage{
+public class CartStorage extends BaseStorage {
   public void save(Cart cart) {
     cartRepository.save(cart);
     remoteCacheManager.del(CacheKey.genListCartByUsername(cart.getUsername()));
     remoteCacheManager.del(CacheKey.genListCartByUsernameAndProductDetailId(cart.getUsername(), cart.getProductDetailId()));
   }
 
-  public List<Cart> findByUsername(String username){
+  public List<Cart> findByUsername(String username) {
     String key = CacheKey.genListCartByUsername(username);
     List<Cart> carts = remoteCacheManager.getList(key, Cart.class);
-    if(carts == null){
+    if (carts == null) {
       carts = cartRepository.findByUsername(username);
       remoteCacheManager.set(key, carts);
     }
     return carts;
   }
 
-  public Cart findById(String id){
+  public Cart findById(String id) {
     return cartRepository.findById(new ObjectId(id)).orElse(null);
   }
 
@@ -44,7 +43,7 @@ public class CartStorage extends BaseStorage{
   public void deleteAll(List<Cart> deleteCard) {
     cartRepository.deleteAll(deleteCard);
     List<String> keys = new ArrayList<>();
-    for(Cart cart : deleteCard){
+    for (Cart cart : deleteCard) {
       String key = CacheKey.genListCartByUsername(cart.getUsername());
       keys.add(key);
     }
@@ -58,7 +57,7 @@ public class CartStorage extends BaseStorage{
   public Cart findByUsernameAndProductDetailId(String username, String productDetailId) {
     String key = CacheKey.genListCartByUsernameAndProductDetailId(username, productDetailId);
     Cart cart = remoteCacheManager.get(key, Cart.class);
-    if(cart == null){
+    if (cart == null) {
       cart = cartRepository.findByUsernameAndProductDetailId(username, productDetailId);
       remoteCacheManager.set(key, cart);
     }

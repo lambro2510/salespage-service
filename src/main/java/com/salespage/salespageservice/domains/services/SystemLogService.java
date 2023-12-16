@@ -5,8 +5,6 @@ import com.salespage.salespageservice.domains.entities.types.LogType;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 public class SystemLogService {
   public void createSystemLog(String createdBy, String message, String trace, LogType logType) {

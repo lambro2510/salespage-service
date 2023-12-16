@@ -303,7 +303,7 @@ public class CartService extends BaseService {
         if (product == null) {
           throw new ResourceNotFoundException("Vật phẩm không còn được bán");
         }
-        if(productDetail.getQuantity() < cart.getQuantity()){
+        if (productDetail.getQuantity() < cart.getQuantity()) {
           throw new BadRequestException("Sản phẩm " + product.getProductName() + " (" + productDetail.getType().getType() + ") " + " không còn đủ số lượng bán, vui lòng chọn sản phẩm khác");
         }
         SellerStore store = sellerStoreStorage.findById(transaction.getStoreId());

@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @EqualsAndHashCode(callSuper = true)
 @Document("search_history")
 @Data
-public class SearchHistory extends BaseEntity{
+public class SearchHistory extends BaseEntity {
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)
   @JsonDeserialize(using = ObjectIdDeserializer.class)

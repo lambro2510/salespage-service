@@ -1,7 +1,6 @@
 package com.salespage.salespageservice.domains.repositories;
 
 import com.salespage.salespageservice.domains.entities.ProductTransaction;
-import com.salespage.salespageservice.domains.entities.types.ProductTransactionState;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +17,7 @@ public interface ProductTransactionRepository extends MongoRepository<ProductTra
   Page<ProductTransaction> findAll(Query query, Pageable pageable);
 
 
-
   List<ProductTransaction> findByCreatedAtBetween(Long startTimeOfDay, Long endTimeOfDay);
-
 
 
   List<ProductTransaction> findByIdIn(List<ObjectId> ids);

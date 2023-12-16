@@ -1,11 +1,8 @@
 package com.salespage.salespageservice.domains.config;
 
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.mongodb.ReadConcern;
 import com.mongodb.TransactionOptions;
 import com.mongodb.WriteConcern;
-import org.bson.types.ObjectId;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;

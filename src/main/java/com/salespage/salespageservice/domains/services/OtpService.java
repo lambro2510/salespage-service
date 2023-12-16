@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OtpService extends BaseService{
+public class OtpService extends BaseService {
   public final Long expireOtpTime = 600000L;
+
   public List<Otp> getWaitingOtp() {
     List<Otp> waitingOtps = otpStorage.findByStatus(OtpStatus.WAITING);
     List<Otp> sendOtp = new ArrayList<>();
-    for(Otp otp : waitingOtps){
-      if(otp.getCreatedAt() + expireOtpTime > DateUtils.nowInMillis()){
+    for (Otp otp : waitingOtps) {
+      if (otp.getCreatedAt() + expireOtpTime > DateUtils.nowInMillis()) {
         otp.setStatus(OtpStatus.SEND);
         sendOtp.add(otp);
       }

@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @Data
 @Document("shipper")
 
-public class Shipper extends BaseEntity{
+public class Shipper extends BaseEntity {
 
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)

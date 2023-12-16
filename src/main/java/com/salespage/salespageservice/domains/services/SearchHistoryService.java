@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 @Service
-public class SearchHistoryService extends BaseService{
+public class SearchHistoryService extends BaseService {
 
   @Async("threadPoolTaskExecutor")
   public void updateSearchHistory(String username, String productName, String storeName, String sellerUsername) {
-    if(Objects.nonNull(productName)){
+    if (Objects.nonNull(productName)) {
       SearchHistory searchHistory = searchHistoryStorage.findByUsernameAndSearchTypeAndSearchData(username, SearchType.PRODUCT_NAME, productName);
       searchHistoryStorage.save(searchHistory);
     }
-    if(Objects.nonNull(storeName)){
+    if (Objects.nonNull(storeName)) {
       SearchHistory searchHistory = searchHistoryStorage.findByUsernameAndSearchTypeAndSearchData(username, SearchType.STORE_NAME, storeName);
       searchHistoryStorage.save(searchHistory);
     }
-    if(Objects.nonNull(sellerUsername)){
+    if (Objects.nonNull(sellerUsername)) {
       SearchHistory searchHistory = searchHistoryStorage.findByUsernameAndSearchTypeAndSearchData(username, SearchType.SELLER_USERNAME, sellerUsername);
       searchHistoryStorage.save(searchHistory);
     }

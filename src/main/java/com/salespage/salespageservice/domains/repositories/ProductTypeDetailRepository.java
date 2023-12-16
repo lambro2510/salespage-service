@@ -1,6 +1,5 @@
 package com.salespage.salespageservice.domains.repositories;
 
-import com.salespage.salespageservice.domains.entities.ProductType;
 import com.salespage.salespageservice.domains.entities.ProductTypeDetail;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;

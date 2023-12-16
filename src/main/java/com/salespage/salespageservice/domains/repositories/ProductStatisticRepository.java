@@ -3,19 +3,18 @@ package com.salespage.salespageservice.domains.repositories;
 import com.salespage.salespageservice.domains.entities.ProductStatistic;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface ProductStatisticRepository extends MongoRepository<ProductStatistic, ObjectId> {
 
   List<ProductStatistic> findByDailyBetween(LocalDate startDate, LocalDate endDate);
+
   List<ProductStatistic> findByDailyBetweenOrderByTotalViewDesc(LocalDate startDate, LocalDate endDate);
 
   ProductStatistic findByDailyAndProductId(LocalDate daily, String productId);
@@ -33,6 +32,7 @@ public interface ProductStatisticRepository extends MongoRepository<ProductStati
   HashSet<ProductStatistic> findDistinctTop10ProductIdByOrderByTotalViewDesc();
 
   List<ProductStatistic> findTop12ByOrderByTotalViewDesc();
+
   List<ProductStatistic> findByProductIdIn(List<String> ids);
 
   ProductStatistic findByDailyAndProductDetailId(LocalDate current, String id);

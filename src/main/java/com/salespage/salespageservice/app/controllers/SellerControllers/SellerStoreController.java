@@ -26,7 +26,8 @@ import java.io.IOException;
 @SecurityRequirement(name = "bearerAuth")
 public class SellerStoreController extends BaseController {
 
-  @Autowired private SellerStoreService sellerStoreService;
+  @Autowired
+  private SellerStoreService sellerStoreService;
 
   @GetMapping("")
   @Operation(summary = "Lấy thông tin các cửa hàng", description = "Lấy thông tin các cửa hàng của người bán")
@@ -87,9 +88,9 @@ public class SellerStoreController extends BaseController {
       @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
       @ApiResponse(responseCode = "500", description = "Lỗi hệ thông")
   })
-  public ResponseEntity<BaseResponse> updateStore(Authentication authentication, @PathVariable String id,  @RequestBody UpdateSellerStoreDto dto) {
+  public ResponseEntity<BaseResponse> updateStore(Authentication authentication, @PathVariable String id, @RequestBody UpdateSellerStoreDto dto) {
     try {
-      sellerStoreService.updateStore(getUsername(authentication),id, dto);
+      sellerStoreService.updateStore(getUsername(authentication), id, dto);
       return successApi("Cập nhật cửa hàng thành công");
     } catch (Exception ex) {
       return errorApi(ex);

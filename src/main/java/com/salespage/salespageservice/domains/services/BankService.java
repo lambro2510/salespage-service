@@ -178,7 +178,7 @@ public class BankService extends BaseService {
   public List<BankPaymentResponse> getPaymentBankAccount() throws IOException {
     Config config = configStorage.findByKey(Constants.PAYMENT_BANK_ACCOUNT);
     List<BankPaymentResponse> responses = new ArrayList<>();
-    if(config == null){
+    if (config == null) {
       BankPaymentResponse response = new BankPaymentResponse();
       response.setName("LE DINH LAM");
       response.setBankAccountNo("8400134433008");
@@ -210,24 +210,24 @@ public class BankService extends BaseService {
   }
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
-  public void processMbPayment () {
+  public void processMbPayment() {
     List<PaymentTransaction> paymentTransactions = paymentTransactionStorage.findByPaymentStatus(PaymentStatus.WAITING);
-    for(PaymentTransaction paymentTransaction : paymentTransactions){
+    for (PaymentTransaction paymentTransaction : paymentTransactions) {
       String username = paymentTransaction.getUsername();
       String id = paymentTransaction.getId().toHexString();
       Double amount = paymentTransaction.getAmount().doubleValue();
       BankTransaction bankTransaction = bankTransactionStorage.findByDescription(paymentTransaction.getId().toHexString());
       long now = DateUtils.nowInMillis();
       long maxTime = paymentTransaction.getCreatedAt() + 1000 * 60 * 5; // Quá 5 phút
-      if(bankTransaction == null &&  maxTime < now){
+      if (bankTransaction == null && maxTime < now) {
         notificationFactory.createNotify(NotificationType.EXPIRE_PAYMENT, null, username, amount, id, null);
         paymentTransaction.setPaymentStatus(PaymentStatus.EXPIRE);
         paymentTransactionStorage.save(paymentTransaction);
       }
-      if(bankTransaction != null){
+      if (bankTransaction != null) {
         //Loại là nạp tiền
-        if(paymentTransaction.getType() == PaymentType.IN){
-          if(bankTransaction.getCreditAmount() != 0){
+        if (paymentTransaction.getType() == PaymentType.IN) {
+          if (bankTransaction.getCreditAmount() != 0) {
             paymentTransaction.setPaymentStatus(PaymentStatus.RESOLVE);
             User user = userStorage.findByUsername(username);
             user.getBalance().addMoney(bankTransaction.getCreditAmount());
@@ -239,6 +239,7 @@ public class BankService extends BaseService {
       }
     }
   }
+
   public TpBankTransactionData getBankTransaction(String fromDate, String toDate) throws Exception {
     String token = bankAccountStorage.getTokenFromRemoteCache();
     Map<String, String> header = new HashMap<>();

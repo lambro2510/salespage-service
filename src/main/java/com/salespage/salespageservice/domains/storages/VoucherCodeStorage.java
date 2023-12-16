@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -45,9 +44,9 @@ public class VoucherCodeStorage extends BaseStorage {
   public VoucherCode findById(String voucherCodeId) {
     String key = CacheKey.genVoucherCodeById(voucherCodeId);
     VoucherCode voucherCode = remoteCacheManager.get(key, VoucherCode.class);
-    if(voucherCode == null){
+    if (voucherCode == null) {
       voucherCode = voucherCodeRepository.findById(new ObjectId(voucherCodeId)).orElse(null);
-      remoteCacheManager.set(key,voucherCode);
+      remoteCacheManager.set(key, voucherCode);
     }
     return voucherCode;
   }
@@ -55,9 +54,9 @@ public class VoucherCodeStorage extends BaseStorage {
   public List<VoucherCode> findByVoucherStoreIdInAndUserName(List<String> ids, String username) {
     String key = CacheKey.genVoucherCodeByIdInAndUsername(ids, username);
     List<VoucherCode> voucherCodes = remoteCacheManager.getList(key, VoucherCode.class);
-    if(voucherCodes == null){
+    if (voucherCodes == null) {
       voucherCodes = voucherCodeRepository.findByVoucherStoreIdInAndUsername(Helper.convertListStringToListObjectId(ids), username);
-      remoteCacheManager.set(key,voucherCodes);
+      remoteCacheManager.set(key, voucherCodes);
     }
     return voucherCodes;
   }

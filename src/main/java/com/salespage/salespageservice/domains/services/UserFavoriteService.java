@@ -54,27 +54,27 @@ public class UserFavoriteService extends BaseService {
     List<UserFavorite> favorites = userFavoriteStorage.findByUsernameAndFavoriteType(username, favoriteType);
     List<String> refIds = favorites.stream().map(UserFavorite::getRefId).collect(Collectors.toList());
     List<FavoriteResponse> responses = new ArrayList<>();
-    if(favoriteType.equals(FavoriteType.STORE)){
+    if (favoriteType.equals(FavoriteType.STORE)) {
       List<SellerStore> sellerStores = sellerStoreStorage.findSellerStoreByIdIn(refIds);
-      for(SellerStore sellerStore : sellerStores){
+      for (SellerStore sellerStore : sellerStores) {
         FavoriteResponse response = new FavoriteResponse(favoriteType, sellerStore.getId().toHexString(), sellerStore.getStoreName());
         responses.add(response);
       }
-    }else if(favoriteType.equals(FavoriteType.PRODUCT)){
+    } else if (favoriteType.equals(FavoriteType.PRODUCT)) {
       List<Product> products = productStorage.findByIdIn(refIds);
-      for(Product product : products) {
+      for (Product product : products) {
         FavoriteResponse response = new FavoriteResponse(favoriteType, product.getId().toHexString(), product.getProductName());
         responses.add(response);
       }
-    }else if(favoriteType.equals(FavoriteType.SELLER)){
+    } else if (favoriteType.equals(FavoriteType.SELLER)) {
       List<User> users = userStorage.findByIdIn(refIds);
-      for(User user : users) {
+      for (User user : users) {
         FavoriteResponse response = new FavoriteResponse(favoriteType, user.getId().toHexString(), user.getUsername());
         responses.add(response);
       }
-    }else if(favoriteType.equals(FavoriteType.SHIPPER)){
+    } else if (favoriteType.equals(FavoriteType.SHIPPER)) {
       List<Shipper> shippers = shipperStorage.findByIdIn(refIds);
-      for(Shipper shipper : shippers) {
+      for (Shipper shipper : shippers) {
         FavoriteResponse response = new FavoriteResponse(favoriteType, shipper.getId().toHexString(), shipper.getUsername());
         responses.add(response);
       }

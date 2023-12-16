@@ -1,25 +1,17 @@
 package com.salespage.salespageservice.app.controllers;
 
-import com.salespage.salespageservice.app.dtos.voucherDtos.CreateVoucherStoreDto;
-import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
-import com.salespage.salespageservice.domains.entities.status.VoucherCodeStatus;
 import com.salespage.salespageservice.domains.services.VoucherCodeService;
 import com.salespage.salespageservice.domains.services.VoucherStoreService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @RestController
 @CrossOrigin
@@ -48,7 +40,6 @@ public class VoucherController extends BaseController {
       return errorApi(ex);
     }
   }
-
 
 
   @GetMapping("user/voucher")

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ShipperStorage extends BaseStorage{
+public class ShipperStorage extends BaseStorage {
   public Shipper findByUsername(String username) {
     return shipperRepository.findByUsername(username);
   }

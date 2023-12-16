@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class OtpStorage extends BaseStorage{
+public class OtpStorage extends BaseStorage {
   public void saveVerifyCode(String username, Otp otp) {
     otpRepository.save(otp);
     remoteCacheManager.set(CacheKey.getVerifyUser(username), otp, 600);

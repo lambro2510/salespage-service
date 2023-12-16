@@ -8,14 +8,12 @@ import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
 import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.status.NotificationStatus;
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
-import com.salespage.salespageservice.domains.utils.DateUtils;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Id;
-import java.util.Date;
 
 @Data
 @Document("notification")

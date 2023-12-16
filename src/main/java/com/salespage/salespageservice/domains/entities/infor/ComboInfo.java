@@ -25,10 +25,10 @@ public class ComboInfo {
 
   Double sellPrice;
 
-  public ComboInfo(ProductCombo combo, Double discount, Double price){
-    if(combo == null){
+  public ComboInfo(ProductCombo combo, Double discount, Double price) {
+    if (combo == null) {
       isUseCombo = false;
-    }else{
+    } else {
       comboId = combo.getId().toHexString();
       comboName = combo.getComboName();
       discountType = combo.getType();

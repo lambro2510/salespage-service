@@ -4,23 +4,20 @@ import com.salespage.salespageservice.domains.entities.types.ActiveState;
 import com.salespage.salespageservice.domains.entities.types.DiscountType;
 import lombok.Data;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 @Data
 public class ProductComboResponse {
 
-   String id;
+  String id;
 
-   String comboName;
+  String comboName;
 
-   DiscountType type;
+  DiscountType type;
 
-   ActiveState state;
+  ActiveState state;
 
-   Double value;
+  Double value;
 
-   Long quantityToUse;
+  Long quantityToUse;
 
-   Double maxDiscount;
+  Double maxDiscount;
 }

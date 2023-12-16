@@ -37,7 +37,7 @@ public class NotificationService extends BaseService {
   }
 
   public PageResponse<NotificationResponse> getNotification(String username, NotificationStatus status, Pageable pageable) {
-    Page<Notification> notifications = notificationStorage.findByUsernameAndNotificationStatus(username,status, pageable);
+    Page<Notification> notifications = notificationStorage.findByUsernameAndNotificationStatus(username, status, pageable);
     List<NotificationResponse> listNotification = notifications.getContent().stream().map(Notification::partnerToNotificationResponse).collect(Collectors.toList());
     Page<NotificationResponse> responses = new PageImpl<>(listNotification, pageable, notifications.getTotalElements());
     return PageResponse.createFrom(responses);
@@ -56,7 +56,7 @@ public class NotificationService extends BaseService {
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public String seenALlNotify(String username) {
-    List<Notification> notifications =  notificationStorage.findByUsernameAndNotificationStatus(username, NotificationStatus.NOT_SEEN);
+    List<Notification> notifications = notificationStorage.findByUsernameAndNotificationStatus(username, NotificationStatus.NOT_SEEN);
     notifications.forEach(k -> k.setNotificationStatus(NotificationStatus.SEEN));
     notificationStorage.saveAll(notifications);
     return "Thành công";

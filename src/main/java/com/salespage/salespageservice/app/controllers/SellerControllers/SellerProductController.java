@@ -1,7 +1,6 @@
 package com.salespage.salespageservice.app.controllers.SellerControllers;
 
 import com.salespage.salespageservice.app.controllers.BaseController;
-import com.salespage.salespageservice.app.dtos.productDtos.CreateProductInfoDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.ProductService;
@@ -19,8 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.util.Objects;
 
 @Tag(name = "Seller product", description = "Quản lý sản phẩm được bán")
 @CrossOrigin
@@ -45,7 +42,7 @@ public class SellerProductController extends BaseController {
                                                     @RequestParam(required = false) String productName,
                                                     Pageable pageable) {
     try {
-      return successApi(productService.getAllProduct(getUsername(authentication),storeId, storeName,productName, pageable));
+      return successApi(productService.getAllProduct(getUsername(authentication), storeId, storeName, productName, pageable));
     } catch (Exception ex) {
       return errorApi(ex);
     }
@@ -105,7 +102,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   public ResponseEntity<?> getImages(Authentication authentication,
-                                        @PathVariable String productId) {
+                                     @PathVariable String productId) {
     try {
       return successApi(productService.getImage(getUsername(authentication), productId));
     } catch (Exception ex) {
@@ -140,7 +137,7 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tìm thấy sản phẩm"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> deleteProduct(Authentication authentication, @PathVariable String productId){
+  public ResponseEntity<BaseResponse> deleteProduct(Authentication authentication, @PathVariable String productId) {
     try {
       return successApi("Xóa sản phẩm thành công", productService.deleteProduct(getUsername(authentication), productId));
     } catch (Exception ex) {
@@ -157,9 +154,9 @@ public class SellerProductController extends BaseController {
       @ApiResponse(responseCode = "404", description = "Không tòn tại sản phẩm này hoặc đã bị xóa"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> updateProduct(Authentication authentication,@PathVariable String productId, @RequestBody ProductDto dto) {
+  public ResponseEntity<BaseResponse> updateProduct(Authentication authentication, @PathVariable String productId, @RequestBody ProductDto dto) {
     try {
-      return successApi("Cập nhật sản phẩm thành công", productService.updateProduct(getUsername(authentication),productId, dto));
+      return successApi("Cập nhật sản phẩm thành công", productService.updateProduct(getUsername(authentication), productId, dto));
     } catch (Exception ex) {
       return errorApi(ex);
     }

@@ -1,9 +1,8 @@
 package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.Product;
-import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.utils.CacheKey;
-import com.salespage.salespageservice.domains.utils.*;
+import com.salespage.salespageservice.domains.utils.Helper;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -24,7 +23,7 @@ public class ProductStorage extends BaseStorage {
   public Product findProductById(String productId) {
     String key = CacheKey.genProductByProductId(productId);
     Product product = remoteCacheManager.get(key, Product.class);
-    if(product == null){
+    if (product == null) {
       product = productRepository.findProductById(new ObjectId(productId));
       remoteCacheManager.set(key, product);
     }
@@ -86,7 +85,7 @@ public class ProductStorage extends BaseStorage {
   public List<Product> findByIdIn(List<String> productIds) {
     String key = CacheKey.genProductByIdIn(productIds);
     List<Product> products = remoteCacheManager.getList(key, Product.class);
-    if(products == null){
+    if (products == null) {
       products = productRepository.findByIdIn(Helper.convertListStringToListObjectId(productIds));
       remoteCacheManager.set(key, products);
     }
@@ -105,7 +104,7 @@ public class ProductStorage extends BaseStorage {
   public List<Product> findTop12ByIsHotOrderByUpdatedAtDesc() {
     String key = CacheKey.genHotProduct();
     List<Product> products = remoteCacheManager.getList(key, Product.class);
-    if(products == null){
+    if (products == null) {
       products = productRepository.findTop12ByIsHotOrderByUpdatedAtDesc(true);
       remoteCacheManager.set(key, products);
     }

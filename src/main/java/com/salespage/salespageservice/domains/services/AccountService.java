@@ -1,7 +1,7 @@
 package com.salespage.salespageservice.domains.services;
 
-import com.salespage.salespageservice.app.dtos.accountDtos.LoginDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
+import com.salespage.salespageservice.app.dtos.accountDtos.LoginDto;
 import com.salespage.salespageservice.app.dtos.accountDtos.SignUpDto;
 import com.salespage.salespageservice.app.responses.JwtResponse;
 import com.salespage.salespageservice.domains.entities.*;
@@ -57,7 +57,7 @@ public class AccountService extends BaseService {
 
     userService.createUser(dto);
     createVerifyCode(dto.getUsername());
-    return new JwtResponse(account.getUsername(),null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
+    return new JwtResponse(account.getUsername(), null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
   }
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -76,7 +76,7 @@ public class AccountService extends BaseService {
 
     userService.createUserAdmin(account);
 
-    return new JwtResponse(account.getUsername(),null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
+    return new JwtResponse(account.getUsername(), null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
   }
 
   public JwtResponse signIn(LoginDto dto) {
@@ -88,14 +88,14 @@ public class AccountService extends BaseService {
     TokenInfo tokenInfo = new TokenInfo(account.getUsername(), account.getRole(), account.getState());
     String token = jwtUtils.generateToken(tokenInfo);
     accountStorage.saveTokenToRemoteCache(account.getUsername(), token);
-    return new JwtResponse(account.getUsername(),user.getImageUrl(), token, account.getRole());
+    return new JwtResponse(account.getUsername(), user.getImageUrl(), token, account.getRole());
 
   }
 
 
   public void verifyCode(String username, int code) throws IOException {
     User user = userStorage.findByUsername(username);
-    if(Objects.isNull(user)){
+    if (Objects.isNull(user)) {
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
     }
     Integer verifyCode = accountStorage.getVerifyCode(username);
@@ -107,11 +107,11 @@ public class AccountService extends BaseService {
     accountStorage.save(account);
   }
 
-  public boolean checkAccount(String username){
+  public boolean checkAccount(String username) {
     Account account = accountStorage.findByUsername(username);
-    if(account.getState().equals(UserState.NOT_VERIFIED)){
+    if (account.getState().equals(UserState.NOT_VERIFIED)) {
       return true;
-    }else{
+    } else {
       throw new BadRequestException("Tài khoản đã được xác minh");
     }
   }
@@ -122,10 +122,10 @@ public class AccountService extends BaseService {
     if (Objects.isNull(user)) throw new AccountNotExistsException("Account not exist");
     int max = 99999;
     int min = 10000;
-    int code = (int) (Math.random() * (max - min + 1) + min );
+    int code = (int) (Math.random() * (max - min + 1) + min);
     Otp otp = new Otp(new ObjectId(), user.getPhoneNumber(), Integer.toString(code), OtpStatus.WAITING);
     otpStorage.saveVerifyCode(username, otp);
-    if(isCheckPhoneNumber){
+    if (isCheckPhoneNumber) {
       SmsUtils.sendMessage(Integer.toString(code), user.getPhoneNumber(), authToken);
     }
     EmailRequest.sendVerificationCode(user.getEmail(), Integer.toString(code));
@@ -135,7 +135,7 @@ public class AccountService extends BaseService {
     Account account = accountStorage.findByUsername(username);
     if (Objects.nonNull(account) && hasUserRole(userRoles, UserRole.SHIPPER)) {
       Shipper shipper = shipperStorage.findByUsername(username);
-      if(Objects.isNull(shipper)) throw new ResourceNotFoundException("Tài khoản chưa được xác minh");
+      if (Objects.isNull(shipper)) throw new ResourceNotFoundException("Tài khoản chưa được xác minh");
       shipper.setLongitude(dto.getLongitude());
       shipper.setLatitude(dto.getLatitude());
       shipperStorage.save(shipper);
@@ -147,13 +147,13 @@ public class AccountService extends BaseService {
   public void acceptProductTransaction(String username, List<UserRole> userRoles, String transactionId) {
   }
 
-  public void checkIn(CheckInDto dto){
-      Account account = accountStorage.findByUsername(dto.getUsername());
-      String today = DateUtils.nowString("dd/MM/yyyy");
-      if (!today.equals(account.getLastLogin())) {
-        account.setLastLogin(today);
-        accountStorage.save(account);
-        checkInDaily(account.getUsername());
+  public void checkIn(CheckInDto dto) {
+    Account account = accountStorage.findByUsername(dto.getUsername());
+    String today = DateUtils.nowString("dd/MM/yyyy");
+    if (!today.equals(account.getLastLogin())) {
+      account.setLastLogin(today);
+      accountStorage.save(account);
+      checkInDaily(account.getUsername());
     }
   }
 

@@ -20,8 +20,9 @@ public class DateUtils {
 
   public static void main(String[] args) {
     System.out.println(nowDate().atStartOfDay().atZone(DEFAULT_ZONE_ID));
-    System.out.println( ZonedDateTime.now(ZONE_ID_UTC));
+    System.out.println(ZonedDateTime.now(ZONE_ID_UTC));
   }
+
   public static String nowString() {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime dateTime = LocalDateTime.now(DEFAULT_ZONE_ID);

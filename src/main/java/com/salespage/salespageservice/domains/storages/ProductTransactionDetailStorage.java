@@ -2,7 +2,6 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductTransactionDetail;
 import com.salespage.salespageservice.domains.info.AggregationInfo;
-import com.salespage.salespageservice.domains.utils.CacheKey;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +13,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +45,7 @@ public class ProductTransactionDetailStorage extends BaseStorage {
     Set<String> usernames = new HashSet<>();
     for (String data : results.getMappedResults()) {
       AggregationInfo info = JsonParser.entity(data, AggregationInfo.class);
-      if(info != null){
+      if (info != null) {
         usernames.add(info.getKey());
       }
     }
@@ -74,7 +71,7 @@ public class ProductTransactionDetailStorage extends BaseStorage {
     Set<String> usernames = new HashSet<>();
     for (String data : results.getMappedResults()) {
       AggregationInfo info = JsonParser.entity(data, AggregationInfo.class);
-      if(info != null){
+      if (info != null) {
         usernames.add(info.getKey());
       }
     }

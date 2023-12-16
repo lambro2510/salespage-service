@@ -53,11 +53,9 @@ public class ProductTransactionStorage extends BaseStorage {
   }
 
 
-
   public List<ProductTransaction> findByCreatedAtBetween(Long startTimeOfDay, Long endTimeOfDay) {
     return productTransactionRepository.findByCreatedAtBetween(startTimeOfDay, endTimeOfDay);
   }
-
 
 
   public List<ProductTransaction> findByIdIn(List<String> ids) {

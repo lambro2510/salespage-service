@@ -1,6 +1,5 @@
 package com.salespage.salespageservice.domains.info;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;

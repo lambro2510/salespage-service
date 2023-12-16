@@ -15,7 +15,7 @@ import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.VoucherCodeException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import com.salespage.salespageservice.domains.utils.DateUtils;
-import com.salespage.salespageservice.domains.utils.*;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -173,7 +173,7 @@ public class VoucherCodeService extends BaseService {
     return responses;
   }
 
-  public VoucherInfo getVoucherInfo(String voucherCodeId, String username, Product product,Double sellPrice, boolean isThrowErr) {
+  public VoucherInfo getVoucherInfo(String voucherCodeId, String username, Product product, Double sellPrice, boolean isThrowErr) {
     try {
       if (StringUtils.isBlank(voucherCodeId)) {
         return null;
@@ -208,7 +208,7 @@ public class VoucherCodeService extends BaseService {
     return null;
   }
 
-  public VoucherInfo getVoucherInfo(VoucherCode voucherCode, VoucherStore voucherStore, String username, Product product,Double sellPrice, boolean isThrowErr) {
+  public VoucherInfo getVoucherInfo(VoucherCode voucherCode, VoucherStore voucherStore, String username, Product product, Double sellPrice, boolean isThrowErr) {
     try {
       if (voucherCode == null) {
         throw new ResourceNotFoundException("Mã không tồn tại");
@@ -254,11 +254,11 @@ public class VoucherCodeService extends BaseService {
       throw new ResourceNotFoundException("Cửa hàng không tồn tại");
     }
 
-    if(voucherStore.getVoucherStoreStatus() != VoucherStoreStatus.ACTIVE){
-        throw new BadRequestException("Mã giảm giá đạng không được sử dụng");
+    if (voucherStore.getVoucherStoreStatus() != VoucherStoreStatus.ACTIVE) {
+      throw new BadRequestException("Mã giảm giá đạng không được sử dụng");
     }
 
-    if(voucherStore.getVoucherStoreDetail().getMaxAblePrice() < sellPrice || voucherStore.getVoucherStoreDetail().getMinAblePrice() > sellPrice ){
+    if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < sellPrice || voucherStore.getVoucherStoreDetail().getMinAblePrice() > sellPrice) {
       throw new BadRequestException("Voucher chỉ có thể sử dụng cho các sản phẩm có giá trị từ " + voucherStore.getVoucherStoreDetail().getMinAblePrice() + "đến " + voucherStore.getVoucherStoreDetail().getMaxAblePrice());
     }
 

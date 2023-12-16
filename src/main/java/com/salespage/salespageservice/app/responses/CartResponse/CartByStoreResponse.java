@@ -4,9 +4,7 @@ import com.salespage.salespageservice.app.responses.ProductComboResponse.Product
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Data
 public class CartByStoreResponse {
@@ -24,8 +22,8 @@ public class CartByStoreResponse {
   public void setBestCombo() {
     if (!combos.isEmpty()) {
       Double maxDiscount = 0D;
-      for(ProductComboDetailResponse combo : combos){
-        if(combo.getMaxDiscount() > maxDiscount && combo.getCanUse()){
+      for (ProductComboDetailResponse combo : combos) {
+        if (combo.getMaxDiscount() > maxDiscount && combo.getCanUse()) {
           bestCombo = combo;
         }
       }

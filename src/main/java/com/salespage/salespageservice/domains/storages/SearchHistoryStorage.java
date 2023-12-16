@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class SearchHistoryStorage extends BaseStorage{
+public class SearchHistoryStorage extends BaseStorage {
   public SearchHistory findByUsernameAndSearchTypeAndSearchData(String username, SearchType searchType, String productName) {
     return searchHistoryRepository.findByUsernameAndSearchTypeAndSearchData(username, searchType, productName);
   }

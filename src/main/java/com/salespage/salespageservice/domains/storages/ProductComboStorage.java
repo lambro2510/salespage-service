@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ProductComboStorage extends BaseStorage{
+public class ProductComboStorage extends BaseStorage {
   public void save(ProductCombo productCombo) {
     productComboRepository.save(productCombo);
     remoteCacheManager.del(CacheKey.genProductComboByIdAndState(productCombo.getId().toHexString(), productCombo.getState()));
   }
 
   public ProductCombo findById(String comboId) {
-    if(comboId == null){
+    if (comboId == null) {
       return null;
     }
     return productComboRepository.findById(new ObjectId(comboId)).orElse(null);
@@ -34,7 +34,7 @@ public class ProductComboStorage extends BaseStorage{
   public ProductCombo findByIdAndState(String comboId, ActiveState activeState) {
     String key = CacheKey.genProductComboByIdAndState(comboId, activeState);
     ProductCombo productCombo = remoteCacheManager.get(key, ProductCombo.class);
-    if(productCombo == null){
+    if (productCombo == null) {
       productCombo = productComboRepository.findByIdAndState(new ObjectId(comboId), activeState);
       remoteCacheManager.set(key, productCombo);
     }
@@ -44,7 +44,7 @@ public class ProductComboStorage extends BaseStorage{
   public List<ProductCombo> findByIdIn(List<String> comboIds) {
     String key = CacheKey.genProductComboByIds(comboIds);
     List<ProductCombo> productCombos = remoteCacheManager.getList(key, ProductCombo.class);
-    if(productCombos == null){
+    if (productCombos == null) {
       productCombos = productComboRepository.findByIdIn(Helper.convertListStringToListObjectId(comboIds));
       remoteCacheManager.set(key, productCombos);
     }

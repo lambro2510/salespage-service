@@ -1,22 +1,16 @@
 package com.salespage.salespageservice.domains.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.salespage.salespageservice.app.responses.Statistic.TotalProductStatisticResponse;
-import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
-import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Document("product_statistic")
 @Data
@@ -56,10 +50,10 @@ public class ProductStatistic {
   private Long totalShipperCod = 0L;
 
   public void partnerFromStatistic(TotalProductStatisticResponse statisticResponse) {
-    totalUser = statisticResponse.getTotalUser() != null ?  statisticResponse.getTotalUser() : 0;
-    totalProduct = statisticResponse.getTotalProduct() != null ?  statisticResponse.getTotalProduct() : 0;
-    totalBuy = statisticResponse.getTotalBuy()  != null ?  statisticResponse.getTotalBuy() : 0;;
-    totalPurchase = statisticResponse.getTotalPurchase()  != null ?  statisticResponse.getTotalPurchase() : 0;;
-    totalShipperCod = statisticResponse.getTotalShipCod()  != null ?  statisticResponse.getTotalShipCod() : 0;;
+    totalUser = statisticResponse.getTotalUser() != null ? statisticResponse.getTotalUser() : 0;
+    totalProduct = statisticResponse.getTotalProduct() != null ? statisticResponse.getTotalProduct() : 0;
+    totalBuy = statisticResponse.getTotalBuy() != null ? statisticResponse.getTotalBuy() : 0;
+    totalPurchase = statisticResponse.getTotalPurchase() != null ? statisticResponse.getTotalPurchase() : 0;
+    totalShipperCod = statisticResponse.getTotalShipCod() != null ? statisticResponse.getTotalShipCod() : 0;
   }
 }

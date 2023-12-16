@@ -2,19 +2,14 @@ package com.salespage.salespageservice.domains.security.services;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.domains.entities.Account;
-import com.salespage.salespageservice.domains.entities.CheckInDaily;
 import com.salespage.salespageservice.domains.exceptions.WrongAccountOrPasswordException;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.storages.AccountStorage;
-import com.salespage.salespageservice.domains.storages.CheckInDailyStorage;
-import com.salespage.salespageservice.domains.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -35,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     return UserDetailsImpl.build(account);
   }
 
-  public void checkIn(CheckInDto dto){
+  public void checkIn(CheckInDto dto) {
     producer.checkIn(dto);
 
   }

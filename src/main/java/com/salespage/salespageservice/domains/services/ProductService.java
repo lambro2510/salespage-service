@@ -4,7 +4,6 @@ import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateTypeDetailStatusDto;
-import com.salespage.salespageservice.app.dtos.rating.CreateRatingDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.*;
 import com.salespage.salespageservice.app.responses.UploadImageData;
@@ -18,7 +17,6 @@ import com.salespage.salespageservice.domains.entities.types.SearchType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
-import com.salespage.salespageservice.domains.info.RatingInfo;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.Helper;
 import jodd.util.StringUtil;
@@ -31,7 +29,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -422,10 +419,6 @@ public class ProductService extends BaseService {
     return productTypes.stream().map(ProductType::partnerToProductTypeResponse).collect(Collectors.toList());
   }
 
-  @Retryable
-  public void updateRatingAsync(String username, CreateRatingDto dto) {
-    producer.updateRating(new RatingInfo(username, dto.getProductId(), dto.getPoint(), dto.getComment()));
-  }
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public Rate updateRating(String username, String productId, Float point, String comment) {

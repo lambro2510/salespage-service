@@ -1,7 +1,6 @@
 package com.salespage.salespageservice.app.schedule;
 
 import com.salespage.salespageservice.domains.services.ProductStatisticService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,19 +16,19 @@ public class StatisticScheduleController {
   private ProductStatisticService productStatisticService;
 
   @PostMapping("today")
-  public ResponseEntity<Boolean> updatePaymentToday(){
+  public ResponseEntity<Boolean> updatePaymentToday() {
     productStatisticService.asyncStatisticToday();
     return ResponseEntity.ok(true);
   }
 
   @PostMapping("pre")
-  public ResponseEntity<Boolean> updatePaymentPre(){
+  public ResponseEntity<Boolean> updatePaymentPre() {
     productStatisticService.asyncStatisticPreDay();
     return ResponseEntity.ok(true);
   }
 
   @PostMapping("hot")
-  public ResponseEntity<Boolean> updateHotProduct(){
+  public ResponseEntity<Boolean> updateHotProduct() {
     productStatisticService.updateToHotProduct();
     return ResponseEntity.ok(true);
   }

@@ -30,7 +30,7 @@ public class ProductTransactionConsumer extends BankService {
 
   @Autowired
   private ProductService productService;
-  
+
   @Autowired
   private AccountService accountService;
 
@@ -40,8 +40,8 @@ public class ProductTransactionConsumer extends BankService {
     PaymentTransaction paymentTransaction = new PaymentTransaction();
     try {
       paymentTransaction = JsonParser.entity(message, PaymentTransaction.class);
-      if(paymentTransaction == null){
-        throw new BadRequestException("==========>createPayment error by json "+ message);
+      if (paymentTransaction == null) {
+        throw new BadRequestException("==========>createPayment error by json " + message);
       }
       paymentTransactionStorage.save(paymentTransaction);
       if (paymentTransaction.getType().equals(PaymentType.IN)) {
@@ -56,12 +56,15 @@ public class ProductTransactionConsumer extends BankService {
   }
 
   @KafkaListener(topics = TopicConfig.LIKE_TOPIC)
-  public void receiveMessage(String message) {
+  public void ratingProduct(String message) {
     log.debug("Received message from " + TopicConfig.LIKE_TOPIC + message);
-    try{
+    try {
       RatingInfo ratingInfo = JsonParser.entity(message, RatingInfo.class);
+      if (ratingInfo == null) {
+        throw new BadRequestException("ratingProduct is null");
+      }
       productService.updateRating(ratingInfo.getUsername(), ratingInfo.getProductId(), ratingInfo.getPoint(), ratingInfo.getComment());
-    }catch (Exception ex){
+    } catch (Exception ex) {
       log.error("====> receiveMessage error: {} ", ex.getMessage());
     }
   }
@@ -69,10 +72,10 @@ public class ProductTransactionConsumer extends BankService {
   @KafkaListener(topics = TopicConfig.CHECK_IN_TOPIC)
   public void checkIn(String message) {
     log.debug("Received message from " + TopicConfig.CHECK_IN_TOPIC + message);
-    try{
+    try {
       CheckInDto dto = JsonParser.entity(message, CheckInDto.class);
       accountService.checkIn(dto);
-    }catch (Exception ex){
+    } catch (Exception ex) {
       log.error("====> receiveMessage error: {} ", ex.getMessage());
     }
   }

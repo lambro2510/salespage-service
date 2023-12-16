@@ -17,7 +17,7 @@ import javax.persistence.Id;
 @EqualsAndHashCode(callSuper = true)
 @Document("product_combo")
 @Data
-public class ProductCombo extends BaseEntity{
+public class ProductCombo extends BaseEntity {
 
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)

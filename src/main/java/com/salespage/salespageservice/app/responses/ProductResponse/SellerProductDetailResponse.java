@@ -5,13 +5,12 @@ import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreRes
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.info.ProductInfo;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class SellerProductDetailResponse{
+public class SellerProductDetailResponse {
   String id;
 
   String productName;

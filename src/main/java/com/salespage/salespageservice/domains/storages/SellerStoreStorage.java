@@ -1,16 +1,14 @@
 package com.salespage.salespageservice.domains.storages;
 
-import com.salespage.salespageservice.domains.entities.ProductCategory;
 import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.utils.CacheKey;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
-import com.salespage.salespageservice.domains.utils.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class SellerStoreStorage extends BaseStorage {
@@ -32,8 +30,8 @@ public class SellerStoreStorage extends BaseStorage {
   public SellerStore findById(String storeId) {
     String key = CacheKey.genSellerStoreId(storeId);
     SellerStore sellerStore = remoteCacheManager.get(key, SellerStore.class);
-    if(sellerStore == null){
-      sellerStore =  sellerStoreRepository.findById(new ObjectId(storeId)).orElse(null);
+    if (sellerStore == null) {
+      sellerStore = sellerStoreRepository.findById(new ObjectId(storeId)).orElse(null);
       remoteCacheManager.set(key, sellerStore);
     }
     return sellerStore;
@@ -42,8 +40,8 @@ public class SellerStoreStorage extends BaseStorage {
   public List<SellerStore> findIdsByStoreName(String storeName) {
     String key = CacheKey.genSellerStoreName(storeName);
     List<SellerStore> sellerStores = remoteCacheManager.getList(key, SellerStore.class);
-    if(sellerStores == null){
-      sellerStores =  sellerStoreRepository.findIdsByStoreName(storeName);
+    if (sellerStores == null) {
+      sellerStores = sellerStoreRepository.findIdsByStoreName(storeName);
       remoteCacheManager.set(key, sellerStores);
     }
     return sellerStores;
@@ -64,7 +62,7 @@ public class SellerStoreStorage extends BaseStorage {
   public List<SellerStore> findSellerStoreByIdIn(List<String> ids) {
     String key = CacheKey.genSellerStoreByIdIn(ids);
     List<SellerStore> sellerStores = remoteCacheManager.getList(key, SellerStore.class);
-    if(sellerStores == null){
+    if (sellerStores == null) {
       sellerStores = sellerStoreRepository.findByIdIn((Helper.convertListStringToListObjectId(ids)));
       remoteCacheManager.set(key, sellerStores);
     }

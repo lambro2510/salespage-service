@@ -1,8 +1,6 @@
 package com.salespage.salespageservice.domains.storages;
 
 
-import com.salespage.salespageservice.domains.entities.ProductStatistic;
-import com.salespage.salespageservice.domains.entities.SearchHistory;
 import com.salespage.salespageservice.domains.repositories.*;
 import com.salespage.salespageservice.domains.utils.RemoteCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;

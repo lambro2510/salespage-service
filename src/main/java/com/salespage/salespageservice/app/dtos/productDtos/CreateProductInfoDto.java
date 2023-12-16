@@ -1,12 +1,11 @@
 package com.salespage.salespageservice.app.dtos.productDtos;
 
-import com.salespage.salespageservice.domains.entities.types.SizeType;
-import com.salespage.salespageservice.domains.entities.types.WeightType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data

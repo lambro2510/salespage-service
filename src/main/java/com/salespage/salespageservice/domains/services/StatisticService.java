@@ -15,7 +15,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public class StatisticService extends BaseService {
     }
 
     List<ChartDataResponse> charts = new ArrayList<>();
-    for(TotalProductStatisticResponse response : responses){
+    for (TotalProductStatisticResponse response : responses) {
       ChartDataResponse chartDataResponse = new ChartDataResponse();
       chartDataResponse.setProductId(response.getProductId());
       chartDataResponse.setProductName(response.getProductName());
@@ -56,13 +55,13 @@ public class StatisticService extends BaseService {
       chartDataResponse.setTotalUser(response.getTotalUser());
       List<String> labels = new ArrayList<>();
       Map<String, List<DailyDataResponse>> dataSetMap = new HashMap<>();
-      for(LocalDate current = startDate; current.isBefore(endDate.plusDays(1)); current = current.plusDays(1)){
+      for (LocalDate current = startDate; current.isBefore(endDate.plusDays(1)); current = current.plusDays(1)) {
         labels.add(current.toString());
-        for(TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic : response.getProductDetails()){
-          for(TotalProductStatisticResponse.Daily daily : productDetailStatistic.getDailies()){
-            if(daily.getDaily().equals(current)){
+        for (TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic : response.getProductDetails()) {
+          for (TotalProductStatisticResponse.Daily daily : productDetailStatistic.getDailies()) {
+            if (daily.getDaily().equals(current)) {
               List<DailyDataResponse> dailies = dataSetMap.get(productDetailStatistic.getProductDetailName());
-              if(dailies == null){
+              if (dailies == null) {
                 dailies = new ArrayList<>();
               }
               dailies.add(new DailyDataResponse(daily));
@@ -73,10 +72,9 @@ public class StatisticService extends BaseService {
       }
 
 
-
       int i = 0;
       List<ChartDataResponse.DataSets> dataSets = new ArrayList<>();
-      for(Map.Entry<String, List<DailyDataResponse>> entry : dataSetMap.entrySet()){
+      for (Map.Entry<String, List<DailyDataResponse>> entry : dataSetMap.entrySet()) {
         ChartDataResponse.DataSets data = new ChartDataResponse.DataSets();
         data.setLabel(entry.getKey());
         data.setData(entry.getValue());
@@ -104,13 +102,13 @@ public class StatisticService extends BaseService {
     long totalUser = productTransactionDetailStorage.countDistinctUsernameByProductIdAndCreatedAtBetween(productId, gte, lte);
     statistic.setTotalUser(totalUser);
     Map<String, List<ProductStatistic>> productStatisticByDetailMap = productStatistics.stream().collect(Collectors.groupingBy(ProductStatistic::getProductDetailId));
-    for(Map.Entry<String, List<ProductStatistic>> entry : productStatisticByDetailMap.entrySet()){
+    for (Map.Entry<String, List<ProductStatistic>> entry : productStatisticByDetailMap.entrySet()) {
       TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic = new TotalProductStatisticResponse.ProductDetailStatistic();
       ProductDetail productDetail = detailMap.get(entry.getKey());
       productDetailStatistic.setProductDetailId(productDetail.getId().toHexString());
       productDetailStatistic.setProductDetailName(productDetail.getType().getType());
 
-      for(ProductStatistic productStatistic : entry.getValue()){
+      for (ProductStatistic productStatistic : entry.getValue()) {
         statistic.setProductId(product.getId().toHexString());
         statistic.setProductName(product.getProductName());
         statistic.setTotalBuy(statistic.getTotalBuy() + productStatistic.getTotalBuy());
@@ -158,14 +156,14 @@ public class StatisticService extends BaseService {
     TotalProductStatisticResponse.ProductDetailStatistic productDetailStatistic = new TotalProductStatisticResponse.ProductDetailStatistic();
     boolean isContain = false;
     if (productDetail != null) {
-      for(TotalProductStatisticResponse.ProductDetailStatistic detailStatistic : statistic.getProductDetails()){
-        if(Objects.equals(detailStatistic.getProductDetailId(), productDetail.getId().toHexString())
-        ){
+      for (TotalProductStatisticResponse.ProductDetailStatistic detailStatistic : statistic.getProductDetails()) {
+        if (Objects.equals(detailStatistic.getProductDetailId(), productDetail.getId().toHexString())
+        ) {
           isContain = true;
         }
       }
 
-      if(!isContain){
+      if (!isContain) {
         productDetailStatistic.setProductDetailId(productDetail.getId().toHexString());
         productDetailStatistic.setProductDetailName(productDetail.getType().getType());
         productDetailStatistic.setTotalBuy(productDetailStatistic.getTotalBuy() + productStatistic.getTotalBuy());
@@ -174,7 +172,7 @@ public class StatisticService extends BaseService {
         productDetailStatistic.setTotalView(productDetailStatistic.getTotalView() + productStatistic.getTotalView());
         productDetailStatistic.getDailies().add(daily);
         statistic.getProductDetails().add(productDetailStatistic);
-      }else{
+      } else {
         productDetailStatistic.getDailies().add(daily);
       }
     }

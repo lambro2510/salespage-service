@@ -2,18 +2,18 @@ package com.salespage.salespageservice.domains.storages;
 
 import com.salespage.salespageservice.domains.entities.ProductDetail;
 import com.salespage.salespageservice.domains.utils.CacheKey;
+import com.salespage.salespageservice.domains.utils.Helper;
 import org.bson.types.ObjectId;
-import com.salespage.salespageservice.domains.utils.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class ProductDetailStorage extends BaseStorage{
+public class ProductDetailStorage extends BaseStorage {
   public List<ProductDetail> findByProductId(String productId) {
     String key = CacheKey.genProductDetailByProductId(productId);
     List<ProductDetail> productDetails = remoteCacheManager.getList(key, ProductDetail.class);
-    if(productDetails == null){
+    if (productDetails == null) {
       productDetails = productDetailRepository.findByProductId(productId);
       remoteCacheManager.set(key, productDetails);
     }
@@ -23,7 +23,7 @@ public class ProductDetailStorage extends BaseStorage{
   public ProductDetail findById(String detailId) {
     String key = CacheKey.genProductDetail(detailId);
     ProductDetail productDetail = remoteCacheManager.get(key, ProductDetail.class);
-    if(productDetail == null){
+    if (productDetail == null) {
       productDetail = productDetailRepository.findById(new ObjectId(detailId)).orElse(null);
       remoteCacheManager.set(key, productDetail);
     }
@@ -44,7 +44,7 @@ public class ProductDetailStorage extends BaseStorage{
   public List<ProductDetail> findByIdIn(List<String> ids) {
     String key = CacheKey.genProductDetailByIdIn(ids);
     List<ProductDetail> productDetails = remoteCacheManager.getList(key, ProductDetail.class);
-    if(productDetails == null){
+    if (productDetails == null) {
       productDetails = productDetailRepository.findByIdIn((Helper.convertListStringToListObjectId(ids)));
       remoteCacheManager.set(key, productDetails);
     }
@@ -54,7 +54,7 @@ public class ProductDetailStorage extends BaseStorage{
   public List<ProductDetail> findByProductIdIn(List<String> ids) {
     String key = CacheKey.genProductDetailByProductIdIn(ids);
     List<ProductDetail> productDetails = remoteCacheManager.getList(key, ProductDetail.class);
-    if(productDetails == null){
+    if (productDetails == null) {
       productDetails = productDetailRepository.findByProductIdIn((ids));
       remoteCacheManager.set(key, productDetails);
     }
@@ -66,7 +66,7 @@ public class ProductDetailStorage extends BaseStorage{
   }
 
   public List<ProductDetail> findBySellPriceBetween(Double min, Double max) {
-    return productDetailRepository.findBySellPriceBetween(min,max);
+    return productDetailRepository.findBySellPriceBetween(min, max);
   }
 
   public List<ProductDetail> findBySellPriceLessThanEqual(Double maxPrice) {

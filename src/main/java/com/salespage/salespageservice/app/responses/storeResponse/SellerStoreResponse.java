@@ -1,6 +1,5 @@
 package com.salespage.salespageservice.app.responses.storeResponse;
 
-import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.status.StoreStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

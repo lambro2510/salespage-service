@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
 import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.types.OtpStatus;
-import com.salespage.salespageservice.domains.utils.Helper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document("otp")
 @Data
 @AllArgsConstructor
-public class Otp extends BaseEntity{
+public class Otp extends BaseEntity {
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)
   @JsonDeserialize(using = ObjectIdDeserializer.class)

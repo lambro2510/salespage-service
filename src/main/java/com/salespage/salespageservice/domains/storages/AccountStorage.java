@@ -3,7 +3,6 @@ package com.salespage.salespageservice.domains.storages;
 import com.salespage.salespageservice.domains.entities.Account;
 import com.salespage.salespageservice.domains.entities.Otp;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
-import com.salespage.salespageservice.domains.entities.types.UserState;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import lombok.extern.log4j.Log4j2;
@@ -35,7 +34,7 @@ public class AccountStorage extends BaseStorage {
   public Integer getVerifyCode(String username) throws IOException {
     Otp otp = JsonParser.entity(remoteCacheManager.get(CacheKey.getVerifyUser(username)), Otp.class);
 
-    if(Objects.nonNull(otp)){
+    if (Objects.nonNull(otp)) {
       return Integer.valueOf(otp.getOtp());
     }
     return null;

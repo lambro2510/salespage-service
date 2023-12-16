@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Cart extends BaseEntity{
+public class Cart extends BaseEntity {
 
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)
@@ -46,7 +46,7 @@ public class Cart extends BaseEntity{
   @Field("quantity")
   Long quantity;
 
-  public void addQuantity(long amount){
+  public void addQuantity(long amount) {
     quantity += amount;
   }
 }

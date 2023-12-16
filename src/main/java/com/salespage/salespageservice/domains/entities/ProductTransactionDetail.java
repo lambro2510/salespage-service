@@ -2,7 +2,6 @@ package com.salespage.salespageservice.domains.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.salespage.salespageservice.domains.config.ObjectIdDeserializer;
 import com.salespage.salespageservice.domains.config.ObjectIdSerializer;
 import com.salespage.salespageservice.domains.entities.infor.VoucherInfo;
@@ -24,7 +23,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductTransactionDetail extends BaseEntity{
+public class ProductTransactionDetail extends BaseEntity {
 
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)
@@ -83,17 +82,6 @@ public class ProductTransactionDetail extends BaseEntity{
   @Field("message")
   private List<Message> messages = new ArrayList<>();
 
-  @EqualsAndHashCode(callSuper = true)
-  @Data
-  public static class Message extends BaseEntity {
-    private String sender;
-
-    private String receiver;
-
-    private String content;
-
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -106,5 +94,16 @@ public class ProductTransactionDetail extends BaseEntity{
   @Override
   public int hashCode() {
     return Objects.hash(super.hashCode(), getId());
+  }
+
+  @EqualsAndHashCode(callSuper = true)
+  @Data
+  public static class Message extends BaseEntity {
+    private String sender;
+
+    private String receiver;
+
+    private String content;
+
   }
 }

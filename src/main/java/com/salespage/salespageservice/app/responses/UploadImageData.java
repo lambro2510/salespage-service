@@ -21,7 +21,7 @@ public class UploadImageData {
 
   String thumbUrl;
 
-  public UploadImageData(String url){
+  public UploadImageData(String url) {
     uid = UUID.randomUUID().toString();
     name = uid;
     status = "done";

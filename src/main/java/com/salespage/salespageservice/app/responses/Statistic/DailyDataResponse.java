@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 public class DailyDataResponse {
@@ -17,7 +16,7 @@ public class DailyDataResponse {
   private Long totalBuy = 0L;
   private Long totalShipCod = 0L;
 
-  public DailyDataResponse(TotalProductStatisticResponse.Daily daily){
+  public DailyDataResponse(TotalProductStatisticResponse.Daily daily) {
     this.daily = daily.getDaily();
     totalUser = daily.getTotalUser();
     totalPurchase = daily.getTotalPurchase();

@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -19,7 +18,7 @@ import javax.persistence.Id;
 @EqualsAndHashCode(callSuper = true)
 @Document("product_detail")
 @Data
-public class ProductDetail extends BaseEntity{
+public class ProductDetail extends BaseEntity {
 
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)
@@ -52,9 +51,21 @@ public class ProductDetail extends BaseEntity{
 
   public void minusQuantity(int amount) {
     quantity = quantity - amount;
-    if(quantity < 0){
+    if (quantity < 0) {
       quantity = 0;
     }
+  }
+
+  public ProductDetailInfoResponse partnerToResponse() {
+    ProductDetailInfoResponse response = new ProductDetailInfoResponse();
+    response.setId(id.toHexString());
+    response.setProductId(productId);
+    response.setQuantity(quantity);
+    response.setType(type);
+    response.setOriginPrice(originPrice);
+    response.setSellPrice(sellPrice);
+    response.setDiscountPercent(discountPercent);
+    return response;
   }
 
   @Data
@@ -67,17 +78,5 @@ public class ProductDetail extends BaseEntity{
 
     @Field("color")
     String color = "#FFFFFF";
-  }
-
-  public ProductDetailInfoResponse partnerToResponse(){
-    ProductDetailInfoResponse response = new ProductDetailInfoResponse();
-    response.setId(id.toHexString());
-    response.setProductId(productId);
-    response.setQuantity(quantity);
-    response.setType(type);
-    response.setOriginPrice(originPrice);
-    response.setSellPrice(sellPrice);
-    response.setDiscountPercent(discountPercent);
-    return response;
   }
 }

@@ -3,7 +3,6 @@ package com.salespage.salespageservice.app.controllers.publicControllers;
 import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.ProductDetailResponse;
-import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.services.ProductService;
 import com.salespage.salespageservice.domains.services.SearchHistoryService;
 import com.salespage.salespageservice.domains.services.StatisticService;
@@ -31,6 +30,7 @@ public class PublicProductController extends BaseController {
 
   @Autowired
   private SearchHistoryService searchHistoryService;
+
   @GetMapping("")
   public ResponseEntity<BaseResponse> getAllProduct(
       @RequestParam(required = false) String productId,
@@ -52,7 +52,7 @@ public class PublicProductController extends BaseController {
         searchHistoryService.updateSearchHistory(username, productName, storeName, ownerStoreUsername);
         log.info("getProductDetail with username: {{}}", username);
       }
-      return successApi(productService.findProduct(productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername,categoryName,type, isHot, lte, gte, pageable));
+      return successApi(productService.findProduct(productId, productName, minPrice, maxPrice, storeName, ownerStoreUsername, categoryName, type, isHot, lte, gte, pageable));
 
     } catch (Exception ex) {
       log.error("=========>getAllProduct: ", ex);
