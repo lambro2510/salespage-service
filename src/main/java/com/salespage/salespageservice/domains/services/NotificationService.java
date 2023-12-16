@@ -24,11 +24,12 @@ import java.util.stream.Collectors;
 @Service
 public class NotificationService extends BaseService {
 
-  public void createNotification(String username, String title, String content, NotificationType notificationType, String refId) {
+  public void createNotification(String username, String title, String content, NotificationType notificationType, String refId, String imgUrl) {
     Notification notification = new Notification();
     notification.setUsername(username);
     notification.setTitle(title);
     notification.setContent(content);
+    notification.setImgUrl(imgUrl);
     notification.setNotificationType(notificationType);
     notification.setRefId(refId);
     notification.setNotificationStatus(NotificationStatus.NOT_SEEN);

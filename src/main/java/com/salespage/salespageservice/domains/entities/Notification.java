@@ -31,6 +31,9 @@ public class Notification extends BaseEntity {
   @Field("title")
   private String title;
 
+  @Field("img_url")
+  private String imgUrl;
+
   @Field("content")
   private String content;
 
@@ -47,6 +50,7 @@ public class Notification extends BaseEntity {
     NotificationResponse response = new NotificationDetailResponse();
     response.setId(id.toHexString());
     response.setTitle(title);
+    response.setImgUrl(imgUrl);
     response.setCreatedAt(createdAt);
     response.setStatus(notificationStatus);
     response.setType(notificationType);
@@ -58,6 +62,7 @@ public class Notification extends BaseEntity {
     response.setId(id.toHexString());
     response.setTitle(title);
     response.setCreatedAt(createdAt);
+    response.setImgUrl(imgUrl);
     response.setStatus(notificationStatus);
     response.setContent(content);
     response.setType(notificationType);
