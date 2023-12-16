@@ -24,9 +24,4 @@ public class UserInfoDto {
   private String lastName;
   private String dateOfBirth;
 
-
-  @NotBlank(message = "Link ảnh là bắt buộc")
-  @Schema(description = "Link ảnh", example = "https://example.com/image.jpg")
-  private String imageUrl;
-
 }

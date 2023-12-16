@@ -81,8 +81,10 @@ public class User {
 
   public void updateUser(UserInfoDto dto) {
     displayName = dto.getDisplayName();
-    imageUrl = dto.getImageUrl();
     phoneNumber = dto.getPhoneNumber();
+    email = dto.getEmail();
+    firstName = dto.getFirstName();
+    lastName = dto.getLastName();
   }
 
   public boolean updateBalance(boolean add, long balance) {
