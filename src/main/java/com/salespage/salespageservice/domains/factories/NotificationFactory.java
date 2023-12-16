@@ -11,7 +11,7 @@ public class NotificationFactory {
   @Autowired
   NotificationService notificationService;
 
-  public void createNotify(NotificationType type, String name, String username, Double value, String refId) {
+  public void createNotify(NotificationType type, String name, String username, Double value, String refId, String imageUrl) {
     String title = "Không có nội dung";
     String content = "Không có nội dung";
     switch (type) {

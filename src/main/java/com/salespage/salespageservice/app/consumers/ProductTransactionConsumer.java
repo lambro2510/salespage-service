@@ -46,7 +46,7 @@ public class ProductTransactionConsumer extends BankService {
       paymentTransactionStorage.save(paymentTransaction);
       if (paymentTransaction.getType().equals(PaymentType.IN)) {
         notificationFactory.createNotify(NotificationType.NEW_PAYMENT, null, paymentTransaction.getUsername(),
-            paymentTransaction.getAmount().doubleValue(), paymentTransaction.getId().toHexString());
+            paymentTransaction.getAmount().doubleValue(), paymentTransaction.getId().toHexString(), null);
       } else {
 
       }

@@ -220,7 +220,7 @@ public class BankService extends BaseService {
       long now = DateUtils.nowInMillis();
       long maxTime = paymentTransaction.getCreatedAt() + 1000 * 60 * 5; // Quá 5 phút
       if(bankTransaction == null &&  maxTime < now){
-        notificationFactory.createNotify(NotificationType.EXPIRE_PAYMENT, null, username, amount, id);
+        notificationFactory.createNotify(NotificationType.EXPIRE_PAYMENT, null, username, amount, id, null);
         paymentTransaction.setPaymentStatus(PaymentStatus.EXPIRE);
         paymentTransactionStorage.save(paymentTransaction);
       }
@@ -233,7 +233,7 @@ public class BankService extends BaseService {
             user.getBalance().addMoney(bankTransaction.getCreditAmount());
             userStorage.save(user);
             paymentTransactionStorage.save(paymentTransaction);
-            notificationFactory.createNotify(NotificationType.PAYMENT_TRANSACTION_IN_SUCCESS, null, username, bankTransaction.getCreditAmount(), id);
+            notificationFactory.createNotify(NotificationType.PAYMENT_TRANSACTION_IN_SUCCESS, null, username, bankTransaction.getCreditAmount(), id, null);
           }
         }
       }

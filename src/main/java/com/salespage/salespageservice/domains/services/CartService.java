@@ -83,7 +83,7 @@ public class CartService extends BaseService {
     } else {
       cart.addQuantity(dto.getQuantity());
     }
-    notificationFactory.createNotify(NotificationType.ADD_TO_CART, product.getProductName(), username, dto.getQuantity().doubleValue(), cardId.toHexString());
+    notificationFactory.createNotify(NotificationType.ADD_TO_CART, product.getProductName(), username, dto.getQuantity().doubleValue(), cardId.toHexString(), product.getDefaultImageUrl());
     cartStorage.save(cart);
   }
 
@@ -329,7 +329,8 @@ public class CartService extends BaseService {
       ProductTransaction productTransaction = productTransactionService.buildProductTransaction(transactionId, user, dto.getNote(), comboInfo, transactionDetails1);
       productTransactionService.saveTransaction(productTransaction, transactionDetails);
       cartStorage.deleteAll(deleteCard);
-      notificationFactory.createNotify(NotificationType.PAYMENT_CART_TRANSACTION, null, username, comboInfo.getSellPrice(), transactionId.toHexString());
+      notificationFactory.createNotify(NotificationType.PAYMENT_CART_TRANSACTION, null, username,
+          comboInfo.getSellPrice(), transactionId.toHexString(), productTransaction.getProductTransactionDetails().get(0).getProduct().getDefaultImageUrl());
     }
     userStorage.save(user);
   }
