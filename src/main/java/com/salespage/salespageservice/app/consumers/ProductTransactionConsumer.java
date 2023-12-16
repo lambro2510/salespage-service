@@ -6,8 +6,7 @@ import com.salespage.salespageservice.domains.entities.types.NotificationMessage
 import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import com.salespage.salespageservice.domains.entities.types.PaymentType;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
-import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
-import com.salespage.salespageservice.domains.info.Rating;
+import com.salespage.salespageservice.domains.info.RatingInfo;
 import com.salespage.salespageservice.domains.producer.Producer;
 import com.salespage.salespageservice.domains.producer.TopicConfig;
 import com.salespage.salespageservice.domains.services.AccountService;
@@ -19,8 +18,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 @Log4j2
@@ -63,8 +60,8 @@ public class ProductTransactionConsumer extends BankService {
   public void receiveMessage(String message) {
     log.debug("Received message from " + TopicConfig.LIKE_TOPIC + message);
     try{
-      Rating rating = JsonParser.entity(message, Rating.class);
-      productService.updateRating(rating.getUsername(), rating.getProductId(), rating.getPoint(), rating.getComment());
+      RatingInfo ratingInfo = JsonParser.entity(message, RatingInfo.class);
+      productService.updateRating(ratingInfo.getUsername(), ratingInfo.getProductId(), ratingInfo.getPoint(), ratingInfo.getComment());
     }catch (Exception ex){
       log.error("====> receiveMessage error: {} ", ex.getMessage());
     }

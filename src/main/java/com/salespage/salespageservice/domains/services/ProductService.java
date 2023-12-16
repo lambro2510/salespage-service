@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateTypeDetailStatusDto;
+import com.salespage.salespageservice.app.dtos.rating.CreateRatingDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.*;
 import com.salespage.salespageservice.app.responses.UploadImageData;
@@ -17,6 +18,7 @@ import com.salespage.salespageservice.domains.entities.types.SearchType;
 import com.salespage.salespageservice.domains.entities.types.UserRole;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import com.salespage.salespageservice.domains.info.RatingInfo;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.Helper;
 import jodd.util.StringUtil;
@@ -421,8 +423,8 @@ public class ProductService extends BaseService {
   }
 
   @Retryable
-  public void updateRatingAsync(String username, String productId, Float point, String comment) {
-    producer.updateRating(new com.salespage.salespageservice.domains.info.Rating(username, productId, point, comment));
+  public void updateRatingAsync(String username, CreateRatingDto dto) {
+    producer.updateRating(new RatingInfo(username, dto.getProductId(), dto.getPoint(), dto.getComment()));
   }
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
@@ -433,7 +435,7 @@ public class ProductService extends BaseService {
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
 
-    Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productId, RatingType.PRODUCT);
+    Rating rating = ratingStorage.findByUsernameAndRefIdAndRatingType(username, productId, RatingType.PRODUCT);
     Rate rate = product.getRate();
     if (Objects.isNull(rating)) {
       rating = new Rating(new ObjectId(), username, productId, RatingType.PRODUCT, point, comment);
@@ -441,6 +443,8 @@ public class ProductService extends BaseService {
     } else {
       rate.processUpdateRatePoint(rating.getPoint(), point);
       rating.setPoint(point);
+      rating.setComment(comment);
+      rating.setUpdatedAt(DateUtils.nowInMillis());
     }
 
     product.setRate(rate);
@@ -458,10 +462,11 @@ public class ProductService extends BaseService {
   public void getRating(String username, ProductDetailResponse productDetail) throws Exception {
     if (Objects.nonNull(username)) {
       UserFavorite userFavorite = userFavoriteStorage.findByUsernameAndRefIdAndFavoriteType(username, productDetail.getProductId(), FavoriteType.PRODUCT);
-      Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, productDetail.getProductId(), RatingType.PRODUCT);
+      Rating rating = ratingStorage.findByUsernameAndRefIdAndRatingType(username, productDetail.getProductId(), RatingType.PRODUCT);
       if (Objects.isNull(rating)) rating = new Rating();
       productDetail.setIsLike(!Objects.isNull(userFavorite) && userFavorite.getLike());
       productDetail.setYourRate(rating.getPoint());
+      productDetail.setYourComment(rating.getComment());
     }
   }
 

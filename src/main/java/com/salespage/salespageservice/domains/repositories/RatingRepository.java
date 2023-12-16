@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RatingRepository extends MongoRepository<Rating, ObjectId> {
-  Rating findByUsernameAndRefIdAndAndRatingType(String username, String productId, RatingType ratingType);
+  Rating findByUsernameAndRefIdAndRatingType(String username, String productId, RatingType ratingType);
 
-  Page<Rating> findByRefIdAndRatingType(String refId, RatingType ratingType, Pageable pageable);
+  Page<Rating> findByRefIdAndRatingTypeOrderByUpdatedAt(String refId, RatingType ratingType, Pageable pageable);
 }

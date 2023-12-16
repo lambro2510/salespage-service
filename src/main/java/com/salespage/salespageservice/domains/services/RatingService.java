@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class RatingService extends BaseService{
   public PageResponse<Rating> getRatingOfProduct(String productId, Pageable pageable) {
-    return PageResponse.createFrom(ratingStorage.findByRefIdAndRatingType(productId, RatingType.PRODUCT, pageable));
+    return PageResponse.createFrom(ratingStorage.findByRefIdAndRatingTypeOrderByUpdatedAt(productId, RatingType.PRODUCT, pageable));
   }
 }

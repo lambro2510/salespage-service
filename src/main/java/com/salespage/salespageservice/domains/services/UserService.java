@@ -57,7 +57,7 @@ public class UserService extends BaseService {
 
     if (user == null) throw new ResourceNotFoundException("Không tìm thấy người dùng này");
 
-    Rating rating = ratingStorage.findByUsernameAndRefIdAndAndRatingType(username, user.getId().toHexString(), RatingType.USER);
+    Rating rating = ratingStorage.findByUsernameAndRefIdAndRatingType(username, user.getId().toHexString(), RatingType.USER);
 
     Rate rate = user.getRate();
     if (Objects.isNull(rating)) {

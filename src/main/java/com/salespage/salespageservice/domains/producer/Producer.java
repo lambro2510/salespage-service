@@ -2,7 +2,7 @@ package com.salespage.salespageservice.domains.producer;
 
 import com.salespage.salespageservice.app.dtos.accountDtos.CheckInDto;
 import com.salespage.salespageservice.domains.entities.PaymentTransaction;
-import com.salespage.salespageservice.domains.info.Rating;
+import com.salespage.salespageservice.domains.info.RatingInfo;
 import com.salespage.salespageservice.domains.utils.JsonParser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ public class Producer {
     }
   }
 
-  public void updateRating(Rating rating) {
+  public void updateRating(RatingInfo ratingInfo) {
     try {
-      log.debug("====write updateRating log success" + rating);
-      kafkaTemplate.send(TopicConfig.LIKE_TOPIC, JsonParser.toJson(rating));
+      log.debug("====write updateRating log success" + ratingInfo);
+      kafkaTemplate.send(TopicConfig.LIKE_TOPIC, JsonParser.toJson(ratingInfo));
     } catch (Exception e) {
       log.error(String.valueOf(e));
     }

@@ -1693,7 +1693,7 @@ org.apache.kafka.common.errors.SaslAuthenticationException: Authentication faile
 2023-08-02 00:50:04,580 DEBUG o.s.c.l.CompositeLog [pool-2-thread-1] Reading to [com.salespage.salespageservice.domains.info.TpBankTransactionData]
 2023-08-02 00:50:04,580 INFO c.s.s.a.s.BankSchedule [pool-2-thread-1] -----checkNotResolveTransaction-----end
 2023-08-02 00:50:04,581 INFO c.s.s.a.s.BankSchedule [pool-2-thread-1] -----checkNotResolveTransaction-----start
-2023-08-02 00:50:05,164 DEBUG o.s.d.m.c.MongoTemplate [qtp407567224-26] find using query: { "username" : "lambro25102001", "ref_id" : "64c3ffe82123c96ad68fdf6c", "rating_type" : "PRODUCT"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.Rating in collection: rating
+2023-08-02 00:50:05,164 DEBUG o.s.d.m.c.MongoTemplate [qtp407567224-26] find using query: { "username" : "lambro25102001", "ref_id" : "64c3ffe82123c96ad68fdf6c", "rating_type" : "PRODUCT"} fields: Document{{}} for class: class com.salespage.salespageservice.domains.entities.Rating in collection: ratingInfo
 2023-08-02 00:50:05,169 DEBUG o.s.c.l.CompositeLog [pool-2-thread-1] HTTP POST https://ebank.tpb.vn/gateway/api/smart-search-presentation-service/v1/account-transactions/find
 2023-08-02 00:50:05,185 DEBUG o.s.c.l.CompositeLog [pool-2-thread-1] Accept=[application/json, application/*+json]
 2023-08-02 00:50:05,186 DEBUG o.s.c.l.CompositeLog [pool-2-thread-1] Writing [{"fromDate":"20230731","accountNo":"00002432405","toDate":"20230801","currency":"VND","keyword":""}] with org.springframework.http.converter.json.MappingJackson2HttpMessageConverter

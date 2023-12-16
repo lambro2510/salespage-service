@@ -1,6 +1,7 @@
 package com.salespage.salespageservice.app.controllers;
 
 import com.salespage.salespageservice.app.dtos.productDtos.*;
+import com.salespage.salespageservice.app.dtos.rating.CreateRatingDto;
 import com.salespage.salespageservice.app.responses.BaseResponse;
 import com.salespage.salespageservice.domains.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,9 +30,9 @@ public class PrivateProductController extends BaseController {
   private ProductService productService;
 
   @PostMapping("rating")
-  public ResponseEntity<BaseResponse> updateRating(Authentication authentication, @RequestParam String productId, @RequestParam Float point, @RequestParam String comment) {
+  public ResponseEntity<BaseResponse> updateRating(Authentication authentication, @RequestBody CreateRatingDto dto) {
     try {
-      productService.updateRatingAsync(getUsername(authentication), productId, point, comment);
+      productService.updateRatingAsync(getUsername(authentication), dto);
       return successApi("Đánh giá sản phẩm thành công");
     } catch (Exception ex) {
       return errorApi(ex);

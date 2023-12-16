@@ -48,6 +48,9 @@ public class ProductDetailResponse{
   @Schema(description = "Đánh giá sản phẩm")
   Float yourRate = 0F;
 
+  @Schema(description = "Nội dung đánh giá sản phẩm")
+  String yourComment;
+
   @Schema(description = "Danh sách các cửa hàng bán")
   List<SellerStoreResponse> stores;
 

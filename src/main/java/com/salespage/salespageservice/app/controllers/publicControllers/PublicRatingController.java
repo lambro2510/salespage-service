@@ -24,16 +24,16 @@ public class PublicRatingController extends BaseController {
   @Autowired
   private RatingService ratingService;
   @GetMapping("product/{id}")
-  @Operation(summary = "Lấy thông tin chi tiết người dùng", description = "Lấy thông tin chi tiết cho một người dùng cụ thể theo tên đăng nhập")
+  @Operation(summary = "Những bình luận về sản phẩm", description = "Những bình luận về sản phẩm")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Thành công"),
       @ApiResponse(responseCode = "401", description = "Chưa xác thực"),
       @ApiResponse(responseCode = "403", description = "Không có quyền truy cập"),
       @ApiResponse(responseCode = "404", description = "Không tìm thấy người dùng")
   })
-  public ResponseEntity<BaseResponse> getUserDetail(@PathVariable String productId, Pageable pageable) {
+  public ResponseEntity<BaseResponse> getRatingProduct(@PathVariable String id, Pageable pageable) {
     try {
-      return successApi(null, ratingService.getRatingOfProduct(productId, pageable));
+      return successApi(null, ratingService.getRatingOfProduct(id, pageable));
     } catch (Exception ex) {
       return errorApi(ex);
     }
