@@ -87,7 +87,6 @@ public class PaymentService extends BaseService {
     if (paymentTransaction.getPaymentStatus().equals(PaymentStatus.RESOLVE))
       throw new ResourceExitsException("Giao dịch đã hoàn thành không thể hủy bỏ");
     paymentTransaction.setPaymentStatus(PaymentStatus.CANCEL);
-    notificationService.createNotification(username, "Hủy bỏ giao dịch", "Bạn đã hủy bỏ giao dịch với số giao dịch là: " + paymentId + ". Thông tin giao dịch: " + paymentTransaction.getDescription(), NotificationType.PAYMENT_TRANSACTION, paymentTransaction.getId().toHexString());
     paymentTransactionStorage.save(paymentTransaction);
   }
 
