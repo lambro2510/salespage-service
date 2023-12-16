@@ -35,6 +35,20 @@ public class NotificationController extends BaseController {
     }
   }
 
+  @PutMapping("")
+  @Operation(summary = "Get User Notifications", description = "Retrieve user notifications")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Success", content = @Content),
+      @ApiResponse(responseCode = "500", description = "Internal Server Error")
+  })
+  public ResponseEntity<?> getNotification(Authentication authentication ) throws Exception {
+    try {
+      return successApi(null, notificationService.seenALlNotify(getUsername(authentication)));
+    } catch (Exception ex) {
+      return errorApiStatus500("Không lưu được thông tin giao dịch");
+    }
+  }
+
   @GetMapping("detail")
   @Operation(summary = "Get Notification Detail", description = "Retrieve details of a specific notification")
   @ApiResponses(value = {

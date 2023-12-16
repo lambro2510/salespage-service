@@ -2,6 +2,7 @@ package com.salespage.salespageservice.app.responses.notificationResponse;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.salespage.salespageservice.domains.entities.status.NotificationStatus;
+import com.salespage.salespageservice.domains.entities.types.NotificationType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -18,8 +19,11 @@ public class NotificationResponse {
   private String title;
 
   @Schema(description = "Ngày tạo thông báo")
-  private long created;
+  private long createdAt;
 
   @Schema(description = "Trạng thái thông báo")
   private NotificationStatus status;
+
+  @Schema(description = "Loại thông báo")
+  private NotificationType type;
 }

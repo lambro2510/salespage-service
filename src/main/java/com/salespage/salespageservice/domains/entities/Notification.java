@@ -47,8 +47,9 @@ public class Notification extends BaseEntity {
     NotificationResponse response = new NotificationDetailResponse();
     response.setId(id.toHexString());
     response.setTitle(title);
-    response.setCreated(createdAt);
+    response.setCreatedAt(createdAt);
     response.setStatus(notificationStatus);
+    response.setType(notificationType);
     return response;
   }
 
@@ -56,9 +57,10 @@ public class Notification extends BaseEntity {
     NotificationDetailResponse response = new NotificationDetailResponse();
     response.setId(id.toHexString());
     response.setTitle(title);
-    response.setCreated(createdAt);
+    response.setCreatedAt(createdAt);
     response.setStatus(notificationStatus);
     response.setContent(content);
+    response.setType(notificationType);
     return response;
   }
 }

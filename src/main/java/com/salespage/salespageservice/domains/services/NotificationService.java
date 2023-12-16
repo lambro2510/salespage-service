@@ -13,6 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -48,5 +51,13 @@ public class NotificationService extends BaseService {
     notification.setUpdatedAt(DateUtils.nowInMillis());
     notificationStorage.save(notification);
     return notification.partnerToNotificationDetailResponse();
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
+  public String seenALlNotify(String username) {
+    List<Notification> notifications =  notificationStorage.findByUsernameAndNotificationStatus(username, NotificationStatus.NOT_SEEN);
+    notifications.forEach(k -> k.setNotificationStatus(NotificationStatus.SEEN));
+    notificationStorage.saveAll(notifications);
+    return "Thành công";
   }
 }
