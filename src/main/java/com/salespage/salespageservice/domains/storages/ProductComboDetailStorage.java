@@ -37,6 +37,11 @@ public class ProductComboDetailStorage extends BaseStorage {
     return productCombo;
   }
 
+  public List<ProductComboDetail> findByComboIdNoCache(String comboId) {
+    return productComboDetailRepository.findByComboId(comboId);
+
+  }
+
   public List<ProductComboDetail> findByProductId(String productId) {
     String key = CacheKey.genProductComboDetailProductId(productId);
     List<ProductComboDetail> productCombo = remoteCacheManager.getList(key, ProductComboDetail.class);
@@ -45,5 +50,9 @@ public class ProductComboDetailStorage extends BaseStorage {
       remoteCacheManager.set(key, productCombo, RemoteCacheManager.HOUR);
     }
     return productCombo;
+  }
+
+  public void deleteAll(List<ProductComboDetail> removeProductCombo) {
+    productComboDetailRepository.deleteAll(removeProductCombo);
   }
 }

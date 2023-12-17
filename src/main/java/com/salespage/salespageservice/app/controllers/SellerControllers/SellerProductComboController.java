@@ -7,6 +7,7 @@ import com.salespage.salespageservice.domains.services.ProductComboService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +67,25 @@ public class SellerProductComboController extends BaseController {
     try {
       productComboService.addProductToCombo(getUsername(authentication), id, ids);
       return successApi("Cập nhật thành công");
+    } catch (Exception ex) {
+      return errorApi(ex);
+    }
+  }
+
+  @PutMapping("{id}/product")
+  public ResponseEntity<?> addProductToCombo(Authentication authentication, @PathVariable String id, @RequestBody List<String> ids) {
+    try {
+      productComboService.addProductToCombo(getUsername(authentication), id, ids);
+      return successApi("Cập nhật thành công");
+    } catch (Exception ex) {
+      return errorApi(ex);
+    }
+  }
+
+  @GetMapping("{id}/product")
+  public ResponseEntity<?> getProductInCombo(Authentication authentication, @PathVariable String id, Pageable pageable) {
+    try {
+      return successApi(productComboService.getProductInCombo(getUsername(authentication), id, pageable));
     } catch (Exception ex) {
       return errorApi(ex);
     }

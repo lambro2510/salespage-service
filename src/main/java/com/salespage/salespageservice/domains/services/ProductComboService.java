@@ -2,19 +2,28 @@ package com.salespage.salespageservice.domains.services;
 
 import com.salespage.salespageservice.app.dtos.productComboDtos.ComboDto;
 import com.salespage.salespageservice.app.responses.CartResponse.CartResponse;
+import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboDetailResponse;
 import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductComboResponse;
+import com.salespage.salespageservice.app.responses.ProductComboResponse.ProductInComboResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import com.salespage.salespageservice.domains.entities.infor.ComboInfo;
 import com.salespage.salespageservice.domains.entities.types.ActiveState;
 import com.salespage.salespageservice.domains.entities.types.DiscountType;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -177,15 +186,33 @@ public class ProductComboService extends BaseService {
     return new ComboInfo(productCombo, totalPrice - priceAfterUse, priceAfterUse);
   }
 
+  @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
   public void addProductToCombo(String username, String comboId, List<String> productIds) {
     List<Product> products = productStorage.findByIdInAndCreatedBy(productIds, username);
     List<ProductComboDetail> productComboDetails = new ArrayList<>();
+    List<ProductComboDetail> removeProductCombo = productComboDetailStorage.findByComboIdNoCache(comboId);
     for (Product product : products) {
       ProductComboDetail productComboDetail = new ProductComboDetail();
       productComboDetail.setComboId(comboId);
       productComboDetail.setProductId(product.getId().toHexString());
       productComboDetails.add(productComboDetail);
     }
+    productComboDetailStorage.deleteAll(removeProductCombo);
     productComboDetailStorage.saveAll(productComboDetails);
+  }
+
+  public PageResponse<ProductInComboResponse> getProductInCombo(String username, String id, Pageable pageable) {
+    Page<Product> products = productStorage.findByCreatedBy(username, pageable);
+    List<ProductInComboResponse> productInComboResponses = products.getContent().stream().map(ProductInComboResponse::new).collect(Collectors.toList());
+    List<ProductComboDetail> comboDetails = productComboDetailStorage.findByComboId(id);
+    Map<String, ProductComboDetail> productComboMap = comboDetails.stream().collect(Collectors.toMap(ProductComboDetail::getProductId, Function.identity()));
+    productInComboResponses.forEach(k -> {
+      if(productComboMap.get(k.getProductId()) != null){
+        k.setIsInCombo(true);
+      }
+    });
+
+    Page<ProductInComboResponse> responses = new PageImpl<>(productInComboResponses, pageable, products.getTotalElements());
+    return PageResponse.createFrom(responses);
   }
 }

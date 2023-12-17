@@ -41,4 +41,5 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
 
   List<Product> findTop12ByIdInAndIsHotOrderByUpdatedAt(List<ObjectId> objectIds);
 
+  Page<Product> findByCreatedBy(String username, Pageable pageable);
 }
