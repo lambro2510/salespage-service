@@ -83,9 +83,9 @@ public class SellerProductComboController extends BaseController {
   }
 
   @PutMapping("{id}/product")
-  public ResponseEntity<?> addProductToCombo(Authentication authentication, @PathVariable String id, @RequestBody List<String> ids) {
+  public ResponseEntity<?> addProductToCombo(Authentication authentication, @PathVariable String id, @RequestParam String productId) {
     try {
-      productComboService.addProductToCombo(getUsername(authentication), id, ids);
+      productComboService.addProductToCombo(getUsername(authentication), id, productId);
       return successApi("Cập nhật thành công");
     } catch (Exception ex) {
       return errorApi(ex);

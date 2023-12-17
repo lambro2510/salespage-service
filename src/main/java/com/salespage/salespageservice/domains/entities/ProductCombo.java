@@ -33,6 +33,9 @@ public class ProductCombo extends BaseEntity {
   @Field("state")
   private ActiveState state;
 
+  @Field("store_id")
+  private String storeId;
+
   @Field("value")
   private Double value;
 

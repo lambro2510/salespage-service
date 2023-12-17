@@ -18,4 +18,6 @@ public class ComboDto {
   private Long quantityToUse;
 
   private Double maxDiscount;
+
+  private String storeId;
 }
