@@ -72,7 +72,7 @@ public class SellerProductComboController extends BaseController {
     }
   }
 
-  @DeleteMapping("combo/{id}")
+  @DeleteMapping("{id}/product}")
   public ResponseEntity<?> deleteProductComboDetail(Authentication authentication, @PathVariable String id, @RequestParam String productId) {
     try {
       productComboService.deleteProductInCombo(getUsername(authentication), id, productId);
