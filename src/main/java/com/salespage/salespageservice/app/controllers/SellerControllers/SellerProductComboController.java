@@ -63,10 +63,20 @@ public class SellerProductComboController extends BaseController {
   }
 
   @PutMapping("combo/{id}")
-  public ResponseEntity<?> updateProductComboDetail(Authentication authentication, @PathVariable String id, @RequestBody List<String> ids) {
+  public ResponseEntity<?> updateProductComboDetail(Authentication authentication, @PathVariable String id, @RequestParam String productId) {
     try {
-      productComboService.addProductToCombo(getUsername(authentication), id, ids);
+      productComboService.addProductToCombo(getUsername(authentication), id, productId);
       return successApi("Cập nhật thành công");
+    } catch (Exception ex) {
+      return errorApi(ex);
+    }
+  }
+
+  @DeleteMapping("combo/{id}")
+  public ResponseEntity<?> deleteProductComboDetail(Authentication authentication, @PathVariable String id, @RequestParam String productId) {
+    try {
+      productComboService.deleteProductInCombo(getUsername(authentication), id, productId);
+      return successApi("Xoá thành công");
     } catch (Exception ex) {
       return errorApi(ex);
     }

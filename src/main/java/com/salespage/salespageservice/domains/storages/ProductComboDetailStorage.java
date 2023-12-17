@@ -55,4 +55,18 @@ public class ProductComboDetailStorage extends BaseStorage {
   public void deleteAll(List<ProductComboDetail> removeProductCombo) {
     productComboDetailRepository.deleteAll(removeProductCombo);
   }
+
+  public ProductComboDetail findByComboIdAndProductIdNoCache(String comboId, String productId) {
+    return productComboDetailRepository.findByComboIdAndProductId(comboId, productId);
+  }
+
+  public void save(ProductComboDetail productComboDetail) {
+    productComboDetailRepository.save(productComboDetail);
+
+  }
+
+  public void delete(ProductComboDetail productComboDetail) {
+    productComboDetailRepository.delete(productComboDetail);
+
+  }
 }

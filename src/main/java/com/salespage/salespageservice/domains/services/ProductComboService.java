@@ -187,18 +187,25 @@ public class ProductComboService extends BaseService {
   }
 
   @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
-  public void addProductToCombo(String username, String comboId, List<String> productIds) {
-    List<Product> products = productStorage.findByIdInAndCreatedBy(productIds, username);
-    List<ProductComboDetail> productComboDetails = new ArrayList<>();
-    List<ProductComboDetail> removeProductCombo = productComboDetailStorage.findByComboIdNoCache(comboId);
-    for (Product product : products) {
-      ProductComboDetail productComboDetail = new ProductComboDetail();
+  public void addProductToCombo(String username, String comboId, String productId) {
+    ProductComboDetail productComboDetail = productComboDetailStorage.findByComboIdAndProductIdNoCache(comboId, productId);
+    if(productComboDetail == null){
+      productComboDetail = new ProductComboDetail();
       productComboDetail.setComboId(comboId);
-      productComboDetail.setProductId(product.getId().toHexString());
-      productComboDetails.add(productComboDetail);
+      productComboDetail.setProductId(productId);
+      productComboDetailStorage.save(productComboDetail);
     }
-    productComboDetailStorage.deleteAll(removeProductCombo);
-    productComboDetailStorage.saveAll(productComboDetails);
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
+  public void deleteProductInCombo(String username, String comboId, String productId) {
+    ProductComboDetail productComboDetail = productComboDetailStorage.findByComboIdAndProductIdNoCache(comboId, productId);
+    if(productComboDetail != null){
+      productComboDetail = new ProductComboDetail();
+      productComboDetail.setComboId(comboId);
+      productComboDetail.setProductId(productId);
+      productComboDetailStorage.delete(productComboDetail);
+    }
   }
 
   public PageResponse<ProductInComboResponse> getProductInCombo(String username, String id, Pageable pageable) {

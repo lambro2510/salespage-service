@@ -14,4 +14,6 @@ public interface ProductComboDetailRepository extends MongoRepository<ProductCom
   List<ProductComboDetail> findByComboId(String comboId);
 
   List<ProductComboDetail> findByProductId(String productId);
+
+  ProductComboDetail findByComboIdAndProductId(String comboId, String productId);
 }
