@@ -62,11 +62,15 @@ public class ProductComboDetailStorage extends BaseStorage {
 
   public void save(ProductComboDetail productComboDetail) {
     productComboDetailRepository.save(productComboDetail);
+    remoteCacheManager.del(CacheKey.genProductComboDetailComboId(productComboDetail.getComboId()));
+    remoteCacheManager.del(CacheKey.genProductComboDetailProductId(productComboDetail.getProductId()));
 
   }
 
   public void delete(ProductComboDetail productComboDetail) {
     productComboDetailRepository.delete(productComboDetail);
+    remoteCacheManager.del(CacheKey.genProductComboDetailComboId(productComboDetail.getComboId()));
+    remoteCacheManager.del(CacheKey.genProductComboDetailProductId(productComboDetail.getProductId()));
 
   }
 }

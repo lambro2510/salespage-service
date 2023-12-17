@@ -208,9 +208,6 @@ public class ProductComboService extends BaseService {
   public void deleteProductInCombo(String username, String comboId, String productId) {
     ProductComboDetail productComboDetail = productComboDetailStorage.findByComboIdAndProductIdNoCache(comboId, productId);
     if(productComboDetail != null){
-      productComboDetail = new ProductComboDetail();
-      productComboDetail.setComboId(comboId);
-      productComboDetail.setProductId(productId);
       productComboDetailStorage.delete(productComboDetail);
     }
   }
