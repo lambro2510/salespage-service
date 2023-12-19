@@ -11,6 +11,7 @@ import java.util.List;
 public class ProductComboDetailStorage extends BaseStorage {
   public List<ProductComboDetail> findByProductIdIn(List<String> ids) {
     String key = CacheKey.genProductComboDetailProductIdIn(ids);
+    remoteCacheManager.set(CacheKey.genRemoveKeyProductComboDetailProductIdIn(), key);
     List<ProductComboDetail> productCombo = remoteCacheManager.getList(key, ProductComboDetail.class);
     if (productCombo == null) {
       productCombo = productComboDetailRepository.findByProductIdIn(ids);
@@ -21,12 +22,15 @@ public class ProductComboDetailStorage extends BaseStorage {
 
   public void saveAll(List<ProductComboDetail> productComboDetails) {
     productComboDetailRepository.saveAll(productComboDetails);
-    productComboDetails.forEach(k -> {
-      remoteCacheManager.del(CacheKey.genProductComboDetailComboId(k.getComboId()));
-      remoteCacheManager.del(CacheKey.genProductComboDetailProductId(k.getProductId()));
-    });
+    productComboDetails.forEach(this::removeCache);
   }
 
+  public void removeCache (ProductComboDetail productComboDetail){
+    remoteCacheManager.del(CacheKey.genProductComboDetailComboId(productComboDetail.getComboId()));
+    remoteCacheManager.del(CacheKey.genProductComboDetailProductId(productComboDetail.getProductId()));
+    remoteCacheManager.del(CacheKey.genProductComboDetailProductId(productComboDetail.getProductId()));
+    remoteCacheManager.del(CacheKey.genRemoveKeyProductComboDetailProductIdIn());
+  }
   public List<ProductComboDetail> findByComboId(String comboId) {
     String key = CacheKey.genProductComboDetailComboId(comboId);
     List<ProductComboDetail> productCombo = remoteCacheManager.getList(key, ProductComboDetail.class);
@@ -39,7 +43,6 @@ public class ProductComboDetailStorage extends BaseStorage {
 
   public List<ProductComboDetail> findByComboIdNoCache(String comboId) {
     return productComboDetailRepository.findByComboId(comboId);
-
   }
 
   public List<ProductComboDetail> findByProductId(String productId) {
@@ -62,15 +65,13 @@ public class ProductComboDetailStorage extends BaseStorage {
 
   public void save(ProductComboDetail productComboDetail) {
     productComboDetailRepository.save(productComboDetail);
-    remoteCacheManager.del(CacheKey.genProductComboDetailComboId(productComboDetail.getComboId()));
-    remoteCacheManager.del(CacheKey.genProductComboDetailProductId(productComboDetail.getProductId()));
+    removeCache(productComboDetail);
 
   }
 
   public void delete(ProductComboDetail productComboDetail) {
     productComboDetailRepository.delete(productComboDetail);
-    remoteCacheManager.del(CacheKey.genProductComboDetailComboId(productComboDetail.getComboId()));
-    remoteCacheManager.del(CacheKey.genProductComboDetailProductId(productComboDetail.getProductId()));
+    removeCache(productComboDetail);
 
   }
 }

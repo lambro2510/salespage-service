@@ -14,8 +14,7 @@ import java.util.List;
 public class CartStorage extends BaseStorage {
   public void save(Cart cart) {
     cartRepository.save(cart);
-    remoteCacheManager.del(CacheKey.genListCartByUsername(cart.getUsername()));
-    remoteCacheManager.del(CacheKey.genListCartByUsernameAndProductDetailId(cart.getUsername(), cart.getProductDetailId()));
+    removeCache(cart);
   }
 
   public List<Cart> findByUsername(String username) {
@@ -32,12 +31,14 @@ public class CartStorage extends BaseStorage {
     return cartRepository.findById(new ObjectId(id)).orElse(null);
   }
 
-  public Long countByUsername(String username) {
-    return cartRepository.countByUsername(username);
-  }
-
   public void delete(Cart cart) {
     cartRepository.delete(cart);
+    removeCache(cart);
+  }
+
+  public void removeCache(Cart cart) {
+    remoteCacheManager.del(CacheKey.genListCartByUsername(cart.getUsername()));
+    remoteCacheManager.del(CacheKey.genListCartByUsernameAndProductDetailId(cart.getUsername(), cart.getProductDetailId()));
   }
 
   public void deleteAll(List<Cart> deleteCard) {

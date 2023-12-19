@@ -64,6 +64,10 @@ public class CacheKey {
     return prefix + ":product:combo:detail:productIds:" + StringUtils.join(ids, ',');
   }
 
+  public static String genRemoveKeyProductComboDetailProductIdIn() {
+    return prefix + ":product:combo:detail:productIds:remove:";
+  }
+
   public static String genListCartByUsername(String username) {
     return prefix + ":cart:username:" + username;
   }
