@@ -27,6 +27,7 @@ public class CartController extends BaseController {
     try {
       return successApi(cartService.findCartByUsername(getUsername(authentication)));
     } catch (Exception ex) {
+      log.error("========>getProductCart: ", ex);
       return errorApi(ex);
     }
   }

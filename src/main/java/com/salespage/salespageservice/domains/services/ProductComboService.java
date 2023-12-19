@@ -62,6 +62,7 @@ public class ProductComboService extends BaseService {
     productComboStorage.save(productCombo);
   }
 
+  @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
   public void deleteProductCombo(String username, String comboId) {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) {
@@ -72,6 +73,8 @@ public class ProductComboService extends BaseService {
     if (Objects.isNull(productCombo)) {
       throw new ResourceNotFoundException("Không tồn tại combo này");
     }
+    List<ProductComboDetail> comboDetails = productComboDetailStorage.findByComboId(comboId);
+    productComboDetailStorage.deleteAll(comboDetails);
     productComboStorage.delete(productCombo);
   }
 
@@ -107,7 +110,7 @@ public class ProductComboService extends BaseService {
         }
       }
 
-      List<ProductComboDetail> comboDetails = productComboDetailStorage.findByComboId(productCombo.getId().toHexString());
+      List<ProductComboDetail> comboDetails = productComboDetailStorage.findByComboId(comboId);
       List<Product> products = productStorage.findByIdIn(comboDetails.stream().map(ProductComboDetail::getProductId).collect(Collectors.toList()));
       response.setProducts(modelMapper.toListProductInfoResponse(products));
 
