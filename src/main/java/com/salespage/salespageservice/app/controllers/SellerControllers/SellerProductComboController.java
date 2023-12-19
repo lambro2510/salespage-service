@@ -72,7 +72,7 @@ public class SellerProductComboController extends BaseController {
     }
   }
 
-  @DeleteMapping("{id}/product}")
+  @DeleteMapping("product/{id}")
   public ResponseEntity<?> deleteProductComboDetail(Authentication authentication, @PathVariable String id, @RequestParam String productId) {
     try {
       productComboService.deleteProductInCombo(getUsername(authentication), id, productId);
@@ -82,7 +82,7 @@ public class SellerProductComboController extends BaseController {
     }
   }
 
-  @PutMapping("{id}/product")
+  @PutMapping("product/{id}")
   public ResponseEntity<?> addProductToCombo(Authentication authentication, @PathVariable String id, @RequestParam String productId) {
     try {
       productComboService.addProductToCombo(getUsername(authentication), id, productId);
@@ -92,7 +92,7 @@ public class SellerProductComboController extends BaseController {
     }
   }
 
-  @GetMapping("{id}/product")
+  @GetMapping("product/{id}")
   public ResponseEntity<?> getProductInCombo(Authentication authentication, @PathVariable String id, Pageable pageable) {
     try {
       return successApi(productComboService.getProductInCombo(getUsername(authentication), id, pageable));
