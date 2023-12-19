@@ -27,8 +27,8 @@ public class ProductComboStorage extends BaseStorage {
     productComboRepository.delete(productCombo);
   }
 
-  public List<ProductCombo> findByCreatedBy(String username) {
-    return productComboRepository.findByCreatedBy(username);
+  public List<ProductCombo> findByCreatedByAndStoreId(String username, String storeId) {
+    return productComboRepository.findByCreatedByAndStoreId(username, storeId);
   }
 
   public ProductCombo findByIdAndState(String comboId, ActiveState activeState) {

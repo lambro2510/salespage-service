@@ -78,8 +78,8 @@ public class ProductComboService extends BaseService {
     productComboStorage.delete(productCombo);
   }
 
-  public List<ProductComboResponse> getProductCombo(String username) {
-    List<ProductCombo> productCombos = productComboStorage.findByCreatedBy(username);
+  public List<ProductComboResponse> getProductCombo(String username, String storeId) {
+    List<ProductCombo> productCombos = productComboStorage.findByCreatedByAndStoreId(username, storeId);
     return modelMapper.toListProductCombo(productCombos);
   }
 

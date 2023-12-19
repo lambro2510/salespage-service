@@ -23,10 +23,10 @@ public class SellerProductComboController extends BaseController {
   @Autowired
   ProductComboService productComboService;
 
-  @GetMapping("")
-  public ResponseEntity<BaseResponse> getProductCombo(Authentication authentication) {
+  @GetMapping("{storeId}")
+  public ResponseEntity<BaseResponse> getProductCombo(Authentication authentication , @PathVariable String storeId) {
     try {
-      return successApi(productComboService.getProductCombo(getUsername(authentication)));
+      return successApi(productComboService.getProductCombo(getUsername(authentication), storeId));
     } catch (Exception ex) {
       return errorApi(ex);
     }

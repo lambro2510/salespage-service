@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ProductComboRepository extends MongoRepository<ProductCombo, ObjectId> {
-  List<ProductCombo> findByCreatedBy(String username);
+  List<ProductCombo> findByCreatedByAndStoreId(String username, String storeId);
 
   ProductCombo findByIdAndState(ObjectId objectId, ActiveState activeState);
 
