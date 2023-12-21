@@ -53,7 +53,7 @@ public class VoucherStore extends BaseEntity {
     setVoucherStoreName(updateVoucherStoreDto.getVoucherStoreName());
     setVoucherStoreType(updateVoucherStoreDto.getVoucherStoreType());
     setVoucherStoreStatus(updateVoucherStoreDto.getVoucherStoreStatus());
-    if (discountType == DiscountType.PERCENT) {
+    if (updateVoucherStoreDto.getDiscountType() == DiscountType.PERCENT) {
       if (updateVoucherStoreDto.getValuePercent() <= 0 || updateVoucherStoreDto.getValuePercent() >= 100)
         throw new BadRequestException("Giá trị giảm giá không hợp lệ");
       setValue(updateVoucherStoreDto.getValuePercent());
