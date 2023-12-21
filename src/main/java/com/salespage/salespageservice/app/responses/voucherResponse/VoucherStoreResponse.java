@@ -24,6 +24,9 @@ public class VoucherStoreResponse {
   @Schema(description = "Trạng thái của cửa hàng voucher", example = "ACTIVE")
   private VoucherStoreStatus voucherStoreStatus;
 
+  @Schema(description = "Tên sản phẩm (cửa hàng)", example = "ABC")
+  private String name;
+
   @Schema(description = "Loại của cửa hàng voucher", example = "STORE")
   private VoucherStoreType voucherStoreType;
 

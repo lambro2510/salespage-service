@@ -5,8 +5,10 @@ import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.voucherResponse.VoucherStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
+import com.salespage.salespageservice.domains.entities.SellerStore;
 import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.types.ResponseType;
+import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.DateUtils;
@@ -18,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class VoucherStoreService extends BaseService {
@@ -68,9 +72,15 @@ public class VoucherStoreService extends BaseService {
 
   public PageResponse<VoucherStoreResponse> getAllVoucherStore(String username, Pageable pageable) {
     Page<VoucherStore> voucherStores = voucherStoreStorage.findVoucherStoreByCreatedBy(username, pageable);
-    //TODO cần phải kiểm tra để lấy tên product của các sản phẩm trong store
-    List<Product> products = new ArrayList<>();
-    Map<String, String> productMap = new HashMap<>();
+    List<String> productIds = voucherStores.getContent()
+        .stream().filter(k -> k.getVoucherStoreType() == VoucherStoreType.PRODUCT).map(VoucherStore::getRefId).collect(Collectors.toList());
+    List<Product> products = productStorage.findByIdIn(productIds);
+    Map<String, Product> productMap = products.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
+
+    List<String> storeIds = voucherStores.getContent()
+        .stream().filter(k -> k.getVoucherStoreType() == VoucherStoreType.STORE).map(VoucherStore::getRefId).collect(Collectors.toList());
+    List<SellerStore> stores = sellerStoreStorage.findByIdIn(storeIds);
+    Map<String, SellerStore> storeMap = stores.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
     List<VoucherStoreResponse> voucherStoreResponses = new ArrayList<>();
     for (VoucherStore voucherStore : voucherStores.getContent()) {
       VoucherStoreResponse response = new VoucherStoreResponse();
@@ -83,6 +93,17 @@ public class VoucherStoreService extends BaseService {
       response.setDiscountType(voucherStore.getDiscountType());
       response.setVoucherStoreId(voucherStore.getId().toHexString());
       response.setValue(voucherStore.getValue());
+      if(response.getVoucherStoreType() == VoucherStoreType.STORE){
+        SellerStore sellerStore = storeMap.get(response.getRefId());
+        if(sellerStore != null){
+          response.setName(sellerStore.getStoreName());
+        }
+      }else if(response.getVoucherStoreType() == VoucherStoreType.PRODUCT){
+        Product product = productMap.get(response.getRefId());
+        if(product != null){
+          response.setName(product.getProductName());
+        }
+      }
 
       voucherStoreResponses.add(response);
     }
