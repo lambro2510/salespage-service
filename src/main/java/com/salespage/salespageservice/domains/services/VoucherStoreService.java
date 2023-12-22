@@ -126,4 +126,23 @@ public class VoucherStoreService extends BaseService {
     voucherStore.getVoucherStoreDetail().setQuantityUsed(quantity + quantityUsed);
     voucherStoreStorage.save(voucherStore);
   }
+
+  public VoucherStoreResponse getVoucherStoreDetail(String username, String id) {
+    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(id);
+    if(voucherStore == null){
+      throw new ResourceNotFoundException("Không tồn tại kho voucher này");
+    }
+    if(!Objects.equals(voucherStore.getCreatedBy(), username)){
+      throw new AuthorizationException();
+    }
+
+    VoucherStoreResponse response = modelMapper.toVoucherStoreResponse(voucherStore);
+    response.setTotalQuantity(voucherStore.getVoucherStoreDetail().getQuantity());
+    response.setTotalUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed());
+    response.setRefId(voucherStore.getRefId());
+    response.setDiscountType(voucherStore.getDiscountType());
+    response.setVoucherStoreId(voucherStore.getId().toHexString());
+    response.setValue(voucherStore.getValue());
+    return response;
+  }
 }

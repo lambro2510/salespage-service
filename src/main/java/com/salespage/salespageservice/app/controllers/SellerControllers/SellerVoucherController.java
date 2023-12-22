@@ -100,6 +100,21 @@ public class SellerVoucherController extends BaseController {
     }
   }
 
+  @GetMapping("voucher-store/{id}")
+  @Operation(summary = "Lấy danh sách Voucher Store", description = "lấy toàn bộ Voucher Store theo người dùng")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Lấy danh sách Voucher Store thành công"),
+      @ApiResponse(responseCode = "401", description = "Không được phép"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<BaseResponse> getAllVoucherStore(Authentication authentication, @PathVariable String id) {
+    try {
+      return successApi(voucherStoreService.getVoucherStoreDetail(getUsername(authentication), id));
+    } catch (Exception ex) {
+      return errorApi(ex);
+    }
+  }
+
   @PostMapping("voucher-code")
   @Operation(summary = "Tạo các voucher code", description = "Tạo ngẫu nhiên danh sách các voucher code")
   @ApiResponses(value = {

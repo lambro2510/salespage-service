@@ -10,6 +10,7 @@ import com.salespage.salespageservice.app.responses.ProductComboResponse.Product
 import com.salespage.salespageservice.app.responses.ProductResponse.*;
 import com.salespage.salespageservice.app.responses.storeResponse.SellerStoreResponse;
 import com.salespage.salespageservice.app.responses.transactionResponse.ProductTransactionDetailResponse;
+import com.salespage.salespageservice.app.responses.voucherResponse.VoucherStoreResponse;
 import com.salespage.salespageservice.domains.entities.*;
 import org.bson.types.ObjectId;
 import org.mapstruct.Mapper;
@@ -97,4 +98,7 @@ public interface ModelMapper {
 
 
   List<ProductTransactionDetailResponse> toListProductTransactionDetailResponse(List<ProductTransactionDetail> details);
+
+  @Mapping(source = "id", target = "voucherStoreId", qualifiedByName = "objectIdToString")
+  VoucherStoreResponse toVoucherStoreResponse(VoucherStore voucherStore);
 }
