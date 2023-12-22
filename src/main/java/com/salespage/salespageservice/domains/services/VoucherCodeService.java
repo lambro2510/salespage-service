@@ -48,14 +48,14 @@ public class VoucherCodeService extends BaseService {
   }
 
   @Transactional
-  public void generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, LocalDate expireTime) {
+  public void generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, Long expireTime) {
     voucherStoreService.updateQuantityOfVoucherStore(voucherStoreId, 0L, numberVoucher, username);
     List<VoucherCode> voucherCodes = new ArrayList<>();
     for (int i = 0; i < numberVoucher; i++) {
       VoucherCode voucherCode = new VoucherCode();
       voucherCode.setVoucherStoreId(voucherStoreId);
       if (Objects.isNull(expireTime)) {
-        voucherCode.setExpireTime(LocalDate.now().plusMonths(3));
+        voucherCode.setExpireTime(DateUtils.convertLocalDateTimeToLong(DateUtils.now().plusMonths(1)));
       } else {
         voucherCode.setExpireTime(expireTime);
       }
@@ -97,8 +97,6 @@ public class VoucherCodeService extends BaseService {
     voucherInfo.setPriceBefore(productTransaction.getTotalPrice());
     VoucherCode voucherCode = voucherCodeStorage.findCodeCanUse(username, code);
     if (Objects.isNull(voucherCode)) throw new ResourceNotFoundException("Mã giảm giá không hợp lệ");
-    if (voucherCode.getExpireTime().isBefore(LocalDate.now()))
-      throw new TransactionException(ErrorCode.EXPIRE_VOUCHER, "Mã giảm giá đã hết hạn");
 
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
 
@@ -164,7 +162,7 @@ public class VoucherCodeService extends BaseService {
           .voucherCode(voucherCode.getCode())
           .discountType(voucherStore.getDiscountType())
           .storeType(voucherStore.getVoucherStoreType())
-          .dayToExpireTime(ChronoUnit.DAYS.between(LocalDate.now(), voucherCode.getExpireTime()))
+          .dayToExpireTime(voucherCode.getExpireTime())
           .minPrice(voucherStore.getVoucherStoreDetail().getMinAblePrice())
           .maxPrice(voucherStore.getVoucherStoreDetail().getMaxAblePrice())
           .value(voucherStore.getValue())
@@ -183,7 +181,7 @@ public class VoucherCodeService extends BaseService {
       if (voucherCode == null) {
         throw new ResourceNotFoundException("Mã không tồn tại");
       }
-      if (!voucherCode.checkVoucher(username)) {
+      if (voucherCode.checkVoucher(username)) {
         throw new BadRequestException("Mã không hợp lệ");
       }
       VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
@@ -213,7 +211,7 @@ public class VoucherCodeService extends BaseService {
       if (voucherCode == null) {
         throw new ResourceNotFoundException("Mã không tồn tại");
       }
-      if (!voucherCode.checkVoucher(username)) {
+      if (voucherCode.checkVoucher(username)) {
         throw new BadRequestException("Mã không hợp lệ");
       }
       if (voucherStore == null) {
@@ -246,7 +244,7 @@ public class VoucherCodeService extends BaseService {
     if (voucherCode == null) {
       throw new ResourceNotFoundException("Mã không tồn tại");
     }
-    if (!voucherCode.checkVoucher(username)) {
+    if (voucherCode.checkVoucher(username)) {
       throw new BadRequestException("Mã không hợp lệ");
     }
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());

@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -43,7 +42,7 @@ public class VoucherCode extends BaseEntity {
   private String code;
 
   @Field("expire_time")
-  private LocalDate expireTime;
+  private Long expireTime;
 
   @Field("voucher_code_status")
   private VoucherCodeStatus voucherCodeStatus = VoucherCodeStatus.NEW;
@@ -59,6 +58,6 @@ public class VoucherCode extends BaseEntity {
   }
 
   public boolean checkVoucher(String username) {
-    return expireTime.isAfter(DateUtils.now().toLocalDate()) && voucherCodeStatus.equals(VoucherCodeStatus.OWNER) && Objects.equals(username, this.getUsername());
+    return expireTime >= DateUtils.nowInMillis() || !voucherCodeStatus.equals(VoucherCodeStatus.OWNER) || !Objects.equals(username, this.getUsername());
   }
 }

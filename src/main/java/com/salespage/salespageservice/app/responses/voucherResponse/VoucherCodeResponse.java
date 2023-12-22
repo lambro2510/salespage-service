@@ -24,7 +24,6 @@ public class VoucherCodeResponse {
   @Schema(description = "Ngày sử dụng")
   private Date usedAt;
 
-  @JsonFormat(pattern = "dd-MM-yyyy")
   @Schema(description = "Ngày hết hạn")
-  private LocalDate expireTime;
+  private Long expireTime;
 }

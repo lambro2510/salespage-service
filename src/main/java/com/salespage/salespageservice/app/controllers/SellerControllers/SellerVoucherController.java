@@ -126,7 +126,7 @@ public class SellerVoucherController extends BaseController {
   public ResponseEntity<BaseResponse> createVoucherCode(Authentication authentication,
                                                         @RequestParam String voucherStoreId,
                                                         @RequestParam Long numberVoucher,
-                                                        @RequestParam(required = false) @Schema(type = "string", format = "date") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate expireTime) {
+                                                        @RequestParam(required = false) Long expireTime) {
     try {
       voucherCodeService.generateVoucherCode(getUsername(authentication), voucherStoreId, numberVoucher, expireTime);
       return successApi("Tạo mã voucher mới thành công");
