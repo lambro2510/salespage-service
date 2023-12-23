@@ -123,7 +123,7 @@ public class VoucherStoreService extends BaseService {
     Long quantityUsed = voucherStore.getVoucherStoreDetail().getQuantityUsed();
 
     voucherStore.getVoucherStoreDetail().setQuantity(quantity + totalQuantity);
-    voucherStore.getVoucherStoreDetail().setQuantityUsed(quantity + quantityUsed);
+    voucherStore.getVoucherStoreDetail().setQuantityUsed(quantityUsed + totalUsed);
     voucherStoreStorage.save(voucherStore);
   }
 

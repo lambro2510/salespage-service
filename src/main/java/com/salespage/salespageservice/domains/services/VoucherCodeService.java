@@ -49,7 +49,7 @@ public class VoucherCodeService extends BaseService {
 
   @Transactional
   public void generateVoucherCode(String username, String voucherStoreId, Long numberVoucher, Long expireTime) {
-    voucherStoreService.updateQuantityOfVoucherStore(voucherStoreId, 0L, numberVoucher, username);
+    voucherStoreService.updateQuantityOfVoucherStore(voucherStoreId, numberVoucher, 0L, username);
     List<VoucherCode> voucherCodes = new ArrayList<>();
     for (int i = 0; i < numberVoucher; i++) {
       VoucherCode voucherCode = new VoucherCode();
