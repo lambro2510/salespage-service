@@ -8,13 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface VoucherStoreRepository extends MongoRepository<VoucherStore, ObjectId> {
   VoucherStore findVoucherStoreById(String voucherStoreId);
 
-  void deleteVoucherStoreById(String voucherStoreId);
+  void deleteVoucherStoreById(ObjectId id);
 
   List<VoucherStore> findVoucherStoreByCreatedBy(String username);
 
@@ -22,5 +23,5 @@ public interface VoucherStoreRepository extends MongoRepository<VoucherStore, Ob
 
   Page<VoucherStore> findVoucherStoreByCreatedBy(String username, Pageable pageable);
 
-  List<VoucherStore> findByVoucherStoreTypeAndRefIdIn(VoucherStoreType voucherStoreType, List<ObjectId> ids);
+  List<VoucherStore> findByVoucherStoreTypeAndRefIdIn(VoucherStoreType voucherStoreType, Collection<String> refId);
 }

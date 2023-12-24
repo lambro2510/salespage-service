@@ -4,6 +4,7 @@ import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import com.salespage.salespageservice.domains.utils.CacheKey;
 import com.salespage.salespageservice.domains.utils.Helper;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class VoucherStoreStorage extends BaseStorage {
   }
 
   public void deleteVoucherStoreById(String voucherStoreId) {
-    voucherStoreRepository.deleteVoucherStoreById(voucherStoreId);
+    voucherStoreRepository.deleteVoucherStoreById(new ObjectId(voucherStoreId));
   }
 
   public List<VoucherStore> findVoucherStoreByCreatedBy(String username) {
@@ -45,6 +46,6 @@ public class VoucherStoreStorage extends BaseStorage {
   }
 
   public List<VoucherStore> findByProductIdIn(List<String> productIds) {
-    return voucherStoreRepository.findByVoucherStoreTypeAndRefIdIn(VoucherStoreType.PRODUCT, Helper.convertListStringToListObjectId(productIds));
+    return voucherStoreRepository.findByVoucherStoreTypeAndRefIdIn(VoucherStoreType.PRODUCT, productIds);
   }
 }

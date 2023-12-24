@@ -58,6 +58,6 @@ public class VoucherCode extends BaseEntity {
   }
 
   public boolean checkVoucher(String username) {
-    return expireTime >= DateUtils.nowInMillis() || !voucherCodeStatus.equals(VoucherCodeStatus.OWNER) || !Objects.equals(username, this.getUsername());
+    return expireTime <= DateUtils.nowInMillis() || !voucherCodeStatus.equals(VoucherCodeStatus.OWNER) || !Objects.equals(username, this.getUsername());
   }
 }

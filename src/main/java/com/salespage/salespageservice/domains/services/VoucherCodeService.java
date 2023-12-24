@@ -259,7 +259,7 @@ public class VoucherCodeService extends BaseService {
     }
 
     if (voucherStore.getVoucherStoreDetail().getMaxAblePrice() < sellPrice || voucherStore.getVoucherStoreDetail().getMinAblePrice() > sellPrice) {
-      throw new BadRequestException("Voucher chỉ có thể sử dụng cho các sản phẩm có giá trị từ " + voucherStore.getVoucherStoreDetail().getMinAblePrice() + "đến " + voucherStore.getVoucherStoreDetail().getMaxAblePrice());
+      throw new BadRequestException("Voucher chỉ có thể sử dụng cho các đơn hàng có giá trị từ " + voucherStore.getVoucherStoreDetail().getMinAblePrice() + " đến " + voucherStore.getVoucherStoreDetail().getMaxAblePrice());
     }
 
     if (voucherStore.getVoucherStoreType().equals(VoucherStoreType.PRODUCT)) {
@@ -272,7 +272,8 @@ public class VoucherCodeService extends BaseService {
       }
     }
 
-
+    voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
+    voucherCodeStorage.save(voucherCode);
     return new VoucherInfo(voucherCode, voucherStore, sellPrice);
   }
 

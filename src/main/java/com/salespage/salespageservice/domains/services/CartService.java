@@ -312,7 +312,7 @@ public class CartService extends BaseService {
         }
         VoucherInfo info = new VoucherInfo();
         if (StringUtils.isNotBlank(transaction.getVoucherCodeId())) {
-          info = voucherCodeService.getVoucherInfoAndUse(transaction.getVoucherCodeId(), username, product, productDetail.getSellPrice());
+          info = voucherCodeService.getVoucherInfoAndUse(transaction.getVoucherCodeId(), username, product, productDetail.getSellPrice() * cart.getQuantity());
         } else {
           info.setIsUse(false);
           info.setPriceAfter(productDetail.getSellPrice() * cart.getQuantity());

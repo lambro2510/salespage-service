@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class VoucherInfo {
   @JsonProperty("isUse")
   private Boolean isUse = false;
+  private String codeId;
   private String code;
   private VoucherStoreType voucherStoreType;
   private DiscountType discountType;
@@ -26,6 +27,7 @@ public class VoucherInfo {
 
   public VoucherInfo(VoucherCode voucherCode, VoucherStore voucherStore, Double sellPrice) {
     isUse = true;
+    codeId = voucherCode.getId().toHexString();
     code = voucherCode.getCode();
     voucherStoreType = voucherStore.getVoucherStoreType();
     discountType = voucherStore.getDiscountType();
@@ -33,7 +35,7 @@ public class VoucherInfo {
     voucherName = voucherStore.getVoucherStoreName();
     priceBefore = sellPrice;
     if (voucherStore.getDiscountType().equals(DiscountType.PERCENT)) {
-      totalDiscount = priceBefore * voucherStore.getValue();
+      totalDiscount = (priceBefore * voucherStore.getValue()) / 100;
     } else if (voucherStore.getDiscountType().equals(DiscountType.TOTAL)) {
       totalDiscount = voucherStore.getValue();
     }
