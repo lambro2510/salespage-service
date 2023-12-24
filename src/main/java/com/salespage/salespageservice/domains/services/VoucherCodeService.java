@@ -79,7 +79,10 @@ public class VoucherCodeService extends BaseService {
     voucherCodeLimit.setNumberReceiveVoucher(voucherCodeLimit.getNumberReceiveVoucher() + 1);
     if (voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser())
       throw new VoucherCodeException(ErrorCode.LIMIT_RECEIVE_VOUCHER, "Bạn đã nhận tối đa số lượng mã giảm giá");
-    VoucherCode voucherCode = voucherCodeStorage.findFirstVoucherCanUseByVoucherStoreId(voucherStoreId, DateUtils.now().toLocalDate());
+    VoucherCode voucherCode = voucherCodeStorage.findFirstVoucherCanUseByVoucherStoreId(voucherStoreId, DateUtils.nowInMillis());
+    if(voucherCode == null){
+      throw new BadRequestException("Mã voucher đã hết");
+    }
     voucherCode.setUsername(username);
     voucherCode.setVoucherCodeStatus(VoucherCodeStatus.OWNER);
     voucherStore.getVoucherStoreDetail().setQuantityUsed(voucherStore.getVoucherStoreDetail().getQuantityUsed() + 1);

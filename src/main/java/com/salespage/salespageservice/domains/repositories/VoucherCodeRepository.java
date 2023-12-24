@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface VoucherCodeRepository extends MongoRepository<VoucherCode, ObjectId> {
 
-  VoucherCode findFirstByVoucherStoreIdAndExpireTimeGreaterThanAndVoucherCodeStatus(String voucherStoreId, LocalDate expireTime, VoucherCodeStatus voucherCodeStatus);
+  VoucherCode findFirstByVoucherStoreIdAndExpireTimeGreaterThanAndVoucherCodeStatus(String voucherStoreId, Long expireTime, VoucherCodeStatus voucherCodeStatus);
 
   Page<VoucherCode> findAll(Query query, Pageable pageable);
 

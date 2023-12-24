@@ -28,7 +28,7 @@ public class VoucherCodeStorage extends BaseStorage {
     return voucherCodeRepository.findFirstByUsernameAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(username, storeId, VoucherCodeStatus.OWNER, DateUtils.now().toLocalDate());
   }
 
-  public VoucherCode findFirstVoucherCanUseByVoucherStoreId(String voucherStoreId, LocalDate expireTime) {
+  public VoucherCode findFirstVoucherCanUseByVoucherStoreId(String voucherStoreId, Long expireTime) {
     return voucherCodeRepository.findFirstByVoucherStoreIdAndExpireTimeGreaterThanAndVoucherCodeStatus(voucherStoreId, expireTime, VoucherCodeStatus.NEW);
   }
 

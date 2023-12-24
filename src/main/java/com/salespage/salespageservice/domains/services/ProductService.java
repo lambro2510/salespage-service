@@ -275,8 +275,10 @@ public class ProductService extends BaseService {
     response.assignFromCategory(productCategory);
 
     ProductStatistic productStatistic = productStatisticStorage.findFirstByProductIdAndDailyOrderByTotalViewDesc(productId);
-    response.setTotalView(productStatistic.getTotalView());
-    response.setTotalSell(productStatistic.getTotalPurchase());
+    if(productStatistic != null){
+      response.setTotalView(productStatistic.getTotalView());
+      response.setTotalSell(productStatistic.getTotalPurchase());
+    }
 
     List<ProductDetail> productDetails = productDetailStorage.findByProductId(productId);
     List<ProductDetailInfoResponse> productDetailResponses = modelMapper.toListProductDetailInfo(productDetails);
