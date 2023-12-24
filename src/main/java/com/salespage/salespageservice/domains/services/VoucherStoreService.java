@@ -7,6 +7,7 @@ import com.salespage.salespageservice.app.responses.voucherResponse.UserVoucherR
 import com.salespage.salespageservice.app.responses.voucherResponse.VoucherStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.SellerStore;
+import com.salespage.salespageservice.domains.entities.VoucherCodeLimit;
 import com.salespage.salespageservice.domains.entities.VoucherStore;
 import com.salespage.salespageservice.domains.entities.types.ResponseType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
@@ -94,14 +95,14 @@ public class VoucherStoreService extends BaseService {
       response.setDiscountType(voucherStore.getDiscountType());
       response.setVoucherStoreId(voucherStore.getId().toHexString());
       response.setValue(voucherStore.getValue());
-      if(response.getVoucherStoreType() == VoucherStoreType.STORE){
+      if (response.getVoucherStoreType() == VoucherStoreType.STORE) {
         SellerStore sellerStore = storeMap.get(response.getRefId());
-        if(sellerStore != null){
+        if (sellerStore != null) {
           response.setName(sellerStore.getStoreName());
         }
-      }else if(response.getVoucherStoreType() == VoucherStoreType.PRODUCT){
+      } else if (response.getVoucherStoreType() == VoucherStoreType.PRODUCT) {
         Product product = productMap.get(response.getRefId());
-        if(product != null){
+        if (product != null) {
           response.setName(product.getProductName());
         }
       }
@@ -130,10 +131,10 @@ public class VoucherStoreService extends BaseService {
 
   public VoucherStoreResponse getVoucherStoreDetail(String username, String id) {
     VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(id);
-    if(voucherStore == null){
+    if (voucherStore == null) {
       throw new ResourceNotFoundException("Không tồn tại kho voucher này");
     }
-    if(!Objects.equals(voucherStore.getCreatedBy(), username)){
+    if (!Objects.equals(voucherStore.getCreatedBy(), username)) {
       throw new AuthorizationException();
     }
 
@@ -147,7 +148,7 @@ public class VoucherStoreService extends BaseService {
     return response;
   }
 
-  public List<UserVoucherResponse> getVoucherInProduct(String productId) {
+  public List<UserVoucherResponse> getVoucherInProduct(String username, String productId) {
     List<UserVoucherResponse> responses = new ArrayList<>();
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tìm thấy sản phâm");
@@ -155,7 +156,18 @@ public class VoucherStoreService extends BaseService {
     for (String storeId : product.getSellerStoreIds()) {
       voucherStores.addAll(voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.STORE, storeId));
     }
+    Map<String, VoucherCodeLimit> voucherCodeLimitMap = new HashMap<>();
+    if (username != null) {
+      List<String> voucherStoreIds = voucherStores.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList());
+      List<VoucherCodeLimit> voucherCodeLimit = voucherCodeLimitStorage.findByUsernameAndVoucherStoreIdIn(username, voucherStoreIds);
+      voucherCodeLimitMap = voucherCodeLimit.stream().collect(Collectors.toMap(VoucherCodeLimit::getVoucherStoreId, Function.identity()));
+    }
     for (VoucherStore voucherStore : voucherStores) {
+      boolean isLimit = false;
+      VoucherCodeLimit voucherCodeLimit = voucherCodeLimitMap.get(voucherStore.getId().toHexString());
+      if (voucherCodeLimit != null) {
+        isLimit = voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser() > voucherCodeLimit.getNumberReceiveVoucher();
+      }
       responses.add(UserVoucherResponse
           .builder()
           .voucherCodeId(null)
@@ -167,6 +179,7 @@ public class VoucherStoreService extends BaseService {
           .dayToExpireTime(null)
           .minPrice(voucherStore.getVoucherStoreDetail().getMinAblePrice())
           .maxPrice(voucherStore.getVoucherStoreDetail().getMaxAblePrice())
+          .isLimited(isLimit)
           .value(voucherStore.getValue())
           .build());
     }

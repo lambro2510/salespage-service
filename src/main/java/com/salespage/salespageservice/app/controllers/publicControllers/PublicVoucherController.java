@@ -5,6 +5,7 @@ import com.salespage.salespageservice.domains.services.VoucherStoreService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -17,9 +18,9 @@ public class PublicVoucherController extends BaseController {
   private VoucherStoreService voucherService;
 
   @GetMapping("{productId}")
-  public ResponseEntity<?> getPublicVoucher (@PathVariable String productId) {
+  public ResponseEntity<?> getPublicVoucher (Authentication authentication, @PathVariable String productId) {
     try {
-      return successApi(voucherService.getVoucherInProduct(productId));
+      return successApi(voucherService.getVoucherInProduct(getUsername(authentication), productId));
     }catch (Exception e) {
       return errorApi(e);
     }
