@@ -21,11 +21,11 @@ public class VoucherCodeStorage extends BaseStorage {
   }
 
   public VoucherCode findCodeCanUse(String username, String code) {
-    return voucherCodeRepository.findByUsernameAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(username, code, VoucherCodeStatus.OWNER, DateUtils.now().toLocalDate());
+    return voucherCodeRepository.findByUsernameAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(username, code, VoucherCodeStatus.OWNER, DateUtils.nowInMillis());
   }
 
   public VoucherCode findFirstCodeCanUse(String username, String storeId) {
-    return voucherCodeRepository.findFirstByUsernameAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(username, storeId, VoucherCodeStatus.OWNER, DateUtils.now().toLocalDate());
+    return voucherCodeRepository.findFirstByUsernameAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(username, storeId, VoucherCodeStatus.OWNER, DateUtils.nowInMillis());
   }
 
   public VoucherCode findFirstVoucherCanUseByVoucherStoreId(String voucherStoreId, Long expireTime) {
@@ -55,7 +55,7 @@ public class VoucherCodeStorage extends BaseStorage {
     String key = CacheKey.genVoucherCodeByIdInAndUsername(ids, username);
     List<VoucherCode> voucherCodes = remoteCacheManager.getList(key, VoucherCode.class);
     if (voucherCodes == null) {
-      voucherCodes = voucherCodeRepository.findByVoucherStoreIdInAndUsername(Helper.convertListStringToListObjectId(ids), username);
+      voucherCodes = voucherCodeRepository.findByVoucherStoreIdInAndUsername(ids, username);
       remoteCacheManager.set(key, voucherCodes);
     }
     return voucherCodes;

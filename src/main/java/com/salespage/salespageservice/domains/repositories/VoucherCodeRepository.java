@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -20,11 +21,11 @@ public interface VoucherCodeRepository extends MongoRepository<VoucherCode, Obje
 
   Page<VoucherCode> findAll(Query query, Pageable pageable);
 
-  VoucherCode findByUsernameAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, LocalDate expireTime);
+  VoucherCode findByUsernameAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, Long expireTime);
 
   VoucherCode findFirstByUsernameAndCodeAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String code, VoucherCodeStatus voucherCodeStatus, Date now);
 
-  VoucherCode findFirstByUsernameAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, LocalDate expireTime);
+  VoucherCode findFirstByUsernameAndVoucherStoreIdAndVoucherCodeStatusAndExpireTimeGreaterThan(String username, String voucherStoreId, VoucherCodeStatus voucherCodeStatus, Long expireTime);
 
-  List<VoucherCode> findByVoucherStoreIdInAndUsername(List<ObjectId> objectIds, String username);
+  List<VoucherCode> findByVoucherStoreIdInAndUsername(Collection<String> voucherStoreId, String username);
 }
