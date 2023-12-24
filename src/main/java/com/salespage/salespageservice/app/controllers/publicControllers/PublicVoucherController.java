@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/v1/public/user")
+@RequestMapping("api/v1/public/voucher")
 @Tag(name = "voucher", description = "mã voucher")
 public class PublicVoucherController extends BaseController {
 
