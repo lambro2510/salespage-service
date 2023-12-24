@@ -94,7 +94,7 @@ public class VoucherCodeService extends BaseService {
 
   public Double getPriceWhenUseVoucher(Double getTotalPrice, DiscountType type, Double value) {
     if (type.equals(DiscountType.PERCENT)) {
-      return getTotalPrice * (value / 100);
+      return getTotalPrice - getTotalPrice * (value / 100);
     } else {
       return getTotalPrice * value;
     }
