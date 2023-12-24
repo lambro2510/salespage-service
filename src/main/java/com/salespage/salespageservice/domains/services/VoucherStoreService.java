@@ -166,7 +166,7 @@ public class VoucherStoreService extends BaseService {
       boolean isLimit = false;
       VoucherCodeLimit voucherCodeLimit = voucherCodeLimitMap.get(voucherStore.getId().toHexString());
       if (voucherCodeLimit != null) {
-        isLimit = voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser() > voucherCodeLimit.getNumberReceiveVoucher();
+        isLimit = voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser();
       }
       responses.add(UserVoucherResponse
           .builder()
