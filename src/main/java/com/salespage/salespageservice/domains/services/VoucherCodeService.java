@@ -11,7 +11,6 @@ import com.salespage.salespageservice.domains.entities.types.DiscountType;
 import com.salespage.salespageservice.domains.entities.types.VoucherStoreType;
 import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
-import com.salespage.salespageservice.domains.exceptions.TransactionException;
 import com.salespage.salespageservice.domains.exceptions.VoucherCodeException;
 import com.salespage.salespageservice.domains.exceptions.info.ErrorCode;
 import com.salespage.salespageservice.domains.utils.DateUtils;
@@ -27,8 +26,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -170,6 +167,8 @@ public class VoucherCodeService extends BaseService {
     }
     return responses;
   }
+
+
 
   public VoucherInfo getVoucherInfo(String voucherCodeId, String username, Product product, Double sellPrice, boolean isThrowErr) {
     try {

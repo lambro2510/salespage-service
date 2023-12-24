@@ -20,6 +20,9 @@ public class UserVoucherResponse {
   @Schema(description = "Id voucher")
   String voucherCodeId;
 
+  @Schema(description = "Id voucher store")
+  String voucherStoreId;
+
   @Schema(description = "Mã voucher")
   String voucherCode;
 

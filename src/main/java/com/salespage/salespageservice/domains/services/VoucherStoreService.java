@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.services;
 import com.salespage.salespageservice.app.dtos.voucherDtos.CreateVoucherStoreDto;
 import com.salespage.salespageservice.app.dtos.voucherDtos.UpdateVoucherStoreDto;
 import com.salespage.salespageservice.app.responses.PageResponse;
+import com.salespage.salespageservice.app.responses.voucherResponse.UserVoucherResponse;
 import com.salespage.salespageservice.app.responses.voucherResponse.VoucherStoreResponse;
 import com.salespage.salespageservice.domains.entities.Product;
 import com.salespage.salespageservice.domains.entities.SellerStore;
@@ -144,5 +145,31 @@ public class VoucherStoreService extends BaseService {
     response.setVoucherStoreId(voucherStore.getId().toHexString());
     response.setValue(voucherStore.getValue());
     return response;
+  }
+
+  public List<UserVoucherResponse> getVoucherInProduct(String productId) {
+    List<UserVoucherResponse> responses = new ArrayList<>();
+    Product product = productStorage.findProductById(productId);
+    if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tìm thấy sản phâm");
+    List<VoucherStore> voucherStores = voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.PRODUCT, productId);
+    for (String storeId : product.getSellerStoreIds()) {
+      voucherStores.addAll(voucherStoreStorage.findByVoucherStoreTypeAndRefId(VoucherStoreType.STORE, storeId));
+    }
+    for (VoucherStore voucherStore : voucherStores) {
+      responses.add(UserVoucherResponse
+          .builder()
+          .voucherCodeId(null)
+          .voucherStoreId(voucherStore.getId().toHexString())
+          .voucherStoreName(voucherStore.getVoucherStoreName())
+          .voucherCode(null)
+          .discountType(voucherStore.getDiscountType())
+          .storeType(voucherStore.getVoucherStoreType())
+          .dayToExpireTime(null)
+          .minPrice(voucherStore.getVoucherStoreDetail().getMinAblePrice())
+          .maxPrice(voucherStore.getVoucherStoreDetail().getMaxAblePrice())
+          .value(voucherStore.getValue())
+          .build());
+    }
+    return responses;
   }
 }
