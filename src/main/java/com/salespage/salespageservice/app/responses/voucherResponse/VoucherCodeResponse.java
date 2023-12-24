@@ -20,9 +20,8 @@ public class VoucherCodeResponse {
   @Schema(description = "Người đã sử dụng mã voucher")
   private String usedBy;
 
-  @JsonFormat(pattern = "dd-MM-yyyy")
   @Schema(description = "Ngày sử dụng")
-  private Date usedAt;
+  private Long usedAt;
 
   @Schema(description = "Ngày hết hạn")
   private Long expireTime;

@@ -92,30 +92,6 @@ public class VoucherCodeService extends BaseService {
     return voucherCode.getCode();
   }
 
-  public VoucherInfo useVoucher(String username, String code, ProductTransaction productTransaction) {
-    VoucherInfo voucherInfo = new VoucherInfo();
-    voucherInfo.setPriceBefore(productTransaction.getTotalPrice());
-    VoucherCode voucherCode = voucherCodeStorage.findCodeCanUse(username, code);
-    if (Objects.isNull(voucherCode)) throw new ResourceNotFoundException("Mã giảm giá không hợp lệ");
-
-    VoucherStore voucherStore = voucherStoreStorage.findVoucherStoreById(voucherCode.getVoucherStoreId());
-
-    if (Objects.isNull(voucherStore) || !voucherStore.getVoucherStoreStatus().equals(VoucherStoreStatus.ACTIVE))
-      throw new ResourceNotFoundException("Mã giảm giá hiện đã bị ngưng sử dụng");
-
-
-    productTransaction.setTotalPrice(getPriceWhenUseVoucher(productTransaction.getTotalPrice(), voucherStore.getDiscountType(), voucherStore.getValue()));
-
-    voucherCode.setUserAt(new Date());
-    voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
-    voucherCodeStorage.save(voucherCode);
-    voucherInfo.setValue(voucherStore.getValue());
-    voucherInfo.setVoucherStoreType(voucherStore.getVoucherStoreType());
-    voucherInfo.setPriceAfter(productTransaction.getTotalPrice());
-    voucherInfo.setTotalDiscount(voucherInfo.getPriceAfter() - voucherInfo.getPriceBefore());
-    return voucherInfo;
-  }
-
   public Double getPriceWhenUseVoucher(Double getTotalPrice, DiscountType type, Double value) {
     if (type.equals(DiscountType.PERCENT)) {
       return getTotalPrice * (value / 100);
@@ -273,6 +249,7 @@ public class VoucherCodeService extends BaseService {
     }
 
     voucherCode.setVoucherCodeStatus(VoucherCodeStatus.USED);
+    voucherCode.setUserAt(DateUtils.nowInMillis());
     voucherCodeStorage.save(voucherCode);
     return new VoucherInfo(voucherCode, voucherStore, sellPrice);
   }

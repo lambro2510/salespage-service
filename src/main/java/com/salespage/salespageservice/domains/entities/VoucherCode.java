@@ -36,7 +36,7 @@ public class VoucherCode extends BaseEntity {
   private String username;
 
   @Field("used_at")
-  private Date userAt;
+  private Long userAt;
 
   @Field("code")
   private String code;
