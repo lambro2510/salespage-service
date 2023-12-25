@@ -58,9 +58,9 @@ public class BankController extends BaseController {
       @ApiResponse(responseCode = "200", description = "Success", content = @Content),
       @ApiResponse(responseCode = "500", description = "Internal Server Error")
   })
-  public ResponseEntity<?> genQrCode(@RequestParam String paymentId, @RequestParam String bin, @RequestParam String bankAccountNo, Authentication authentication) {
+  public ResponseEntity<?> genQrCode(@RequestParam String paymentId, @RequestParam String bin, @RequestParam String bankAccountNo,@RequestParam Long amount, Authentication authentication) {
     try {
-      return successApi(null, bankService.genTransactionQr(getUsername(authentication), bin, bankAccountNo, paymentId));
+      return successApi(null, bankService.genTransactionQr(getUsername(authentication), bin, bankAccountNo, paymentId, amount));
     } catch (Exception ex) {
       return errorApi(ex);
     }

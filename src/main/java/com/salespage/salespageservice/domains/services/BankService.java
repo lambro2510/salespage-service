@@ -77,12 +77,12 @@ public class BankService extends BaseService {
     return bankTransactionStorage.findAll();
   }
 
-  public QrData genTransactionQr(String username, String bin, String bankAccountNo, String paymentId) {
+  public QrData genTransactionQr(String username, String bin, String bankAccountNo, String paymentId, Long amount) {
     PaymentTransaction paymentTransaction = paymentTransactionStorage.findByIdAndUsername(paymentId, username);
-    if (Objects.isNull(paymentTransaction)) throw new ResourceNotFoundException("Không tìm thấy giao dịch");
+
     GenQrCodeDto genQrCodeDto = new GenQrCodeDto();
     genQrCodeDto.setAccountNo(bankAccountNo);
-    genQrCodeDto.setAmount(paymentTransaction.getAmount());
+    genQrCodeDto.setAmount(paymentTransaction != null ? paymentTransaction.getAmount() : amount);
     genQrCodeDto.setFormat("text");
     genQrCodeDto.setTemplate("LDP0k8f");
     genQrCodeDto.setAcqId(bin);

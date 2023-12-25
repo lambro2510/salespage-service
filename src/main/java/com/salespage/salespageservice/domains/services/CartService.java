@@ -176,7 +176,7 @@ public class CartService extends BaseService {
         response.setPrice(productDetail.getOriginPrice());
         response.setSellPrice(productDetail.getSellPrice());
         response.setDiscountPercent(productDetail.getDiscountPercent());
-        response.setTotalPrice(productDetail.getSellPrice() * cart.getQuantity());
+        response.setTotalPrice(productDetail.getSellPrice() * cart.getQuantity().doubleValue());
 
         response.setProductNote("Còn " + productDetail.getQuantity() + " sản phẩm có sẵn");
         if (productDetail.getQuantity() <= cart.getQuantity()) {

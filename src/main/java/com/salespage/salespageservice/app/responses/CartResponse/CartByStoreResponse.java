@@ -23,7 +23,7 @@ public class CartByStoreResponse {
     if (!combos.isEmpty()) {
       Double maxDiscount = 0D;
       for (ProductComboDetailResponse combo : combos) {
-        if (combo.getMaxDiscount() > maxDiscount && combo.getCanUse()) {
+        if (combo.getMaxDiscount() > maxDiscount && Boolean.TRUE.equals(combo.getCanUse())) {
           bestCombo = combo;
         }
       }

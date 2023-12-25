@@ -96,7 +96,11 @@ public class VoucherCodeService extends BaseService {
     if (type.equals(DiscountType.PERCENT)) {
       return getTotalPrice - getTotalPrice * (value / 100);
     } else {
-      return getTotalPrice * value;
+      double total = getTotalPrice - value;
+      if(total < 0) {
+        return 0D;
+      }
+      return total;
     }
   }
 
