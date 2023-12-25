@@ -79,6 +79,7 @@ public class CartService extends BaseService {
           .quantity(dto.getQuantity())
           .voucherInfo(voucherInfo)
           .voucherCodeId(dto.getVoucherId())
+          .product(product)
           .build();
     } else {
       cart.addQuantity(dto.getQuantity());

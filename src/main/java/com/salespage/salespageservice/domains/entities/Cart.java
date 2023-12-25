@@ -28,6 +28,9 @@ public class Cart extends BaseEntity {
   @Field("product_detail_id")
   String productDetailId;
 
+  @Field("product")
+  Product product ;
+
   @Field("product_name")
   String productName;
 
