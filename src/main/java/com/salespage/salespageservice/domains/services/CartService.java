@@ -256,7 +256,7 @@ public class CartService extends BaseService {
       throw new ResourceNotFoundException("Sản phẩm không còn được bán");
     }
 
-    VoucherInfo info = voucherCodeService.getVoucherInfo(voucherCodeId, username, product, productDetail.getSellPrice(), true);
+    VoucherInfo info = voucherCodeService.getVoucherInfo(voucherCodeId, username, product, productDetail.getSellPrice() * cart.getQuantity(), true);
 
     cart.setQuantity(quantity);
     cart.setVoucherCodeId(voucherCodeId);
