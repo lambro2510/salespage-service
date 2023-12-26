@@ -57,7 +57,6 @@ public class AccountService extends BaseService {
     accountStorage.save(account);
 
     userService.createUser(dto);
-    createVerifyCode(dto.getUsername());
     return new JwtResponse(account.getUsername(), null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
   }
 
