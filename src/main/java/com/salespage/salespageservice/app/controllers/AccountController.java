@@ -83,7 +83,7 @@ public class AccountController extends BaseController {
   })
   public ResponseEntity<BaseResponse> loginPhone(@RequestBody @Valid LoginDto dto){
     try {
-      return successApi("Đăng nhập thành công", accountService.signIn(dto));
+      return successApi("Đăng nhập thành công", accountService.verifyCode(dto.getUsername(), dto.getOtp()));
     } catch (Exception ex) {
       return errorApi(ex);
     }
@@ -114,7 +114,7 @@ public class AccountController extends BaseController {
       @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ, vui lòng kiểm tra các thông số yêu cầu"),
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
-  public ResponseEntity<BaseResponse> verifyCode(@RequestParam("code") Integer code, @RequestParam String username) {
+  public ResponseEntity<BaseResponse> verifyCode(@RequestParam("code") String code, @RequestParam String username) {
     try {
 
       return successApi(accountService.verifyCode(username, code));

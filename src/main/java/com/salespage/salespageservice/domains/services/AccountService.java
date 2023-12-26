@@ -93,7 +93,7 @@ public class AccountService extends BaseService {
   }
 
 
-  public JwtResponse verifyCode(String username, int code) throws IOException {
+  public JwtResponse verifyCode(String username, String code) throws IOException {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) {
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
@@ -101,7 +101,7 @@ public class AccountService extends BaseService {
     Integer verifyCode = accountStorage.getVerifyCode(username);
     if (Objects.isNull(verifyCode))
       throw new ResourceNotFoundException("Invalid verify code");
-    if(code != verifyCode){
+    if(!Objects.equals(code, String.valueOf(verifyCode))){
       throw new BadRequestException("Sai mã xác minh");
     }
     Account account = accountStorage.findByUsername(username);
