@@ -93,7 +93,7 @@ public class AccountService extends BaseService {
   }
 
 
-  public void verifyCode(String username, int code) throws IOException {
+  public JwtResponse verifyCode(String username, int code) throws IOException {
     User user = userStorage.findByUsername(username);
     if (Objects.isNull(user)) {
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
@@ -101,10 +101,14 @@ public class AccountService extends BaseService {
     Integer verifyCode = accountStorage.getVerifyCode(username);
     if (Objects.isNull(verifyCode))
       throw new ResourceNotFoundException("Invalid verify code");
-
+    if(code != verifyCode){
+      throw new BadRequestException("Sai mã xác minh");
+    }
     Account account = accountStorage.findByUsername(username);
     account.setState(UserState.VERIFIED);
     accountStorage.save(account);
+    return new JwtResponse(account.getUsername(), null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
+
   }
 
   public boolean checkAccount(String username) {
@@ -125,10 +129,10 @@ public class AccountService extends BaseService {
     int code = (int) (Math.random() * (max - min + 1) + min);
     Otp otp = new Otp(new ObjectId(), user.getPhoneNumber(), Integer.toString(code), OtpStatus.WAITING);
     otpStorage.saveVerifyCode(username, otp);
-    if (isCheckPhoneNumber) {
-      SmsUtils.sendMessage(Integer.toString(code), user.getPhoneNumber(), authToken);
-    }
-    EmailRequest.sendVerificationCode(user.getEmail(), Integer.toString(code));
+//    if (isCheckPhoneNumber) {
+//      SmsUtils.sendMessage(Integer.toString(code), user.getPhoneNumber(), authToken);
+//    }
+//    EmailRequest.sendVerificationCode(user.getEmail(), Integer.toString(code));
   }
 
   public void changeShipMode(String username, List<UserRole> userRoles, CheckInDto dto) {

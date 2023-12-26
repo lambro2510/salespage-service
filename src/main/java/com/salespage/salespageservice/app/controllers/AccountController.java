@@ -73,6 +73,22 @@ public class AccountController extends BaseController {
     }
   }
 
+  @PostMapping("sign-in/phone")
+  @Operation(summary = "Đăng nhập", description = "Đăng nhập tài khoản")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Xác thực tài khoản thành công"),
+      @ApiResponse(responseCode = "400", description = "Đầu vào không hợp lệ, vui lòng kiểm tra nội dung yêu cầu"),
+      @ApiResponse(responseCode = "401", description = "Không được ủy quyền, vui lòng kiểm tra thông tin đăng nhập của bạn"),
+      @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
+  })
+  public ResponseEntity<BaseResponse> loginPhone(@RequestBody @Valid LoginDto dto){
+    try {
+      return successApi("Đăng nhập thành công", accountService.signIn(dto));
+    } catch (Exception ex) {
+      return errorApi(ex);
+    }
+  }
+
   @PostMapping("verify-code")
   @Operation(summary = "Tạo mã xác nhân", description = "Tạo mã xác nhận")
   @ApiResponses(value = {
@@ -100,8 +116,8 @@ public class AccountController extends BaseController {
   })
   public ResponseEntity<BaseResponse> verifyCode(@RequestParam("code") Integer code, @RequestParam String username) {
     try {
-      accountService.verifyCode(username, code);
-      return successApi("Xác minh thành công");
+
+      return successApi(accountService.verifyCode(username, code));
     } catch (Exception ex) {
       return errorApi(ex);
     }
