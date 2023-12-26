@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class ProductTransactionService extends BaseService {
     if (endDate != null) {
       query.addCriteria(Criteria.where("created_at").lte(endDate));
     }
-
+    query.with(Sort.by(Sort.Direction.DESC, "created_at"));
     Page<ProductTransaction> productTransactions = productTransactionStorage.findAll(query, pageable);
     List<String> tranIds = productTransactions.getContent().stream().map(k -> k.getId().toHexString()).collect(Collectors.toList());
     List<ProductTransactionDetail> transactionDetails = productTransactionDetailStorage.findByTransactionIdIn(tranIds);
