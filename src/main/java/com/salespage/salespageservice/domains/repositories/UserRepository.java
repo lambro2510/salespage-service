@@ -14,4 +14,6 @@ public interface UserRepository extends MongoRepository<User, ObjectId> {
   User findUserById(ObjectId userId);
 
   List<User> findByIdIn(List<ObjectId> objectIds);
+
+  User findByPhoneNumber(String phoneNumber);
 }

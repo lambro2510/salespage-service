@@ -32,4 +32,8 @@ public class UserStorage extends BaseStorage {
   public List<User> findByIdIn(List<String> refIds) {
     return userRepository.findByIdIn(Helper.convertListStringToListObjectId(refIds));
   }
+
+  public User findByPhoneNumber(String phoneNumber) {
+    return userRepository.findByPhoneNumber(phoneNumber);
+  }
 }

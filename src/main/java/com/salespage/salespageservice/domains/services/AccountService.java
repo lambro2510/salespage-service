@@ -93,18 +93,18 @@ public class AccountService extends BaseService {
   }
 
 
-  public JwtResponse verifyCode(String username, String code) throws IOException {
-    User user = userStorage.findByUsername(username);
+  public JwtResponse verifyCode(String phoneNumber, String code) throws IOException {
+    User user = userStorage.findByPhoneNumber(phoneNumber);
     if (Objects.isNull(user)) {
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
     }
-    Integer verifyCode = accountStorage.getVerifyCode(username);
+    Integer verifyCode = accountStorage.getVerifyCode(user.getUsername());
     if (Objects.isNull(verifyCode))
       throw new ResourceNotFoundException("Invalid verify code");
     if(!Objects.equals(code, String.valueOf(verifyCode))){
       throw new BadRequestException("Sai mã xác minh");
     }
-    Account account = accountStorage.findByUsername(username);
+    Account account = accountStorage.findByUsername(user.getUsername());
     account.setState(UserState.VERIFIED);
     accountStorage.save(account);
     return new JwtResponse(account.getUsername(), null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
