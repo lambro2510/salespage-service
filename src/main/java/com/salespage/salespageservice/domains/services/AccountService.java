@@ -94,7 +94,7 @@ public class AccountService extends BaseService {
   }
 
 
-  public JwtResponse verifyCode(String phoneNumber, String code) throws IOException {
+  public JwtResponse verifyCode(String phoneNumber, String code)  {
     User user = userStorage.findByPhoneNumber(phoneNumber);
     if (Objects.isNull(user)) {
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
@@ -108,7 +108,7 @@ public class AccountService extends BaseService {
     Account account = accountStorage.findByUsername(user.getUsername());
     account.setState(UserState.VERIFIED);
     accountStorage.save(account);
-    return new JwtResponse(account.getUsername(), null, jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
+    return new JwtResponse(account.getUsername(), user.getImageUrl(), jwtUtils.generateToken(new TokenInfo(account.getUsername(), account.getRole(), account.getState())), account.getRole());
 
   }
 

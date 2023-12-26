@@ -11,10 +11,8 @@ public class LoginDto {
   @Schema(description = "Tên đăng nhập tài khoản", example = "lambro25102001")
   private String username;
 
-  @NotNull(message = "Tên đăng nhập không được để trống")
   private String mobile;
 
-  @NotNull(message = "Tên đăng nhập không được để trống")
   private String otp;
 
   @Schema(description = "Mật khẩu của tài khoản", example = "Banhmy09@")
