@@ -94,7 +94,7 @@ public class AccountService extends BaseService {
   }
 
 
-  public JwtResponse verifyCode(String phoneNumber, String code) throws IOException {
+  public JwtResponse verifyCode(String phoneNumber, String code)  {
     User user = userStorage.findByPhoneNumber(phoneNumber);
     if (Objects.isNull(user)) {
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
