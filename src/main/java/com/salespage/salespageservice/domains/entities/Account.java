@@ -49,7 +49,7 @@ public class Account {
     username = dto.getUsername();
     salt = BCrypt.gensalt();
     password = BCrypt.hashpw(dto.getPassword(), salt);
-    role = UserRole.USER;
+    role = dto.getUserRole();
     state = UserState.NOT_VERIFIED;
   }
 }
