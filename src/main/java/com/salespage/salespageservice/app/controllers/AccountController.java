@@ -89,7 +89,7 @@ public class AccountController extends BaseController {
     }
   }
 
-  @PostMapping("verify-code")
+  @PostMapping("verify-code/{phone}")
   @Operation(summary = "Tạo mã xác nhân", description = "Tạo mã xác nhận")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Tạo mã xác minh thành công"),
@@ -97,9 +97,11 @@ public class AccountController extends BaseController {
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   @SecurityRequirement(name = "bearerAuth")
-  public ResponseEntity<BaseResponse> createVerifyCode(Authentication authentication) {
+  public ResponseEntity<BaseResponse> createVerifyCode(
+      @PathVariable String phone
+  ) {
     try {
-      accountService.createVerifyCode(getUsername(authentication));
+      accountService.createVerifyCode(phone);
       return successApi("Tạo mã xác nhận thành công");
     } catch (Exception ex) {
       return errorApi(ex);
