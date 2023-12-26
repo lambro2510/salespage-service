@@ -83,7 +83,7 @@ public class AccountController extends BaseController {
   })
   public ResponseEntity<BaseResponse> loginPhone(@RequestBody @Valid LoginDto dto){
     try {
-      return successApi("Đăng nhập thành công", accountService.verifyCode(dto.getUsername(), dto.getOtp()));
+      return successApi("Đăng nhập thành công", accountService.verifyCode(dto.getMobile(), dto.getOtp()));
     } catch (Exception ex) {
       return errorApi(ex);
     }
@@ -97,9 +97,7 @@ public class AccountController extends BaseController {
       @ApiResponse(responseCode = "500", description = "Lỗi máy chủ nội bộ")
   })
   @SecurityRequirement(name = "bearerAuth")
-  public ResponseEntity<BaseResponse> createVerifyCode(
-      @PathVariable String phone
-  ) {
+  public ResponseEntity<BaseResponse> createVerifyCode(@PathVariable String phone) {
     try {
       accountService.createVerifyCode(phone);
       return successApi("Tạo mã xác nhận thành công");

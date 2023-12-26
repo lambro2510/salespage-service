@@ -23,6 +23,8 @@ public class AccountStorage extends BaseStorage {
     return accountRepository.existsByUsername(username);
   }
 
+
+
   public void save(Account account) {
     accountRepository.save(account);
   }
@@ -31,8 +33,12 @@ public class AccountStorage extends BaseStorage {
     remoteCacheManager.set(CacheKey.getUserToken(username), token, 24 * 60 * 60);  //1 ngày
   }
 
-  public Integer getVerifyCode(String username) throws IOException {
-    Otp otp = JsonParser.entity(remoteCacheManager.get(CacheKey.getVerifyUser(username)), Otp.class);
+  public void saveOptToRemoteCache(String phone, Otp otp) {
+    remoteCacheManager.set(CacheKey.getVerifyUser(phone), otp, 120);  //1 ngày
+  }
+
+  public Integer getVerifyCode(String phone){
+    Otp otp = JsonParser.entity(remoteCacheManager.get(CacheKey.getVerifyUser(phone)), Otp.class);
 
     if (Objects.nonNull(otp)) {
       return Integer.valueOf(otp.getOtp());

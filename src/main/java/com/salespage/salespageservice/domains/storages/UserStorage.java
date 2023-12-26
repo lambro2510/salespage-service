@@ -36,4 +36,6 @@ public class UserStorage extends BaseStorage {
   public User findByPhoneNumber(String phoneNumber) {
     return userRepository.findByPhoneNumber(phoneNumber);
   }
+
+
 }

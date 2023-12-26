@@ -8,6 +8,7 @@ import com.salespage.salespageservice.domains.entities.types.OtpStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,6 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document("otp")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Otp extends BaseEntity {
   @Id
   @JsonSerialize(using = ObjectIdSerializer.class)

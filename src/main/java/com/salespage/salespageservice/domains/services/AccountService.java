@@ -50,7 +50,8 @@ public class AccountService extends BaseService {
   public JwtResponse signUp(SignUpDto dto) {
 
     if (!dto.getConfirmPassword().equals(dto.getPassword())) throw new ResourceExitsException("Invalid password");
-    if (accountStorage.existByUsername(dto.getUsername())) throw new ResourceExitsException("User existed");
+    if (accountStorage.existByUsername(dto.getUsername())) throw new ResourceExitsException("Người dùng đã tồn tại");
+    if (userService.existByPhoneNumber(dto.getPhoneNumber())) throw new ResourceExitsException("Người dùng đã tồn tại");
     Account account = new Account();
     account.createAccount(dto);
     accountStorage.save(account);
@@ -98,7 +99,7 @@ public class AccountService extends BaseService {
     if (Objects.isNull(user)) {
       throw new ResourceNotFoundException("Không tồn tại người dùng này");
     }
-    Integer verifyCode = accountStorage.getVerifyCode(user.getUsername());
+    Integer verifyCode = accountStorage.getVerifyCode(user.getPhoneNumber());
     if (Objects.isNull(verifyCode))
       throw new ResourceNotFoundException("Invalid verify code");
     if(!Objects.equals(code, String.valueOf(verifyCode))){
@@ -121,14 +122,15 @@ public class AccountService extends BaseService {
   }
 
   @Async("threadPoolTaskExecutor")
-  public void createVerifyCode(String username) {
-    User user = userStorage.findByUsername(username);
+  public void createVerifyCode(String phone) {
+    User user = userStorage.findByPhoneNumber(phone);
     if (Objects.isNull(user)) throw new AccountNotExistsException("Account not exist");
     int max = 99999;
     int min = 10000;
     int code = (int) (Math.random() * (max - min + 1) + min);
     Otp otp = new Otp(new ObjectId(), user.getPhoneNumber(), Integer.toString(code), OtpStatus.WAITING);
-    otpStorage.saveVerifyCode(username, otp);
+    otpStorage.saveVerifyCode(user.getUsername(), otp);
+    accountStorage.saveOptToRemoteCache(phone, otp);
 //    if (isCheckPhoneNumber) {
 //      SmsUtils.sendMessage(Integer.toString(code), user.getPhoneNumber(), authToken);
 //    }

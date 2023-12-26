@@ -10,6 +10,7 @@ import com.salespage.salespageservice.domains.entities.User;
 import com.salespage.salespageservice.domains.entities.infor.Rate;
 import com.salespage.salespageservice.domains.entities.types.RatingType;
 import com.salespage.salespageservice.domains.exceptions.*;
+import com.salespage.salespageservice.domains.repositories.UserRepository;
 import com.salespage.salespageservice.domains.utils.Helper;
 import lombok.extern.log4j.Log4j2;
 import org.bson.types.ObjectId;
@@ -23,6 +24,11 @@ import java.util.Objects;
 @Service
 @Log4j2
 public class UserService extends BaseService {
+  private final UserRepository userRepository;
+
+  public UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
 
   public void createUser(SignUpDto dto) {
@@ -108,5 +114,10 @@ public class UserService extends BaseService {
     user.setImageUrl(null);
     userStorage.save(user);
     return true;
+  }
+
+
+  public boolean existByPhoneNumber(String phone) {
+    return userRepository.existsByPhoneNumber(phone);
   }
 }
