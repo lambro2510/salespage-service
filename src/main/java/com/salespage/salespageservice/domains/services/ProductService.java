@@ -441,7 +441,7 @@ public class ProductService extends BaseService {
       rate.processAddRatePoint(point);
     } else {
       rate.processUpdateRatePoint(rating.getPoint(), point);
-      if(point == 0){
+      if(point == 0F && StringUtils.isBlank(comment)){
         try{
           AiDataResponse data = RequestUtil.request(HttpMethod.POST, "https://ai--service-mztju.appengine.bfcplatform.vn/api/v1/ai/language/status?text=" + comment, AiDataResponse.class, null, null);
           rating.setPoint(data.getStatus().getRate().floatValue());
