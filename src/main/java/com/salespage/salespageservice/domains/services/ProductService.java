@@ -4,6 +4,8 @@ import com.salespage.salespageservice.app.dtos.productDtos.ProductDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateTypeDetailStatusDto;
+import com.salespage.salespageservice.app.responses.AiDataResponse;
+import com.salespage.salespageservice.app.responses.BankResponse.VietQrResponse;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.*;
 import com.salespage.salespageservice.app.responses.UploadImageData;
@@ -19,6 +21,7 @@ import com.salespage.salespageservice.domains.exceptions.AuthorizationException;
 import com.salespage.salespageservice.domains.exceptions.ResourceNotFoundException;
 import com.salespage.salespageservice.domains.utils.DateUtils;
 import com.salespage.salespageservice.domains.utils.Helper;
+import com.salespage.salespageservice.domains.utils.RequestUtil;
 import jodd.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +32,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -437,7 +441,16 @@ public class ProductService extends BaseService {
       rate.processAddRatePoint(point);
     } else {
       rate.processUpdateRatePoint(rating.getPoint(), point);
-      rating.setPoint(point);
+      if(point == 0){
+        try{
+          AiDataResponse data = RequestUtil.request(HttpMethod.POST, "https://ai--service-mztju.appengine.bfcplatform.vn/api/v1/ai/language/status?text=" + comment, AiDataResponse.class, null, null);
+          rating.setPoint(data.getStatus().getRate().floatValue());
+        }catch (Exception ex){
+          log.error(ex);
+        }
+      }else{
+        rating.setPoint(point);
+      }
       rating.setComment(comment);
       rating.setUpdatedAt(DateUtils.nowInMillis());
     }
