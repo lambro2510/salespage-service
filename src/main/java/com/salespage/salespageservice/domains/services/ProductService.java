@@ -5,7 +5,6 @@ import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDetailDto;
 import com.salespage.salespageservice.app.dtos.productDtos.ProductTypeDto;
 import com.salespage.salespageservice.app.dtos.productDtos.UpdateTypeDetailStatusDto;
 import com.salespage.salespageservice.app.responses.AiDataResponse;
-import com.salespage.salespageservice.app.responses.BankResponse.VietQrResponse;
 import com.salespage.salespageservice.app.responses.PageResponse;
 import com.salespage.salespageservice.app.responses.ProductResponse.*;
 import com.salespage.salespageservice.app.responses.UploadImageData;
@@ -434,6 +433,14 @@ public class ProductService extends BaseService {
     Product product = productStorage.findProductById(productId);
     if (Objects.isNull(product)) throw new ResourceNotFoundException("Không tồn tại sản phẩm này");
 
+    if(point == 0F && StringUtils.isBlank(comment)){
+      try{
+        AiDataResponse data = RequestUtil.request(HttpMethod.POST, "https://ai--service-mztju.appengine.bfcplatform.vn/api/v1/ai/language/status?text=" + comment, AiDataResponse.class, null, null);
+        point = data.getStatus().getRate().floatValue();
+      }catch (Exception ex){
+        log.error(ex);
+      }
+    }
     Rating rating = ratingStorage.findByUsernameAndRefIdAndRatingType(username, productId, RatingType.PRODUCT);
     Rate rate = product.getRate();
     if (Objects.isNull(rating)) {
@@ -441,16 +448,7 @@ public class ProductService extends BaseService {
       rate.processAddRatePoint(point);
     } else {
       rate.processUpdateRatePoint(rating.getPoint(), point);
-      if(point == 0F && StringUtils.isBlank(comment)){
-        try{
-          AiDataResponse data = RequestUtil.request(HttpMethod.POST, "https://ai--service-mztju.appengine.bfcplatform.vn/api/v1/ai/language/status?text=" + comment, AiDataResponse.class, null, null);
-          rating.setPoint(data.getStatus().getRate().floatValue());
-        }catch (Exception ex){
-          log.error(ex);
-        }
-      }else{
-        rating.setPoint(point);
-      }
+      rating.setPoint(point);
       rating.setComment(comment);
       rating.setUpdatedAt(DateUtils.nowInMillis());
     }
