@@ -435,7 +435,7 @@ public class ProductService extends BaseService {
 
     if(point == 0F && StringUtils.isBlank(comment)){
       try{
-        AiDataResponse data = RequestUtil.request(HttpMethod.POST, "https://ai--service-mztju.appengine.bfcplatform.vn/api/v1/ai/language/status?text=" + comment, AiDataResponse.class, null, null);
+        AiDataResponse data = RequestUtil.request(HttpMethod.GET, "https://ai--service-mztju.appengine.bfcplatform.vn/api/v1/ai/language/status?text=" + comment, AiDataResponse.class, null, null);
         point = data.getStatus().getRate().floatValue();
       }catch (Exception ex){
         log.error(ex);
