@@ -5,7 +5,7 @@ pipeline {
         DOCKER_HUB_URL="lambro2510"
         RESPOSITORY="lambro2510"
         DOCKER_HUB_TOKEN=credentials("docker_hub_token")
-        NAME="salepage-schedule-service"
+        NAME="salepage-sale-service"
     }
     stages {
         stage('Build') {
