@@ -54,6 +54,7 @@ public class ProductTransactionConsumer extends BankService {
     } catch (Exception e) {
       log.error("====> createPayment error: {} ", paymentTransaction);
     }
+    acknowledgment.acknowledge();
   }
 
   @KafkaListener(topics = TopicConfig.LIKE_TOPIC)
@@ -68,6 +69,7 @@ public class ProductTransactionConsumer extends BankService {
     } catch (Exception ex) {
       log.error("====> receiveMessage error: {} ", ex.getMessage());
     }
+    acknowledgment.acknowledge();
   }
 
   @KafkaListener(topics = TopicConfig.CHECK_IN_TOPIC)
@@ -79,5 +81,6 @@ public class ProductTransactionConsumer extends BankService {
     } catch (Exception ex) {
       log.error("====> receiveMessage error: {} ", ex.getMessage());
     }
+    acknowledgment.acknowledge();
   }
 }
