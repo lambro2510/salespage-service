@@ -53,9 +53,6 @@ spring:
     swagger-ui:
       path:/swagger-ui.html
 debug: ${DEBUG:debug}
-logging:
-  level:
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
 server:
   port: ${PORT:8080}

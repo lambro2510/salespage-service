@@ -2,7 +2,7 @@
 <Configuration>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%style{%d{dd/MM/yy HH:mm:ss}}{yellow} | %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green} | vna_gami_service | %replace{%mdc{userId}}{^$}{00000000-0000-0000-0000-000000000000} | %replace{%mdc{traceId}}{^$}{empty} | %replace{%mdc{spanId}}{^$}{empty} | %replace{%mdc{duration}}{^$}{0} | %style{%F}{blue}: %m%n"/>
+            <PatternLayout pattern="%style{%d{dd/MM/yy HH:mm:ss}}{yellow} | %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green} | salepage_service | %replace{%mdc{userId}}{^$}{empty} | %replace{%mdc{traceId}}{^$}{empty} | %replace{%mdc{spanId}}{^$}{empty} | %replace{%mdc{duration}}{^$}{0} | %style{%F}{blue}: %m%n"/>
         </Console>
     </Appenders>
     <Loggers>
