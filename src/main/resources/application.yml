@@ -12,19 +12,18 @@ spring:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:cluster001.kas.bfcplatform.vn:9094}
-    properties:
-      sasl.mechanism: SCRAM-SHA-512
-      security.protocol: SASL_PLAINTEXT
-      sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USERNAME:bizfly-7-453-admin}" password="${KAFKA_PASSWORD:admin123}";
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     topic:
-      replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
-      num-partitions: ${KAFKA_NUM_PARTITIONS:3}
+      replication-factor: ${KAFKA_REPLICATION_FACTOR}
+      num-partitions: ${KAFKA_NUM_PARTITIONS}
     producer:
       acks: all
       retries: 1000
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        schema.registry.url: ${SCHEMA_REGISTRY_URL}
+        specific.avro.reader: true
       template:
         default-topic: test
     consumer:
@@ -32,19 +31,20 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      group-id: "bizfly-7-453-PaymentTransaction"
-  kafka-consumers:
-    - group-id: "bizfly-7-453-PaymentTransaction"
-      topic:
-        replication-factor: 2
-        num-partitions: 1
-    - group-id: "bizfly-7-453-LikeTopic"
-      topic:
-        replication-factor: 2
-        num-partitions: 1
+      properties:
+        request:
+          timeout:
+            ms: 120000
+        schema.registry.url: ${SCHEMA_REGISTRY_URL}
+        specific.avro.reader: true
+      max-poll-records: ${KAFKA_MAX_POLL_RECORDS:3}
+      fetch-max-wait: ${KAFKA_FETCH_MAX_WAIT:5000}
+      fetch-min-size: ${KAFKA_FETCH_MIN_SIZE:30000} #khoang 200 message
+      group-id: "salepage-consumer-service"
+      isolation-level: read_committed
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://lam:Banhmy09@tcp.appengine.bfcplatform.vn:27602/salepage?authSource=admin}
+      uri: ${MONGODB_URI}
   aop:
     proxy-target-class: true
   main:
