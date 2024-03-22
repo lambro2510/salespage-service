@@ -12,7 +12,7 @@ import java.util.Map;
 public class TopicConfig {
   public static final String SALE_PAGE_PAYMENT_TRANSACTION = "salepage.sale.payment.transaction";
   public static final String LIKE_TOPIC = "salepage.sale.like.topic";
-    public static final String CHECK_IN_TOPIC = "salepage.sale.check-in";
+  public static final String CHECK_IN_TOPIC = "salepage.sale.check-in";
 
 
   @Value("${spring.kafka.topic.replication-factor}")
@@ -33,12 +33,14 @@ public class TopicConfig {
     topic.configs(defaultConfigs);
     return topic;
   }
+
   @Bean
   public NewTopic createLikeTopic() {
     NewTopic topic = new NewTopic(LIKE_TOPIC, numPartitions, replicationFactor);
     topic.configs(defaultConfigs);
     return topic;
   }
+
   @Bean
   public NewTopic createCheckIn() {
     NewTopic topic = new NewTopic(CHECK_IN_TOPIC, numPartitions, replicationFactor);
