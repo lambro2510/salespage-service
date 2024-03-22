@@ -8,7 +8,7 @@ spring:
   application:
     name: salespage-service
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:103.237.145.60:9092}
     topic:
       replication-factor: ${KAFKA_REPLICATION_FACTOR}
       num-partitions: ${KAFKA_NUM_PARTITIONS}
