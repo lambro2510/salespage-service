@@ -16,6 +16,7 @@ import com.salespage.salespageservice.domains.utils.JsonParser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,7 +36,7 @@ public class ProductTransactionConsumer extends BankService {
   private AccountService accountService;
 
   @KafkaListener(topics = TopicConfig.SALE_PAGE_PAYMENT_TRANSACTION)
-  public void createPayment(String message) {
+  public void createPayment(String message, Acknowledgment acknowledgment) {
     log.debug("====> createPayment: {} ", message);
     PaymentTransaction paymentTransaction = new PaymentTransaction();
     try {
@@ -56,7 +57,7 @@ public class ProductTransactionConsumer extends BankService {
   }
 
   @KafkaListener(topics = TopicConfig.LIKE_TOPIC)
-  public void ratingProduct(String message) {
+  public void ratingProduct(String message, Acknowledgment acknowledgment) {
     log.debug("Received message from " + TopicConfig.LIKE_TOPIC + message);
     try {
       RatingInfo ratingInfo = JsonParser.entity(message, RatingInfo.class);
@@ -70,7 +71,7 @@ public class ProductTransactionConsumer extends BankService {
   }
 
   @KafkaListener(topics = TopicConfig.CHECK_IN_TOPIC)
-  public void checkIn(String message) {
+  public void checkIn(String message, Acknowledgment acknowledgment) {
     log.debug("Received message from " + TopicConfig.CHECK_IN_TOPIC + message);
     try {
       CheckInDto dto = JsonParser.entity(message, CheckInDto.class);

@@ -7,10 +7,6 @@ spring:
       FAIL_ON_EMPTY_BEANS: false
   application:
     name: salespage-service
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     topic:
