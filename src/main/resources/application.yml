@@ -49,9 +49,20 @@ spring:
     proxy-target-class: true
   main:
     allow-bean-definition-overriding: true
-  springdoc:
-    swagger-ui:
-      path:/swagger-ui.html
+
+springdoc:
+  api-docs:
+    path: /v1/sale/docs/api/index.html
+  swagger-ui:
+    path: /v1/sale/docs/index.html
+    display-request-duration: true
+    syntax-highlight:
+      activated: true
+      theme: monokai
+    filter: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+
 debug: ${DEBUG:debug}
 
 server:

@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/v1/upload/**",
             "/api/v1/it/**",
             "/ws/**",
-            "/webjars/**")
+            "/v1/sale/**")
         .permitAll();
 
     // http.authorizeRequests()

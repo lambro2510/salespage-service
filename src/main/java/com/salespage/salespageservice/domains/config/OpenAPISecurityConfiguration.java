@@ -1,6 +1,8 @@
 package com.salespage.salespageservice.domains.config;
 
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
@@ -9,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-//@OpenAPIDefinition(
+@OpenAPIDefinition(
 //    info =@Info(
 //        title = "Salepage api",
 //        version = "v1",
@@ -21,7 +23,11 @@ import org.springframework.context.annotation.Configuration;
 //        ),
 //        description = "api mô tả"
 //    )
-//)
+    servers = {
+        @Server(url = "https://api.luckypresent.com.vn", description = "Production Server"),
+        @Server(url = "http://localhost:8080", description = "Local Server"),
+    }
+)
 public class OpenAPISecurityConfiguration {
   @Bean
   public OpenAPI customizeOpenAPI() {
