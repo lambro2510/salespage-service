@@ -25,6 +25,14 @@ public class MbBankTransaction {
     @Schema(description = "Ngày ghi sổ giao dịch", example = "2023-08-07 10:30:00")
     private String postingDate;
 
+    @Schema(description = "Mô tả bổ sung", example = "Thanh toan QR NAP12848 - Ma giao di ch/ Trace 707690 ")
+    private String addDescription;
+    @Schema(description = "Mô tả bổ sung", example = "Thanh toan QR NAP12848 - Ma giao di ch/ Trace 707690 ")
+    private String tracingType;
+
+    @Schema(description = "pos", example = "Thanh toan QR NAP12848 - Ma giao di ch/ Trace 707690 ")
+    private String pos;
+
     @Schema(description = "Ngày thực hiện giao dịch", example = "2023-08-07 09:45:00")
     private String transactionDate;
 

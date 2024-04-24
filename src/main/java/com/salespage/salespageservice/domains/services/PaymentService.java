@@ -47,8 +47,8 @@ public class PaymentService extends BaseService {
     paymentTransaction.setType(PaymentType.IN);
     paymentTransaction.setAmount(dto.getAmount());
     paymentTransaction.setDescription(Helper.genDescription(id.toHexString()));
-    producer.createPaymentTransaction(paymentTransaction);
-//    paymentTransactionStorage.save(paymentTransaction);
+//    producer.createPaymentTransaction(paymentTransaction);
+    paymentTransactionStorage.save(paymentTransaction);
     return id.toHexString();
   }
 

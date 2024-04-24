@@ -51,7 +51,7 @@ public class AccountService extends BaseService {
 
     if (!dto.getConfirmPassword().equals(dto.getPassword())) throw new ResourceExitsException("Invalid password");
     if (accountStorage.existByUsername(dto.getUsername())) throw new ResourceExitsException("Người dùng đã tồn tại");
-    if (userService.existByPhoneNumber(dto.getPhoneNumber())) throw new ResourceExitsException("Người dùng đã tồn tại");
+    if (userService.existByPhoneNumber(dto.getPhoneNumber())) throw new ResourceExitsException("SĐT đã đăng ký");
     Account account = new Account();
     account.createAccount(dto);
     accountStorage.save(account);
