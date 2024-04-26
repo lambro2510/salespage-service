@@ -12,6 +12,11 @@ spring:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
   kafka:
+    listener:
+      type: single
+      ack-mode: manual_immediate
+      missing-topics-fatal: false
+      concurrency: ${KAFKA_CONSUMER_CONCURRENCY:4}
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:103.237.145.60:9092}
     topic:
       replication-factor: ${KAFKA_REPLICATION_FACTOR}
@@ -27,7 +32,7 @@ spring:
       template:
         default-topic: test
     consumer:
-      enable-auto-commit: true
+      enable-auto-commit: false
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer

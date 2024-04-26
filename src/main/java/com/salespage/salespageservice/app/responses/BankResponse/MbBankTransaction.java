@@ -27,6 +27,7 @@ public class MbBankTransaction {
 
     @Schema(description = "Mô tả bổ sung", example = "Thanh toan QR NAP12848 - Ma giao di ch/ Trace 707690 ")
     private String addDescription;
+
     @Schema(description = "Mô tả bổ sung", example = "Thanh toan QR NAP12848 - Ma giao di ch/ Trace 707690 ")
     private String tracingType;
 
