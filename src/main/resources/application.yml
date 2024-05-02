@@ -114,3 +114,7 @@ goong:
 
 twilio:
   token : ${AUTH_TOKEN:6110a808d7174e32b183705194903c8b}
+
+upload:
+  folder: ${UPLOAD_FOLDER:D:/upload}
+  url : ${UPLOAD_URL:123}

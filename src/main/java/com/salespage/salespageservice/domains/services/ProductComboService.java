@@ -35,9 +35,9 @@ public class ProductComboService extends BaseService {
       throw new ResourceNotFoundException("Không tồn tại người dùng");
     }
     SellerStore sellerStore = sellerStoreStorage.findById(dto.getStoreId());
-    if(sellerStore == null){{
+    if(sellerStore == null){
       throw new ResourceNotFoundException("Không tồn tài cửa hàng này");
-    }}
+    }
     ProductCombo productCombo = modelMapper.toProductCombo(dto);
     productCombo.setCreatedBy(username);
     productComboStorage.save(productCombo);
