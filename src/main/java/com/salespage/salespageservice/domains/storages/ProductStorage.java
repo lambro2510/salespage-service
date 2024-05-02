@@ -18,6 +18,7 @@ import java.util.Objects;
 public class ProductStorage extends BaseStorage {
   public void save(Product product) {
     productRepository.save(product);
+    remoteCacheManager.del(CacheKey.genProductByProductId(product.getId().toHexString()));
   }
 
   public Product findProductById(String productId) {
