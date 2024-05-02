@@ -5,6 +5,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.Permission;
+import com.salespage.salespageservice.domains.exceptions.BadRequestException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -108,6 +109,7 @@ public class GoogleDriver {
       log.info("Upload image not delete success with id: ", fileId);
     } catch (Exception e) {
       log.error("==========> Can't upload image: ", e);
+      throw new BadRequestException(e.getMessage());
     }
     return getImageURL(fileId);
   }
