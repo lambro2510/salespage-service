@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -66,7 +67,7 @@ public class GoogleDriver {
         deleteFile(existingFile.getId());
       }
       // Create a new file
-      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
+      InputStream inputStream = new FileInputStream(filePath.getName());
       File file = googleDrive.files().create(fileMetadata,
               new InputStreamContent("image/jpeg", inputStream))
           .setFields("id").execute();
@@ -97,7 +98,7 @@ public class GoogleDriver {
       permission.setType("anyone");
 
       // Create a new file
-      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
+      InputStream inputStream = new FileInputStream(filePath.getName());
       File file = googleDrive.files().create(fileMetadata,
               new InputStreamContent("image/jpeg", inputStream))
           .setFields("id").execute();
@@ -181,7 +182,7 @@ public class GoogleDriver {
   }
 
   public String getImageURL(String fileId) {
-    return "https://drive.google.com/u/0/uc?id=" + fileId;
+    return "https://lh3.google.com/u/0/d/" + fileId;
   }
 
   private File searchFileByName(String fileName, String folderId) throws IOException {
