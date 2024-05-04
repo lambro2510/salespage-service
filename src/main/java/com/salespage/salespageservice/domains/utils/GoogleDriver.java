@@ -68,7 +68,8 @@ public class GoogleDriver {
       }
       // Create a new file
       //      InputStream inputStream = new FileInputStream(filePath.getName());
-      InputStream inputStream = this.getClass().getResourceAsStream(filePath.getPath());
+      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
+      assert inputStream != null;
       File file = googleDrive.files().create(fileMetadata,
               new InputStreamContent("image/jpeg", inputStream))
           .setFields("id").execute();
@@ -100,7 +101,8 @@ public class GoogleDriver {
 
       // Create a new file
 //      InputStream inputStream = new FileInputStream(filePath.getName());
-      InputStream inputStream = this.getClass().getResourceAsStream(filePath.getPath());
+      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
+      assert inputStream != null;
       File file = googleDrive.files().create(fileMetadata,
               new InputStreamContent("image/jpeg", inputStream))
           .setFields("id").execute();
