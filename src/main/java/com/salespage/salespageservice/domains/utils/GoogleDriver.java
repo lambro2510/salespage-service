@@ -98,7 +98,8 @@ public class GoogleDriver {
       permission.setType("anyone");
 
       // Create a new file
-      InputStream inputStream = new FileInputStream(filePath.getName());
+//      InputStream inputStream = new FileInputStream(filePath.getName());
+      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
       File file = googleDrive.files().create(fileMetadata,
               new InputStreamContent("image/jpeg", inputStream))
           .setFields("id").execute();
