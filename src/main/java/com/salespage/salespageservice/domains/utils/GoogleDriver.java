@@ -67,9 +67,9 @@ public class GoogleDriver {
         deleteFile(existingFile.getId());
       }
       // Create a new file
-      //      InputStream inputStream = new FileInputStream(filePath.getName());
+            InputStream inputStream = new FileInputStream(filePath.getName());
       log.info("filePath: {}", filePath.getName());
-      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getPath());
+//      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getPath());
       log.info("inputStream: {}", inputStream);
       assert inputStream != null;
       File file = googleDrive.files().create(fileMetadata,
@@ -102,9 +102,9 @@ public class GoogleDriver {
       permission.setType("anyone");
 
       // Create a new file
-//      InputStream inputStream = new FileInputStream(filePath.getName());
+      InputStream inputStream = new FileInputStream(filePath.getName());
       log.info("filePath: {}", filePath.getName());
-      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getPath());
+//      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getPath());
       log.info("inputStream: {}", inputStream);
       File file = googleDrive.files().create(fileMetadata,
               new InputStreamContent("image/jpeg", inputStream))
