@@ -99,7 +99,7 @@ public class GoogleDriver {
 
       // Create a new file
 //      InputStream inputStream = new FileInputStream(filePath.getName());
-      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getName());
+      InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath.getAbsolutePath());
       File file = googleDrive.files().create(fileMetadata,
               new InputStreamContent("image/jpeg", inputStream))
           .setFields("id").execute();
