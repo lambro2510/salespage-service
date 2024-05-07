@@ -186,7 +186,7 @@ public class VoucherStoreService extends BaseService {
     return responses;
   }
 
-  public Page<UserVoucherResponse> getAllVoucher(String username, Pageable pageable) {
+  public PageResponse<UserVoucherResponse> getAllVoucher(String username, Pageable pageable) {
     List<UserVoucherResponse> responses = new ArrayList<>();
     Page<VoucherStore> voucherStores = voucherStoreStorage.findAll(pageable);
 
@@ -217,6 +217,6 @@ public class VoucherStoreService extends BaseService {
           .value(voucherStore.getValue())
           .build());
     }
-    return new PageImpl<>(responses, pageable, voucherStores.getTotalElements());
+    return PageResponse.createFrom(new PageImpl<>(responses, pageable, voucherStores.getTotalElements()));
   }
 }
