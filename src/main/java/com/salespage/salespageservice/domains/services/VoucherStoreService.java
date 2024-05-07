@@ -185,4 +185,38 @@ public class VoucherStoreService extends BaseService {
     }
     return responses;
   }
+
+  public Page<UserVoucherResponse> getAllVoucher(String username, Pageable pageable) {
+    List<UserVoucherResponse> responses = new ArrayList<>();
+    Page<VoucherStore> voucherStores = voucherStoreStorage.findAll(pageable);
+
+    Map<String, VoucherCodeLimit> voucherCodeLimitMap = new HashMap<>();
+    if (username != null) {
+      List<String> voucherStoreIds = voucherStores.stream().map(k -> k.getId().toHexString()).collect(Collectors.toList());
+      List<VoucherCodeLimit> voucherCodeLimit = voucherCodeLimitStorage.findByUsernameAndVoucherStoreIdIn(username, voucherStoreIds);
+      voucherCodeLimitMap = voucherCodeLimit.stream().collect(Collectors.toMap(VoucherCodeLimit::getVoucherStoreId, Function.identity()));
+    }
+    for (VoucherStore voucherStore : voucherStores) {
+      boolean isLimit = false;
+      VoucherCodeLimit voucherCodeLimit = voucherCodeLimitMap.get(voucherStore.getId().toHexString());
+      if (voucherCodeLimit != null) {
+        isLimit = voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser();
+      }
+      responses.add(UserVoucherResponse
+          .builder()
+          .voucherCodeId(null)
+          .voucherStoreId(voucherStore.getId().toHexString())
+          .voucherStoreName(voucherStore.getVoucherStoreName())
+          .voucherCode(null)
+          .discountType(voucherStore.getDiscountType())
+          .storeType(voucherStore.getVoucherStoreType())
+          .dayToExpireTime(null)
+          .minPrice(voucherStore.getVoucherStoreDetail().getMinAblePrice())
+          .maxPrice(voucherStore.getVoucherStoreDetail().getMaxAblePrice())
+          .isLimited(isLimit)
+          .value(voucherStore.getValue())
+          .build());
+    }
+    return new PageImpl<>(responses, pageable, voucherStores.getTotalElements());
+  }
 }

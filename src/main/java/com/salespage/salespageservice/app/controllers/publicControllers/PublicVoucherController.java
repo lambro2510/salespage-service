@@ -4,6 +4,7 @@ import com.salespage.salespageservice.app.controllers.BaseController;
 import com.salespage.salespageservice.domains.services.VoucherStoreService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,15 @@ public class PublicVoucherController extends BaseController {
   public ResponseEntity<?> getPublicVoucher (Authentication authentication, @PathVariable String productId) {
     try {
       return successApi(voucherService.getVoucherInProduct(getUsername(authentication), productId));
+    }catch (Exception e) {
+      return errorApi(e);
+    }
+  }
+
+  @GetMapping("")
+  public ResponseEntity<?> getAllVoucher (Authentication authentication, Pageable pageable) {
+    try {
+      return successApi(voucherService.getAllVoucher(getUsername(authentication), pageable));
     }catch (Exception e) {
       return errorApi(e);
     }

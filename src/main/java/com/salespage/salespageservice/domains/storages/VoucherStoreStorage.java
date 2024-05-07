@@ -48,4 +48,8 @@ public class VoucherStoreStorage extends BaseStorage {
   public List<VoucherStore> findByProductIdIn(List<String> productIds) {
     return voucherStoreRepository.findByVoucherStoreTypeAndRefIdIn(VoucherStoreType.PRODUCT, productIds);
   }
+
+  public Page<VoucherStore> findAll(Pageable pageable) {
+    return voucherStoreRepository.findAll(pageable);
+  }
 }
