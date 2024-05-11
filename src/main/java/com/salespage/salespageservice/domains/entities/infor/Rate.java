@@ -20,12 +20,12 @@ public class Rate {
   public void processAddRatePoint(Float point) {
     this.totalRate += 1;
     this.totalPoint += point;
-    this.avgPoint = BigDecimal.valueOf(totalPoint).divide(BigDecimal.valueOf(totalRate)).floatValue();
+    this.avgPoint = totalPoint / totalRate;
   }
 
   public void processUpdateRatePoint(Float oldPoint, Float point) {
     this.totalPoint = this.totalPoint - oldPoint + point;
-    this.avgPoint = BigDecimal.valueOf(totalPoint).divide(BigDecimal.valueOf(totalRate)).floatValue();
+    this.avgPoint = totalPoint / totalRate;
 
   }
 }
