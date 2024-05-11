@@ -44,6 +44,9 @@ public class UserVoucherResponse {
   @Schema(description = "Số ngày còn lại cho đến khi voucher hết hạn")
   Long dayToExpireTime;
 
+  @Schema(description = "Số ngày còn lại cho đến khi voucher hết hạn")
+  Long voucherReceived = 0L;
+
   @Schema(description = "Đã bị limit ")
   Boolean isLimited;
 }

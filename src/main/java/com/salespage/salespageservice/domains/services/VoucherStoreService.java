@@ -166,7 +166,7 @@ public class VoucherStoreService extends BaseService {
       boolean isLimit = false;
       VoucherCodeLimit voucherCodeLimit = voucherCodeLimitMap.get(voucherStore.getId().toHexString());
       if (voucherCodeLimit != null) {
-        isLimit = voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser();
+        isLimit = voucherCodeLimit.getNumberReceiveVoucher() >= voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser();
       }
       responses.add(UserVoucherResponse
           .builder()
@@ -180,6 +180,7 @@ public class VoucherStoreService extends BaseService {
           .minPrice(voucherStore.getVoucherStoreDetail().getMinAblePrice())
           .maxPrice(voucherStore.getVoucherStoreDetail().getMaxAblePrice())
           .isLimited(isLimit)
+          .voucherReceived(voucherCodeLimit == null ? 0 : voucherCodeLimit.getNumberReceiveVoucher())
           .value(voucherStore.getValue())
           .build());
     }
@@ -200,7 +201,7 @@ public class VoucherStoreService extends BaseService {
       boolean isLimit = false;
       VoucherCodeLimit voucherCodeLimit = voucherCodeLimitMap.get(voucherStore.getId().toHexString());
       if (voucherCodeLimit != null) {
-        isLimit = voucherCodeLimit.getNumberReceiveVoucher() > voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser();
+        isLimit = voucherCodeLimit.getNumberReceiveVoucher() >= voucherStore.getVoucherStoreDetail().getMaxVoucherPerUser();
       }
       responses.add(UserVoucherResponse
           .builder()
@@ -214,6 +215,7 @@ public class VoucherStoreService extends BaseService {
           .minPrice(voucherStore.getVoucherStoreDetail().getMinAblePrice())
           .maxPrice(voucherStore.getVoucherStoreDetail().getMaxAblePrice())
           .isLimited(isLimit)
+          .voucherReceived(voucherCodeLimit == null ? 0 : voucherCodeLimit.getNumberReceiveVoucher())
           .value(voucherStore.getValue())
           .build());
     }
