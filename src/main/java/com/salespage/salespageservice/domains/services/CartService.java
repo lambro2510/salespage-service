@@ -123,7 +123,7 @@ public class CartService extends BaseService {
     Map<String, List<ProductComboDetail>> mapComboDetail = comboDetails.stream()
         .collect(Collectors.groupingBy(ProductComboDetail::getProductId));
 
-    List<VoucherStore> voucherStores = voucherStoreStorage.findByProductIdIn(products.stream().map(p -> p.getId().toHexString()).collect(Collectors.toList()));
+    List<VoucherStore> voucherStores = voucherStoreStorage.findAll();
     Map<String, VoucherStore> mapVoucherStore = voucherStores.stream()
         .collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
 

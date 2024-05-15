@@ -52,4 +52,8 @@ public class VoucherStoreStorage extends BaseStorage {
   public Page<VoucherStore> findAll(Pageable pageable) {
     return voucherStoreRepository.findAll(pageable);
   }
+
+  public List<VoucherStore> findAll() {
+    return voucherStoreRepository.findAll();
+  }
 }
