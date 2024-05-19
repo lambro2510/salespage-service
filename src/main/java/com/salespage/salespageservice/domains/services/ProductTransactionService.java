@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -154,5 +155,13 @@ public class ProductTransactionService extends BaseService {
         .sellerUsername(productDetail.getUsername())
         .totalPrice(voucher.getPriceAfter())
         .build();
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
+  public void updateTransaction(String username, String id, ProductTransactionState state) {
+    ProductTransactionDetail productTransactionDetail = productTransactionDetailStorage.findById(id)
+        .orElseThrow(() -> new TransactionException("Không tìm thấy đơn hàng)"));
+    productTransactionDetail.setState(state);
+    productTransactionDetailStorage.save(productTransactionDetail);
   }
 }

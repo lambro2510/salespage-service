@@ -3,6 +3,7 @@ package com.salespage.salespageservice.domains.storages;
 import com.salespage.salespageservice.domains.entities.ProductTransactionDetail;
 import com.salespage.salespageservice.domains.info.AggregationInfo;
 import com.salespage.salespageservice.domains.utils.JsonParser;
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -89,5 +91,13 @@ public class ProductTransactionDetailStorage extends BaseStorage {
 
   public List<ProductTransactionDetail> findAll() {
     return productTransactionDetailRepository.findAll();
+  }
+
+  public Optional<ProductTransactionDetail> findById(String id) {
+    return  productTransactionDetailRepository.findById(new ObjectId(id));
+  }
+
+  public void save(ProductTransactionDetail productTransactionDetail) {
+    productTransactionDetailRepository.save(productTransactionDetail);
   }
 }
