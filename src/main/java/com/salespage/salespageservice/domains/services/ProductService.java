@@ -483,11 +483,11 @@ public class ProductService extends BaseService {
 
     List<Product> suggestProduct = productStorage.findByCategoryId(product.getCategoryId());
 
-    if (suggestProduct.size() < 10) {
-      List<String> productIds = new ArrayList<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
-      List<Product> anotherProduct = productStorage.findTop12ByIdIn(productIds);
-      suggestProduct.addAll(anotherProduct);
-    }
+//    if (suggestProduct.size() < 10) {
+//      List<String> productIds = new ArrayList<>(productStatisticStorage.findDistinctTop10ProductIdByOrderByTotalViewDesc());
+//      List<Product> anotherProduct = productStorage.findTop12ByIdIn(productIds);
+//      suggestProduct.addAll(anotherProduct);
+//    }
 
     return new ArrayList<>(new HashSet<>(suggestProduct.stream()
         .map(Product::assignToProductDataResponse)
