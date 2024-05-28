@@ -80,7 +80,10 @@ public class VoucherStoreService extends BaseService {
     Map<String, Product> productMap = products.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
 
     List<String> storeIds = voucherStores.getContent()
-        .stream().filter(k -> k.getVoucherStoreType() == VoucherStoreType.STORE).map(VoucherStore::getRefId).collect(Collectors.toList());
+        .stream()
+            .filter(k -> k.getVoucherStoreType() == VoucherStoreType.STORE)
+
+            .map(VoucherStore::getRefId).collect(Collectors.toList());
     List<SellerStore> stores = sellerStoreStorage.findByIdIn(storeIds);
     Map<String, SellerStore> storeMap = stores.stream().collect(Collectors.toMap(k -> k.getId().toHexString(), Function.identity()));
     List<VoucherStoreResponse> voucherStoreResponses = new ArrayList<>();

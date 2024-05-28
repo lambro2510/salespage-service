@@ -90,8 +90,8 @@ casso:
 
 vietqr:
   api:
-    client-id: ${VIETQR_CLIENTID:7a18d4ca-e369-44ea-9095-a1f8c2e5b006}
-    apikey: ${VIETQR_APIKEY:50ca1634-2c29-4386-8047-3593008466b2}
+    client-id: ${VIETQR_CLIENTID:e15e15b7-52a4-4bc9-bf72-37fc165ebeea}
+    apikey: ${VIETQR_APIKEY:418e71cb-dc8b-4220-b8d4-3c7096a108db}
     url: ${VIETQR_URL:https://api.vietqr.io}
 
 tp-bank:

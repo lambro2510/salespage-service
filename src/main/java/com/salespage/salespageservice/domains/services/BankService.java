@@ -84,7 +84,7 @@ public class BankService extends BaseService {
     genQrCodeDto.setAccountNo(bankAccountNo);
     genQrCodeDto.setAmount(paymentTransaction != null ? paymentTransaction.getAmount() : amount);
     genQrCodeDto.setFormat("text");
-//    genQrCodeDto.setTemplate("LDP0k8f");
+    genQrCodeDto.setTemplate("VWHrcrd");
     genQrCodeDto.setAcqId(bin);
     genQrCodeDto.setAccountName("Thanh toán mua hàng");
     genQrCodeDto.setAddInfo(Helper.genDescription(paymentId));
